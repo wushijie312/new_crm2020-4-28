@@ -27,6 +27,7 @@
 // let departmentId = localStorage.getItem('departmentId')
 // let departmentName = localStorage.getItem('departmentName')
 import request from '@/untils/request'
+import addheadreq from '@/untils/addheadreq'
    	var HOSTNAME = window.location.hostname;
    	var PATHNAME = window.location.pathname.indexOf("crm_page_test");
      if(HOSTNAME=="localhost"){//本地
@@ -167,9 +168,8 @@ export function gettoken(data) {
 }
 
 export function iframeKB(data) {
-  return axios.create({
-    baseURL: 'https://openapi.yangguangqicai.com/online/dashboard',
-    headers: {'Content-Type': 'application/json',Authorization:localStorage.getItem('Taccess_token')},
+  return addheadreq({
+    url: 'https://openapi.yangguangqicai.com/online/dashboard',
     method: 'get',
     params: {"param":JSON.stringify(data)}
   });

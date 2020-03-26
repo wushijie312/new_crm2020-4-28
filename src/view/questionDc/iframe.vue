@@ -22,11 +22,13 @@ export default {
     };
   },
   created() {
-    iframeKB((res)=>{
-      
+    // console.log('sdds');
+    iframeKB({boardId:3}).then((res)=>{
+      console.log(res);
+      this.url='';
     });
     // setTimeout(() => {
-    //   this.url = "https://www.baidu.com/";
+      // this.url = "https://openapi.yangguangqicai.com/online/dashboard?boardId=9";
     // }, 2000);
   },
   mounted() {
