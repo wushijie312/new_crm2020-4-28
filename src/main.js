@@ -8,7 +8,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import rem from '@/assets/rem'
 import echarts from 'echarts'
-import { PullRefresh, List, Dialog } from 'vant'
 import Calendar from 'vue2-datepick'
 import tools from '@/view/new_kehu/tool.js'
 
@@ -17,7 +16,6 @@ Vue.use(Calendar);
 
 
 Vue.prototype.$echarts = echarts
-Vue.use(PullRefresh).use(List).use(Dialog)
 
 rem()
 Vue.use(ElementUI)
