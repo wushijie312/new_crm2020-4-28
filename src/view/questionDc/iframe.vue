@@ -8,6 +8,8 @@
 </template>
 <script>
 import Head from "@/view/common/head";
+import { iframeKB } from "@/api/config";
+
 export default {
   components: {
     Head
@@ -20,9 +22,12 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.url = "https://www.baidu.com/";
-    }, 2000);
+    iframeKB((res)=>{
+      
+    });
+    // setTimeout(() => {
+    //   this.url = "https://www.baidu.com/";
+    // }, 2000);
   },
   mounted() {
     /**
@@ -31,7 +36,7 @@ export default {
     const oIframe = document.getElementById("bdIframe");
     const deviceWidth = document.documentElement.clientWidth;
     const deviceHeight = document.documentElement.clientHeight;
-    oIframe.style.width = Number(deviceWidth)  + "px"; //数字是页面布局宽度差值
+    oIframe.style.width = Number(deviceWidth) + "px"; //数字是页面布局宽度差值
     oIframe.style.height = Number(deviceHeight) - 60 + "px"; //数字是页面布局高度差
   }
 };

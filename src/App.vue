@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { gettoken } from "@/api/config";
 import BScroll from "better-scroll";
 export default {
   name: "App",
@@ -16,6 +17,17 @@ export default {
     };
   },
   created() {
+    // 获取大客户看板token
+    gettoken().then((res)=>{
+      if(res.access_token){
+        localStorage.setItem('Taccess_token',res.access_token);
+        localStorage.setItem('Ttoken_type',res.token_type);
+        localStorage.setItem('Texpires_in',res.expires_in);
+        localStorage.setItem('Tscopes',res.scopes);
+      }
+    });
+
+    // 模拟存储用户信息
     // localStorage.setItem("userid", "30843");
     // localStorage.setItem("userName", "吴世界");
     // localStorage.setItem("level", 4);

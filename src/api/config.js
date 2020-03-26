@@ -156,10 +156,20 @@ export function wqvisits(data) {
 //  问卷调查 end
 
 // 获取权限token start
+
+export function gettoken(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url:'https://openapi.yangguangqicai.com/bi2crm/oauth/token?grant_type=client_credentials&client_id=crmOnline&client_secret=03ec615459ed779237b48b5bbac5d708&scopes=read',
+    method: 'post',
+    data
+  })
+}
+
 export function iframeKB(data) {
   return axios.create({
     baseURL: 'https://openapi.yangguangqicai.com/online/dashboard',
-    headers: {'Content-Type': 'application/json',Authorization:''},
+    headers: {'Content-Type': 'application/json',Authorization:localStorage.getItem('Taccess_token')},
     method: 'get',
     params: {"param":JSON.stringify(data)}
   });
