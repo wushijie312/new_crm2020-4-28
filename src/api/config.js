@@ -155,6 +155,18 @@ export function wqvisits(data) {
 }
 //  问卷调查 end
 
+// 获取权限token start
+export function iframeKB(data) {
+  return axios.create({
+    baseURL: 'https://openapi.yangguangqicai.com/online/dashboard',
+    headers: {'Content-Type': 'application/json',Authorization:''},
+    method: 'get',
+    params: {"param":JSON.stringify(data)}
+  });
+}
+
+// 获取权限token end
+
 
 //日报类型
 export function getisread1(data) {
