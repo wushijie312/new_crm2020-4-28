@@ -3,7 +3,7 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <iframe id="bdIframe"  scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
+    <iframe :src="url" id="bdIframe"  scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
   </div>
 </template>
 <script>
@@ -31,7 +31,7 @@ export default {
     // const oIframe = document.getElementById("bdIframe");
     // console.log(oIframe);
     // setTimeout(() => {
-      // this.url = "https://openapi.yangguangqicai.com/online/dashboard?boardId=9";
+      this.url = `https://openapi.yangguangqicai.com/online/dashboard?boardId=${this.boardId}`;
     // }, 2000);
   },
   mounted() {
@@ -45,14 +45,14 @@ export default {
     oIframe.style.height = Number(deviceHeight) - 60 + "px"; //数字是页面布局高度差
 
 
-    let oHtml=oIframe.contentWindow.document.documentElement;
-    iframeKB({boardId:this.boardId}).then((res)=>{
-      oHtml.innerHTML=res
-      // console.log(res);
-      // this.url='';
-    }).catch((e) => {
-      console.log('222',e);
-    });;
+    // let oHtml=oIframe.contentWindow.document.documentElement;
+    // iframeKB({boardId:this.boardId}).then((res)=>{
+    //   oHtml.innerHTML=res
+    //   // console.log(res);
+    //   // this.url='';
+    // }).catch((e) => {
+    //   console.log('222',e);
+    // });;
     
     // console.log(oHtml);
   }

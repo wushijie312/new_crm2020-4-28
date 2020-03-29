@@ -51,6 +51,7 @@ import iframe from '@/view/questionDc/iframe'
 Vue.use(Router)
 
 let router =new Router({
+  mode:'hash',
   routes: [
     {
       path: '/',
