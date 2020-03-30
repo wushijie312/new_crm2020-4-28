@@ -3,7 +3,7 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content" ref="content">
       <div class="menu-head-top50"></div>
-      <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
+      <div class="maincontent " id="maincontent1" style="position:relative;margin-top:0.2rem;">
         <div style="overflow:hidden;width:100%;float:left;text-align:left;">
           <h3 style="text-align:left;position:relative;">
             <span style="line-height:1rem;display:block;">汇总销售日报</span>
@@ -273,30 +273,10 @@
         </div>
       </div>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">
-          <span class="menu_border">
-            部门榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">
-          <span class="menu_border">
-            战队榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">
-          <span class="menu_border">
-            客户榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">
-          <span class="menu_border">
-            全体销售
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
+        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">部门榜</div>
+        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">战队榜</div>
+        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">客户榜</div>
+        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">全体销售</div>
       </div>
       <!-- <el-tabs
         style="border:1px solid #fff;box-shadow:none;font-size:0.3rem;text-align:left;"
@@ -304,28 +284,16 @@
         ref="tabs"
       >-->
       <div :style="{display:soit===1?'block':'none'}">
-        <div class="bd_search" style="background:#fff;">
-          <div class="bd_search_a">
-            <el-input
-              size="small"
-              ref="timechoose1"
-              placeholder="请输入部门名称"
-              v-model="bmkword"
-              class="input-with-select"
-            ></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-            <input type="text" id="ceshiinput" style="display:none;" />
-          </div>
-          <div class="bd_search_b">
-            <el-select size="small"  v-model="searchValue" placeholder="请选择">
-              <el-option
-                v-for="item in searchType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
+        <div style="background:#fff;">
+          <el-input
+            ref="timechoose1"
+            placeholder="请输入部门名称"
+            v-model="bmkword"
+            class="input-with-select"
+          >
+            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
+          </el-input>
+          <input type="text" id="ceshiinput" style="display:none;" />
         </div>
         <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
           排序：
@@ -359,14 +327,6 @@
           :zhezhao.sync="zhezhao"
           @confirm="confirm"
         ></Bumen>
-         <Bumen1
-          v-show="soit===1&&zhuan=='切换至文字版'"
-          :tabdata1.sync="tabdata1"
-          :jxq.sync="jxq"
-          :alertNr.sync="alertNr"
-          :zhezhao.sync="zhezhao"
-          @confirm="confirm"
-        ></Bumen1>
       </div>
       <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
       <div :style="{display:soit===4?'block':'none'}">
@@ -447,18 +407,15 @@ import { getisread } from "@/api/configWu";
 let ybs = 5;
 import Wzb from "@/view/indexCom/indexwzb";
 import Bumen from "@/view/indexCom/bumen";
-import Bumen1 from "@/view/indexCom/bumen1";
 import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
 import Head from "@/view/common/head";
-
 export default {
   components: {
     Wzb,
     Bumen,
-    Bumen1,
     Zhandui,
     Kehu,
     User,
@@ -468,23 +425,6 @@ export default {
   name: "index",
   data() {
     return {
-      searchValue:'',
-      searchType:[{
-          value: '实际销售额',
-          label: '实际销售额'
-        }, {
-          value: '标准销售额',
-          label: '标准销售额'
-        }, {
-          value: '实时完成率',
-          label: '实时完成率'
-        }, {
-          value: '净利',
-          label: '净利'
-        }, {
-          value: '净净利',
-          label: '净净利'
-        }],
       isread: false,
       paixunum1: 1,
       zhezhao: {},
@@ -604,10 +544,12 @@ export default {
 
   methods: {
     getact() {
-      var that = this;
+      var that = this
       getnew();
-      function getnew() {
-        var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
+      console.log(that.act)
+      function getnew(){
+      var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
+        console.log(lodata);
         if (lodata) {
           lodata.forEach((e, index) => {
             if (e.path == "/xsleader") {
@@ -616,7 +558,7 @@ export default {
           });
         } else {
           setTimeout(function() {
-            getnew();
+            getnew()
             // alert(111)
           }, 300);
         }
@@ -973,8 +915,6 @@ export default {
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
-          sortname:'销售额',
-          sort:1,
           role: localStorage.getItem("role")
         })
           .then(res => {
@@ -1140,34 +1080,19 @@ export default {
   }
 };
 </script>
-<style lang="less" rel="stylesheet/less" scoped>
-@import "../../assets/css/bangdan.less";
-
+<style scoped>
 .menubox {
-  border-bottom: 1px solid #f0f0f0;
-  margin-top: 8px;
+  border-bottom: 1px solid rgb(220, 223, 230);
 }
 .menubox > div {
   width: 25%;
+  line-height: 40px;
   background: #fff;
-}
-.menubox .menu_border {
-  line-height: 42px;
-  display: inline-block;
+  margin-top: 0.2rem;
 }
 .menubox .act {
-  position: relative;
-}
-.menubox .act .menu_border {
-  position: relative;
-  color: #409eff;
-}
-.menubox .act .menu_border_line {
   border-bottom: 2px solid #409eff;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  color: #409eff;
 }
 .bmqb {
   font-size: 0.3rem;

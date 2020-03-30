@@ -143,23 +143,23 @@ export default {
       
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
       input2:'',
-      yuqi: require("../../assets/yuqi.png"),
-      weidao: require("../../assets/weiyuqi.png"),
-      fs: require("../../assets/fs.png"),
-      zf: require("../../assets/zf.png"),
-      weidu: require("../../assets/wd.png"),
-      rw: require("../../assets/rw.png"),
-      jy: require("../../assets/jy.png"),
-      bz: require("../../assets/bz.png"),
-      gb: require("../../assets/hf.png"),
-      wgb: require("../../assets/yiguanbi.png"),
-      gb: require("../../assets/hf.png"),
-      up: require("../../assets/up.png"),
-      down: require("../../assets/down.png"),
-      zhuanfa: require("../../assets/zhuanfa.png"),
-      yizhuanfa: require("../../assets/weizhuanfa.png"),
-      zx: require("../../assets/zx.png"),
-      fx: require("../../assets/fx.png"),
+      yuqi: require("../../assets/img/normal/yuqi.png"),
+      weidao: require("../../assets/img/normal/weiyuqi.png"),
+      fs: require("../../assets/img/normal/fs.png"),
+      zf: require("../../assets/img/normal/zf.png"),
+      weidu: require("../../assets/img/normal/wd.png"),
+      rw: require("../../assets/img/normal/rw.png"),
+      jy: require("../../assets/img/normal/jy.png"),
+      bz: require("../../assets/img/normal/bz.png"),
+      gb: require("../../assets/img/normal/hf.png"),
+      wgb: require("../../assets/img/normal/yiguanbi.png"),
+      gb: require("../../assets/img/normal/hf.png"),
+      up: require("../../assets/img/normal/up.png"),
+      down: require("../../assets/img/normal/down.png"),
+      zhuanfa: require("../../assets/img/normal/zhuanfa.png"),
+      yizhuanfa: require("../../assets/img/normal/weizhuanfa.png"),
+      zx: require("../../assets/img/normal/zx.png"),
+      fx: require("../../assets/img/normal/fx.png"),
       act: 2,
       userid: "",
       datalist: [
@@ -182,8 +182,8 @@ export default {
           resultinfo: "",
           customername: "京东物流",
           dept_name: "",
-          create_id_pic: require("../../assets/add.png"),
-          to_user_id_pic: require("../../assets/add.png"),
+          create_id_pic: require("../../assets/img/normal/add.png"),
+          to_user_id_pic: require("../../assets/img/normal/add2.png"),
           user_name: "李"
         }
       ]
@@ -252,7 +252,7 @@ export default {
 }
 .khname {
   text-indent: 0.3rem;
-  background: url("../../assets/kh.png") no-repeat 0 0.05rem;
+  background: url("../../assets/img/normal/kh.png") no-repeat 0 0.05rem;
   background-size: 0.2rem 0.2rem;
   font-size: 0.2rem;
   color: #ccc;

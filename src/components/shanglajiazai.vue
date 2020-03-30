@@ -112,7 +112,7 @@ export default {
   display: inline-flex;
   width: 35px;
   height: 35px;
-  background: url(../assets/logo.gif) no-repeat;
+  background: url(../assets//img/normal/logo.gif) no-repeat;
   background-size: cover;
   margin-right: 5px;
   animation: rotating 2s linear infinite;

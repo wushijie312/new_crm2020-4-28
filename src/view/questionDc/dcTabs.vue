@@ -102,7 +102,7 @@ export default {
       activeName: "部门销售工作",
       customer: "",
       depList: {},
-      wjdc_head_bg: require("../../assets/wjdc_head_bg.png"),
+      wjdc_head_bg: require("../../assets/img/normal/wjdc_head_bg.png"),
       drop: false,
     disabled :this.$route.query.disabled ? true : false
 

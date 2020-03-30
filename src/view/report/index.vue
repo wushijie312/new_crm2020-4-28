@@ -201,20 +201,20 @@ export default {
       isreadStatus: "",
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
       soit: 1,
-      yuqi: require("../../assets/yuqi.png"),
-      weidao: require("../../assets/weiyuqi.png"),
-      fs: require("../../assets/fs.png"),
-      add: require("../../assets/add2.png"),
-      zf: require("../../assets/zf.png"),
-      weidu: require("../../assets/wd.png"),
-      rw: require("../../assets/rw.png"),
-      jy: require("../../assets/jy.png"),
-      bz: require("../../assets/bz.png"),
-      gb: require("../../assets/guanbi.png"),
-      wgb: require("../../assets/yiguanbi.png"),
-      gb: require("../../assets/guanbi.png"),
-      up: require("../../assets/up.png"),
-      down: require("../../assets/down.png"),
+      yuqi: require("../../assets/img/normal/yuqi.png"),
+      weidao: require("../../assets/img/normal/weiyuqi.png"),
+      fs: require("../../assets/img/normal/fs.png"),
+      add: require("../../assets/img/normal/add.png"),
+      zf: require("../../assets/img/normal/zf.png"),
+      weidu: require("../../assets/img/normal/wd.png"),
+      rw: require("../../assets/img/normal/rw.png"),
+      jy: require("../../assets/img/normal/jy.png"),
+      bz: require("../../assets/img/normal/bz.png"),
+      gb: require("../../assets/img/normal/guanbi.png"),
+      wgb: require("../../assets/img/normal/yiguanbi.png"),
+      gb: require("../../assets/img/normal/guanbi.png"),
+      up: require("../../assets/img/normal/up.png"),
+      down: require("../../assets/img/normal/down.png"),
       chadata: {
         type: 0,
         userid: localStorage.getItem("userid"),
@@ -469,7 +469,7 @@ export default {
 }
 .khname {
   text-indent: 0.3rem;
-  background: url("../../assets/kh.png") no-repeat 0 0.05rem;
+  background: url("../../assets/img/normal/kh.png") no-repeat 0 0.05rem;
   background-size: 0.2rem 0.2rem;
   font-size: 0.2rem;
   color: #ccc;

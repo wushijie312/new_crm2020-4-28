@@ -51,7 +51,7 @@ export default {
   props: ['menuInfo','isread'],
   data() {
     return {
-      newPic: require("../../assets/new.png")
+      newPic: require("../../assets/img/normal/new.png")
     };
   },
 };

@@ -415,7 +415,7 @@ export default {
 .filter::after{
 	content: "";display: block;float: right;
 	width: 30px;height: 100%;
-	background: url(../../assets/filter.png) no-repeat center;
+	background: url(../../assets/img/normal/filter.png) no-repeat center;
 	background-size: 100%;
 }
 .content {

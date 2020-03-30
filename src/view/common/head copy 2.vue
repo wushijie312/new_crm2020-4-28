@@ -135,13 +135,13 @@ export default {
       userMenus: [],
       leaderMenus: [],
       gdlist: [],
-      yhd: require("../../assets/yhd.png"),
-      mhd: require("../../assets/mhd.png"),
-      ygb: require("../../assets/gb.png"),
-      newPic: require("../../assets/new.png"),
-      xlb: require("../../assets/xlb.png"),
-      back_home: require("../../assets/back_home.png"),
-      head_menu: require("../../assets/menu.png"),
+      yhd: require("../../assets/img/normal/yhd.png"),
+      mhd: require("../../assets/img/normal/mhd.png"),
+      ygb: require("../../assets/img/normal/gb.png"),
+      newPic: require("../../assets/img/normal/new.png"),
+      xlb: require("../../assets/img/normal/xlb.png"),
+      back_home: require("../../assets/img/normal/back_home.png"),
+      head_menu: require("../../assets/img/normal/menu.png"),
       leftshow: false
       // ty:true
     };

@@ -31,35 +31,35 @@ export default {
         {
           name: "BP&周报",
           url: "/rbcreate",
-          img: require("../assets/xjzb.png")
+          img: require("../assets/img/normal/xjzb.png")
         },
         {
           name: "新建拜访",
           url: "/createData",
-          img: require("../assets/xjbf.png")
+          img: require("../assets/img/normal/xjbf.png")
         },
         {
           name: "新建派单",
           url: "/create",
-          img: require("../assets/xjpd.png")
+          img: require("../assets/img/normal/xjpd.png")
         },
         {
           name: "新建日报",
           url: "/xsCreateData",
-          img: require("../assets/xjrb.png")
+          img: require("../assets/img/normal/xjrb.png")
         },
         {
           name: "新建客户",
           url: "/addCustomer",
-          img: require("../assets/xjkh.png")
+          img: require("../assets/img/normal/xjkh.png")
         }
       ],
-      xjcreate: require("../assets/xjcreate.png")
-      //   xjrb: require("../assets/xjrb.png"),
-      //   xjbf: require("../assets/xjbf.png"),
-      //   xjkh: require("../assets/xjkh.png"),
-      //   xjpd: require("../assets/xjpd.png"),
-      //   xjzb: require("../assets/xjzb.png")
+      xjcreate: require("../assets/img/normal/xjcreate.png")
+      //   xjrb: require("../assets/img/normal/xjrb.png"),
+      //   xjbf: require("../assets/img/normal/xjbf.png"),
+      //   xjkh: require("../assets/img/normal/xjkh.png"),
+      //   xjpd: require("../assets/img/normal/xjpd.png"),
+      //   xjzb: require("../assets/img/normal/xjzb.png")
     };
   },
 

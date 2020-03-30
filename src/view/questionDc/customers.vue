@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      right_new: require("../../assets/right_new.png"),
+      right_new: require("../../assets/img/normal/right_new.png"),
       customList: [],
       keyword: "",
       act: 2,

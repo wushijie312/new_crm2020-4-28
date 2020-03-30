@@ -217,8 +217,8 @@ export default {
       	options:[]//{result:"全部",source:"0"}
       },
       showLoading:false,
-      empty:require("../../assets/empty.png"),
-      newPic: require("../../assets/new.png"),
+      empty:require("../../assets/img/normal/empty.png"),
+      newPic: require("../../assets/img/normal/new.png"),
     };
   },
   mounted() {
@@ -654,6 +654,6 @@ thead {
 }
 .empty{
 	line-height:50vh;height: 50vh;
-	font-size: 0.3rem;text-align: center;color: #999999;background: url(../../assets/empty.png) no-repeat center;background-size: 40vw;
+	font-size: 0.3rem;text-align: center;color: #999999;background: url(../../assets/img/normal/empty.png) no-repeat center;background-size: 40vw;
 }
 </style>

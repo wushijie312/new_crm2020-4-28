@@ -67,7 +67,7 @@ export default {
       customer: "",
       depList: {},
       dropList: {},
-      wjdc_head_bg: require("../../assets/wjdc_head_bg.png"),
+      wjdc_head_bg: require("../../assets/img/normal/wjdc_head_bg.png"),
       drop: false
     };
   },
