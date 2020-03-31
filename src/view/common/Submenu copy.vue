@@ -1,8 +1,7 @@
 <template>
   <el-submenu :index="menuInfo.id" :key="menuInfo.id">
     <template slot="title">
-                <i>
-                  <img style="width:16px; vertical-align: text-top;" :src="menuInfo.icon" />
+                <i :class="menuInfo.icon">
                 </i>
                 <span slot="title" style="position:relative;">
                   <img
@@ -24,8 +23,7 @@
         :index="item.path"
       >
        <template slot="title">
-                <i>
-                  <img style="width:16px; vertical-align: text-top;" :src="item.menuInfo" />
+                <i :class="item.menuInfo">
                 </i>
                 <span slot="title" style="position:relative;">
                   <img

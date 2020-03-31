@@ -3,6 +3,8 @@ var port_env = require('./config/pro.env');  // 生产环境
 var dev_env = require('./config/dev.env');  // 测试环境
 const env = process.env.NODE_ENV;
 
+const path = require('path')
+
 if (env == "development") {//本地
     var hosturl = dev_env.API_ROOT
 } else {
@@ -10,13 +12,13 @@ if (env == "development") {//本地
 }
 
 module.exports = {
-    publicPath:process.env.NODE_ENV==='production'?'/crm_page_test/':'/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/crm_page_test/' : '/',
     //不打包map文件
     productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
     //代理接口
     devServer: {
         // host: 'localhost',
-        host: 'localhost',// 配置端口
+        host: '192.168.20.100',// 配置端口
         port: 8080,
         proxy: null,
         // proxy: {
@@ -28,5 +30,20 @@ module.exports = {
         //   }
         // }
     },
-    lintOnSave: false                                   // 取消 eslint 验证
+    lintOnSave: false, // 取消 eslint 验证
+   
+    chainWebpack: config => {   //styl
+        const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+        types.forEach(type => addStyleResource(config.module.rule('stylus').oneOf(type)))
+    },                                
 };
+
+function addStyleResource(rule) {
+    rule.use('style-resource')
+        .loader('style-resources-loader')
+        .options({
+            patterns: [
+                path.resolve(__dirname, './src/assets/css/base.styl'),
+            ],
+        })
+}

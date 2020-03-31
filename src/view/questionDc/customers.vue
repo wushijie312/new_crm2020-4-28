@@ -2,38 +2,38 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <div class="qu_box">
-      <div class="qu_cuHead">
-        <el-input size="small" class="qu_cuHead_search" v-model="keyword" placeholder="请输入内容"></el-input>
-        <i
-          @click="searchListHandel"
-          class="el-icon-search qu_cuHead_icon"
-          style="    color: rgb(153, 153, 153);position: absolute;right: 15px;top: 16px;font-size: 20px;width: 32px;"
-        ></i>
-      </div>
-      <div
-        class="qu_cuList clearfix"
-        v-for="(item,index) in customList"
-        ref="chatContainer"
-        :key="index"
-        @click="gotoDCWJ(item)"
-      >
-        <img v-if="item.shownew" class="qu_cu_right_new" :src="right_new" alt />
-        <div class="qu_cu_a fl">
-          <h3 class="qu_cuList_a">{{item.companyName}}</h3>
+    <div class="qu_box wrap850" >
+        <div class="qu_cuHead">
+          <el-input size="small" class="qu_cuHead_search" v-model="keyword" placeholder="请输入内容"></el-input>
+          <i
+            @click="searchListHandel"
+            class="el-icon-search qu_cuHead_icon"
+            style="    color: rgb(153, 153, 153);position: absolute;right: 15px;top: 16px;font-size: 20px;width: 32px;"
+          ></i>
+        </div>
+        <div
+          class="qu_cuList clearfix"
+          v-for="(item,index) in customList"
+          ref="chatContainer"
+          :key="index"
+          @click="gotoDCWJ(item)"
+        >
+          <img v-if="item.shownew" class="qu_cu_right_new" :src="right_new" alt />
+          <div class="qu_cu_a fl">
+            <h3 class="qu_cuList_a">{{item.companyName}}</h3>
 
-          <p class="qu_cuList_b">{{item.department_name}}（{{item.user_name}}）</p>
+            <p class="qu_cuList_b">{{item.department_name}}（{{item.user_name}}）</p>
+          </div>
+          <div class="qu_cu_b fr">
+            <el-progress
+              class="qu_pro_jd"
+              :stroke-width="2"
+              :width="40"
+              type="circle"
+              :percentage="Math.floor(item.wcd*100)"
+            ></el-progress>
+          </div>
         </div>
-        <div class="qu_cu_b fr">
-          <el-progress
-            class="qu_pro_jd"
-            :stroke-width="2"
-            :width="40"
-            type="circle"
-            :percentage="Math.floor(item.wcd*100)"
-          ></el-progress>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -76,7 +76,7 @@ export default {
         userId: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         keyword: this.keyword,
-        pageSize:30,
+        pageSize: 30,
         page: page
       });
     },
@@ -139,8 +139,8 @@ export default {
 </script>
 <style scoped>
 .qu_cu_a {
-  width:80%;
-  margin-top:3px;
+  width: 80%;
+  margin-top: 3px;
 }
 .qu_cuHead {
   padding: 10px 12px;

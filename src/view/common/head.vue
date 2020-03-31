@@ -8,7 +8,7 @@
         <div
           class="clearfix"
           style="font-size: initial;position: absolute;top: 18px;left: 15px;text-align: left;display: inline-block;"
-          @click="dialog = true"
+          @click="dialogChange"
         >
           <img class="fl" :src="head_menu" style="width:14px;display:block;margin-right:2px;" />
           <span class="fl" style="font-size: 14px;line-height: 16px;display: block;color: #2aa4e7;">菜单</span>
@@ -33,6 +33,8 @@
         </div>
       </div>
     </div>
+
+   
     <el-drawer
       title="我是标题"
       :visible.sync="dialog"
@@ -40,6 +42,7 @@
       class="menu-drawer"
       custom-class="menu-drawer-1"
       :with-header="false"
+      :before-close="dialoghandleClose"
       size="250px"
     >
       <div class="demo-drawer__content" style="padding:15px 0 0 0;text-align:left;">
@@ -50,6 +53,7 @@
           text-color="#333"
           active-text-color="#3face8"
           router
+          @select="dialoghandleClose"
         >
           <!-- 一级菜单 -->
           <template v-for="item in !ty?userMenus:leaderMenus">
@@ -114,10 +118,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { pathshow, noticeshow, closenotice } from "@/api/config";
 import { getisread } from "@/api/configWu";
 import Submenu from "./Submenu";
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "headers",
   props: ["act", "ty"],
@@ -166,8 +171,32 @@ export default {
   },
 
   methods: {
-    cancelForm() {
+     /***滑动限制***/
+    stop() {
+      var mo = function(e) {
+        e.preventDefault();
+      };
+      document.body.style.overflow = "hidden";
+      document.addEventListener("touchmove", mo, { passive: false }); //禁止页面滑动
+    },
+    /***取消滑动限制***/
+    move() {
+      var mo = function(e) {
+        e.preventDefault();
+      };
+      document.body.style.overflow = ""; //出现滚动条
+      document.removeEventListener("touchmove", mo , { passive: false });
+    },
+    ...mapMutations(["CHANGE_OVERFLOW_HIDE"]),
+    dialogChange(){
+      this.dialog=true;
+      this.stop();
+      this.CHANGE_OVERFLOW_HIDE(true);
+    },
+    dialoghandleClose(){
       this.dialog = false;
+      this.move();
+      this.CHANGE_OVERFLOW_HIDE(false);
     },
     tiaozhuan(a) {
       closenotice({ userid: localStorage.getItem("userid") }).then(res => {

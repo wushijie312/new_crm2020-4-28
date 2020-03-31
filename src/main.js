@@ -16,6 +16,7 @@ Vue.use(Calendar);
 
 
 Vue.prototype.$echarts = echarts
+import './assets/css/reset.styl';
 
 rem()
 Vue.use(ElementUI)

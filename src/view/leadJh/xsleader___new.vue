@@ -317,7 +317,7 @@
             <input type="text" id="ceshiinput" style="display:none;" />
           </div>
           <div class="bd_search_b">
-            <el-select size="small"  v-model="searchValue" placeholder="请选择">
+            <el-select size="small"  v-model="searchValue" placeholder="请选择" @change="search_change(searchValue)">
               <el-option
                 v-for="item in searchType"
                 :key="item.value"
@@ -344,14 +344,6 @@
         <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-show="soit===1">
           <span style="text-decoration: underline;" @click="qhbb">{{zhuan}}</span>
         </h3>
-
-        <Wzb
-          v-show="soit===1&&zhuan!='切换至文字版'"
-          :tabdata1.sync="tabdata1"
-          :value1.sync="value1"
-          :jxq.sync="jxq"
-        ></Wzb>
-    
         <Bumen
           v-show="soit===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
@@ -465,19 +457,19 @@ export default {
     return {
       searchValue:'',
       searchType:[{
-          value: '实际销售额',
+          value: '0',
           label: '实际销售额'
         }, {
-          value: '标准销售额',
+          value: '4',
           label: '标准销售额'
         }, {
-          value: '实时完成率',
+          value: '1',
           label: '实时完成率'
         }, {
-          value: '净利',
+          value: '2',
           label: '净利'
         }, {
-          value: '净净利',
+          value: '3',
           label: '净净利'
         }],
       isread: false,
@@ -598,6 +590,9 @@ export default {
   },
 
   methods: {
+    search_change(searchValue){
+      this.paixu(searchValue);
+    },
     getact() {
       var that = this;
       getnew();
@@ -964,12 +959,13 @@ export default {
       // var scrollTop = document.documentElement.scrollTop;
       // alert(this.indexnum)
       if (this.indexnum == 1) {
+        console.log(1);
         chabumen({
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
-          sortname:'销售额',
-          sort:1,
+          sortname:this.searchValue,
+          // sort:1,
           role: localStorage.getItem("role")
         })
           .then(res => {

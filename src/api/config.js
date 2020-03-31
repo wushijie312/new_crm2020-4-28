@@ -30,8 +30,11 @@ import request from '@/untils/request'
 import addheadreq from '@/untils/addheadreq'
    	var HOSTNAME = window.location.hostname;
    	var PATHNAME = window.location.pathname.indexOf("crm_page_test");
-     if(HOSTNAME=="localhost"){//本地
+    //  if(HOSTNAME=="localhost"){//本地
+    console.log(HOSTNAME);
+
       // if(HOSTNAME=="10.0.0.56"){//本地
+      if(HOSTNAME=="192.168.20.100"){//本地192.168.20.100
          var htp = 'http://101.200.137.247:9112/supplierRelation'
       // var htp = 'http://101.200.137.247:9112/supplierRelation'
     	// var htp = 'http://172.16.0.189:9112/supplierRelation'	

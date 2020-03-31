@@ -2,19 +2,20 @@
   <div>
     <!-- 新加 start-->
     <div
-      style="position:fixed;height:50px;width:100%;left:0;top:0;z-index:1001;background:#fff;border-bottom: 1px solid #f1f1f1;"
+      style="position:fixed;height:50px;width:100%;left:0;top:0px;border-top: 5px solid #f1f1f1;z-index:1001;background:#fff;border-bottom: 1px solid #f1f1f1;"
     >
       <div style="position:relative; height:50px;">
         <div
-          style="font-size: initial;position: absolute;top: 7px;left: 15px;text-align: left;display: inline-block;"
+          class="clearfix"
+          style="font-size: initial;position: absolute;top: 18px;left: 15px;text-align: left;display: inline-block;"
           @click="dialog = true"
         >
-          <img :src="head_menu" style="width:24px;display:block;" />
-          <span style="font-size: 12px;line-height: 12px;display: block;color: rgb(51, 51, 51);">菜单</span>
+          <img class="fl" :src="head_menu" style="width:14px;display:block;margin-right:2px;" />
+          <span class="fl" style="font-size: 14px;line-height: 16px;display: block;color: #2aa4e7;">菜单</span>
         </div>
         <div
           v-if="!ty && (act==1||act==2)"
-          style="position:absolute;top:0;right:15px;line-height:50px;font-size:14px;"
+          style="position:absolute;top:18px;right:15px;line-height:14px;font-size:14px;"
         >
           <router-link
             :to="{path:act==1?'/xsleader':'/baifang'}"
@@ -23,7 +24,7 @@
         </div>
         <div
           v-show="ty && (act==1||act==2)"
-          style="position:absolute;top:0;right:15px;line-height:50px;font-size:14px;"
+          style="position:absolute;top:18px;right:15px;line-height:14px;font-size:14px;"
         >
           <router-link
             :to="{path:act==1?'/xiaoshou1':'/baifang1'}"
@@ -54,20 +55,19 @@
           <template v-for="item in !ty?userMenus:leaderMenus">
             <el-menu-item v-if="!item.menus" :index="item.path" :key="item.path">
               <template slot="title">
-                <i>
-                  <img style="width:16px; vertical-align: text-top;" :src="item.icon" />
+                <i :class="item.icon">
                 </i>
                 <span slot="title" style="position:relative;">
                   <img
                     v-show="item.isshow"
                     :src="newPic"
                     alt
-                    style="position:absolute;top:0;right:0;width:20px;"
+                    style="position:absolute;top: 4px;right: -24px;width: 24px;"
                   />
                   {{item.source}}
                   <span
                     v-show="isread&&item.source=='我的派单'"
-                    style="width:8px;height:8px;position:absolute;top:-3px;right:-6px;background:red;border-radius:50%;"
+                    class="un_read"
                   ></span>
                 </span>
               </template>
@@ -76,26 +76,20 @@
           </template>
         </el-menu>
       </div>
-    </el-drawer>
-  </div>
-</template>
-
-        </el-menu>
-      </div>
       <router-link
         :to="!ty?'/xiaoshou1':'/xsleader'"
-        style="background:#fff;borderTop:1px solid #eee;padding:10px 0; text-align:center;line-height:20px;fontSize:14px;color:#3face8;display: block;position: absolute;width: 100%;bottom: 0;"
+        style="outline: none;background:#fff;text-decoration: none;borderTop:1px solid #eee;padding:15px 0; text-align:center;line-height:20px;fontSize:16px;color:#3face8;display: block;position: absolute;width: 100%;bottom: 0;"
       >
         <img
           :src="back_home"
-          style="width: 14px;line-height: 20px;padding-right: 5px;vertical-align: text-top;display: inline-block;"
+          style="width: 14px;line-height: 20px;padding-right: 5px;vertical-align:top;display: inline-block;"
         />返回首页
       </router-link>
     </el-drawer>
 
     <!-- 新加 -->
-    <div class="js" style="position:relative;" v-show="iszhanshi&&gdlist.length>0">
-      <div style="position:absolute;right:0.1rem;z-index:99999;" @click="guanbi">
+    <div class="js" style="position:relative;top:55px;" v-show="iszhanshi&&gdlist.length>0">
+      <div style="position:absolute;right:0.1rem;z-index:1;" @click="guanbi">
         <img :src="ygb" style="height:0.5rem;" alt />
       </div>
       <el-carousel
@@ -154,7 +148,7 @@ export default {
   components: {
     Submenu
   },
-  computed: {
+  computed:{
     ...mapGetters(["menus"])
   },
   mounted() {
@@ -212,7 +206,7 @@ export default {
               } else {
                 this.leaderMenus.push(e);
               }
-
+              console.log('wwww',this.userMenus,this.leaderMenus);
               sessionStorage.setItem(
                 "userMenus",
                 JSON.stringify(this.userMenus)
