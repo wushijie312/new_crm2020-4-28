@@ -1,18 +1,11 @@
-/* eslint-disable padded-blocks */
-/* eslint-disable no-multiple-empty-lines */
-/* eslint-disable standard/object-curly-even-spacing */
-/* eslint-disable key-spacing */
-/* eslint-disable comma-dangle */
-/* eslint-disable quotes */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable space-before-function-paren */
+
 import request from '@/untils/request'
    	var HOSTNAME = window.location.hostname;
-   	var PATHNAME = window.location.pathname.indexOf("crm_page_test");
-    //  if(HOSTNAME=="localhost"){//本地
+     var PATHNAME = window.location.pathname.indexOf("crm_page_test");
+     
+     if(HOSTNAME=="localhost"){//本地
       // if(HOSTNAME=="10.0.0.56"){//本地
-      console.log(HOSTNAME);
-      if(HOSTNAME=="192.168.20.100"){//本地192.168.20.100
+      // if(HOSTNAME=="192.168.20.101"){//本地192.168.20.100
          var htp = 'http://101.200.137.247:9112/supplierRelation'
       // var htp = 'http://101.200.137.247:9112/supplierRelation'
     	// var htp = 'http://172.16.0.189:9112/supplierRelation'	
@@ -25,19 +18,7 @@ import request from '@/untils/request'
    			var htp = 'http://u.easypnp.com/supplierRelation'
    		}
    }
-  //  if(process.env.NODE_ENV=="development"){
-  //   // 测试
-  //   var htp = 'http://101.200.137.247:9112/supplierRelation'
-  //   console.log('ce shi');
-  // }else{
-  //   // 正式
-  //   var htp = 'http://u.easypnp.com/supplierRelation'
-  //   console.log('zheng shi');
 
-  // }
-//var htp = 'http://101.200.137.247:9112/supplierRelation'
-//var htp = 'http://10.0.2.130:9112/supplierRelation'
-//var htp = 'http://101.200.137.247:9112/supplierRelation'
 export function tblist(data) {
   return request({
     // url: htp + '/visit/data',

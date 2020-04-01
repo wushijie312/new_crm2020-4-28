@@ -27,16 +27,16 @@ export default {
       }
     });
 
-    // 模拟存储用户信息
-    localStorage.setItem("userid", "30843");
-    localStorage.setItem("userName", "吴世界");
-    localStorage.setItem("level", 4);
-    localStorage.setItem("departmentId", 1022);
-    localStorage.setItem("departmentName", "北京事业一部");
-    localStorage.setItem(
-      "role",
-      "1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1022,1023"
-    );
+    // // 模拟存储用户信息
+    // localStorage.setItem("userid", "30843");
+    // localStorage.setItem("userName", "吴世界");
+    // localStorage.setItem("level", 4);
+    // localStorage.setItem("departmentId", 1022);
+    // localStorage.setItem("departmentName", "北京事业一部");
+    // localStorage.setItem(
+    //   "role",
+    //   "1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1022,1023"
+    // );
   },
   watch: {
     //使用watch 监听$router的变化

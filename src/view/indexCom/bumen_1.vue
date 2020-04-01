@@ -218,36 +218,26 @@
           <p class="bmbt">月收款</p>
           <p class="bmqb">{{item.receipt}}万</p>
         </div>
+        <div class @click.stop="tantan(alertNr.deptPaymentExp)">
+          <p class="bmbt">月付款</p>
+          <p class="bmqb">{{item.payment}}万</p>
+        </div>
+        <div class="noboder" @click.stop="tantan(alertNr.deptBearExp)">
+          <p class="bmbt">月费用</p>
+          <p class="bmqb">{{item.bear}}万</p>
+        </div>
         <div class="lql" @click.stop="tantan(alertNr.deptTargetReceiptExp)">
           <p class="bmbt">月收款计划</p>
           <p class="bmqb">{{item.receiptPlan}}万</p>
         </div>
-         <div class @click.stop="tantan(alertNr.shouldReceiptExp)">
-          <p class="bmbt">应收款</p>
-          <p class="bmqb">{{item.shouldReceipt}}万</p>
-        </div>
-        <!-- <div class="noboder" @click.stop="tantan(alertNr.deptBearExp)">
-          <p class="bmbt">月费用</p>
-          <p class="bmqb">{{item.bear}}万</p>
-        </div> -->
-         <div class @click.stop="tantan(alertNr.deptPaymentExp)">
-          <p class="bmbt">月付款</p>
-          <p class="bmqb">{{item.payment}}万</p>
-        </div>
-       
         <div class="lql" @click.stop="tantan(alertNr.deptTargetPaymentExp)">
           <p class="bmbt">月付款计划</p>
           <p class="bmqb">{{item.paymentPlan}}万</p>
         </div>
-        
-        <div class @click.stop="tantan(alertNr.shouldPaymentExp)">
-          <p class="bmbt">应付款</p>
-          <p class="bmqb">{{item.shouldPayment}}万</p>
-        </div>
-        <!-- <div class="noboder" @click.stop="tantan(alertNr.deptUseMoneyExp)">
+        <div class="noboder" @click.stop="tantan(alertNr.deptUseMoneyExp)">
           <p class="bmbt">部门现金流</p>
           <p class="bmqb">{{item.departmentUseMoney}}万</p>
-        </div> -->
+        </div>
         <div class="" @click.stop="tantan(alertNr.deptUseMoneyExp)">
           <p class="bmbt">期初现金净额</p>
           <p class="bmqb">{{item.departmentUseMoney}}万</p>
@@ -256,7 +246,7 @@
           <p class="bmbt">本月现金净额</p>
           <p class="bmqb">{{item.departmentNetCashMoney}}万</p>
         </div>
-        <div  @click.stop="tantan(alertNr.deptUseMoneyExp)">
+        <div class="noboder" @click.stop="tantan(alertNr.deptUseMoneyExp)">
           <p class="bmbt">期末现金净额</p>
           <p class="bmqb">{{item.department_month_use_money}}万</p>
         </div>
@@ -268,11 +258,19 @@
           <p class="bmbt">季度坏账</p>
           <p class="bmqb">{{item.quarterBadDebt}}万</p>
         </div>
-        <div  @click.stop="tantan(alertNr.deptYearDebtExp)">
+        <div class="noboder" @click.stop="tantan(alertNr.deptYearDebtExp)">
           <p class="bmbt">年度坏账</p>
           <p class="bmqb">{{item.yearBadDebt}}万</p>
         </div>
-       
+        <div class @click.stop="tantan(alertNr.shouldReceiptExp)">
+          <p class="bmbt">应收款</p>
+          <p class="bmqb">{{item.shouldReceipt}}万</p>
+        </div>
+        <div class @click.stop="tantan(alertNr.shouldPaymentExp)">
+          <p class="bmbt">应付款</p>
+          <p class="bmqb">{{item.shouldPayment}}万</p>
+        </div>
+        <div class="noboder"></div>
       </div>
     </div>
   </div>

@@ -1,16 +1,12 @@
 <template>
-  <div class="tabs_lists">
+  <div class="tabs_lists mart8">
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">部门负责人</div>
       <div class="tabs_normal tabs_lc">实际销售额(万)</div>
       <div class="tabs_normal tabs_ld">光荣榜</div>
     </div>
-    <div
-      class="tabs_two_box"
-      v-for="(item,len1) in tabdata1"
-      :key="len1"
-    >
+    <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
       <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
         <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
         <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
@@ -31,7 +27,6 @@
             </span>
           </div>
         </div>
-
       </div>
       <div v-show="item.is_act && zhuan" :id="'textcopy'+len1" class="wztabs_details tabs_details">
         <div class="padd_b12 border_bf0f0f0">
@@ -204,7 +199,7 @@
             财务评级：
             <span>{{item.departmentShow}}</span>
           </p>
-          <span class="tabs_four_b"  @click="jxq(item.id,item.departmentName,item.departmentId)">查看详情</span>
+          <span class="tabs_four_b" @click="jxq(item.id,item.departmentName,item.departmentId)">查看详情</span>
         </div>
         <div class="tabs_four mart8">
           <p class="tabs_four_a">
@@ -246,110 +241,151 @@
           </div>
         </div>
         <div class="tabs_five mart6">
-          <div class="tabs_five_a">
-            <h3>{{item.dayMoney}}万</h3>
-            <p>今日完成</p>
+          <div class="tabs_biaoge_all">
+            <div class="tabs_five_a">
+              <h3>{{item.dayMoney}}万</h3>
+              <p>今日完成</p>
+            </div>
           </div>
-          <div class="tabs_five_a">
-            <h3>
-              {{item.finishRate.split('/')[0]}}
-              <span class="tabs_five_arate">NO.{{item.rateNo}}</span>
-            </h3>
-            <p>实时完成率</p>
+          <div class="tabs_biaoge_all">
+            <div class="tabs_five_a">
+              <h3>
+                {{item.finishRate.split('/')[0]}}
+                <span class="tabs_five_arate">NO.{{item.rateNo}}</span>
+              </h3>
+              <p>实时完成率</p>
+            </div>
           </div>
-          <div class="tabs_five_b">
-            <p>
-              环比：
-              <span>{{item.monthCompare}}%</span>
-            </p>
-            <p>
-              同比：
-              <span>{{item.yearCompare}}%</span>
-            </p>
+           <div class="tabs_rate_pc tabs_biaoge_all">
+            <div class="tabs_five_a">
+              <h3>{{item.monthCompare}}%</h3>
+              <p>环比</p>
+            </div>
           </div>
+          <div class="tabs_rate_pc tabs_biaoge_all">
+            <div class="tabs_five_a">
+              <h3>{{item.yearCompare}}%</h3>
+              <p>同比</p>
+            </div>
+          </div>
+          <div class="tabs_rate_mobile tabs_biaoge_all">
+            <div class="tabs_five_b">
+              <p>
+                环比：
+                <span>{{item.monthCompare}}%</span>
+              </p>
+              <p>
+                同比：
+                <span>{{item.yearCompare}}%</span>
+              </p>
+            </div>
+          </div>
+         
         </div>
         <div class="tabs_six">
           <h3 class="tabs_six_a">
             <img :src="dd" />今日订单来自客户
           </h3>
           <div class="tabs_five">
-            <div class="tabs_five_a">
-              <h3>
-                {{item.finishMoney}}
-                <span class="tabs_five_arate">NO.{{item.saleNo}}</span>
-              </h3>
-              <p>目前销售累计</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>
+                  {{item.finishMoney}}
+                  <span class="tabs_five_arate">NO.{{item.saleNo}}</span>
+                </h3>
+                <p>目前销售累计</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>
-                {{item.netProfit}}
-                <span class="tabs_five_arate">NO.{{item.netNo}}</span>
-              </h3>
-              <p>目前月净利</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>
+                  {{item.netProfit}}
+                  <span class="tabs_five_arate">NO.{{item.netNo}}</span>
+                </h3>
+                <p>目前月净利</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.grossProfitMoney}}</h3>
-              <p>目前月毛利</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.grossProfitMoney}}</h3>
+                <p>目前月毛利</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.monthShouldMoney}}</h3>
-              <p>目前应完成</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.monthShouldMoney}}</h3>
+                <p>目前应完成</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.targetNet}}</h3>
-              <p>月净利润目标</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.targetNet}}</h3>
+                <p>月净利润目标</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.targetProfit}}</h3>
-              <p>月毛利润目标</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.targetProfit}}</h3>
+                <p>月毛利润目标</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.differenceMoney}}</h3>
-              <p>距销售目标差额</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.differenceMoney}}</h3>
+                <p>距销售目标差额</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>
-                {{item.netsProfit}}
-                <span class="tabs_five_arate">NO.{{item.netsNo}}</span>
-              </h3>
-              <p>目前月净净利</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>
+                  {{item.netsProfit}}
+                  <span class="tabs_five_arate">NO.{{item.netsNo}}</span>
+                </h3>
+                <p>目前月净净利</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.targetProfitDif}}</h3>
-              <p>未完成毛利率</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.targetProfitDif}}</h3>
+                <p>未完成毛利率</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.monthMoney}}</h3>
-              <p>月销售额目标</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.monthMoney}}</h3>
+                <p>月销售额目标</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.targetNets}}</h3>
-              <p>月净净利目标</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.targetNets}}</h3>
+                <p>月净净利目标</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>
-                {{item.grossProfit.split('/')[1]}}
-                <span class="tabs_five_arate">NO.{{item.grossPNo}}</span>
-              </h3>
-              <p>月平均毛利率</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>
+                  {{item.grossProfit.split('/')[1]}}
+                  <span
+                    class="tabs_five_arate"
+                  >NO.{{item.grossPNo}}</span>
+                </h3>
+                <p>月平均毛利率</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.totalYearPlanMoney}}</h3>
-              <p>年任务</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.totalYearPlanMoney}}</h3>
+                <p>年任务</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.totalFinishYearMoney}}</h3>
-              <p>年累计完成</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.totalFinishYearMoney}}</h3>
+                <p>年累计完成</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2"></div>
+           
           </div>
         </div>
         <div class="tabs_six">
@@ -357,31 +393,41 @@
             <img :src="bmys" />部门预算
           </h3>
           <div class="tabs_five">
-            <div class="tabs_five_a">
-              <h3>{{item.departmentTargetBear}}</h3>
-              <p>月部门费用预算</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.departmentTargetBear}}</h3>
+                <p>月部门费用预算</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.bearsMoney}}</h3>
-              <p>分摊费用</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.bearsMoney}}</h3>
+                <p>分摊费用</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.departmentCount}}</h3>
-              <p>部门人数</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.departmentCount}}</h3>
+                <p>部门人数</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.departmentSalary}}</h3>
-              <p>部门工资</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.departmentSalary}}</h3>
+                <p>部门工资</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.otherBear}}</h3>
-              <p>月其他费用</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.otherBear}}</h3>
+                <p>月其他费用</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.bearMoney}}</h3>
-              <p>月总费用</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.bearMoney}}</h3>
+                <p>月总费用</p>
+              </div>
             </div>
           </div>
         </div>
@@ -390,59 +436,84 @@
             <img :src="cwqk" />财务情况
           </h3>
           <div class="tabs_five">
-            <div class="tabs_five_a">
-              <h3>{{item.receipt}}</h3>
-              <p>月收款</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.receipt}}</h3>
+                <p>月收款</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.receiptPlan}}</h3>
-              <p>月收款计划</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.receiptPlan}}</h3>
+                <p>月收款计划</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.shouldReceipt}}</h3>
-              <p>应收款</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.shouldReceipt}}</h3>
+                <p>应收款</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.payment}}</h3>
-              <p>月付款</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.payment}}</h3>
+                <p>月付款</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.paymentPlan}}</h3>
-              <p>月付款计划</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.paymentPlan}}</h3>
+                <p>月付款计划</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.shouldPayment}}</h3>
-              <p>应付款</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.shouldPayment}}</h3>
+                <p>应付款</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.departmentUseMoney}}</h3>
-              <p>期初现金净额</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.departmentUseMoney}}</h3>
+                <p>期初现金净额</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.departmentNetCashMoney}}</h3>
-              <p>本月现金净额</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.departmentNetCashMoney}}</h3>
+                <p>本月现金净额</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.department_month_use_money}}</h3>
-              <p>期末现金净额</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.department_month_use_money}}</h3>
+                <p>期末现金净额</p>
+              </div>
             </div>
-          </div>
-          <div class="tabs_five tabs_six_bno1">
-            <div class="tabs_five_a">
-              <h3>{{item.monthBadDebt}}</h3>
-              <p>月提起坏账</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.monthBadDebt}}</h3>
+                <p>月提起坏账</p>
+              </div>
             </div>
-            <div class="tabs_five_a">
-              <h3>{{item.quarterBadDebt}}</h3>
-              <p>季度坏账</p>
+
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.quarterBadDebt}}</h3>
+                <p>季度坏账</p>
+              </div>
             </div>
-            <div class="tabs_five_a tabs_six_bno2">
-              <h3>{{item.yearBadDebt}}</h3>
-              <p>年度坏账</p>
+            <div class="tabs_biaoge_all">
+              <div class="tabs_five_a">
+                <h3>{{item.yearBadDebt}}</h3>
+                <p>年度坏账</p>
+              </div>
             </div>
           </div>
         </div>
@@ -466,10 +537,10 @@ export default {
       caidan: require("@/assets/img/bangdan/caidan.png"),
       cwqk: require("@/assets/img/bangdan/cwqk.png"),
       dd: require("@/assets/img/bangdan/dd.png"),
-      zhuan:false,
+      zhuan: false
     };
   },
-  props: ["tabdata1","value1", "jxq", "alertNr", "zhezhao"],
+  props: ["tabdata1", "value1", "jxq", "alertNr", "zhezhao"],
   mounted() {
     setTimeout(() => {
       console.log("1", this.tabdata1);
@@ -479,13 +550,13 @@ export default {
     }, 1000);
   },
   methods: {
-    boxOrtextChange(){
-      console.log('ss');
-      this.zhuan=!this.zhuan;
+    boxOrtextChange() {
+      console.log("ss");
+      this.zhuan = !this.zhuan;
       console.log(this.zhuan);
     },
     details_handle(row, len) {
-      this.zhuan=false;
+      this.zhuan = false;
       this.tabdata1.map((item, index) => {
         if (len == index) {
           row.is_act = !row.is_act;
@@ -541,6 +612,10 @@ export default {
 };
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
+.tabs_rate_pc {
+  display: none;
+}
+
 .wztabs_a {
   line-height: 20px;
   color: $color333;
@@ -563,13 +638,27 @@ export default {
 
 .tabs_five {
   display: flex;
-  border: 1px solid $colorf0f0f0;
-  padding: $padd12;
+  border-left: 1px solid $colorf0f0f0;
+  border-top: 1px solid $colorf0f0f0;
+  flex-wrap: wrap;
+}
+
+.tabs_biaoge_all {
+  box-sizing: border-box;
+  width: 33.333333%;
+  padding: 12px 0;
+  text-align: center;
+  border-bottom: 1px solid $colorf0f0f0;
+}
+.tabs_biaoge_all:nth-child(3n){
+  border-right:1px solid $colorf0f0f0;
+}
+.tabs_biaoge_all:nth-child(3n)>div {
+  border-right: none;
 }
 
 .tabs_five .tabs_five_a {
-  width: 33.333333%;
-  text-align: center;
+  padding: 0;
   border-right: 1px solid $colorf0f0f0;
 }
 
@@ -582,8 +671,6 @@ export default {
 }
 
 .tabs_five .tabs_five_b {
-  width: 33.333333%;
-  text-align: center;
   font-size: $fs14;
   line-height: 17px;
 }
@@ -623,14 +710,6 @@ export default {
   padding: 12px 0 8px 0;
   line-height: 16px;
   font-weight: bold;
-}
-
-.tabs_six .tabs_six_bno1 {
-  border-top: none;
-}
-
-.tabs_six .tabs_six_bno2 {
-  border-right: none;
 }
 
 .tabs_four {
@@ -712,10 +791,12 @@ export default {
   display: flex;
   padding: 0 $padd15;
 }
+
 .tabs_two {
-  cursor:pointer;
-  user-select:none;
+  cursor: pointer;
+  user-select: none;
 }
+
 .tabs_one {
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 5px;
@@ -781,5 +862,32 @@ export default {
 
 .wztabs_two {
   text-align: right;
+}
+
+@media screen and (min-width: 850px) {
+  .tabs_rate_pc {
+    display: block;
+  }
+
+  .tabs_rate_mobile {
+    display: none;
+  }
+
+  .tabs_biaoge_all {
+    width: 25%;
+  }
+  .tabs_biaoge_all:nth-child(3n){
+  border-right:none;
+}
+.tabs_biaoge_all:nth-child(4n){
+  border-right:1px solid $colorf0f0f0;
+}
+  .tabs_biaoge_all:nth-child(3n)>div {
+    border-right: 1px solid $colorf0f0f0;
+  }
+
+  .tabs_biaoge_all:nth-child(4n)>div {
+    border-right: none;
+  }
 }
 </style>

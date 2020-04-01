@@ -80,15 +80,15 @@
           </template>
         </el-menu>
       </div>
-      <div 
-      @click="gobackHome"
+      <router-link
+        :to="!ty?'/xiaoshou1':'/xsleader'"
         style="outline: none;background:#fff;text-decoration: none;borderTop:1px solid #eee;padding:15px 0; text-align:center;line-height:20px;fontSize:16px;color:#3face8;display: block;position: absolute;width: 100%;bottom: 0;"
       >
         <img
           :src="back_home"
           style="width: 14px;line-height: 20px;padding-right: 5px;vertical-align:top;display: inline-block;"
         />返回首页
-      </div>
+      </router-link>
     </el-drawer>
 
     <!-- 新加 -->
@@ -172,11 +172,6 @@ export default {
   },
 
   methods: {
-    gobackHome(){
-     this.dialoghandleClose();
-     let url= !this.ty?'/xiaoshou1':'/xsleader';
-     this.$router.push(url);
-    },
     /***滑动限制***/
     stop() {
       document.body.style.overflow = "hidden";

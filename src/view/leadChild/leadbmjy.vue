@@ -694,26 +694,7 @@ thead {
 .cheng {
   color: #fe8b16;
 }
-.wrapper {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: #f2f2f5;
-  /* overflow: hidden; */
-}
 
-.wrapper .content {
-  width: 100%;
-}
-
-.wrapper .content li {
-  background-color: #ffffff;
-  width: 100%;
-  height: 66px;
-  text-align: center;
-  line-height: 66px;
-  border-bottom: solid 1px #f0f0f0;
-}
 /* 刷新 */
 .green {
   color: green;

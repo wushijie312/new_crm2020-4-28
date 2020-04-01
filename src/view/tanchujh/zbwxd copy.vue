@@ -3,9 +3,27 @@
     <h3 style="text-align:left;line-height:0.8rem;width:90%;margin:0 auto;">
       <p style="overflow:hidden;">
           <span
+              id="sobox"
               style="font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;float:left;"
             >
-              {{value1}}
+              <!-- {{value1}} -->
+              <el-date-picker
+                ref="timechoose"
+                v-model="value1"
+                type="date"
+                placeholder="选择日期"
+                style="border:none;font-size:0.4rem!importment;font-weight:900;width:100%;"
+                :clearable="false"
+                :picker-options="pickerOptions0"
+               value-format = 'yyyy-MM-dd'
+               @change="changetime"
+               class="el-icon-arrow-down1"
+               :editable = 'false'
+              >
+                <template>
+                  <!-- <i class="el-icon-arrow-down"></i> -->
+                </template>
+              </el-date-picker>
             </span>
         <span
           style="float:right;font-size:0.3rem;font-weight:900;"
@@ -71,6 +89,7 @@ export default {
   },
   methods: {
       tableRowClassName({ row, rowIndex }) {
+      console.log(rowIndex)
       if (rowIndex%2==0) {
         return "success-row";
       } 
@@ -88,6 +107,8 @@ export default {
         }
       tblist(senddata).then(res => {
         this.tabdata1 = res.data;
+        
+        console.log(res);
       });
     }
   }

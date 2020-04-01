@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="mousedownFunc">
+  <div class="wrapper xslead sobig " ref="wrapper" id="wrap" @click="mousedownFunc">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
-      <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
+      <div class="maincontent " id="maincontent1" style="position:relative;margin-top:0.2rem;">
         <div style="overflow:hidden;width:100%;float:left;text-align:left;">
           <h3 style="text-align:left;position:relative;">
             <span style="line-height:1rem;display:block;">汇总销售日报</span>
@@ -38,7 +38,7 @@
                 style="width:100%;height:1.3rem;border-bottom:1px solid #ccc;text-align:center;line-height:1.3rem;"
               >任务</div>
               <div
-                style="width:100%;height:4.1rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.9rem;"
+                style="width:100%;height:3.5rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.9rem;"
               >收入</div>
               <div
                 style="width:100%;height:2.6rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.6rem;"
@@ -134,25 +134,25 @@
                   >{{alldata.moneyDifference}}万</span>
                 </span>
               </div>
-              <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
-                上月环比
-                <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                </span>
-              </div>
               <div
-                class="black"
-                style="border-bottom:1px solid #ccc;"
-                @click.stop="tantan(alertNr.totalCompareExp)"
+                style="color:black;width:100%;font-size:0.3rem;border-bottom:1px solid #ccc;font-weight:900;"
               >
-                去年同比
-                <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                </span>
+                <div style="float:left;" @click.stop="tantan(alertNr.totalCompareExp)">
+                  上月环比
+                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
+                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
+                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
+                  </span>
+                </div>
+                <div style="float:left;" @click.stop="tantan(alertNr.totalCompareExp)">
+                  &nbsp;去年同比
+                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
+                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
+                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
+                  </span>
+                </div>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalTargetGrossExp)">本月目标实现毛利：</span>
@@ -317,12 +317,7 @@
             <input type="text" id="ceshiinput" style="display:none;" />
           </div>
           <div class="bd_search_b">
-            <el-select
-              size="small"
-              v-model="searchValue"
-              placeholder="请选择"
-              @change="search_change(paixunum)"
-            >
+            <el-select size="small"  v-model="searchValue" placeholder="请选择">
               <el-option
                 v-for="item in searchType"
                 :key="item.value"
@@ -332,13 +327,31 @@
             </el-select>
           </div>
         </div>
-        <div class="search_px_pc">
-          <p
-            v-for="(itemSearch,len3) in searchType"
-            :key="len3"
-          ><span :class="paixunum==itemSearch.value?'search_px_pc_tit act':'search_px_pc_tit'" @click="paixu(itemSearch.value)">{{itemSearch.label}}</span></p>
+        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
+          排序：
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum===1?'xuanzhong':''"
+            @click="paixu(1)"
+          >实时完成率</span>
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum===2?'xuanzhong':''"
+            @click="paixu(2)"
+          >净利</span>
+          <span :class="paixunum===3?'xuanzhong':''" @click="paixu(3)">净净利</span>
         </div>
-       
+        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-show="soit===1">
+          <span style="text-decoration: underline;" @click="qhbb">{{zhuan}}</span>
+        </h3>
+
+        <Wzb
+          v-show="soit===1&&zhuan!='切换至文字版'"
+          :tabdata1.sync="tabdata1"
+          :value1.sync="value1"
+          :jxq.sync="jxq"
+        ></Wzb>
+    
         <Bumen
           v-show="soit===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
@@ -348,6 +361,7 @@
           :zhezhao.sync="zhezhao"
           @confirm="confirm"
         ></Bumen>
+       
       </div>
       <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
       <div :style="{display:soit===4?'block':'none'}">
@@ -450,28 +464,22 @@ export default {
   data() {
     return {
       searchValue:'',
-      searchType: [
-        {
-          value: "5",
-          label: "实际销售额"
-        },
-        {
-          value: "4",
-          label: "标准销售额"
-        },
-        {
-          value: "1",
-          label: "实时完成率"
-        },
-        {
-          value: "2",
-          label: "净利"
-        },
-        {
-          value: "3",
-          label: "净净利"
-        }
-      ],
+      searchType:[{
+          value: '实际销售额',
+          label: '实际销售额'
+        }, {
+          value: '标准销售额',
+          label: '标准销售额'
+        }, {
+          value: '实时完成率',
+          label: '实时完成率'
+        }, {
+          value: '净利',
+          label: '净利'
+        }, {
+          value: '净净利',
+          label: '净净利'
+        }],
       isread: false,
       paixunum1: 1,
       zhezhao: {},
@@ -590,9 +598,6 @@ export default {
   },
 
   methods: {
-    search_change(paixunum) {
-      this.paixu(paixunum);
-    },
     getact() {
       var that = this;
       getnew();
@@ -683,7 +688,6 @@ export default {
       });
     },
     paixu(a) {
-      this.searchValue=a==5?'实际销售额':a==4?'标准销售额':a==3?'净净利':a==2?'净利':a==1?'实时完成率':'';
       this.paixunum = a;
       this.sort(this.paixulist[a - 1]);
     },
@@ -743,7 +747,15 @@ export default {
         return val1 - val2;
       };
     },
-
+    qhbb() {
+      this.$message.closeAll();
+      if (this.zhuan == "切换至文字版") {
+        this.zhuan = "切换至表格版";
+      } else {
+        // alert(111)
+        this.zhuan = "切换至文字版";
+      }
+    },
     qhbb2() {
       this.$message.closeAll();
       console.log(this.zhuan2);
@@ -952,12 +964,11 @@ export default {
       // var scrollTop = document.documentElement.scrollTop;
       // alert(this.indexnum)
       if (this.indexnum == 1) {
-        console.log(1);
         chabumen({
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
-          sortname: this.paixunum,
+          sortname:'销售额',
           sort:1,
           role: localStorage.getItem("role")
         })
@@ -1126,43 +1137,7 @@ export default {
 </script>
 <style lang="styl" rel="stylesheet/styl" scoped>
 @import "../../assets/css/bangdan.styl";
-.search_px_pc{
-  font-size:14px;
-  padding:0px 0 10px;
-  display:flex;
-  background: #fff;
-  display: none;
-}
-.search_px_pc p{
-  width:20%;
-  color:#333;
-  position: relative;
-}
-.search_px_pc_tit{
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  padding:0 20px;
-}
-.search_px_pc_tit:after{
-  width: 0;
-  height: 0;
-  z-index: 1;
-  border-top: 4px solid #999;
-  border-right: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 4px solid transparent;
-  position: absolute;
-  top: 8px;
-  right: 5px;
-  content: ' ';
-}
-.search_px_pc_tit.act{
-  color:#409eff;
-}
-.search_px_pc_tit.act:after{
-  border-top: 4px solid #409eff;
-}
+
 .menubox {
   border-bottom: 1px solid #f0f0f0;
   margin-top: 8px;
@@ -1173,7 +1148,6 @@ export default {
 }
 .menubox .menu_border {
   line-height: 42px;
-  font-size:14px;
   display: inline-block;
 }
 .menubox .act {
@@ -1355,19 +1329,10 @@ thead {
   border-right: 1px solid black;
 }
 /* .bmcontent>div:nth-child(3n+0){border-right: none} */
-@media screen and (min-width: 850px) {
-  .search_px_pc{
-    display: flex;
-  }
-  .bd_search_b{
-    display: none;
-  }
-}
 .show {
   display: block;
 }
 .hidden {
   display: none;
 }
-
 </style>

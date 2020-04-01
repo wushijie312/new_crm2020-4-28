@@ -1,45 +1,14 @@
-/* eslint-disable space-infix-ops */
-/* eslint-disable spaced-comment */
-/* eslint-disable padded-blocks */
-/* eslint-disable no-multiple-empty-lines */
-/* eslint-disable standard/object-curly-even-spacing */
-/* eslint-disable key-spacing */
-/* eslint-disable comma-dangle */
-/* eslint-disable quotes */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable space-before-function-paren */
-// import request from '@/untils/request'
 
-
-// var htp = 'http://172.16.1.48:9111/supplierRelation'
-// var htp = 'http://u.easypnp.com/supplierRelation'
-//  var htp = 'http://172.16.0.189:9112/supplierRelation'
-//  var htp = 'http://10.0.2.130:9112/supplierRelation'
-// var htp = 'http://101.200.137.247:9112/supplierRelation'
-// var process_env=process.env.NODE_ENV;
-// if(process_env=="development"){
-//   var htp = 'http://101.200.137.247:9112/supplierRelation'
-// }else if(process_env='production'){
-//   var htp = 'http://u.easypnp.com/supplierRelation'
-// }
-
-// let username = localStorage.setItem('type' ,1)
-// let departmentId = localStorage.getItem('departmentId')
-// let departmentName = localStorage.getItem('departmentName')
 import request from '@/untils/request'
 import addheadreq from '@/untils/addheadreq'
    	var HOSTNAME = window.location.hostname;
-   	var PATHNAME = window.location.pathname.indexOf("crm_page_test");
-    //  if(HOSTNAME=="localhost"){//本地
-    console.log(HOSTNAME);
-
+     var PATHNAME = window.location.pathname.indexOf("crm_page_test");
+     
+     if(HOSTNAME=="localhost"){//本地
       // if(HOSTNAME=="10.0.0.56"){//本地
-      if(HOSTNAME=="192.168.20.100"){//本地192.168.20.100
+      // if(HOSTNAME=="192.168.20.101"){//本地192.168.20.100
          var htp = 'http://101.200.137.247:9112/supplierRelation'
-      // var htp = 'http://101.200.137.247:9112/supplierRelation'
-    	// var htp = 'http://172.16.0.189:9112/supplierRelation'	
-//    	var htp = 'http://172.16.0.176:9112/supplierRelation'
-//    	var htp = 'http://101.200.137.247:9112/supplierRelation'
+
    	}else if(HOSTNAME="u.easypnp.com"){
    		if(PATHNAME>-1){//测试
 		 	var htp = 'http://101.200.137.247:9112/supplierRelation'
