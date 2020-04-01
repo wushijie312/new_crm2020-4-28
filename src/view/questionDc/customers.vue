@@ -2,38 +2,96 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <div class="qu_box wrap850" >
-        <div class="qu_cuHead">
-          <el-input size="small" class="qu_cuHead_search" v-model="keyword" placeholder="请输入内容"></el-input>
-          <i
-            @click="searchListHandel"
-            class="el-icon-search qu_cuHead_icon"
-            style="    color: rgb(153, 153, 153);position: absolute;right: 15px;top: 16px;font-size: 20px;width: 32px;"
-          ></i>
+    <div class="qu_box wrap850">
+      <div class="qu_cuHead">
+        <el-input size="small" class="qu_cuHead_search" v-model="keyword" placeholder="请输入内容"></el-input>
+        <i
+          @click="searchListHandel"
+          class="el-icon-search qu_cuHead_icon"
+          style="    color: rgb(153, 153, 153);position: absolute;right: 15px;top: 16px;font-size: 20px;width: 32px;"
+        ></i>
+      </div>
+      <div class="qu_bmBox">
+        <div class="qu_bmSearch">
+          <div class="qu_bmSearch_a">部门：</div>
+          <div class="qu_bmSearch_b">
+            <span class="act">全部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+          </div>
         </div>
-        <div
-          class="qu_cuList clearfix"
-          v-for="(item,index) in customList"
-          ref="chatContainer"
-          :key="index"
-          @click="gotoDCWJ(item)"
-        >
-          <img v-if="item.shownew" class="qu_cu_right_new" :src="right_new" alt />
-          <div class="qu_cu_a fl">
-            <h3 class="qu_cuList_a">{{item.companyName}}</h3>
+        <div class="qu_bmSearch bordertop1">
+          <div class="qu_bmSearch_a">客户类型：</div>
+          <div class="qu_bmSearch_c qu_bmSearch_b">
+            <span class="act">全部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+            <span>北京事业一部</span>
+          </div>
+        </div>
+      </div>
+      <div class="qu_bumobile">
+        <div class="qu_bmmobile_a">
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              下拉菜单
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>黄金糕</el-dropdown-item>
+              <el-dropdown-item>狮子头</el-dropdown-item>
+              <el-dropdown-item>螺蛳粉</el-dropdown-item>
+              <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <div class="qu_bmmobile_a">
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              下拉菜单
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>黄金糕</el-dropdown-item>
+              <el-dropdown-item>狮子头</el-dropdown-item>
+              <el-dropdown-item>螺蛳粉</el-dropdown-item>
+              <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+      <div
+        class="qu_cuList clearfix"
+        v-for="(item,index) in customList"
+        ref="chatContainer"
+        :key="index"
+        @click="gotoDCWJ(item)"
+      >
+        <img v-if="item.shownew" class="qu_cu_right_new" :src="right_new" alt />
+        <div class="qu_cu_a fl">
+          <h3 class="qu_cuList_a">{{item.companyName}}</h3>
 
-            <p class="qu_cuList_b">{{item.department_name}}（{{item.user_name}}）</p>
-          </div>
-          <div class="qu_cu_b fr">
-            <el-progress
-              class="qu_pro_jd"
-              :stroke-width="2"
-              :width="40"
-              type="circle"
-              :percentage="Math.floor(item.wcd*100)"
-            ></el-progress>
-          </div>
+          <p class="qu_cuList_b">{{item.department_name}}（{{item.user_name}}）</p>
         </div>
+        <div class="qu_cu_b fr">
+          <el-progress
+            class="qu_pro_jd"
+            :stroke-width="2"
+            :width="40"
+            type="circle"
+            :percentage="Math.floor(item.wcd*100)"
+          ></el-progress>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -138,6 +196,69 @@ export default {
 };
 </script>
 <style scoped>
+.qu_bumobile {
+  height: 38px;
+  background: #fff;
+  display: flex;
+  margin-bottom:8px;
+}
+.qu_bumobile >div{
+  text-align:center;
+  width:50%;
+}
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+  line-height: 14px;
+  padding:12px 0;
+  display: block;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.qu_bmBox {
+  padding: 9px 12px 8px;
+  background: #fff;
+  margin-bottom: 8px;
+}
+.qu_bmSearch {
+  position: relative;
+  padding: 9px 12px 8px;
+  text-align: left;
+}
+.qu_bmSearch_a {
+  position: absolute;
+  line-height: 28px;
+  color: #333;
+  font-size: 14px;
+  width: 70px;
+}
+.qu_bmSearch_b {
+  margin-left: 75px;
+  line-height: 28px;
+  color: #595959;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.qu_bmSearch_b span {
+  min-width: 99px;
+  margin-left: 42px;
+}
+.qu_bmSearch_b span.act {
+  color: #409eff;
+}
+.qu_bmSearch_b span:nth-child(6n),
+.qu_bmSearch_b span:first-child {
+  margin-left: 0;
+}
+.bordertop1 {
+  border-top: 1px solid #f0f0f0;
+}
+.qu_bmSearch_c span {
+  min-width: none;
+}
+
 .qu_cu_a {
   width: 80%;
   margin-top: 3px;

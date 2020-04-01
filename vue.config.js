@@ -31,11 +31,11 @@ module.exports = {
         // }
     },
     lintOnSave: false, // 取消 eslint 验证
-   
+
     chainWebpack: config => {   //styl
         const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
         types.forEach(type => addStyleResource(config.module.rule('stylus').oneOf(type)))
-    },                                
+    },
 };
 
 function addStyleResource(rule) {

@@ -304,10 +304,11 @@
         ref="tabs"
       >-->
       <div :style="{display:soit===1?'block':'none'}">
-        <div class="bd_search">
+        <div class="bd_search" style="background:#fff;">
           <div class="bd_search_a">
             <el-input
               size="small"
+              ref="timechoose1"
               placeholder="请输入部门名称"
               v-model="bmkword"
               class="input-with-select"
@@ -331,15 +332,13 @@
             </el-select>
           </div>
         </div>
-        <div class="search_px search_px_pc">
-          <p v-for="(itemSearch,len3) in searchType" :key="len3">
-            <span
-              :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
-              @click="paixu(itemSearch.value)"
-            >{{itemSearch.label}}</span>
-          </p>
+        <div class="search_px_pc">
+          <p
+            v-for="(itemSearch,len3) in searchType"
+            :key="len3"
+          ><span :class="paixunum==itemSearch.value?'search_px_pc_tit act':'search_px_pc_tit'" @click="paixu(itemSearch.value)">{{itemSearch.label}}</span></p>
         </div>
-
+       
         <Bumen
           v-show="soit===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
@@ -375,31 +374,28 @@
         <Kehu :tabdata1.sync="tabdata2"></Kehu>
       </div>
       <div :style="{display:soit===3?'block':'none'}">
-        <div class="bd_search">
-          <div class="bd_search_a">
-            <el-input
-              size="small"
-              placeholder="请输入销售名称"
-              v-model="xskword"
-              class="input-with-select"
-            ></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-          </div>
+        <div style="background:#fff;">
+          <el-input placeholder="请输入销售名称" v-model="xskword" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
+          </el-input>
         </div>
-        <div class="search_pxbox">
-          <div class="search_px">
-            <p v-for="(itemSearch,len3) in searchType3" :key="len3">
-              <span
-                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
-                @click="paixu1(itemSearch.value)"
-              >{{itemSearch.label}}</span>
-            </p>
-          </div>
-          <div class="search_px_btn">收起全部</div>
+        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
+          排序：
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===1?'xuanzhong':''"
+            @click="paixu1(1)"
+          >累计完成</span>
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===2?'xuanzhong':''"
+            @click="paixu1(2)"
+          >实时完成率</span>
+          <span :class="paixunum1===3?'xuanzhong':''" @click="paixu1(3)">标准销售额</span>
         </div>
-
-       
-        <User1 :tabdata1.sync="tabdata3"></User1>
+        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-if="false">
+          <span style="text-decoration: underline;" @click="qhbb1">{{zhuan1}}</span>
+        </h3>
         <User :tabdata1.sync="tabdata3"></User>
       </div>
       <!-- </el-tabs> -->
@@ -416,8 +412,6 @@
   </div>
 </template>
 <script>
-import "../../assets/css/bangdan.styl";
-
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -439,7 +433,6 @@ import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
-import User1 from "@/view/indexCom/user1";
 import Head from "@/view/common/head";
 
 export default {
@@ -450,14 +443,13 @@ export default {
     Zhandui,
     Kehu,
     User,
-    User1,
     Head,
     ZhanduiWzb
   },
   name: "index",
   data() {
     return {
-      searchValue: "",
+      searchValue:'',
       searchType: [
         {
           value: "5",
@@ -478,20 +470,6 @@ export default {
         {
           value: "3",
           label: "净净利"
-        }
-      ],
-      searchType3: [
-        {
-          value: "1",
-          label: "累计完成"
-        },
-        {
-          value: "2",
-          label: "实时完成率"
-        },
-        {
-          value: "3",
-          label: "标准销售额"
         }
       ],
       isread: false,
@@ -705,18 +683,7 @@ export default {
       });
     },
     paixu(a) {
-      this.searchValue =
-        a == 5
-          ? "实际销售额"
-          : a == 4
-          ? "标准销售额"
-          : a == 3
-          ? "净净利"
-          : a == 2
-          ? "净利"
-          : a == 1
-          ? "实时完成率"
-          : "";
+      this.searchValue=a==5?'实际销售额':a==4?'标准销售额':a==3?'净净利':a==2?'净利':a==1?'实时完成率':'';
       this.paixunum = a;
       this.sort(this.paixulist[a - 1]);
     },
@@ -787,11 +754,28 @@ export default {
         this.zhuan2 = "切换至文字版";
       }
     },
-  
+    qhbb1() {
+      this.$message.closeAll();
+
+      if (this.zhuan1 == "切换至文字版") {
+        this.zhuan1 = "切换至表格版";
+      } else {
+        // alert(111)
+        this.zhuan1 = "切换至文字版";
+      }
+    },
     mousedownFunc(e) {
+      // alert(1112)
+      // //console.log(this.$refs.timechoose.blur)
+      // //console.log(e)
+      // alert(1)
+      // this.$refs.timechoose1.blur()
       try {
         this.$refs.timechoose.blur();
       } catch (error) {}
+
+      // this.$refs.timechoose.style.display = 'none'
+      // document.getElementById("ceshiinput").focus()
     },
     listenerFunction(e) {
       document.addEventListener("scroll", this.handleScroll);
@@ -968,12 +952,13 @@ export default {
       // var scrollTop = document.documentElement.scrollTop;
       // alert(this.indexnum)
       if (this.indexnum == 1) {
+        console.log(1);
         chabumen({
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
-          sortname: this.searchValue,
-          sort: 1,
+          sortname: this.paixunum,
+          sort:1,
           role: localStorage.getItem("role")
         })
           .then(res => {
@@ -1139,33 +1124,27 @@ export default {
   }
 };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-
-.bd_search {
+<style lang="styl" rel="stylesheet/styl" scoped>
+@import "../../assets/css/bangdan.styl";
+.search_px_pc{
+  font-size:14px;
+  padding:0px 0 10px;
+  display:flex;
   background: #fff;
-}
-.search_px {
-  font-size: 14px;
-  padding: 0px 0 10px;
-  width:100%;
-  display: flex;
-  background: #fff;
-}
-.search_px_pc {
   display: none;
 }
-.search_px p {
-  width: 20%;
-  color: #333;
+.search_px_pc p{
+  width:20%;
+  color:#333;
   position: relative;
 }
-.search_px_tit {
+.search_px_pc_tit{
   position: relative;
   display: inline-block;
   cursor: pointer;
-  padding: 0 20px;
+  padding:0 20px;
 }
-.search_px_tit:after {
+.search_px_pc_tit:after{
   width: 0;
   height: 0;
   z-index: 1;
@@ -1176,44 +1155,13 @@ export default {
   position: absolute;
   top: 8px;
   right: 5px;
-  content: " ";
+  content: ' ';
 }
-.search_px_tit.act {
-  color: #409eff;
+.search_px_pc_tit.act{
+  color:#409eff;
 }
-.search_px_tit.act:after {
+.search_px_pc_tit.act:after{
   border-top: 4px solid #409eff;
-}
-
-.search_pxbox{
-  display: flex;
-  background: #fff;
-  padding:2px 12px;
-  position: relative;
-}
-.search_pxbox .search_px {
-  margin-right:70px;
-}
-.search_pxbox .search_px p{
-  width:33.333333%;
-  text-align: left;
-}
-.search_pxbox .search_px_tit{
-  padding:0 15px 0 0;
-  font-size:12px;
-
-}
-.search_px_btn{
-    position: absolute;
-    right: 12px;
-    font-size: 12px;
-    top: -2px;
-    padding: 0 10px;
-    border: 1px solid #409eff;
-    line-height: 24px;
-    border-radius: 30px;
-    text-align: center;
-    color: #409eff;
 }
 .menubox {
   border-bottom: 1px solid #f0f0f0;
@@ -1225,7 +1173,7 @@ export default {
 }
 .menubox .menu_border {
   line-height: 42px;
-  font-size: 14px;
+  font-size:14px;
   display: inline-block;
 }
 .menubox .act {
@@ -1390,7 +1338,7 @@ thead {
 /* 刷新 */
 .green {
   color: green;
-  font-weight: bold;
+  font-weight: 900;
 }
 .newxin {
   width: 100%;
@@ -1403,32 +1351,16 @@ thead {
 }
 .bmcontent > div {
   border-bottom: 1px solid black;
-  
+  /* padding-top: 0.2rem; */
   border-right: 1px solid black;
 }
-
+/* .bmcontent>div:nth-child(3n+0){border-right: none} */
 @media screen and (min-width: 850px) {
-  .search_px_pc {
+  .search_px_pc{
     display: flex;
   }
-  .bd_search_b {
+  .bd_search_b{
     display: none;
-  }
-  .search_pxbox .search_px_tit{
-    font-size:14px;
-
-  }
-  .search_px_btn{
-      position: absolute;
-      right: 12px;
-      font-size: 14px;
-      top: -1px;
-      padding: 0 10px;
-      border: 1px solid #409eff;
-      line-height: 26px;
-      border-radius: 30px;
-      text-align: center;
-      color: #409eff;
   }
 }
 .show {
@@ -1437,4 +1369,5 @@ thead {
 .hidden {
   display: none;
 }
+
 </style>

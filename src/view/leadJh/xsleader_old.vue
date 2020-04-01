@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="mousedownFunc">
     <Head :act.sync="act" :ty.sync="act1"></Head>
-    <div class="content wrap850" ref="content">
+    <div class="content" ref="content">
+      
       <div class="menu-head-top50"></div>
       <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
         <div style="overflow:hidden;width:100%;float:left;text-align:left;">
@@ -134,26 +135,23 @@
                   >{{alldata.moneyDifference}}万</span>
                 </span>
               </div>
-              <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
-                上月环比
-                <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                </span>
-              </div>
-              <div
-                class="black"
-                style="border-bottom:1px solid #ccc;"
-                @click.stop="tantan(alertNr.totalCompareExp)"
-              >
-                去年同比
-                <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                </span>
-              </div>
+             
+                <div class="black"  @click.stop="tantan(alertNr.totalCompareExp)">
+                  上月环比
+                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
+                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
+                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
+                  </span>
+                </div>
+                <div class="black" style="border-bottom:1px solid #ccc;"  @click.stop="tantan(alertNr.totalCompareExp)">
+                  去年同比
+                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
+                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
+                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
+                  </span>
+                </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalTargetGrossExp)">本月目标实现毛利：</span>
                 <span class="black" @click.stop="tantan(alertNr.totalTargetGrossExp)">
@@ -273,30 +271,10 @@
         </div>
       </div>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">
-          <span class="menu_border">
-            部门榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">
-          <span class="menu_border">
-            战队榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">
-          <span class="menu_border">
-            客户榜
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">
-          <span class="menu_border">
-            全体销售
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
+        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">部门榜</div>
+        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">战队榜</div>
+        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">客户榜</div>
+        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">全体销售</div>
       </div>
       <!-- <el-tabs
         style="border:1px solid #fff;box-shadow:none;font-size:0.3rem;text-align:left;"
@@ -304,47 +282,45 @@
         ref="tabs"
       >-->
       <div :style="{display:soit===1?'block':'none'}">
-        <div class="bd_search">
-          <div class="bd_search_a">
-            <el-input
-              size="small"
-              placeholder="请输入部门名称"
-              v-model="bmkword"
-              class="input-with-select"
-            ></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-            <input type="text" id="ceshiinput" style="display:none;" />
-          </div>
-          <div class="bd_search_b">
-            <el-select
-              size="small"
-              v-model="searchValue"
-              placeholder="请选择"
-              @change="search_change(paixunum)"
-            >
-              <el-option
-                v-for="item in searchType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
+        <div style="background:#fff;">
+          <el-input
+            ref="timechoose1"
+            placeholder="请输入部门名称"
+            v-model="bmkword"
+            class="input-with-select"
+          >
+            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
+          </el-input>
+          <input type="text" id="ceshiinput" style="display:none;" />
         </div>
-        <div class="search_px search_px_pc">
-          <p v-for="(itemSearch,len3) in searchType" :key="len3">
-            <span
-              :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
-              @click="paixu(itemSearch.value)"
-            >{{itemSearch.label}}</span>
-          </p>
+        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
+          排序：
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum===1?'xuanzhong':''"
+            @click="paixu(1)"
+          >实时完成率</span>
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum===2?'xuanzhong':''"
+            @click="paixu(2)"
+          >净利</span>
+          <span :class="paixunum===3?'xuanzhong':''" @click="paixu(3)">净净利</span>
         </div>
+        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-show="soit===1">
+          <span style="text-decoration: underline;" @click="qhbb">{{zhuan}}</span>
+        </h3>
 
+        <Wzb
+          v-show="soit===1&&zhuan!='切换至文字版'"
+          :tabdata1.sync="tabdata1"
+          :value1.sync="value1"
+          :jxq.sync="jxq"
+        ></Wzb>
         <Bumen
           v-show="soit===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
           :jxq.sync="jxq"
-          :value1.sync="value1"
           :alertNr.sync="alertNr"
           :zhezhao.sync="zhezhao"
           @confirm="confirm"
@@ -375,31 +351,28 @@
         <Kehu :tabdata1.sync="tabdata2"></Kehu>
       </div>
       <div :style="{display:soit===3?'block':'none'}">
-        <div class="bd_search">
-          <div class="bd_search_a">
-            <el-input
-              size="small"
-              placeholder="请输入销售名称"
-              v-model="xskword"
-              class="input-with-select"
-            ></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-          </div>
+        <div style="background:#fff;">
+          <el-input placeholder="请输入销售名称" v-model="xskword" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
+          </el-input>
         </div>
-        <div class="search_pxbox">
-          <div class="search_px">
-            <p v-for="(itemSearch,len3) in searchType3" :key="len3">
-              <span
-                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
-                @click="paixu1(itemSearch.value)"
-              >{{itemSearch.label}}</span>
-            </p>
-          </div>
-          <div class="search_px_btn">收起全部</div>
+        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
+          排序：
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===1?'xuanzhong':''"
+            @click="paixu1(1)"
+          >累计完成</span>
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===2?'xuanzhong':''"
+            @click="paixu1(2)"
+          >实时完成率</span>
+          <span :class="paixunum1===3?'xuanzhong':''" @click="paixu1(3)">标准销售额</span>
         </div>
-
-       
-        <User1 :tabdata1.sync="tabdata3"></User1>
+        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-if="false">
+          <span style="text-decoration: underline;" @click="qhbb1">{{zhuan1}}</span>
+        </h3>
         <User :tabdata1.sync="tabdata3"></User>
       </div>
       <!-- </el-tabs> -->
@@ -416,8 +389,6 @@
   </div>
 </template>
 <script>
-import "../../assets/css/bangdan.styl";
-
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -434,66 +405,24 @@ import { getisread } from "@/api/configWu";
 let ybs = 5;
 import Wzb from "@/view/indexCom/indexwzb";
 import Bumen from "@/view/indexCom/bumen";
-import Wzb1 from "@/view/indexCom/indexwzb1";
 import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
-import User1 from "@/view/indexCom/user1";
 import Head from "@/view/common/head";
-
 export default {
   components: {
     Wzb,
     Bumen,
-    Wzb1,
     Zhandui,
     Kehu,
     User,
-    User1,
     Head,
     ZhanduiWzb
   },
   name: "index",
   data() {
     return {
-      searchValue: "",
-      searchType: [
-        {
-          value: "5",
-          label: "实际销售额"
-        },
-        {
-          value: "4",
-          label: "标准销售额"
-        },
-        {
-          value: "1",
-          label: "实时完成率"
-        },
-        {
-          value: "2",
-          label: "净利"
-        },
-        {
-          value: "3",
-          label: "净净利"
-        }
-      ],
-      searchType3: [
-        {
-          value: "1",
-          label: "累计完成"
-        },
-        {
-          value: "2",
-          label: "实时完成率"
-        },
-        {
-          value: "3",
-          label: "标准销售额"
-        }
-      ],
       isread: false,
       paixunum1: 1,
       zhezhao: {},
@@ -612,14 +541,13 @@ export default {
   },
 
   methods: {
-    search_change(paixunum) {
-      this.paixu(paixunum);
-    },
     getact() {
-      var that = this;
+      var that = this
       getnew();
-      function getnew() {
-        var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
+      console.log(that.act)
+      function getnew(){
+      var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
+        console.log(lodata);
         if (lodata) {
           lodata.forEach((e, index) => {
             if (e.path == "/xsleader") {
@@ -628,7 +556,7 @@ export default {
           });
         } else {
           setTimeout(function() {
-            getnew();
+            getnew()
             // alert(111)
           }, 300);
         }
@@ -705,18 +633,6 @@ export default {
       });
     },
     paixu(a) {
-      this.searchValue =
-        a == 5
-          ? "实际销售额"
-          : a == 4
-          ? "标准销售额"
-          : a == 3
-          ? "净净利"
-          : a == 2
-          ? "净利"
-          : a == 1
-          ? "实时完成率"
-          : "";
       this.paixunum = a;
       this.sort(this.paixulist[a - 1]);
     },
@@ -776,7 +692,15 @@ export default {
         return val1 - val2;
       };
     },
-
+    qhbb() {
+      this.$message.closeAll();
+      if (this.zhuan == "切换至文字版") {
+        this.zhuan = "切换至表格版";
+      } else {
+        // alert(111)
+        this.zhuan = "切换至文字版";
+      }
+    },
     qhbb2() {
       this.$message.closeAll();
       console.log(this.zhuan2);
@@ -787,11 +711,28 @@ export default {
         this.zhuan2 = "切换至文字版";
       }
     },
-  
+    qhbb1() {
+      this.$message.closeAll();
+
+      if (this.zhuan1 == "切换至文字版") {
+        this.zhuan1 = "切换至表格版";
+      } else {
+        // alert(111)
+        this.zhuan1 = "切换至文字版";
+      }
+    },
     mousedownFunc(e) {
+      // alert(1112)
+      // //console.log(this.$refs.timechoose.blur)
+      // //console.log(e)
+      // alert(1)
+      // this.$refs.timechoose1.blur()
       try {
         this.$refs.timechoose.blur();
       } catch (error) {}
+
+      // this.$refs.timechoose.style.display = 'none'
+      // document.getElementById("ceshiinput").focus()
     },
     listenerFunction(e) {
       document.addEventListener("scroll", this.handleScroll);
@@ -972,8 +913,6 @@ export default {
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
-          sortname: this.searchValue,
-          sort: 1,
           role: localStorage.getItem("role")
         })
           .then(res => {
@@ -1139,108 +1078,19 @@ export default {
   }
 };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-
-.bd_search {
-  background: #fff;
-}
-.search_px {
-  font-size: 14px;
-  padding: 0px 0 10px;
-  width:100%;
-  display: flex;
-  background: #fff;
-}
-.search_px_pc {
-  display: none;
-}
-.search_px p {
-  width: 20%;
-  color: #333;
-  position: relative;
-}
-.search_px_tit {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  padding: 0 20px;
-}
-.search_px_tit:after {
-  width: 0;
-  height: 0;
-  z-index: 1;
-  border-top: 4px solid #999;
-  border-right: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 4px solid transparent;
-  position: absolute;
-  top: 8px;
-  right: 5px;
-  content: " ";
-}
-.search_px_tit.act {
-  color: #409eff;
-}
-.search_px_tit.act:after {
-  border-top: 4px solid #409eff;
-}
-
-.search_pxbox{
-  display: flex;
-  background: #fff;
-  padding:2px 12px;
-  position: relative;
-}
-.search_pxbox .search_px {
-  margin-right:70px;
-}
-.search_pxbox .search_px p{
-  width:33.333333%;
-  text-align: left;
-}
-.search_pxbox .search_px_tit{
-  padding:0 15px 0 0;
-  font-size:12px;
-
-}
-.search_px_btn{
-    position: absolute;
-    right: 12px;
-    font-size: 12px;
-    top: -2px;
-    padding: 0 10px;
-    border: 1px solid #409eff;
-    line-height: 24px;
-    border-radius: 30px;
-    text-align: center;
-    color: #409eff;
-}
+<style scoped>
 .menubox {
-  border-bottom: 1px solid #f0f0f0;
-  margin-top: 8px;
+  border-bottom: 1px solid rgb(220, 223, 230);
 }
 .menubox > div {
   width: 25%;
+  line-height: 40px;
   background: #fff;
-}
-.menubox .menu_border {
-  line-height: 42px;
-  font-size: 14px;
-  display: inline-block;
+  margin-top: 0.2rem;
 }
 .menubox .act {
-  position: relative;
-}
-.menubox .act .menu_border {
-  position: relative;
-  color: #409eff;
-}
-.menubox .act .menu_border_line {
   border-bottom: 2px solid #409eff;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  color: #409eff;
 }
 .bmqb {
   font-size: 0.3rem;
@@ -1390,7 +1240,7 @@ thead {
 /* 刷新 */
 .green {
   color: green;
-  font-weight: bold;
+  font-weight: 900;
 }
 .newxin {
   width: 100%;
@@ -1403,34 +1253,10 @@ thead {
 }
 .bmcontent > div {
   border-bottom: 1px solid black;
-  
+  /* padding-top: 0.2rem; */
   border-right: 1px solid black;
 }
-
-@media screen and (min-width: 850px) {
-  .search_px_pc {
-    display: flex;
-  }
-  .bd_search_b {
-    display: none;
-  }
-  .search_pxbox .search_px_tit{
-    font-size:14px;
-
-  }
-  .search_px_btn{
-      position: absolute;
-      right: 12px;
-      font-size: 14px;
-      top: -1px;
-      padding: 0 10px;
-      border: 1px solid #409eff;
-      line-height: 26px;
-      border-radius: 30px;
-      text-align: center;
-      color: #409eff;
-  }
-}
+/* .bmcontent>div:nth-child(3n+0){border-right: none} */
 .show {
   display: block;
 }

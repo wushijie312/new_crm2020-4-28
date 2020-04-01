@@ -308,6 +308,7 @@
           <div class="bd_search_a">
             <el-input
               size="small"
+              ref="timechoose1"
               placeholder="请输入部门名称"
               v-model="bmkword"
               class="input-with-select"
@@ -390,16 +391,31 @@
           <div class="search_px">
             <p v-for="(itemSearch,len3) in searchType3" :key="len3">
               <span
-                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
-                @click="paixu1(itemSearch.value)"
+                :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                @click="paixu(itemSearch.value)"
               >{{itemSearch.label}}</span>
             </p>
           </div>
           <div class="search_px_btn">收起全部</div>
         </div>
 
-       
-        <User1 :tabdata1.sync="tabdata3"></User1>
+        <div style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
+          排序：
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===1?'xuanzhong':''"
+            @click="paixu1(1)"
+          >累计完成</span>
+          <span
+            style="margin-right:0.2rem;"
+            :class="paixunum1===2?'xuanzhong':''"
+            @click="paixu1(2)"
+          >实时完成率</span>
+          <span :class="paixunum1===3?'xuanzhong':''" @click="paixu1(3)">标准销售额</span>
+        </div>
+        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-if="false">
+          <span style="text-decoration: underline;" @click="qhbb1">{{zhuan1}}</span>
+        </h3>
         <User :tabdata1.sync="tabdata3"></User>
       </div>
       <!-- </el-tabs> -->
@@ -439,7 +455,6 @@ import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
-import User1 from "@/view/indexCom/user1";
 import Head from "@/view/common/head";
 
 export default {
@@ -450,7 +465,6 @@ export default {
     Zhandui,
     Kehu,
     User,
-    User1,
     Head,
     ZhanduiWzb
   },
@@ -787,11 +801,28 @@ export default {
         this.zhuan2 = "切换至文字版";
       }
     },
-  
+    qhbb1() {
+      this.$message.closeAll();
+
+      if (this.zhuan1 == "切换至文字版") {
+        this.zhuan1 = "切换至表格版";
+      } else {
+        // alert(111)
+        this.zhuan1 = "切换至文字版";
+      }
+    },
     mousedownFunc(e) {
+      // alert(1112)
+      // //console.log(this.$refs.timechoose.blur)
+      // //console.log(e)
+      // alert(1)
+      // this.$refs.timechoose1.blur()
       try {
         this.$refs.timechoose.blur();
       } catch (error) {}
+
+      // this.$refs.timechoose.style.display = 'none'
+      // document.getElementById("ceshiinput").focus()
     },
     listenerFunction(e) {
       document.addEventListener("scroll", this.handleScroll);
@@ -1390,7 +1421,7 @@ thead {
 /* 刷新 */
 .green {
   color: green;
-  font-weight: bold;
+  font-weight: 900;
 }
 .newxin {
   width: 100%;

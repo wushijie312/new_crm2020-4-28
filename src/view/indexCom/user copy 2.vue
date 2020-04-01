@@ -87,7 +87,7 @@
           </div>
           <div>
             <p class="bmbt">丢标</p>
-            <p class="bmqb">{{item.differenceMoney}}万</p>
+            <p class="bmqb">{{item.loseTenderMoney}}万</p>
           </div>
           <div>
             <p class="bmbt">实际季累计完成</p>
