@@ -17,9 +17,30 @@ import addheadreq from '@/untils/addheadreq'
    		}
    }
 
+   
 
+  //  全体销售
+  export function getXSuser(data) {
+    return request({
+      // url: htp + '/visit/data',
+      url: htp + '/search/user.do',
+      method: 'get',
+      params: {"param":JSON.stringify(data)}
+    })
+  }
 
+  
 //  问卷调查 start
+
+// 获取标签
+export function wqtags(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url: htp + '/question/tags.do',
+    method: 'get',
+    params: {"param":JSON.stringify(data)}
+  })
+}
 // 头部信息
 export function wqtopinfo(data) {
   return request({

@@ -8,6 +8,7 @@
     </div>
     <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
       <div class="tabs_info">
+       <div v-if="item.is_act" class="tabs_info_line"></div>
         <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
@@ -42,7 +43,7 @@
         <div
           v-show="item.is_act && zhuan"
           :id="'textcopy'+len1"
-          class="wztabs_details tabs_details"
+          class="wztabs_details tabs_details border_bf0f0f0 "
         >
           <div class="padd_b12 border_bf0f0f0">
             <div class="tabs_thr paddb3">
@@ -103,17 +104,17 @@
               <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 超额/差额：
                 <span
-                  :class="item.differenceMoney>0?'rate_red':'rate_green'"
+                  :class="item.differenceMoney>=0?'rate_red':'rate_green'"
                 >{{item.differenceMoney}}万</span>
               </p>
             </div>
             <div class="wztabs_a mart8">
               上月环比
               <span
-                :class="item.monthCompare>0?'rate_red paddlr5':'rate_green paddlr5'"
+                :class="item.monthCompare>=0?'rate_red paddlr5':'rate_green paddlr5'"
               >{{item.monthCompare}}%</span> ，去年同比
               <span
-                :class="item.yearCompare>0?'rate_red paddlr5':'rate_green paddlr5'"
+                :class="item.yearCompare>=0?'rate_red paddlr5':'rate_green paddlr5'"
               >{{item.yearCompare}}%</span>
             </div>
           </div>
@@ -146,7 +147,7 @@
               <p class="tabs_four_a mart8">
                 距离实现本月目标毛利：
                 <span
-                  :class="item.targetProfitDif>0?'rate_red ':'rate_green '"
+                  :class="item.targetProfitDif>=0?'rate_red ':'rate_green '"
                 >{{item.targetProfitDif}}万</span>
               </p>
             </div>
@@ -167,7 +168,7 @@
               </p>
             </div>
           </div>
-          <div class="padd_bt12 border_bf0f0f0">
+          <div class="padd_bt12 ">
             <div class="tabs_four wztabs_pc_all">
               <p class="tabs_four_a mart8">
                 TB线索：
@@ -266,13 +267,13 @@
             </div>
             <div class="tabs_rate_pc tabs_biaoge_all">
               <div class="tabs_five_a">
-                <h3 :class="item.monthCompare>0?'rate_red ':'rate_green '">{{item.monthCompare}}%</h3>
+                <h3 :class="item.monthCompare>=0?'rate_red ':'rate_green '">{{item.monthCompare}}%</h3>
                 <p>环比</p>
               </div>
             </div>
             <div class="tabs_rate_pc tabs_biaoge_all">
               <div class="tabs_five_a">
-                <h3 :class="item.yearCompare>0?'rate_red ':'rate_green '">{{item.yearCompare}}%</h3>
+                <h3 :class="item.yearCompare>=0?'rate_red ':'rate_green '">{{item.yearCompare}}%</h3>
                 <p>同比</p>
               </div>
             </div>
@@ -281,13 +282,13 @@
                 <p>
                   环比：
                   <span
-                    :class="item.monthCompare>0?'rate_red ':'rate_green '"
+                    :class="item.monthCompare>=0?'rate_red ':'rate_green '"
                   >{{item.monthCompare}}%</span>
                 </p>
                 <p>
                   同比：
                   <span
-                    :class="item.yearCompare>0?'rate_red ':'rate_green '"
+                    :class="item.yearCompare>=0?'rate_red ':'rate_green '"
                   >{{item.yearCompare}}%</span>
                 </p>
               </div>
@@ -614,312 +615,6 @@ export default {
 };
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
-.tabs_rate_pc {
-  display: none;
-}
+@import "../../assets/css/bangdan.styl";
 
-.wztabs_a {
-  line-height: 20px;
-  color: $color333;
-}
-
-.tabs_four_copy {
-  line-height: 24px;
-  font-size: $fs13;
-  width: 65px;
-  text-align: center;
-  background: $colorfff;
-  border-radius: 4px;
-  color: $color909399;
-  border: 1px solid $colorf0f0f0;
-  position: absolute;
-  right: 0;
-  bottom: 3px;
-  cursor: pointer;
-}
-
-.tabs_five {
-  display: flex;
-  border-left: 1px solid $colorf0f0f0;
-  border-top: 1px solid $colorf0f0f0;
-  flex-wrap: wrap;
-}
-
-.tabs_biaoge_all {
-  box-sizing: border-box;
-  width: 33.333333%;
-  padding: 12px 0;
-  text-align: center;
-  border-bottom: 1px solid $colorf0f0f0;
-}
-
-.tabs_biaoge_all:nth-child(3n) {
-  border-right: 1px solid $colorf0f0f0;
-}
-
-.tabs_biaoge_all:nth-child(3n)>div {
-  border-right: none;
-}
-
-.tabs_five .tabs_five_a {
-  padding: 0;
-  border-right: 1px solid $colorf0f0f0;
-}
-
-.tabs_five_arate {
-  display: inline-block;
-  color: $colorfb942d;
-  font-size: $fs12;
-  transform: scale(0.9);
-  line-height: 14px;
-}
-
-.tabs_five .tabs_five_b {
-  font-size: $fs14;
-  line-height: 17px;
-}
-
-.tabs_details {
-  padding: 12px 15px;
-}
-
-.tabs_five .tabs_five_a h3 {
-  line-height: 14px;
-  font-size: $fs14;
-  font-weight: normal;
-}
-
-.tabs_five .tabs_five_a p {
-  color: $color909399;
-  margin-top: $mar8;
-  line-height: 12px;
-  font-size: $fs12;
-}
-
-.tabs_six_a img {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  vertical-align: sub;
-  margin-right: 5px;
-}
-
-.tabs_six_a {
-  font-size: $fs13;
-  padding: 12px 0 8px 0;
-  line-height: 16px;
-  font-weight: bold;
-}
-
-.tabs_four {
-  display: flex;
-}
-
-.tabs_four .tabs_four_a {
-  font-size: $fs14;
-  color: $color909399;
-  width: 100%;
-  line-height: 20px;
-}
-
-.wztabs_pc_all {
-  flex-wrap: wrap;
-}
-
-.wztabs_pc_all>.tabs_four_a {
-  width: 50%;
-}
-
-.wztabs_pc_all>.tabs_four_a:nth-child(2n) {
-  text-align: right;
-}
-
-.wztabs_pc_all>.tabs_four_a.wztabs_pcdifmoney {
-  width: 100%;
-  text-align: left;
-}
-
-.tabs_four .tabs_four_b {
-  display: block;
-  min-width: 80px;
-  text-align: right;
-  font-size: $fs14;
-  color: $color409eff;
-  line-height: 16px;
-}
-
-.tabs_four .tabs_four_c {
-  display: block;
-  font-size: $fs14;
-  min-width: 80px;
-  text-align: right;
-  color: $colorff5c61;
-  line-height: 16px;
-}
-
-.tabs_four .tabs_four_d {
-  display: block;
-  min-width: 80px;
-  text-align: right;
-  font-size: $fs14;
-  color: $colorff5c61;
-  line-height: 16px;
-}
-
-.tabs_thr {
-  display: flex;
-  position: relative;
-}
-
-.tabs_thr h3 {
-  font-size: $fs16;
-  color: $color333;
-  width: 100%;
-  line-height: 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tabs_thr span {
-  display: block;
-  min-width: 80px;
-  text-align: right;
-  font-size: $fs13;
-  line-height: 20px;
-  cursor: pointer;
-}
-
-.tabs_thr span img {
-  height: 12px;
-  vertical-align: middle;
-}
-
-.tabs_info {
-  position: relative;
-}
-
-.tabs_lists {
-  background: $colorfff;
-  text-align: left;
-}
-
-.tabs_one, .tabs_two {
-  display: flex;
-  padding: 0 $padd15;
-}
-
-.tabs_two {
-  cursor: pointer;
-  user-select: none;
-}
-
-.tabs_one {
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 5px;
-}
-
-.tabs_two.act, .tabs_two:hover {
-  background: #f5f7fa;
-}
-
-.tabs_normal {
-  font-size: $fs13;
-  line-height: 20px;
-  padding: 8px 0;
-  color: $color909399;
-}
-
-.tabs_normal_cont {
-  font-size: $fs13;
-  line-height: 20px;
-  padding: 10px 0;
-  color: $color909399;
-}
-
-.tabs_la {
-  width: 12%;
-  text-align: left;
-  font-size: $fs12;
-}
-
-.tabs_lb {
-  width: 34%;
-}
-
-.tabs_lc {
-  width: 32%;
-  text-align: right;
-}
-
-.tabs_ld {
-  width: 22%;
-  padding-left: 10px;
-  text-align: right;
-}
-
-.tabs_lname {
-  color: #333;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tabs_lmoney {
-  color: #333;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tabs_ld_img {
-  width: 15px;
-}
-
-@media screen and (min-width: 850px) {
-  .tabs_rate_pc {
-    display: block;
-  }
-
-  .tabs_rate_mobile {
-    display: none;
-  }
-
-  .tabs_biaoge_all {
-    width: 25%;
-  }
-
-  .tabs_biaoge_all:nth-child(3n) {
-    border-right: none;
-  }
-
-  .tabs_biaoge_all:nth-child(4n) {
-    border-right: 1px solid $colorf0f0f0;
-  }
-
-  .tabs_biaoge_all:nth-child(3n)>div {
-    border-right: 1px solid $colorf0f0f0;
-  }
-
-  .tabs_biaoge_all:nth-child(4n)>div {
-    border-right: none;
-  }
-
-  .wztabs_pc_all>.tabs_four_a {
-    width: 25%;
-  }
-
-  .wztabs_pc_all>.tabs_four_a:nth-child(2n) {
-    text-align: left;
-  }
-
-  .wztabs_pc_all>.tabs_four_a:nth-child(4n) {
-    text-align: right;
-  }
-
-  .wztabs_pc_all>.tabs_four_a.wztabs_pcdifmoney {
-    width: 25%;
-  }
-}
 </style>

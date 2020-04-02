@@ -13,6 +13,7 @@ if (env == "development") {//本地
 
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? '/crm_page_test/' : '/',
+    // publicPath: process.env.NODE_ENV === 'production' ? '/crm_page/' : '/',
     //不打包map文件
     productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
     //代理接口

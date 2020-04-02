@@ -310,7 +310,7 @@
               size="small"
               placeholder="请输入部门名称"
               v-model="bmkword"
-              class="input-with-select"
+              class="qu_cuHead_search "
             ></el-input>
             <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
             <input type="text" id="ceshiinput" style="display:none;" />
@@ -381,7 +381,7 @@
               size="small"
               placeholder="请输入销售名称"
               v-model="xskword"
-              class="input-with-select"
+              class="qu_cuHead_search "
             ></el-input>
             <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
           </div>
@@ -400,7 +400,6 @@
 
        
         <User1 :tabdata1.sync="tabdata3"></User1>
-        <User :tabdata1.sync="tabdata3"></User>
       </div>
       <!-- </el-tabs> -->
     </div>
@@ -416,7 +415,7 @@
   </div>
 </template>
 <script>
-import "../../assets/css/bangdan.styl";
+
 
 // import BScroll from "better-scroll";
 import {
@@ -441,7 +440,6 @@ import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
 import User1 from "@/view/indexCom/user1";
 import Head from "@/view/common/head";
-
 export default {
   components: {
     Wzb,
@@ -1139,7 +1137,7 @@ export default {
   }
 };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
+<style lang="stylus"  scoped>
 
 .bd_search {
   background: #fff;
@@ -1437,4 +1435,6 @@ thead {
 .hidden {
   display: none;
 }
+
+
 </style>
