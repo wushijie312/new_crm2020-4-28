@@ -15,9 +15,8 @@
         <div class="qu_bmSearch">
           <div class="qu_bmSearch_a">部门：</div>
           <div class="qu_bmSearch_b">
-            <span @click="bmSelectHandel" :class="bumen_all_act?'act':''">全部</span>
             <span
-              @click="bmSelectHandel(item, index+1)"
+              @click="bmSelectHandel(item, index)"
               :class="item.is_act? 'qu_bmleft act':'qu_bmleft'"
               v-for="(item,index) in departList"
               :key="index"
@@ -27,9 +26,8 @@
         <div class="qu_bmSearch bordertop1">
           <div class="qu_bmSearch_a">客户类型：</div>
           <div class="qu_bmSearch_c qu_bmSearch_b">
-            <span @click="khSelectHandel" :class="kehu_all_act?'act':''">全部</span>
             <span
-              @click="khSelectHandel(item, index+1)"
+              @click="khSelectHandel(item, index)"
               :class="item.is_act? 'qu_bmleft act':'qu_bmleft'"
               v-for="(item,index) in khtags"
               :key="index"
@@ -45,7 +43,6 @@
             @visible-change="kehuSelectChange"
             placeholder="请选择"
           >
-            <el-option label="全部客户类型" value="全部客户类型"></el-option>
             <el-option
               v-for="item in khtags"
               :key="item.result"
@@ -61,7 +58,6 @@
             v-model="dept_id"
             placeholder="请选择"
           >
-            <el-option label="全部部门" value="全部部门"></el-option>
             <el-option
               v-for="item in departList"
               :key="item.departmentName"
@@ -110,8 +106,6 @@ export default {
     return {
       level: "全部客户",
       dept_id: "全部部门",
-      level_val: "",
-      dept_id_val: "",
       right_new: require("../../assets/img/normal/right_new.png"),
       customList: [],
       keyword: "",
@@ -123,8 +117,6 @@ export default {
       khtags: [],
       kehu_act: false,
       bumen_act: false,
-      kehu_all_act: true,
-      bumen_all_act: true
     };
   },
   mounted() {
@@ -141,48 +133,44 @@ export default {
     // 获取部门
     wqdepart().then(res => {
       if (res.msg == "success") {
-        this.departList = res.dataList;
+        this.departList=res.dataList
+        this.departList.unshift({departmentName:"全部部门",is_act:true});
       }
     });
     // 获取标签
     wqtags().then(res => {
       //  console.log(res);
       if (res.msg == "success") {
-        this.khtags = res.data;
+        this.khtags=res.data;
+        this.khtags.unshift({result:"全部客户",is_act:true});
       }
     });
   },
   methods: {
     khSelectHandel(row, len) {
-      if (len) {
         this.khtags.map((item, index) => {
           if (len == index) {
             row.is_act = !row.is_act;
+            this.level=row.id;
             this.$set(this.khtags, len, row);
           } else {
             item.is_act = false;
           }
         });
-        this.kehu_all_act = false;
-      } else {
-        this.kehu_all_act = true;
-      }
-    
+     this.searchListHandel();
     },
     bmSelectHandel(row, len) {
-      if (len) {
         this.departList.map((item, index) => {
           if (len == index) {
             row.is_act = !row.is_act;
+            this.dept_id= row.departmentId;
+
             this.$set(this.departList, len, row);
           } else {
             item.is_act = false;
           }
         });
-        this.bumen_all_act = false;
-      } else {
-        this.bumen_all_act = true;
-      }
+      this.searchListHandel();
     },
     kehuSelectChange(val) {
       this.kehu_act = val;
@@ -384,13 +372,13 @@ export default {
   color: #999;
 }
 @media screen and (min-width: 850px) {
-  /* .qu_bupc {
+  .qu_bupc {
     display: block;
   } 
   .qu_bumobile {
     display: none;
   }
-  */
+ 
 }
 .qu_cu_b {
   padding-top: 4px;

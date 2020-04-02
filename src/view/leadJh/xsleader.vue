@@ -395,7 +395,7 @@
               >{{itemSearch.label}}</span>
             </p>
           </div>
-          <div class="search_px_btn">收起全部</div>
+          <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
         </div>
 
        
@@ -426,6 +426,7 @@ import {
   chabumen,
   chakh,
   chazhandui,
+  getXSuser,
   gettc
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
@@ -455,6 +456,7 @@ export default {
   name: "index",
   data() {
     return {
+      showOrHide:false,
       searchValue: "",
       searchType: [
         {
@@ -610,6 +612,16 @@ export default {
   },
 
   methods: {
+    XiaoSouListChange(){
+      this.showOrHide=!this.showOrHide;
+      var page= this.showOrHide?1:0;
+      getXSuser({page}).then((res)=>{
+        if(res=="success"){
+          this.tabdata3=res.saleInfoList;
+        }
+      });
+      
+    },
     search_change(paixunum) {
       this.paixu(paixunum);
     },
