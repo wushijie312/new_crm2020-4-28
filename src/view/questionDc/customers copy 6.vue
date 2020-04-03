@@ -53,7 +53,7 @@
         </div>
         <div class="qu_bmmobile_a">
           <el-select
-            :class="bumen_act?'qu_bmmobile_select act':'qu_bmmobile_select'"
+            :class="dept_id?'qu_bmmobile_select act':'qu_bmmobile_select'"
             @visible-change="bumenSelectChange"
             v-model="dept_id"
             placeholder="请选择"
@@ -149,10 +149,10 @@ export default {
   methods: {
     khSelectHandel(row, len) {
         this.khtags.map((item, index) => {
-          if (item.result == row.result) {
-            item.is_act = !row.is_act;
+          if (len == index) {
+            row.is_act = !row.is_act;
             this.level=row.result;
-            // this.$set(this.khtags, len, row);
+            this.$set(this.khtags, len, row);
           } else {
             item.is_act = false;
           }
@@ -161,11 +161,11 @@ export default {
     },
     bmSelectHandel(row, len) {
         this.departList.map((item, index) => {
-          if (item.departmentId == row.departmentId) {
-            item.is_act = !row.is_act;
+          if (len == index) {
+            row.is_act = !row.is_act;
             this.dept_id= row.departmentId;
 
-            // this.$set(this.departList, len, row);
+            this.$set(this.departList, len, row);
           } else {
             item.is_act = false;
           }
@@ -175,15 +175,13 @@ export default {
     kehuSelectChange(val) {
       this.kehu_act = val;
       if (!val) {
-        this.khSelectHandel({result:this.level});
-        // this.searchListHandel();
+        this.searchListHandel();
       }
     },
     bumenSelectChange(val) {
       this.bumen_act = val;
       if (!val) {
-        this.bmSelectHandel({departmentId:this.dept_id});
-        // this.searchListHandel();
+        this.searchListHandel();
       }
     },
 
@@ -195,9 +193,7 @@ export default {
         role: localStorage.getItem("role"),
         keyword: this.keyword,
         pageSize: 30,
-        page: page,
-         dept_id: '',
-        level: ''
+        page: page
       });
     },
     scrollBottom() {
@@ -223,14 +219,11 @@ export default {
       }
     },
     searchListHandel() {
-      this.page=1;
       // 接口请求
       wqcustomers({
         userId: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         keyword: this.keyword,
-        pageSize: 30,
-        page:this.page,
         dept_id: this.dept_id=="全部部门"?'':this.dept_id,
         level: this.level=="全部客户"?'':this.level
       }).then(res => {
@@ -306,7 +299,7 @@ export default {
   line-height: 28px;
   color: #333;
   font-size: 14px;
-  width: 80px;
+  width: 70px;
 }
 .qu_bmSearch_b {
   margin-left: 75px;
