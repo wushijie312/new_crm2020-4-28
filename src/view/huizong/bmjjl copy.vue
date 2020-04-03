@@ -2,11 +2,11 @@
   <div class="wrapper wrapwhite">
     <Head :act.sync='act' :ty.sync='act1'></Head>
     <div class="content">
-      <div  style="padding:0 15px;font-size:0.3rem;color:black;">
-       <div class="menu-head-top50"></div>
+    <div class="menu-head-top50"></div>
+
+      <div style="padding:0 15px;font-size:0.3rem;color:black;">
       <h3 style="text-align:left;line-height:0.8rem;">
         <p style="overflow:hidden;">
-          
            <span
               id="sobox"
               style="font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
@@ -30,15 +30,12 @@
                 </template>
               </el-date-picker>
             </span>
-          <!-- <span
-            style="float:right;font-size:0.3rem;font-weight:900;"
-            @click="$router.push({path:'/xiaoshou',query:{top:$route.query.top,search:$route.query.search,iswzb:$route.query.iswzb}})"
-          >返回首页</span> -->
+         
         </p>
        
       </h3>
       <div>
-        <h3 style="font-size:0.3rem;text-align:left;line-height:0.8rem;">部门净利<span style="color:red;">(可左右拖动)</span></h3>
+        <h3 style="font-size:0.3rem;text-align:left;line-height:0.8rem;">部门净净利<span style="color:red;">(可左右拖动)</span></h3>
         <el-table :data="listdata" border style="width: 100%" :summary-method="getSummaries" show-summary>
           
           <el-table-column width=110 fixed style="width:20%" prop="leader" label="leader">
@@ -53,25 +50,25 @@
                   {{Number(scope.row.customerVol).toFixed(1)}}万
               </template>
           </el-table-column > -->
-          <!-- <el-table-column width=120 style="width:20%" prop="yearNetsMoney" label="年净净利" sortable>
+          <el-table-column width=110 style="width:20%" prop="yearNetsMoney" label="年净净利" sortable>
             <template v-slot="scope">{{Number(scope.row.yearNetsMoney).toFixed(1)}}万</template>
           </el-table-column>
-          <el-table-column width=120 style="width:20%" prop="quarterNetsMoney" label="季净净利" sortable>
+          <el-table-column width=110 style="width:20%" prop="quarterNetsMoney" label="季净净利" sortable>
             <template v-slot="scope">{{Number(scope.row.quarterNetsMoney).toFixed(1)}}万</template>
           </el-table-column>
-          <el-table-column width=120 style="width:20%" prop="monthNetsMoney" label="月净净利" sortable>
+          <el-table-column width=110 style="width:20%" prop="monthNetsMoney" label="月净净利" sortable>
             <template v-slot="scope">{{Number(scope.row.monthNetsMoney).toFixed(1)}}万</template>
-          </el-table-column> -->
+          </el-table-column>
 
-          <el-table-column width=110 style="width:20%" prop="yearNetMoney" label="年净利" sortable>
+          <!-- <el-table-column width=120 style="width:20%" prop="yearNetMoney" label="年净利" sortable>
             <template v-slot="scope">{{Number(scope.row.yearNetMoney).toFixed(1)}}万</template>
           </el-table-column>
-          <el-table-column width=110 style="width:20%" prop="quarterNetMoney" label="季净利" sortable>
+          <el-table-column width=120 style="width:20%" prop="quarterNetMoney" label="季净利" sortable>
             <template v-slot="scope">{{Number(scope.row.quarterNetMoney).toFixed(1)}}万</template>
           </el-table-column>
-          <el-table-column width=110 style="width:20%" prop="monthNetMoney" label="月净利" sortable>
+          <el-table-column width=120 style="width:20%" prop="monthNetMoney" label="月净利" sortable>
             <template v-slot="scope">{{Number(scope.row.monthNetMoney).toFixed(1)}}万</template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column width=110 style="width:20%" prop="quarterGrossMoney" label="年毛利润" sortable>
             <template v-slot="scope">{{Number(scope.row.quarterGrossMoney).toFixed(1)}}万</template>
           </el-table-column>
@@ -85,15 +82,17 @@
             <template v-slot="scope">{{Number(scope.row.yearBears).toFixed(1)}}万</template>
           </el-table-column>
         </el-table>
-      </div>   
-    </div>
-    </div>
+      </div>  
+    </div>  
+    </div>  
   </div>
 </template>
 
 <script>
+
 import Head from "@/view/common/head";
 import { alldepartmentSale } from "@/api/configWu";
+let ybs = 5;
 export default {
   name: "khqk",
   components:{
@@ -112,8 +111,8 @@ export default {
       alldata: {},
       listdata: [],
       wxdlist: [],
-      act: 5,
-      act1: true,
+      act:1,
+      act1:true,
     };
   },
   mounted() {
@@ -125,13 +124,13 @@ export default {
       var lodata = JSON.parse(sessionStorage.getItem('leaderMenus'))
       console.log(lodata)
       lodata.forEach((e,index)=>{
-        if(e.path=="/huizong"){
+        if(e.path=="/bmjjl"){
           this.act = index+1
           console.log(index)
         }
       })
     },
-      getSummaries(param) {
+    getSummaries(param) {
         const { columns, data } = param;
         const sums = [];
         columns.forEach((column, index) => {
@@ -158,8 +157,6 @@ export default {
 
         return sums;
       },
-    
-    
     changetime(){
       console.log(111)
       this.getdata()

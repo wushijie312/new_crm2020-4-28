@@ -94,6 +94,7 @@
 <script>
 import Head from "@/view/common/head";
 import { alldepartmentSale } from "@/api/configWu";
+let ybs = 5;
 export default {
   name: "khqk",
   components:{
