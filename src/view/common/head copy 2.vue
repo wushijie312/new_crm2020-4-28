@@ -157,7 +157,6 @@ export default {
     ...mapGetters(["menus"])
   },
   mounted() {
-    console.log(this.$route.fullPath);
     this.getisread();
     this.pathshow();
     this.noticeshow();

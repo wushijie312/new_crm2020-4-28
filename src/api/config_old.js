@@ -19,6 +19,15 @@ import addheadreq from '@/untils/addheadreq'
 
    
 
+  //  全体销售
+  export function getXSuser(data) {
+    return request({
+      // url: htp + '/visit/data',
+      url: htp + '/search/user.do',
+      method: 'get',
+      params: {"param":JSON.stringify(data)}
+    })
+  }
 
 
 //  问卷调查 start
@@ -304,7 +313,7 @@ export function needdata(data) {
   let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username})
 
   return request({
-    url: htp + '/saleInfo/search/user2.do',
+    url: htp + '/saleInfo/search/user',
     method: 'post',
     params: { "param": JSON.stringify(all) }
   })
@@ -329,7 +338,7 @@ export function chabumen(data) {
   // alert("role" + role)
   // alert("type" + type)
   return request({
-    url: htp + '/saleInfo/search/department2.do',
+    url: htp + '/saleInfo/search/department',
     method: 'post',
     params: { "param": JSON.stringify(all) }
   })

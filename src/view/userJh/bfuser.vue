@@ -99,11 +99,9 @@ export default {
       beizhu:'',
       topshow: false,
       click: true,
-      type: false,
       biaotou_new: {},
       tzshow: false,
       tabdata2: [],
-      span: 7,
       loadingConnecting: false,
       down: false,
       up: true,
@@ -132,19 +130,7 @@ export default {
       su1: [],
       su2: [],
       su3: [],
-      headData: {
-        jihua1: 0,
-        jihua2: 0,
-        jihua3: 0,
-        jihua4: 0,
-        jihua5: 0,
-        jihua6: 0,
-        jihua7: 0,
-        jihua8: 0
-      },
-      tableData6: [],
-      tableData5: [],
-      tableData7: [],
+      
       options: []
     };
   },
@@ -194,7 +180,6 @@ export default {
     },
     gethong(){
       getisread({userid:localStorage.getItem('userid')}).then(res=>{
-        // console.log()
         this.isread = res.data.isread
       })
     },
@@ -203,87 +188,25 @@ export default {
       this.scroll.scrollTo(0, 0, 0.5);
       this.topshow = false;
     },
-    BS() {
-    //   console.log(1112);
-    //   if (!this.$refs.wrapper) {
-    //     return;
-    //   }
-    //   // better-scroll的初始化
-    //   this.scroll = new BScroll(this.$refs.wrapper, {
-    //     probeType: this.probeType,
-    //     click: this.click,
-    //     scrollX: this.scrollX
-    //   });
-    //   this.scroll.on("scroll", pos => {
-    //     // console.log(pos.y);
-    //     //如果下拉超过50px 就显示下拉刷新的文字
-    //     if (pos.y > 50) {
-    //       this.pulldownTip.text = "放手刷新";
-    //       this.down = true;
-    //     } else {
-    //       this.down = false;
-    //     }
-    //   });
-    //   //touchEnd 通过这个方法来监听下拉刷新
-    //   this.scroll.on("touchEnd", pos => {
-    //     // 下拉动作
-    //     if (pos.y > 50) {
-    //       console.log("下拉刷新成功");
-    //       console.log("这里执行你方法");
-    //       // alert(111)
-
-    //       this.down = false;
-    //     }
-    //     console.log(this.scroll);
-    //     if (this.scroll.maxScrollY > pos.y - 1000) {
-    //       console.log("加载更多");
-    //       // if(this.scroll){
-
-    //       this.getdata();
-    //       // }
-    //       //使用refresh 方法 来更新scroll  解决无法滚动的问题
-    //       this.scroll.refresh();
-    //     }
-    //     if (pos.y < -500) {
-    //       this.topshow = true;
-    //     } else {
-    //       this.topshow = false;
-    //     }
-    //     console.log(this.scroll.maxScrollY + "总距离----下拉的距离" + pos.y);
-    //   });
-    //   console.log(this.scroll.maxScrollY);
-    },
    
     chakehu() {
       chakehu({ role: "" })
         .then(res => {
-          console.log(res);
           this.options = res.data;
         })
         .catch(error => {});
     },
     changeLocationValue(val) {
-      //locations是v-for里面的也是datas里面的值
-      console.log(this.value);
       let obj = {};
       obj = this.options.find(item => {
         return item.id === val;
       });
 
       this.choose = obj;
-      console.log(this.choose);
     },
     zhiding() {},
-    ceshi(a) {
-      console.log(a);
-      this.$forceUpdate();
-      this.$set(this.tabdata2[a.index], "zhankai", true);
-    },
-    ceshi1(a) {
-      console.log(a);
-      this.$forceUpdate();
-      this.$set(this.tabdata2[a.index], "zhankai", false);
-    },
+   
+  
 
     getnum(a) {
       if (a < 10) {
@@ -294,11 +217,7 @@ export default {
       }
     },
     aler() {
-      var type = localStorage.getItem("type");
-      if (type == 3) {
-        this.span = 7;
-        this.type = true;
-      }
+     
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -353,13 +272,7 @@ export default {
         this.indexnum = 1;
       }
     },
-    hastype() {
-      if (localStorage.getItem("type") == 3) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+   
   }
 };
 </script>

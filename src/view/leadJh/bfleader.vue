@@ -208,11 +208,9 @@ export default {
       zhankaidata: [],
       topshow: false,
       click: true,
-      type: false,
       biaotou_new: {},
       tzshow: false,
       tabdata2: [],
-      span: 7,
       loadingConnecting: false,
       down: false,
       up: true,
@@ -237,12 +235,9 @@ export default {
       value11: "",
       state2: "",
       input10: "",
-      show2: false,
-      restaurants: [],
       centerDialogVisible: false,
       choose: {},
       choose1: {},
-      restaurants: [],
       su1: [],
       su2: [],
       su3: [],
@@ -401,11 +396,7 @@ export default {
       //console.log(document.body.clientWidth);
       this.gowidth =
         document.body.clientWidth || document.documentElement.clientWidth;
-      var type = localStorage.getItem("type");
-      if (type == 3) {
-        this.span = 7;
-        this.type = true;
-      }
+   
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -500,13 +491,7 @@ export default {
         this.indexnum = 1;
       }
     },
-    hastype() {
-      if (localStorage.getItem("type") == 3) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+   
   }
 };
 </script>

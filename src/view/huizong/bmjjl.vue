@@ -6,11 +6,11 @@
     <div class="cont ">
       <span
         id="sobox"
-        style="font-size:1.1em;color:#999;width:200px;font-size:0.4rem;line-height:1rem;"
+        style="font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
       >
         <el-date-picker
           v-model="routerData.date"
-          style="border:none;font-size:0.4rem!importment;font-weight:900;width:200px;"
+          style="border:none;font-size:0.4rem!importment;font-weight:900;width:45%;"
           align="left"
           type="date"
           :clearable="false"

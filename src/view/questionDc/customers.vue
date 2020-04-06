@@ -25,7 +25,7 @@
         </div>
         <div class="qu_bmSearch bordertop1">
           <div class="qu_bmSearch_a">客户类型：</div>
-          <div class="qu_bmSearch_c qu_bmSearch_b">
+          <div class=" qu_bmSearch_b">
             <span
               @click="khSelectHandel(item, index)"
               :class="item.is_act? 'qu_bmleft act':'qu_bmleft'"
@@ -196,8 +196,8 @@ export default {
         keyword: this.keyword,
         pageSize: 30,
         page: page,
-         dept_id: '',
-        level: ''
+          dept_id: this.dept_id=="全部部门"?'':this.dept_id,
+        level: this.level=="全部客户"?'':this.level
       });
     },
     scrollBottom() {
@@ -208,7 +208,7 @@ export default {
       let clientHeight = document.documentElement.clientHeight;
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
-      if (toBottom < 10 && this.loading) {
+      if (toBottom < 30 && this.loading) {
         this.loading = false;
         this.getcust(++this.page).then(res => {
           if (res.code == 200) {
@@ -298,7 +298,7 @@ export default {
 }
 .qu_bmSearch {
   position: relative;
-  padding: 9px 12px 8px;
+  padding: 9px 0px 8px;
   text-align: left;
 }
 .qu_bmSearch_a {
@@ -319,8 +319,9 @@ export default {
 .qu_bmSearch_b span {
   min-width: 99px;
   margin: 0 22px;
+  cursor: pointer;
 }
-.qu_bmSearch_b span.act {
+.qu_bmSearch_b span.act ,.qu_bmSearch_b span:hover{
   color: #409eff;
 }
 /* .qu_bmleft:nth-child(5n),
@@ -331,9 +332,7 @@ export default {
 .bordertop1 {
   border-top: 1px solid #f0f0f0;
 }
-.qu_bmSearch_c span {
-  min-width: auto;
-}
+
 
 .qu_cu_a {
   width: 80%;

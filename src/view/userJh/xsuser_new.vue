@@ -198,11 +198,16 @@
                   :src="xiao"
                 />
               </div>
-              <div v-if="item.saleNo>7">
+              <div v-if="item.saleNo>7&&item.saleNo<=15">
                 <img class="tabs_ld_img" :src="ku" />
                 <img v-if="item.saleNo>9&&item.saleNo<=11" class="tabs_ld_img" :src="ku" />
                 <span v-if="item.saleNo>11&&item.saleNo<=15">
                   <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+                </span>
+              </div>
+              <div v-if="item.saleNo>15">
+                <span>
+                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
                 </span>
               </div>
             </div>

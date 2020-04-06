@@ -132,7 +132,6 @@ export default {
       span: 6,
       tzshow: false,
       isread: false,
-      type: 1,
       ty1: true,
       iszhanshi: true,
       input: "",
@@ -157,7 +156,6 @@ export default {
     ...mapGetters(["menus"])
   },
   mounted() {
-    console.log(this.$route.fullPath);
     this.getisread();
     this.pathshow();
     this.noticeshow();
@@ -269,7 +267,6 @@ export default {
       });
     },
     getisread() {
-      this.type = localStorage.getItem("type");
       getisread({ userid: localStorage.getItem("userid") }).then(res => {
         this.isread = res.data.isread;
       });

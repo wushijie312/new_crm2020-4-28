@@ -326,7 +326,6 @@ export default {
         // console.log()
         this.isread = res.data.create_time;
         this.isreadStatus = res.data.isread;
-        console.log(new Date(this.isread) - new Date());
       });
     },
     goback() {

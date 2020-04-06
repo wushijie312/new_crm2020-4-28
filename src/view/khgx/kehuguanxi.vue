@@ -397,17 +397,6 @@ export default {
     aler() {
       this.value1 = new Date();
     },
-    hastype() {
-      if (localStorage.getItem("type") == 3) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-
-    handleSelect(item) {
-      console.log(item);
-    },
     createFilter(queryString) {
       return restaurant => {
         return (
@@ -416,30 +405,7 @@ export default {
         );
       };
     },
-    loadAll() {
-      return [
-        { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
-        {
-          value: "Hot honey 首尔炸鸡（仙霞路）",
-          address: "上海市长宁区淞虹路661号"
-        }
-      ];
-    },
-    querySearch(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createFilter(queryString))
-        : restaurants;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    getShi(a) {
-      if (a == 0) {
-        return "否";
-      } else {
-        return "是";
-      }
-    }
+
   },
   props: {
     /**

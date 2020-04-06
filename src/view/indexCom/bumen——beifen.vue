@@ -596,7 +596,6 @@ export default {
     },
     oneclickcopy() {
       var clipboard = new Clipboard(".tabs_four_copy");
-      console.log(clipboard);
       clipboard.on("success", e => {
         this.$message.success("复制成功");
         // this.toast('copy success');

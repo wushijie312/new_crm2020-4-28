@@ -274,7 +274,6 @@ export default {
       restaurants: [],
       topshow: false,
       dayTotalGrossProfit: "",
-      span: 7,
       value: "",
       options: [],
       input101: "",
@@ -283,7 +282,6 @@ export default {
       input104: "",
       input105: "",
       centerDialogVisible: false,
-      type: false,
       hb: "",
       tb: "",
       loadingConnecting: false,
@@ -349,10 +347,7 @@ export default {
     this.chakehu();
     this.aler();
     this.getallData();
-    setTimeout(() => {
-      console.log(this.BS);
-      this.BS();
-    }, 20);
+   
     this.gethong()
     this.getact()
   },
@@ -361,18 +356,12 @@ export default {
       this.pagenum = 1;
       this.getallData();
     }
-    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-    // data() {
-    //   setTimeout(() => {
-    //     this.BS();
-    //   }, this.refreshDelay);
-    // }
+   
   },
   methods: {
    
     getact(){
       var lodata = JSON.parse(sessionStorage.getItem('userMenus'))
-      console.log(lodata)
       lodata.forEach((e,index)=>{
         if(e.path=="/xiaoshou1"){
           this.act = index+1
@@ -386,16 +375,10 @@ export default {
       })
     },
      handleSelect(item) {
-      // console.log(this.ruleForm.options)
-      console.log(item);
       this.choose = item
-      // this.ruleForm.options = item.companyName
-      // this.ruleForm.optionsId = item.id
     },
     querySearch(queryString, cb) {
         var restaurants = this.restaurants;
-        // console.log(this.restaurants)
-        // console.log(this.createFilter(queryString))
         var results = queryString.length>0 ? restaurants.filter(this.createFilter(queryString)) : restaurants;
         // 调用 callback 返回建议列表的数据
         cb(results);
@@ -408,58 +391,8 @@ export default {
       },
     gotop() {
       this.scroll.stop();
-      console.log(this.scroll.scrollBy);
       this.scroll.scrollTo(0, 0, 0.5);
       this.topshow = false;
-    },
- 
-    BS() {
-      //     console.log(1112)
-      // if (!this.$refs.wrapper) {
-      //   return;
-      // }
-      // // better-scroll的初始化
-      // this.scroll = new BScroll(this.$refs.wrapper, {
-      //   probeType: this.probeType,
-      //   click: this.click,
-      //   scrollX: this.scrollX
-      // });
-      // this.scroll.on("scroll", pos => {
-      //   // console.log(pos.y);
-      //   //如果下拉超过50px 就显示下拉刷新的文字
-      //   if (pos.y > 50) {
-      //     this.pulldownTip.text = "放手刷新";
-      //     this.down = true;
-      //   } else {
-      //     this.down = false;
-      //   }
-      // });
-      // //touchEnd 通过这个方法来监听下拉刷新
-      // this.scroll.on("touchEnd", pos => {
-      //   // 下拉动作
-      //   if (pos.y > 50) {
-      //     console.log("下拉刷新成功");
-      //     console.log("这里执行你方法");
-      //     // alert(111)
-      //     this.down = false;
-      //   }
-      //   console.log(this.scroll);
-      //   if (this.scroll.maxScrollY > pos.y - 1000) {
-      //     console.log("加载更多");
-      //     // if(this.scroll){
-      //     this.getallData();
-      //     // }
-      //     //使用refresh 方法 来更新scroll  解决无法滚动的问题
-      //     this.scroll.refresh();
-      //   }
-      //   if(pos.y<-500){
-      //     this.topshow = true
-      //   }else{
-      //     this.topshow = false
-      //   }
-      //   console.log(this.scroll.maxScrollY + "总距离----下拉的距离" + pos.y);
-      // });
-      // console.log(this.scroll.maxScrollY);
     },
     getdata() {
       if (this.input10 && this.input11 && this.choose.id) {
@@ -512,7 +445,6 @@ export default {
     },
     changeLocationValue(val) {
       //locations是v-for里面的也是datas里面的值
-      console.log(this.value);
       let obj = {};
       obj = this.options.find(item => {
         return item.id === val;
@@ -521,7 +453,6 @@ export default {
     },
     tankuang(a, b) {
       this.centerDialogVisible = true;
-      console.log(a);
       var data = a;
       data.label = b;
       localStorage.setItem("xiugaiData", JSON.stringify(data));
@@ -541,7 +472,6 @@ export default {
         return;
       }
       if (a.label == "今日完成(万)") {
-        console.log(this.value1);
         var date = new Date(this.value1);
         var date1 =
           date.getFullYear() +
@@ -593,7 +523,6 @@ export default {
           submitTime: date1
         })
           .then(res => {
-            console.log(res);
             if (res.code == 200) {
               this.$message.success(res.message);
               this.value2 = "";
@@ -605,7 +534,6 @@ export default {
             }
           })
           .catch(error => {
-            console.log(error);
           });
       }
       this.centerDialogVisible = true;
@@ -617,7 +545,6 @@ export default {
         endTime: "2099-01-01", //截至时间
         startTime: "2010-02-11", //开始时间
         onOk: date => {
-          console.log(date);
           this.value1 = date; // birthday就是所需字段，在data 里定义下
           this.initdate = date;
           this.pagenum = 1;
@@ -645,12 +572,7 @@ export default {
     },
     setechart: function() {},
     aler() {
-      //   alert(111)
-      var type = localStorage.getItem("type");
-      if (type == 3) {
-        this.span = 7;
-        this.type = true;
-      }
+     
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -705,12 +627,8 @@ export default {
         role: ""
       })
         .then(res => {
-          console.log(res.totalMthPlanMoney);
-          // this.tabdata1 = res.saleInfoList;
           this.yuejihua = res.totalMthPlanMoney;
-          // console.log(this.yuejihua)
           this.totalLoseTenderMoney = res.totalLoseTenderMoney;
-          console.log(res.totalMonthCompare);
           this.hb = res.totalMonthCompare;
           this.tb = res.totalYearCompare;
 
@@ -737,7 +655,6 @@ export default {
             for (var i = 0; i < res.saleInfoList.length; i++) {
               this.tabdata1.push(res.saleInfoList[i]);
             }
-            console.log(scrollTop);
             document.scrollTop = scrollTop;
           }
           this.jingli = 0;
@@ -771,81 +688,8 @@ export default {
         return a;
       }
     },
-    hastype() {
-      if (localStorage.getItem("type") == 3) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+  
   },
-  props: {
-    /**
-     * 1 滚动的时候会派发scroll事件，会截流。
-     * 2 滚动的时候实时派发scroll事件，不会截流。
-     * 3 除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
-     */
-    probeType: {
-      type: Number,
-      default: 3
-    },
-    /**
-     * 点击列表是否派发click事件
-     */
-    click: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * 是否开启横向滚动
-     */
-    scrollX: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 是否派发滚动事件
-     */
-    listenScroll: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 列表的数据
-     */
-    data: {
-      type: Array,
-      default: null
-    },
-    /**
-     * 是否派发滚动到底部的事件，用于上拉加载
-     */
-    pullup: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * 是否派发顶部下拉的事件，用于下拉刷新
-     */
-    pulldown: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * 是否派发列表滚动开始的事件
-     */
-    beforeScroll: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 当数据更新后，刷新scroll的延时。
-     */
-    refreshDelay: {
-      type: Number,
-      default: 20
-    }
-  }
 };
 </script>
 <style scoped>
