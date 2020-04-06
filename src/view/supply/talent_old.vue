@@ -107,8 +107,6 @@ export default {
       drawer: false,
       isscroll: false,
       isread: false,
-      loading:true,
-      pageSize:50,
       loadingConnecting: false,
       down: false,
       up: true,
@@ -172,15 +170,18 @@ export default {
     };
   },
   mounted() {
-    this.getdata(this.pagenum).then(res => {
-        if (res.code == 200) {
-            this.data1 = res.dataList;
-        }
-      });
+    this.getdata();
     this.handleScroll();
     this.getact();
-    //
-    window.addEventListener("scroll", this.scrollBottom, true);
+    document.addEventListener("scroll", this.BS);
+  },
+  watch: {
+    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
+    data() {
+      // setTimeout(() => {
+      //   this.BS();
+      // }, this.refreshDelay);
+    }
   },
   methods: {
     getact() {
@@ -188,6 +189,7 @@ export default {
         this.$route.query.id == 1
           ? JSON.parse(sessionStorage.getItem("leaderMenus"))
           : JSON.parse(sessionStorage.getItem("userMenus"));
+      console.log(lodata);
       lodata.forEach((e, index) => {
         if (e.path == "/talent?id=1" || e.path == "/talent?id=2") {
           this.act = index + 1;
@@ -214,46 +216,54 @@ export default {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-scrollBottom() {
-      // 滚动到页面底部时
-      // const el = document.getElementById("customlist");
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-
-      let clientHeight = document.documentElement.clientHeight;
-      let scrollHeight = document.documentElement.scrollHeight;
-      const toBottom = scrollHeight - scrollTop - clientHeight;
-
-      if (toBottom <= 30 && this.loading) {
-        this.loading = false;
-        let scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        this.getdata(++this.pagenum).then(res => {
-          if (res.code == 200) {
-            this.data1 = this.data1.concat(res.dataList);
-            if(this.data1.length==this.pagenum*this.pageSize){
-               document.documentElement.scrollTop = scrollTop - 10;
-            }
-            this.loading = true;
-          }
-        });
-      }
-      if (scrollTop > 1000) {
-        this.showbackTop = true;
-      } else {
-        this.showbackTop = false;
+    BS() {
+      // console.log(222)
+      try {
+        if (this.$refs.wrapper.clientHeight) {
+          var boxnum = this.$refs.wrapper.clientHeight;
+        }
+        if (
+          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
+          this.isscroll
+        ) {
+          this.isscroll = false;
+          this.getdata();
+        }
+        //返回顶部按钮
+        if (window.pageYOffset > window.outerHeight) {
+          this.showbackTop = true;
+        } else {
+          this.showbackTop = false;
+        }
+      } catch (err) {
+        // //console.log(err);
       }
     },
+
     handleScroll() {
       if (window.pageYOffset > 1000) {
         this.showbackTop = true;
       } else {
         this.showbackTop = false;
       }
-      
+      try {
+        if (this.$refs.content.clientHeight) {
+          var boxnum = this.$refs.content.clientHeight;
+        }
+        if (
+          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
+          this.isscroll
+        ) {
+          this.isscroll = false;
+          this.getdata();
+        }
+      } catch (err) {
+        // //console.log(err);
+      }
     },
 
     zhongjian(status) {
+      console.log(status);
       if (!status) {
         this.searchData = {};
       } else {
@@ -263,13 +273,12 @@ scrollBottom() {
     closeDrawer() {
       this.zhongjian(true);
       this.pagenum = 1;
-      this.getdata(this.pagenum);
+      this.getdata();
     },
-    getdata(page) {
+    getdata() {
       // this.scroll = false;
-     return talent({
-        page: page,
-        pageSize:this.pageSize,
+      talent({
+        page: this.pagenum,
         role: localStorage.getItem("role"),
         userId: localStorage.getItem("userid"),
         level: localStorage.getItem("level"),
@@ -280,6 +289,31 @@ scrollBottom() {
         departmentName: this.searchData.departmentName,
         name: this.searchData.name,
         position: this.searchData.position
+      }).then(res => {
+        if (res.code == 200) {
+          if (this.pagenum == 1) {
+            this.data1 = res.dataList;
+          } else {
+            for (var i = 0; i < res.dataList.length; i++) {
+              this.data1.push(res.dataList[i]);
+            }
+          }
+          if (res.dataList.length > 0 && res.data > this.data1.length) {
+            this.pagenum++;
+            this.isscroll = true;
+          } else {
+            if (this.data1.length) {
+              this.isscroll = false;
+              this.pulldownTip.textup = "-已经到底了-";
+            }
+          }
+
+          if (this.pagenum == 2) {
+            this.isscroll = false;
+            this.getdata();
+          }
+        }
+        console.log(this.status);
       });
     },
     createFilter(queryString) {
@@ -299,9 +333,64 @@ scrollBottom() {
       cb(results);
     }
   },
+  props: {
+    probeType: {
+      type: Number,
+      default: 3
+    },
+    click: {
+      type: Boolean,
+      default: true
+    },
+    scrollX: {
+      type: Boolean,
+      default: false
+    },
+    listenScroll: {
+      type: Boolean,
+      default: false
+    },
+    data: {
+      type: Array,
+      default: null
+    },
+    pullup: {
+      type: Boolean,
+      default: true
+    },
+    pulldown: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * 是否派发列表滚动开始的事件
+     */
+    beforeScroll: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 当数据更新后，刷新scroll的延时。
+     */
+    refreshDelay: {
+      type: Number,
+      default: 20
+    }
+  }
 };
 </script>
-
+<style type="text/css">
+.selfCell {
+  padding: 8px 0px !important;
+}
+.selfCell > .cell {
+  padding-left: 0px !important;
+}
+.selfCell.selfColumn > .cell {
+  /*white-space: nowrap!important;
+		padding: 0px 4px !important;*/
+}
+</style>
 <style  type="text/css" scoped >
 .filter {
   height: 30px;
