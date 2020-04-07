@@ -308,8 +308,8 @@
               ></el-option>
             </el-select>
           </div>
-        </div>-->
-        <div class="search_px search_px_pc">
+        </div> -->
+        <div class="search_px search_px_pc" >
           <p v-for="(itemSearch,len3) in searchType" :key="len3">
             <span
               :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
@@ -584,6 +584,56 @@ export default {
       this.pagenum = this.showOrHide ? -1 : 1;
       this.getallData();
     },
+    search_change(val) {
+       this.searchValue = val;
+      this.paixunum =
+        val == "实际销售额"
+          ? 5
+          : val == "标准销售额"
+          ? 4
+          : val == "实时完成率"
+          ? 1
+          : val == "净利"
+          ? 2
+          : val == "净净利"
+          ? 3
+          : "";
+      this.getsearchallData(val);
+    },
+    getsearchallData(sortname) {
+      var date = new Date(this.value1);
+      var date1 =
+        date.getFullYear() +
+        "-" +
+        this.getnum(Number(date.getMonth()) + 1) +
+        "-" +
+        this.getnum(date.getDate());
+        chabumen({
+          keyword: this.bmkword,
+          submitTime: date1,
+          page: this.pagenum,
+          sortname: sortname,
+          sort: 1,
+          role: localStorage.getItem("role")
+        })
+          .then(res => {
+            this.alldata = res;
+            this.tabdata1 = res.saleInfoList;
+            this.jingli = 0;
+            this.jingjingli = 0;
+            var jsid = 0;
+            this.tabdata1.forEach(element => {
+              element.id = jsid;
+              jsid++;
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+            this.jingli = this.jingli.toFixed(2);
+            this.jingjingli = this.jingjingli.toFixed(2);
+           
+          })
+          .catch(error => {});
+    },
     getact() {
       var that = this;
       getnew();
@@ -798,6 +848,7 @@ export default {
             });
             this.jingli = this.jingli.toFixed(2);
             this.jingjingli = this.jingjingli.toFixed(2);
+          
           })
           .catch(error => {});
       } else if (this.indexnum == 2) {
@@ -895,35 +946,44 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
-.bd_search {
-  display: flex;
-  padding: 10px 12px;
+
+.bd_search_b{
+  width:130px;
+  margin:0 auto;
+}
+.qu_bmmobile_select {
+  width: 130px;
+}
+  .bd_search {
+    display: flex;
+    padding:10px 12px;
   background: #fff;
 }
-
-.bd_search_a {
-  width: 100%;
-  position: relative;
+.bd_search_c{
+  background: #fff;
 }
-
-.bd_search_btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translate(0, -50%);
-  color: $colorb4b9bf;
-  font-size: 20px;
-}
-
+  .bd_search_a{
+      width: 100%;
+      position: relative;
+  }
+  .bd_search_btn{
+    position: absolute;
+    right:10px;
+    top:50%;
+    transform: translate(0,-50%);
+    color: $colorb4b9bf;
+    font-size:20px;
+  }
 .search_px {
-  font-size: 13px;
+  font-size: 14px;
   padding: 0px 0 10px;
   width: 100%;
-  line-height:20px;
-  box-sizing: border-box;
+  box-sizing :border-box;
   display: flex;
   background: #fff;
 }
+
+
 
 .search_px p {
   width: 20%;
@@ -959,30 +1019,26 @@ export default {
 .search_px_tit.act:after {
   border-top: 4px solid #409eff;
 }
-
 .search_px_pc {
-  font-size: 13px;
-  padding: 10px 8px 10px;
+  font-size:14px;
+  padding:10px 8px 10px;
+  
+}
+.search_px_pc p{
+  text-align:center;
+  width:24%;  
 }
 
-.search_px_pc p {
-  text-align: center;
-  width: 24%;
+.search_px_pc p:nth-child(4){
+  width:14%;  
 }
-
-.search_px_pc p:nth-child(4) {
-  width: 14%;
+.search_px_pc p:nth-child(5){
+  width:14%;  
 }
-
-.search_px_pc p:nth-child(5) {
-  width: 14%;
+.search_px_pc .search_px_tit{
+  padding-right:0;
 }
-
-.search_px_pc .search_px_tit {
-  padding-right: 0;
-}
-
-.search_px_pc .search_px_tit:after {
+.search_px_pc .search_px_tit:after{
   width: 0;
   height: 0;
   z-index: 1;
@@ -995,11 +1051,10 @@ export default {
   right: -7px;
   content: ' ';
 }
-
 .search_pxbox {
   display: flex;
-  background: $colorfff;
-  padding: 0px 12px;
+  background: #fff;
+  padding: 2px 12px;
   position: relative;
 }
 
@@ -1027,7 +1082,7 @@ export default {
   right: 12px;
   font-size: 12px;
   top: -2px;
-  padding: 0 6px;
+  padding: 0 10px;
   border: 1px solid #409eff;
   line-height: 24px;
   border-radius: 30px;
@@ -1256,79 +1311,49 @@ table, tbody, thead {
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
-
 @media screen and (max-width: 374px) {
-  .search_px_pc {
+  .search_px_pc{
     font-size: 12px;
     padding: 10px 8px 10px 0;
   }
 }
-
-@media screen and (max-width: 640px) and (min-width: 375px) {
-  .search_px_pc {
-    font-size: 13px;
+@media screen and (max-width: 640px)and (min-width: 375px) {
+  .search_px_pc{
+    font-size: 14px;
     padding: 10px 8px 10px 0;
   }
-  .search_pxbox .search_px_tit {
-    font-size: 13px;
-  }
-
-  .search_px_btn {
-    font-size: 13px;
-    top: -1px;
-  }
 }
-
 @media screen and (min-width: 450px) {
-  .search_px_pc p {
-    width: 20%;
+  .search_px_pc p{
+   width:20%;  
   }
 
-  .search_px_pc p:nth-child(4) {
-    width: 20%;
+  .search_px_pc p:nth-child(4){
+    width:20%; 
   }
-
-  .search_px_pc p:nth-child(5) {
-    width: 20%;
-  }
-
-  .search_pxbox .search_px_tit {
-    font-size: 13px;
-  }
-
-  .search_px_btn {
-    font-size: 13px;
-    top: -1px;
+  .search_px_pc p:nth-child(5){
+    width:20%; 
   }
 }
-
 @media screen and (min-width: 850px) {
   .search_px_pc {
     display: flex;
-    padding: 10px 20px 10px 15px;
-  }
- .search_px_pc p {
-    width: 26%;
-  }
-.search_px_pc p:nth-child(1) {
-    width: 16%;
-    text-align:left;
-  }
-  .search_px_pc p:nth-child(4) {
-    width: 16%;
   }
 
-  .search_px_pc p:nth-child(5) {
-    width: 16%;
-    text-align:right;
+
+
+  .bd_search_b {
+    display: none;
   }
 
-  
+  .search_pxbox .search_px_tit {
+    font-size: 14px;
+  }
 
   .search_px_btn {
     position: absolute;
     right: 12px;
-    font-size: 13px;
+    font-size: 14px;
     top: -2px;
     padding: 0 10px;
     border: 1px solid #409eff;

@@ -22,7 +22,10 @@
   bottom: 3px;
   cursor: pointer;
 }
-
+.tabs_four_copy:hover{
+   color: $color409eff;
+  border: 1px solid $color409eff;
+}
 .tabs_five {
   display: flex;
   border-top: 2px solid $colorfff;
@@ -194,11 +197,23 @@
     right: 0;
     top: -3px;
 }
-
-.tabs_thr span img {
-  height: 12px;
-  vertical-align: middle;
+.tabs_thr span .tabs_thr_img {
+  height: 10px;
+    margin-top: 0px;
+    display: inline-block;
+    width: 12px;
+   background: url("../../assets/img/bangdan/qh.png") left center no-repeat;
+   background-size: 12px;
 }
+.tabs_thr span:hover {
+color:$color409eff;
+}
+.tabs_thr span:hover .tabs_thr_img{
+  
+    background: url("../../assets/img/bangdan/qh1.png") left center no-repeat;
+    background-size: 12px;
+}
+
 
 span.usertabs_paidan {
   text-align: center;

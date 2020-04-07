@@ -13,7 +13,7 @@
           <img class="fl" :src="head_menu" style="width:14px;display:block;margin-right:2px;" />
           <span
             class="fl"
-            style="font-size: 14px;line-height: 16px;display: block;color: #2aa4e7;"
+            style="font-size: 14px;line-height: 16px;display: block;color: #409eff;"
           >菜单</span>
         </div>
         <div

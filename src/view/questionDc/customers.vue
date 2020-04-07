@@ -341,7 +341,6 @@ export default {
 .qu_cuHead {
   padding: 10px 12px;
   background: #fff;
-  border-bottom: 8px solid #f1f1f1;
   position: relative;
 }
 .qu_cuHead input {

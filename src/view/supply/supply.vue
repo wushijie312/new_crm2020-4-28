@@ -136,6 +136,7 @@ export default {
       drawer: false,
       isscroll: false,
       loading: true,
+      dataNumber:0,
       pageSize:50,
       pulldownTip: {
         text: "", // 松开立即刷新
@@ -161,6 +162,7 @@ export default {
   mounted() {
     this.getdata(this.pagenum).then(res => {
       if (res.code == 200) {
+         this.dataNumber=res.data;
         this.data1 = res.dataList;
       }
     });
@@ -235,17 +237,24 @@ export default {
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
 
-      if (toBottom <= 30 && this.loading) {
+     if (
+        toBottom <= 30 &&
+        this.loading &&
+        this.dataNumber > this.data1.length
+      ) {
         this.loading = false;
         let scrollTop =
           document.documentElement.scrollTop || document.body.scrollTop;
         this.getdata(++this.pagenum).then(res => {
           if (res.code == 200) {
+            this.dataNumber=res.data;
             this.data1 = this.data1.concat(res.dataList);
-            if(this.data1.length==this.pagenum*this.pageSize){
-            document.documentElement.scrollTop = scrollTop - 10;
+            if (this.data1.length == this.pagenum * this.pageSize) {
+              document.documentElement.scrollTop = scrollTop - 10;
             }
-
+            if(this.dataNumber<this.pagenum * this.pageSize){
+              this.$message.success("已经到底部了");
+            }
             this.loading = true;
           }
         });

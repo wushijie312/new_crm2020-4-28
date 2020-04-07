@@ -3,8 +3,10 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content csgogogo" ref="wrapper">
       <div class="menu-head-top50"></div>
-
-      <div class="filter" @click="drawer = true"></div>
+    
+      <div class="filter" @click="drawer = true">
+       
+      </div>
       <el-drawer
         size="80%"
         :visible.sync="drawer"
@@ -78,7 +80,8 @@
     >
       <i class="el-icon-top"></i>
     </div>
-    <Addcreate v-if="!act1"></Addcreate>
+      <Addcreate v-if="!act1"></Addcreate>
+
   </div>
 </template>
 <script>
@@ -93,28 +96,72 @@ export default {
   },
   data() {
     return {
-     
+      act: 1,
+      act1: this.$route.query.id == 2 ? false : true,
       drawer: false,
-      loading: true,
-      pageSize: 50,
-      dataNumber:0,
+      loading:true,
+      pageSize:50,
+      up: true,
+
+      arr: [],
+      totalnum: 1,
       pagenum: 1,
+      indexnum: 1,
       data1: [],
       act: 3,
       act1: this.$route.query.id == 2 ? false : true,
+      box: "100",
+      value1: "",
+      value2: "",
+      value: "",
+      value11: "",
+      state2: "",
+      input10: "",
+      input2: "",
       ty: true,
+      defaultProps: {
+        children: "children",
+        label: "label"
+      },
+      status: [],
+      show2: false,
       restaurants: [],
+      urlA: "",
+      centerDialogVisible: false,
+      choose: {},
+      choose1: {},
+      restaurants: [],
+      su1: [],
+      su2: [],
+      headData: {
+        jihua1: 0,
+        jihua2: 0
+      },
+      options1: [
+        {
+          id: "1",
+          companyName: "是"
+        },
+        {
+          id: "0",
+          companyName: "否"
+        }
+      ],
+
+      tableData5: [],
+      tableData6: [],
       showbackTop: false,
+      options: [],
       searchData: {}
     };
   },
   mounted() {
     this.getdata(this.pagenum).then(res => {
-      if (res.code == 200) {
-        this.dataNumber=res.data;
-        this.data1 = res.dataList;
-      }
-    });
+        if (res.code == 200) {
+            this.data1 = res.dataList;
+        }
+      });
+    this.handleScroll();
     this.getact();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -151,37 +198,31 @@ export default {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-    scrollBottom() {
-      
+scrollBottom() {
       // 滚动到页面底部时
       // const el = document.getElementById("customlist");
       let scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
+
       let clientHeight = document.documentElement.clientHeight;
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
-      console.log(this.dataNumber ,this.data1.length);
-      if (
-        toBottom <= 30 &&
-        this.loading &&
-        this.dataNumber > this.data1.length
-      ) {
+      
+      if (toBottom <= 30 && this.loading &&this.data1.length==this.pagenum*this.pageSize) {
         this.loading = false;
         let scrollTop =
           document.documentElement.scrollTop || document.body.scrollTop;
         this.getdata(++this.pagenum).then(res => {
           if (res.code == 200) {
-            this.dataNumber=res.data;
             this.data1 = this.data1.concat(res.dataList);
-            if (this.data1.length == this.pagenum * this.pageSize) {
-              document.documentElement.scrollTop = scrollTop - 10;
-            }
-            if(this.dataNumber<this.pagenum * this.pageSize){
-              this.$message.success("已经到底部了");
+            if(this.data1.length==this.pagenum*this.pageSize){
+               document.documentElement.scrollTop = scrollTop - 10;
             }
             this.loading = true;
           }
         });
+      }else if(toBottom <=0 &&this.data1.length<this.pagenum*this.pageSize){
+               this.$message.success("已经到底部了");
       }
       if (scrollTop > 1000) {
         this.showbackTop = true;
@@ -189,7 +230,14 @@ export default {
         this.showbackTop = false;
       }
     },
-
+    handleScroll() {
+      if (window.pageYOffset > 1000) {
+        this.showbackTop = true;
+      } else {
+        this.showbackTop = false;
+      }
+      
+    },
 
     zhongjian(status) {
       if (!status) {
@@ -204,9 +252,10 @@ export default {
       this.getdata(this.pagenum);
     },
     getdata(page) {
-      return talent({
+      // this.scroll = false;
+     return talent({
         page: page,
-        pageSize: this.pageSize,
+        pageSize:this.pageSize,
         role: localStorage.getItem("role"),
         userId: localStorage.getItem("userid"),
         level: localStorage.getItem("level"),
@@ -235,7 +284,7 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     }
-  }
+  },
 };
 </script>
 
@@ -270,6 +319,30 @@ export default {
   white-space: nowrap;
 }
 
+.head {
+  height: 1rem;
+  font-size: 0.3rem;
+  line-height: 1rem;
+  background: #21aefb;
+  color: #fff;
+}
+.tap {
+  font-size: 0.3rem;
+  background: #21aefb;
+  height: 0.7rem;
+  line-height: 0.7rem;
+}
+.tap .act {
+  background: #fff;
+  color: #333;
+}
+.tap .act a {
+  color: #333;
+}
+.tap a {
+  color: #fff;
+  text-decoration: none;
+}
 .maincontent {
   font-size: 0.3rem;
   height: 2.5rem;

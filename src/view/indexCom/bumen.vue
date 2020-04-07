@@ -54,7 +54,7 @@
             <div class="tabs_thr paddb3">
               <h3>{{item.departmentName}}</h3>
               <span @click="boxOrtextChange">
-                <img :src="qh" alt="转换" /> 表格版
+                <i class="tabs_thr_img"></i>  表格版
               </span>
             </div>
             <div class="tabs_four mart8">
@@ -202,7 +202,8 @@
           <div class="tabs_thr paddb3">
             <h3>{{item.departmentName}}</h3>
             <span @click="boxOrtextChange">
-              <img :src="qh" alt="转换" /> 文字版
+
+              <i class="tabs_thr_img"></i> 文字版
             </span>
           </div>
           <div class="tabs_four mart8">

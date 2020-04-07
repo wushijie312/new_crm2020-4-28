@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper cccgo" style="font-size:0.3rem;text-align:left;background:#fff;padding:0.3rem;">
+  <div class="wrapper cccgo" style="font-size:0.3rem;text-align:left;background:#fff;">
       <p style="overflow:hidden;">
           
           <span

@@ -382,23 +382,9 @@ export function getkehu(data) {
   return request({
     url:htp + '/relation/data',
     method: 'post',
-    params:{ "param": JSON.stringify(all) }
-  
+    params: { "param": JSON.stringify(all) }
   })
 }
-
-
-// export function getkehu(data) {
-
-//   let Object1 = {}
-//   let all = Object.assign(Object1, data, { 'dept_id': localStorage.getItem('departmentId')})
-
-//   return request({
-//     url:htp + '/relation/data',
-//     method: 'post',
-//     params: { "param": JSON.stringify(all) }
-//   })
-// }
 
 export function getpics(data) {
   let userid = localStorage.getItem('userid')
