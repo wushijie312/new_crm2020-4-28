@@ -166,10 +166,9 @@ export default {
         this.data1 = res.dataList;
       }
     });
-    this.handleScroll();
     this.getact();
     //
-    window.addEventListener("scroll", this.scrollBottom, true);
+    window.addEventListener("scroll", this.scrollSuppy, true);
     // document.addEventListener("scroll", this.BS);
     //  this.gethong();
     this.areaData();
@@ -227,7 +226,7 @@ export default {
       });
     },
 
-    scrollBottom() {
+    scrollSuppy() {
       // 滚动到页面底部时
       // const el = document.getElementById("customlist");
       let scrollTop =
@@ -269,13 +268,6 @@ export default {
       this.showbackTop = false;
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
-    },
-    handleScroll() {
-      if (window.pageYOffset > 1000) {
-        this.showbackTop = true;
-      } else {
-        this.showbackTop = false;
-      }
     },
 
     zhongjian(status) {

@@ -30,7 +30,7 @@ export default {
     // // 模拟存储用户信息
     // localStorage.setItem("userid", "30843");
     // localStorage.setItem("userName", "吴世界");
-    // localStorage.setItem("level", 4);
+    // localStorage.setItem("level", 0);
     // localStorage.setItem("departmentId", 1022);
     // localStorage.setItem("departmentName", "北京事业一部");
     // localStorage.setItem(

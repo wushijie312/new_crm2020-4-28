@@ -381,7 +381,7 @@ export function getkehu(data) {
 
   return request({
     url:htp + '/relation/data',
-    method: 'post',
+    method: 'get',
     params:{ "param": JSON.stringify(all) }
   
   })

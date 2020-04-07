@@ -676,7 +676,6 @@ export default {
       } catch (error) {}
     },
     handleScroll() {
-      console.log(window.pageYOffset);
       if (window.pageYOffset > 1000) {
         this.topshow = true;
       } else {

@@ -117,7 +117,7 @@ export default {
     });
     this.getact();
     //
-    window.addEventListener("scroll", this.scrollBottom, true);
+    window.addEventListener("scroll", this.scrollTalent, true);
   },
   methods: {
     getact() {
@@ -151,7 +151,7 @@ export default {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-    scrollBottom() {
+    scrollTalent() {
       
       // 滚动到页面底部时
       // const el = document.getElementById("customlist");
