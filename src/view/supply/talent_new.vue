@@ -3,16 +3,8 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content csgogogo" ref="wrapper">
       <div class="menu-head-top50"></div>
-      <div class="newxin" v-if="down"></div>
-      <!--<el-button @click="drawer = true" type="primary" style="margin-left: 16px;" >
-		  搜索
-      </el-button>-->
-      <div class="filter" @click="drawer = true">
-        <!-- <span
-	            style="float:left;font-size:0.3rem;font-weight:900;line-height:0.6rem;margin-right:0.3rem; text-decoration: underline;color:blue;"
-	            @click="$router.go(-1)"
-        >返回</span>-->
-      </div>
+
+      <div class="filter" @click="drawer = true"></div>
       <el-drawer
         size="80%"
         :visible.sync="drawer"
@@ -79,109 +71,49 @@
         </el-table>
       </el-card>
     </div>
-    <div
-      v-show="showbackTop"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
-    </div>
-      <Addcreate v-if="!act1"></Addcreate>
 
+    <ShowbackTop/>
+    <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
 <script>
 import { talent } from "@/api/configWu";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
+import ShowbackTop from "@/components/showbackTop";
 
 export default {
   components: {
     Head,
-    Addcreate
+    Addcreate,
+    ShowbackTop
   },
   data() {
     return {
-      act: 1,
-      act1: this.$route.query.id == 2 ? false : true,
+     
       drawer: false,
-      isscroll: false,
-      isread: false,
-      loadingConnecting: false,
-      down: false,
-      up: true,
-      tzshow: false,
-      pulldownTip: {
-        text: "", // 松开立即刷新
-        textup: "", // 松开立即刷新
-        rotate: "" // icon-rotate
-      },
-      arr: [],
-      biao: 0,
-      totalnum: 1,
+      loading: true,
+      pageSize: 50,
+      dataNumber:0,
       pagenum: 1,
-      indexnum: 1,
       data1: [],
       act: 3,
       act1: this.$route.query.id == 2 ? false : true,
-      box: "100",
-      value1: "",
-      value2: "",
-      value: "",
-      value11: "",
-      state2: "",
-      input10: "",
-      input2: "",
       ty: true,
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
-      status: [],
-      show2: false,
       restaurants: [],
-      urlA: "",
-      centerDialogVisible: false,
-      choose: {},
-      choose1: {},
-      restaurants: [],
-      su1: [],
-      su2: [],
-      headData: {
-        jihua1: 0,
-        jihua2: 0
-      },
-      options1: [
-        {
-          id: "1",
-          companyName: "是"
-        },
-        {
-          id: "0",
-          companyName: "否"
-        }
-      ],
-
-      tableData5: [],
-      tableData6: [],
-      showbackTop: false,
-      options: [],
       searchData: {}
     };
   },
   mounted() {
-    this.getdata();
-    this.handleScroll();
+    this.getdata(this.pagenum).then(res => {
+      if (res.code == 200) {
+        this.dataNumber=res.data;
+        this.data1 = res.dataList;
+      }
+    });
     this.getact();
-    document.addEventListener("scroll", this.BS);
-  },
-  watch: {
-    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-    data() {
-      // setTimeout(() => {
-      //   this.BS();
-      // }, this.refreshDelay);
-    }
+    //
+    window.addEventListener("scroll", this.scrollTalent, true);
   },
   methods: {
     getact() {
@@ -189,7 +121,6 @@ export default {
         this.$route.query.id == 1
           ? JSON.parse(sessionStorage.getItem("leaderMenus"))
           : JSON.parse(sessionStorage.getItem("userMenus"));
-      console.log(lodata);
       lodata.forEach((e, index) => {
         if (e.path == "/talent?id=1" || e.path == "/talent?id=2") {
           this.act = index + 1;
@@ -211,59 +142,43 @@ export default {
         query: { id: row.id }
       });
     },
-    gotop() {
-      this.showbackTop = false;
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    },
-    BS() {
-      // console.log(222)
-      try {
-        if (this.$refs.wrapper.clientHeight) {
-          var boxnum = this.$refs.wrapper.clientHeight;
-        }
-        if (
-          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-          this.isscroll
-        ) {
-          this.isscroll = false;
-          this.getdata();
-        }
-        //返回顶部按钮
-        if (window.pageYOffset > window.outerHeight) {
-          this.showbackTop = true;
-        } else {
-          this.showbackTop = false;
-        }
-      } catch (err) {
-        // //console.log(err);
+
+    scrollTalent() {
+      
+      // 滚动到页面底部时
+      // const el = document.getElementById("customlist");
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let clientHeight = document.documentElement.clientHeight;
+      let scrollHeight = document.documentElement.scrollHeight;
+      const toBottom = scrollHeight - scrollTop - clientHeight;
+      if (
+        toBottom <= 30 &&
+        this.loading &&
+        this.dataNumber > this.data1.length
+      ) {
+        this.loading = false;
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        this.getdata(++this.pagenum).then(res => {
+          if (res.code == 200) {
+            this.dataNumber=res.data;
+            this.data1 = this.data1.concat(res.dataList);
+            if (this.data1.length == this.pagenum * this.pageSize) {
+              document.documentElement.scrollTop = scrollTop - 10;
+            }
+            if(this.dataNumber<this.pagenum * this.pageSize){
+              this.$message.success("已经到底部了");
+            }
+            this.loading = true;
+          }
+        });
       }
+     
     },
 
-    handleScroll() {
-      if (window.pageYOffset > 1000) {
-        this.showbackTop = true;
-      } else {
-        this.showbackTop = false;
-      }
-      try {
-        if (this.$refs.content.clientHeight) {
-          var boxnum = this.$refs.content.clientHeight;
-        }
-        if (
-          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-          this.isscroll
-        ) {
-          this.isscroll = false;
-          this.getdata();
-        }
-      } catch (err) {
-        // //console.log(err);
-      }
-    },
 
     zhongjian(status) {
-      console.log(status);
       if (!status) {
         this.searchData = {};
       } else {
@@ -273,12 +188,12 @@ export default {
     closeDrawer() {
       this.zhongjian(true);
       this.pagenum = 1;
-      this.getdata();
+      this.getdata(this.pagenum);
     },
-    getdata() {
-      // this.scroll = false;
-      talent({
-        page: this.pagenum,
+    getdata(page) {
+      return talent({
+        page: page,
+        pageSize: this.pageSize,
         role: localStorage.getItem("role"),
         userId: localStorage.getItem("userid"),
         level: localStorage.getItem("level"),
@@ -289,31 +204,6 @@ export default {
         departmentName: this.searchData.departmentName,
         name: this.searchData.name,
         position: this.searchData.position
-      }).then(res => {
-        if (res.code == 200) {
-          if (this.pagenum == 1) {
-            this.data1 = res.dataList;
-          } else {
-            for (var i = 0; i < res.dataList.length; i++) {
-              this.data1.push(res.dataList[i]);
-            }
-          }
-          if (res.dataList.length > 0 && res.data > this.data1.length) {
-            this.pagenum++;
-            this.isscroll = true;
-          } else {
-            if (this.data1.length) {
-              this.isscroll = false;
-              this.pulldownTip.textup = "-已经到底了-";
-            }
-          }
-
-          if (this.pagenum == 2) {
-            this.isscroll = false;
-            this.getdata();
-          }
-        }
-        console.log(this.status);
       });
     },
     createFilter(queryString) {
@@ -332,65 +222,10 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     }
-  },
-  props: {
-    probeType: {
-      type: Number,
-      default: 3
-    },
-    click: {
-      type: Boolean,
-      default: true
-    },
-    scrollX: {
-      type: Boolean,
-      default: false
-    },
-    listenScroll: {
-      type: Boolean,
-      default: false
-    },
-    data: {
-      type: Array,
-      default: null
-    },
-    pullup: {
-      type: Boolean,
-      default: true
-    },
-    pulldown: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * 是否派发列表滚动开始的事件
-     */
-    beforeScroll: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 当数据更新后，刷新scroll的延时。
-     */
-    refreshDelay: {
-      type: Number,
-      default: 20
-    }
   }
 };
 </script>
-<style type="text/css">
-.selfCell {
-  padding: 8px 0px !important;
-}
-.selfCell > .cell {
-  padding-left: 0px !important;
-}
-.selfCell.selfColumn > .cell {
-  /*white-space: nowrap!important;
-		padding: 0px 4px !important;*/
-}
-</style>
+
 <style  type="text/css" scoped >
 .filter {
   height: 30px;
@@ -422,30 +257,6 @@ export default {
   white-space: nowrap;
 }
 
-.head {
-  height: 1rem;
-  font-size: 0.3rem;
-  line-height: 1rem;
-  background: #21aefb;
-  color: #fff;
-}
-.tap {
-  font-size: 0.3rem;
-  background: #21aefb;
-  height: 0.7rem;
-  line-height: 0.7rem;
-}
-.tap .act {
-  background: #fff;
-  color: #333;
-}
-.tap .act a {
-  color: #333;
-}
-.tap a {
-  color: #fff;
-  text-decoration: none;
-}
 .maincontent {
   font-size: 0.3rem;
   height: 2.5rem;

@@ -23,7 +23,6 @@
                 :options="options"
                 clearable
                 v-model="searchData.selected"
-                @change="handleChange"
                 :props="{value:'label'}"
                 style="width: 100%;display: inline-block;"
               ></el-cascader>
@@ -63,66 +62,52 @@
           </el-form>
         </div>
       </el-drawer>
-      <el-card class="box-card">
-        <el-table
-          :data="data1"
-          :row-class-name="tableRowClassName"
-          cell-class-name="selfCell"
-          :cell-style="cellClass"
-          :header-cell-style="cellClass"
-          border
-          show-overflow-tooltip
-          style="width: 100%"
-          @row-click="goxq"
+      <el-table
+        :data="data1"
+        :row-class-name="tableRowClassName"
+        cell-class-name="selfCell"
+        :cell-style="cellClass"
+        :header-cell-style="cellClass"
+        border
+        show-overflow-tooltip
+        style="width: 100%"
+        @row-click="goxq"
+      >
+        <el-table-column prop="providerName" label="供应商名称" fixed width="150">
+          <template v-slot="scope">
+            <!--<router-link :to='{path:"/supplyd",query:{providerCode:scope.row.providerCode}}' style="text-align:center;"></router-link>-->
+            {{scope.row.providerName}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="major" label="主营业务" class-name="selfColumn" width="137">
+          <template v-slot="scope">{{scope.row.major?scope.row.major:'/'}}</template>
+        </el-table-column>
+        <el-table-column prop="position" label="付款方式" class-name="selfColumn" width="90">
+          <template v-slot="scope">{{scope.row.resultSectionByStr?scope.row.resultSectionByStr:'/'}}</template>
+        </el-table-column>
+        <el-table-column
+          prop="correlation_person"
+          label="接单金额(万元)"
+          class-name="selfColumn"
+          width="140"
         >
-          <el-table-column prop="providerName" label="供应商名称" fixed width="150">
-            <template v-slot="scope">
-              <!--<router-link :to='{path:"/supplyd",query:{providerCode:scope.row.providerCode}}' style="text-align:center;"></router-link>-->
-              {{scope.row.providerName}}
-            </template>
-          </el-table-column>
-          <el-table-column prop="major" label="主营业务" class-name="selfColumn" width="137">
-            <template v-slot="scope">{{scope.row.major?scope.row.major:'/'}}</template>
-          </el-table-column>
-          <el-table-column prop="position" label="付款方式" class-name="selfColumn" width="90">
-            <template
-              v-slot="scope"
-            >{{scope.row.resultSectionByStr?scope.row.resultSectionByStr:'/'}}</template>
-          </el-table-column>
-          <el-table-column
-            prop="correlation_person"
-            label="接单金额(万元)"
-            class-name="selfColumn"
-            width="140"
-          >
-            <template v-slot="scope">{{scope.row.orderPriceStr?scope.row.orderPriceStr:'/'}}</template>
-          </el-table-column>
-          <el-table-column prop="relation" label="接单数量" class-name="selfColumn" width="90">
-            <template v-slot="scope">{{scope.row.orderCount?scope.row.orderCount:'/'}}</template>
-          </el-table-column>
-          <el-table-column prop="relation" label="省" class-name="selfColumn" width="90">
-            <template v-slot="scope">{{scope.row.provinceName?scope.row.provinceName:'/'}}</template>
-          </el-table-column>
-          <el-table-column prop="relation" label="市" class-name="selfColumn" width="100">
-            <template
-              v-slot="scope"
-            >{{scope.row.cityName==scope.row.provinceName?scope.row.areaName:scope.row.cityName}}</template>
-          </el-table-column>
-          <!--<el-table-column prop="relation" sortable :sort-method="sort" label="最后接单时间" width="120">
-              <template v-slot="scope">
-                {{scope.row.orderCount?scope.row.orderCount:'/'}}
-              </template>
-          </el-table-column>-->
-        </el-table>
-      </el-card>
+          <template v-slot="scope">{{scope.row.orderPriceStr?scope.row.orderPriceStr:'/'}}</template>
+        </el-table-column>
+        <el-table-column prop="relation" label="接单数量" class-name="selfColumn" width="90">
+          <template v-slot="scope">{{scope.row.orderCount?scope.row.orderCount:'/'}}</template>
+        </el-table-column>
+        <el-table-column prop="relation" label="省" class-name="selfColumn" width="90">
+          <template v-slot="scope">{{scope.row.provinceName?scope.row.provinceName:'/'}}</template>
+        </el-table-column>
+        <el-table-column prop="relation" label="市" class-name="selfColumn" width="100">
+          <template
+            v-slot="scope"
+          >{{scope.row.cityName==scope.row.provinceName?scope.row.areaName:scope.row.cityName}}</template>
+        </el-table-column>
+      </el-table>
     </div>
-    <div
-      v-show="showbackTop"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
-    </div>
+
+    <ShowbackTop/>
     <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
@@ -132,12 +117,13 @@ import BScroll from "better-scroll";
 import Head from "@/view/common/head";
 import { pca } from "@/assets/data/pca.js";
 import Addcreate from "@/components/addcreate";
-
+import ShowbackTop from "@/components/showbackTop";
 export default {
   name: "index",
   components: {
     Head,
-    Addcreate
+    Addcreate,
+    ShowbackTop
   },
   data() {
     return {
@@ -145,6 +131,9 @@ export default {
       act1: this.$route.query.id == 2 ? false : true,
       drawer: false,
       isscroll: false,
+      loading: true,
+      dataNumber:0,
+      pageSize:50,
       pulldownTip: {
         text: "", // 松开立即刷新
         textup: "", // 松开立即刷新
@@ -156,7 +145,6 @@ export default {
         children: "children",
         label: "label"
       },
-      showbackTop: false,
       options: [],
       searchData: {
         selected: "",
@@ -167,20 +155,18 @@ export default {
     };
   },
   mounted() {
-    this.getdata();
-    this.handleScroll();
+    this.getdata(this.pagenum).then(res => {
+      if (res.code == 200) {
+         this.dataNumber=res.data;
+        this.data1 = res.dataList;
+      }
+    });
     this.getact();
-    document.addEventListener("scroll", this.BS);
+    //
+    window.addEventListener("scroll", this.scrollSuppy, true);
+    // document.addEventListener("scroll", this.BS);
     //  this.gethong();
     this.areaData();
-  },
-  watch: {
-    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-    data() {
-      // setTimeout(() => {
-      //   this.BS();
-      // }, this.refreshDelay);
-    }
   },
   methods: {
     getact() {
@@ -219,9 +205,6 @@ export default {
         });
       }
     },
-    handleChange(value) {
-      console.log(this.searchData.selected);
-    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 == 0) {
         return "success-row";
@@ -237,58 +220,44 @@ export default {
         query: { id: row.id }
       });
     },
-    gotop() {
-      this.showbackTop = false;
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    },
-    BS() {
-      try {
-        if (this.$refs.wrapper.clientHeight) {
-          var boxnum = this.$refs.wrapper.clientHeight;
-        }
-        if (
-          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-          this.isscroll
-        ) {
-          this.isscroll = false;
-          this.getdata();
-        }
-        //返回顶部按钮
-        if (window.pageYOffset > window.outerHeight) {
-          this.showbackTop = true;
-        } else {
-          this.showbackTop = false;
-        }
-      } catch (err) {
-        //console.log(err);
-      }
-    },
 
-    handleScroll() {
-      if (window.pageYOffset > 1000) {
-        this.showbackTop = true;
-      } else {
-        this.showbackTop = false;
+    scrollSuppy() {
+      // 滚动到页面底部时
+      // const el = document.getElementById("customlist");
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+
+      let clientHeight = document.documentElement.clientHeight;
+      let scrollHeight = document.documentElement.scrollHeight;
+      const toBottom = scrollHeight - scrollTop - clientHeight;
+
+     if (
+        toBottom <= 30 &&
+        this.loading &&
+        this.dataNumber > this.data1.length
+      ) {
+        this.loading = false;
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        this.getdata(++this.pagenum).then(res => {
+          if (res.code == 200) {
+            this.dataNumber=res.data;
+            this.data1 = this.data1.concat(res.dataList);
+            if (this.data1.length == this.pagenum * this.pageSize) {
+              document.documentElement.scrollTop = scrollTop - 10;
+            }
+            if(this.dataNumber<this.pagenum * this.pageSize){
+              this.$message.success("已经到底部了");
+            }
+            this.loading = true;
+          }
+        });
       }
-      try {
-        if (this.$refs.content.clientHeight) {
-          var boxnum = this.$refs.content.clientHeight;
-        }
-        if (
-          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-          this.isscroll
-        ) {
-          this.isscroll = false;
-          this.getdata();
-        }
-      } catch (err) {
-        // //console.log(err);
-      }
+    
     },
+ 
 
     zhongjian(status) {
-      console.log(status);
       if (!status) {
         this.searchData = {
           selected: ""
@@ -300,12 +269,12 @@ export default {
     closeDrawer() {
       this.zhongjian(true);
       this.pagenum = 1;
-      this.getdata();
+      this.getdata(this.pagenum);
     },
-    getdata() {
-      // this.scroll = false;
-      providerList({
-        page: this.pagenum,
+    getdata(page) {
+      return providerList({
+        page: page,
+        pageSize: this.pageSize,
         role: localStorage.getItem("role"),
         userId: localStorage.getItem("userid"),
         level: localStorage.getItem("level"),
@@ -320,92 +289,12 @@ export default {
         orderCount: this.searchData.orderCount
           ? this.searchData.orderCount
           : null
-      }).then(res => {
-        if (res.code == 200) {
-          if (this.pagenum == 1) {
-            this.data1 = res.dataList;
-          } else {
-            for (var i = 0; i < res.dataList.length; i++) {
-              this.data1.push(res.dataList[i]);
-            }
-          }
-          if (res.dataList.length > 0 && res.data > this.data1.length) {
-            this.pagenum++;
-            this.isscroll = true;
-          } else {
-            if (this.data1.length) {
-              this.isscroll = false;
-              this.pulldownTip.textup = "-已经到底了-";
-            }
-          }
-          console.log(this.pagenum);
-          if (this.pagenum == 2) {
-            //
-            this.isscroll = false;
-            this.getdata();
-          }
-        }
       });
-    }
-  },
-  props: {
-    probeType: {
-      type: Number,
-      default: 3
-    },
-    click: {
-      type: Boolean,
-      default: true
-    },
-    scrollX: {
-      type: Boolean,
-      default: false
-    },
-    listenScroll: {
-      type: Boolean,
-      default: false
-    },
-    data: {
-      type: Array,
-      default: null
-    },
-    pullup: {
-      type: Boolean,
-      default: true
-    },
-    pulldown: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * 是否派发列表滚动开始的事件
-     */
-    beforeScroll: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * 当数据更新后，刷新scroll的延时。
-     */
-    refreshDelay: {
-      type: Number,
-      default: 20
     }
   }
 };
 </script>
 <style type="text/css">
-.selfCell {
-  padding: 8px 0px !important;
-}
-.selfCell > .cell {
-  padding-left: 0px !important;
-}
-.selfCell.selfColumn > .cell {
-  /*white-space: nowrap!important;
-		text-overflow: ellipsis !important;overflow: hidden !important;
-		padding: 0px 4px !important;*/
-}
 </style>
 <style scoped>
 .filter {

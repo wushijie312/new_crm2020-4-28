@@ -11,7 +11,7 @@
         <div v-if="item.is_act" class="tabs_info_line"></div>
         <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
-          <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.userName}}</div>
+          <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.userName}}.{{item.departmentName}}</div>
           <div
             class="tabs_normal_cont tabs_lc tabs_lmoney"
           >{{searchValue1=="累计完成"?item.finishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="标准销售额"?item.standardFinishMoney:''}}</div>
@@ -59,11 +59,11 @@
           </div>
         </div>
         <div v-show="item.is_act " class="wztabs_details tabs_details border_bf0f0f0">
-          <div class="padd_b12 border_bf0f0f0">
+          <div class="padd_b10 border_bf0f0f0">
             <div class="tabs_thr paddb3">
               <h3>{{item.departmentName}}</h3>
               <span class="usertabs_paidan" @click="gotoPaiDan(item.userId)">
-                <i class="el-icon-s-promotion" style="color:#333;"></i>派单
+                <i class="el-icon-s-promotion" style="color:#409eff;"></i>派单
               </span>
             </div>
             <div class="tabs_four mart8">
@@ -106,7 +106,7 @@
               </div>
             </div>
           </div>
-          <div class="padd_bt12">
+          <div class="padd_bt6">
             <div class="usertabspc tabs_four wztabs_pc_all">
               <p class="tabs_four_a mart8">
                 标准销售额：
@@ -123,7 +123,7 @@
               <p class="tabs_four_a mart8">
                 环比：
                 <span
-                  :class="item.monthCompare>=0?'rate_red':'rate_green'"
+                  :class="item.monthCompare>0?'rate_red':item.monthCompare==0?'color333':'rate_green'"
                 >{{item.monthCompare}}%</span>
               </p>
               <p class="tabs_four_a mart8">
@@ -140,12 +140,12 @@
               </p>
               <p class="tabs_four_a mart8">
                 同比：
-                <span :class="item.yearCompare>=0?'rate_red':'rate_green'">{{item.yearCompare}}%</span>
+                <span :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'">{{item.yearCompare}}%</span>
               </p>
               <p class="tabs_four_a mart8">
                 超额/差额：
                 <span
-                  :class="item.differenceMoney>=0?'rate_red':'rate_green'"
+                  :class="item.differenceMoney>0?'rate_red':item.differenceMoney==0?'color333':'rate_green'"
                 >{{item.differenceMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
@@ -193,7 +193,7 @@
               <p class="tabs_four_a mart8">
                 超额/差额：
                 <span
-                  :class="item.differenceMoney>=0?'rate_red':'rate_green'"
+                  :class="item.differenceMoney>0?'rate_red':item.differenceMoney==0?'color333':'rate_green'"
                 >{{item.differenceMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
@@ -216,7 +216,7 @@
               <p class="tabs_four_a mart8">
                 环比：
                 <span
-                  :class="item.monthCompare>=0?'rate_red':'rate_green'"
+                  :class="item.monthCompare>0?'rate_red':item.monthCompare==0?'color333':'rate_green'"
                 >{{item.monthCompare}}%</span>
               </p>
               <p class="tabs_four_a mart8">
@@ -226,7 +226,7 @@
 
               <p class="tabs_four_a mart8">
                 同比：
-                <span :class="item.yearCompare>=0?'rate_red':'rate_green'">{{item.yearCompare}}%</span>
+                <span :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'">{{item.yearCompare}}%</span>
               </p>
               <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 丢标：
@@ -261,6 +261,12 @@ export default {
       ku: require("@/assets/img/bangdan/ku.png")
     };
   },
+    mounted() {
+    setTimeout(()=>{
+    console.log('2w',this.tabdata1);
+
+    },6000);
+  },
   methods: {
     gotoPaiDan(id) {
       this.$router.push({ path: "/create", query: { userid: id } });
@@ -280,18 +286,7 @@ export default {
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/css/bangdan.styl';
-.tabs_la{
-  width:16%;
-}
-.tabs_lb{
-  width:27%;
-}
-.tabs_lc{
-  width:27%;
-}
-.tabs_ld{
-  width:27%;
-}
+
 @media screen and (min-width: 850px) {
   .tabs_la{
   width:25%;

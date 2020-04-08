@@ -130,13 +130,8 @@
 			    <el-button type="primary" @click="flowinConfirm(dialogCon.val)">确 定</el-button>
 			  </span>
 			</el-dialog>
-	 		<div
-	      v-show="showbackTop"
-	      @click="gotop"
-	      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-	    >
-	      <i class="el-icon-top"></i>
-	    </div>
+	
+      <ShowbackTop/>
     	<p v-show="pulldownTip.textup" style="font-size: 0.12rem;padding: 10px;">{{pulldownTip.textup}}</p>
       <Addcreate v-if="!act1"></Addcreate>
     </div>
@@ -155,7 +150,7 @@ import RelationTable from "@/view/new_kehu/relationTable";
 import Fold from "@/view/new_kehu/fold";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-
+import ShowbackTop from "@/components/showbackTop";
 export default {
   name: "index",
   components: {
@@ -165,7 +160,8 @@ export default {
     Fold,
     Visit,
     RelationTable,
-    Addcreate
+    Addcreate,
+    ShowbackTop
   },
   data() {
     return {
@@ -211,7 +207,6 @@ export default {
       	options:[],
       },
       tabdata2: [],//table组件数据
-      showbackTop:false,
       customerType:{
       	checked:"",
       	options:[]//{result:"全部",source:"0"}
@@ -329,12 +324,7 @@ export default {
           this.isscroll = false;
           this.getallData();
         }
-        //返回顶部按钮
-        if(window.pageYOffset>window.outerHeight){
-        	this.showbackTop = true
-        }else{
-        	this.showbackTop = false;
-        }
+      
       } catch (err) {
         // //console.log(err);
       }
@@ -386,11 +376,7 @@ export default {
       }
         
     },
-    gotop() {
-      this.showbackTop = false;
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    },
+  
 		getallData() {
       var date = new Date(this.datevalue);
       var date1 =

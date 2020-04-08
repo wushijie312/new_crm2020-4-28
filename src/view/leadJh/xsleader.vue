@@ -377,13 +377,8 @@
       <!-- </el-tabs> -->
     </div>
 
-    <div
-      v-show="topshow"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
-    </div>
+    
+    <ShowbackTop/>
     <div :style="zhezhao"></div>
   </div>
 </template>
@@ -409,6 +404,7 @@ import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
 import Head from "@/view/common/head";
+import ShowbackTop from "@/components/showbackTop";
 export default {
   components: {
     Wzb,
@@ -418,7 +414,8 @@ export default {
     Kehu,
     User,
     Head,
-    ZhanduiWzb
+    ZhanduiWzb,
+    ShowbackTop
   },
   name: "index",
   data() {
@@ -482,7 +479,6 @@ export default {
       ladzd: true,
 
       tabdata4: [],
-      topshow: false,
       hb: "",
       tb: "",
       down: false,
@@ -676,12 +672,6 @@ export default {
       } catch (error) {}
     },
     handleScroll() {
-      if (window.pageYOffset > 1000) {
-        this.topshow = true;
-      } else {
-        this.topshow = false;
-      }
-
       // //console.log(this.$refs)
       try {
         if (this.$refs.content.clientHeight) {
@@ -722,11 +712,6 @@ export default {
           iswzb: this.zhuan === "切换至表格版"
         }
       });
-    },
-    gotop() {
-      this.topshow = false;
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
     },
 
     aler() {
@@ -790,6 +775,7 @@ export default {
             this.jingjingli = 0;
             var jsid = 0;
             this.tabdata1.forEach(element => {
+              element.is_act=false;
               element.id = jsid;
               jsid++;
               this.jingli += Number(element.netProfit);
@@ -842,6 +828,13 @@ export default {
           .then(res => {
             this.alldata = res;
             this.tabdata3 = res.saleInfoList;
+
+            this.tabdata3.forEach(element => {
+              element.is_act=false;
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+
           })
           .catch(error => {});
       } else {
@@ -942,12 +935,12 @@ export default {
   height: 0;
   z-index: 1;
   border-top: 4px solid #999;
-  border-right: 4px solid transparent;
+  border-right: 3px solid transparent;
   border-bottom: 4px solid transparent;
-  border-left: 4px solid transparent;
+  border-left: 3px solid transparent;
   position: absolute;
   top: 8px;
-  right: 5px;
+  right: 6px;
   content: ' ';
 }
 
@@ -955,9 +948,7 @@ export default {
   color: #409eff;
 }
 
-.search_px_tit.act:after {
-  border-top: 4px solid #409eff;
-}
+
 
 .search_px_pc {
   font-size: 13px;
@@ -991,10 +982,12 @@ export default {
   border-left: 3px solid transparent;
   position: absolute;
   top: 8px;
-  right: -7px;
+  right: -8px;
   content: ' ';
 }
-
+.search_px_tit.act:after {
+  border-top: 4px solid #409eff;
+}
 .search_pxbox {
   display: flex;
   background: $colorfff;
@@ -1025,7 +1018,7 @@ export default {
   position: absolute;
   right: 12px;
   font-size: 12px;
-  top: -2px;
+  top: -3px;
   padding: 0 6px;
   border: 1px solid #409eff;
   line-height: 24px;
@@ -1274,7 +1267,6 @@ table, tbody, thead {
 
   .search_px_btn {
     font-size: 13px;
-    top: -1px;
   }
 }
 
@@ -1297,7 +1289,6 @@ table, tbody, thead {
 
   .search_px_btn {
     font-size: 13px;
-    top: -1px;
   }
 }
 
@@ -1328,7 +1319,7 @@ table, tbody, thead {
     position: absolute;
     right: 12px;
     font-size: 13px;
-    top: -2px;
+    top: -4px;
     padding: 0 10px;
     border: 1px solid #409eff;
     line-height: 26px;

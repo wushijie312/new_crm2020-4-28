@@ -302,7 +302,7 @@
           </div>
           <div class="tabs_six ">
             <h3 class="tabs_six_a">
-              <img :src="dd" />今日订单来自客户：<span v-for="(i,index) in item.customerList" :key="index">{{i}}&nbsp;</span>
+              <img :src="dd" />今日订单来自客户
             </h3>
             <div class="tabs_five">
               <div class="tabs_biaoge_all tabs_six_color_b">
@@ -559,7 +559,7 @@ export default {
     };
   },
   props: ["tabdata1","searchValue", "value1", "jxq", "alertNr", "zhezhao"],
-
+  mounted() {},
   methods: {
     boxOrtextChange() {
       this.zhuan = !this.zhuan;

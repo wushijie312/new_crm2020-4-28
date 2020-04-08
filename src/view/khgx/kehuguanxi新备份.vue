@@ -89,14 +89,13 @@
         </div>
       </div>
     </div>
-    <!-- <div
+    <div
       v-show="showbackTop"
       @click="gotop"
       style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
     >
       <i class="el-icon-top"></i>
-    </div> -->
-    <ShowbackTop ></ShowbackTop>
+    </div>
     <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
@@ -106,14 +105,12 @@ import { getisread } from "@/api/configWu";
 import BScroll from "better-scroll";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-import ShowbackTop from "@/components/showbackTop";
 
 export default {
   name: "index",
   components: {
     Head,
-    Addcreate,
-    ShowbackTop
+    Addcreate
   },
   data() {
     return {
@@ -121,6 +118,7 @@ export default {
       isread: false,
       loading: true,
       pageSize: 20,
+      showbackTop: false,
       loadingConnecting: false,
       arr: [],
       pagenum: 1,
@@ -207,10 +205,18 @@ export default {
           }
         });
       }
-     
+      if (scrollTop > 1000) {
+        this.showbackTop = true;
+      } else {
+        this.showbackTop = false;
+      }
     },
 
-   
+    gotop() {
+      this.showbackTop = false;
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    },
     handleScroll() {
       if (this.$route.query.id == 2) {
         this.ty = false;
@@ -267,7 +273,37 @@ export default {
   background: #21aefb;
   color: #fff;
 }
-
+.tap {
+  font-size: 0.3rem;
+  background: #21aefb;
+  height: 0.7rem;
+  line-height: 0.7rem;
+}
+.tap .act {
+  background: #fff;
+  color: #333;
+}
+.tap .act a {
+  color: #333;
+}
+.tap a {
+  color: #fff;
+  text-decoration: none;
+}
+.maincontent {
+  font-size: 0.3rem;
+  height: 2.5rem;
+  background: #fff;
+  padding: 0.2rem;
+  box-sizing: border-box;
+}
+.nianBt {
+  height: 1.3rem;
+  width: 20%;
+  background: red;
+  padding-top: 0.6rem;
+  color: #fff;
+}
 table,
 tbody,
 thead {
