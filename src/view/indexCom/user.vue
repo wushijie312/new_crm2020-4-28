@@ -25,37 +25,26 @@
               />
               <img class="tabs_ld_img" :src="zan" />
             </div>
-            <div v-if="item.saleNo<=7&&item.saleNo>4">
+            <div v-if="item.saleNo==5"><img class="tabs_ld_img" :src="zan" /></div>
+            <div v-if="item.saleNo<=10&&item.saleNo>5">
               <img
                 class="tabs_ld_img"
-                v-for="(itemNo,len2) in 8-item.saleNo"
+                v-for="(itemNo,len2) in 1"
                 :key="len2"
                 :src="xiao"
               />
             </div>
-            <div v-if="item.saleNo>7&&item.saleNo<=10 &&pagenum==-1">
-              <img class="tabs_ld_img" :src="ku" />
-              <img v-if="item.saleNo>9&&item.saleNo<=10" class="tabs_ld_img" :src="ku" />
-             
+            <div v-if="item.saleNo>10&&item.saleNo<=15 &&pagenum==1">
+              <img class="tabs_ld_img" :src="xiao" />
+            </div>
+            <div v-if="item.saleNo>15 &&pagenum==1">
+                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
             </div>
             <div v-if="item.saleNo>10 &&pagenum==-1">
              
-              <span v-if="item.saleNo>10">
                 <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
-              </span>
             </div>
-            <div v-if="item.saleNo>7&&item.saleNo<=15 &&pagenum==1">
-              <img class="tabs_ld_img" :src="ku" />
-              <img v-if="item.saleNo>9&&item.saleNo<=11" class="tabs_ld_img" :src="ku" />
-              <span v-if="item.saleNo>11&&item.saleNo<=15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-              </span>
-            </div>
-            <div v-if="item.saleNo>15 &&pagenum==1">
-              <span>
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
-              </span>
-            </div>
+          
           </div>
         </div>
         <div v-show="item.is_act " class="wztabs_details tabs_details border_bf0f0f0">
