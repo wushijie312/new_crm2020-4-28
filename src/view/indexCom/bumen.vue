@@ -266,7 +266,7 @@
               <div class="tabs_five_a">
                 <h3>
                   {{item.finishRate.split('/')[0]}}
-                  <span class="tabs_five_arate">NO.{{item.rateNo}}</span>
+                  <!-- <span class="tabs_five_arate">NO.{{item.rateNo}}</span> -->
                 </h3>
                 <p>实时完成率</p>
               </div>
@@ -309,7 +309,7 @@
                 <div class="tabs_five_a">
                   <h3 class="color333">
                     {{item.finishMoney}}万
-                    <span class="tabs_five_arate">NO.{{item.saleNo}}</span>
+                    <!-- <span class="tabs_five_arate">NO.{{item.saleNo}}</span> -->
                   </h3>
                   <p>目前销售累计</p>
                 </div>
@@ -318,7 +318,7 @@
                 <div class="tabs_five_a">
                   <h3 class="color333">
                     {{item.netProfit}}万
-                    <span class="tabs_five_arate">NO.{{item.netNo}}</span>
+                    <!-- <span class="tabs_five_arate">NO.{{item.netNo}}</span> -->
                   </h3>
                   <p>目前月净利</p>
                 </div>
@@ -357,7 +357,7 @@
                 <div class="tabs_five_a">
                   <h3 class="color333">
                     {{item.netsProfit}}万
-                    <span class="tabs_five_arate">NO.{{item.netsNo}}</span>
+                    <!-- <span class="tabs_five_arate">NO.{{item.netsNo}}</span> -->
                   </h3>
                   <p>目前月净净利</p>
                 </div>
@@ -384,9 +384,9 @@
                 <div class="tabs_five_a">
                   <h3 class="color333">
                     {{item.grossProfit.split('/')[1]}}
-                    <span
+                    <!-- <span
                       class="tabs_five_arate"
-                    >NO.{{item.grossPNo}}</span>
+                    >NO.{{item.grossPNo}}</span> -->
                   </h3>
                   <p>月平均毛利率</p>
                 </div>

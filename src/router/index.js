@@ -45,6 +45,10 @@ import talentd from '@/view/supply/talentd'
 import dcTabs from '@/view/questionDc/dcTabs'
 import customers from '@/view/questionDc/customers'
 import iframe from '@/view/questionDc/iframe'
+
+// 销售工作台 start 
+import saleWorkIndex from '@/view/salework/index.vue'
+
 // xsuser
 // 问卷调查 end
 
