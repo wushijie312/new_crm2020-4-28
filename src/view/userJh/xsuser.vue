@@ -1,195 +1,322 @@
 <template>
   <div class="wrapper" ref="wrapper">
-     <Head :act.sync='act' :ty.sync='act1'></Head>
+    <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content">
-     
- <div class="menu-head-top50"></div>
-      <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
-        <div style="overflow:hidden;width:100%;float:left;text-align:left;">
-          <h3 style="text-align:left;position:relative;padding-bottom:0.2rem;">
-            <span style="line-height:1rem;display:block;">汇总销售日报</span>
-            <span
-              id="sobox"
-              style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
-            >
-              <!-- {{value1}} -->
-              <el-date-picker
-                v-model="value1"
-                type="date"
-                placeholder="选择日期"
-                style="border:none;"
-                :editable="false"
-                :clearable="false"
-                class="el-icon-arrow-down1"
+      <div class="menu-head-top50"></div>
+      <div class="wrap850">
+        <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
+          <div style="overflow:hidden;width:100%;float:left;text-align:left;">
+            <h3 style="text-align:left;position:relative;padding-bottom:0.2rem;">
+              <span style="line-height:1rem;display:block;">汇总销售日报</span>
+              <span
+                id="sobox"
+                style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
               >
-                <template>
-                  <i class="el-icon-arrow-down"></i>
-                </template>
-              </el-date-picker>
-            </span>
-          </h3>
-          <div
-            class="left flex_1"
-            style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
-          >
-            <div>
-              <span class="blue">本月任务：</span>
-              <span class="black">{{yuejihua}}万</span>
-            </div>
-            <div>
-              <span class="blue">今日完成：</span>
-              <span class="black">
-                <span :class="yiwancheng>=0?'red':'green'">{{yiwancheng}}万</span>
+                <!-- {{value1}} -->
+                <el-date-picker
+                  v-model="value1"
+                  type="date"
+                  placeholder="选择日期"
+                  style="border:none;"
+                  :editable="false"
+                  :clearable="false"
+                  class="el-icon-arrow-down1"
+                >
+                  <template>
+                    <i class="el-icon-arrow-down"></i>
+                  </template>
+                </el-date-picker>
               </span>
-            </div>
-            <div>
-              <span class="blue">截止今日应完成：</span>
-              <span class="black">
-                <span :class="zhijinjihua>=0?'red':'green'">{{zhijinjihua}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">实际累计完成：</span>
-              <span class="black">
-                <span :class="zhijinwancheng>=0?'red':'green'">{{zhijinwancheng}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">今日毛利率：</span>
-              <span class="black">
-                <span :class="dayTotalGrossProfit>=0?'red':'green'">{{dayTotalGrossProfit}}%</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">累计毛利率：</span>
-              <span class="black">
-                <span :class="yuemaoli>=0?'red':'green'">{{yuemaoli}}%</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">实时完成率：</span>
-              <span class="black">
-                <span :class="biao2>=0?'red':'green'">{{biao2}}%</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">超额/差额：</span>
-              <span class="black">
-                <span :class="chaoe>=0?'red':'green'">{{chaoe}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">净利：</span>
-              <span class="black">
-                <span :class="jingli>=0?'red':'green'">{{jingli}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">净净利：</span>
-              <span class="black">
-                <span :class="jingjingli>=0?'red':'green'">{{jingjingli}}万</span>
-              </span>
-            </div>
-            <div style="color:#999999;width:100%;font-size:0.3rem;">
-              <span style>
-                上月环比
-                <span :class="hb>=0?'red':'green'">
-                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                  {{hb>0?hb:-hb}}%
-                </span>,去年同比
-                <span :class="tb>=0?'red':'green'">
-                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                  {{tb>0?tb:-tb}}%
+            </h3>
+            <div
+              v-if="indexnum==3"
+              class="left flex_1"
+              style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
+            >
+              <div>
+                <span class="blue">本月任务：</span>
+                <span class="black">{{alldata.totalMthPlanMoney}}万</span>
+              </div>
+              <div>
+                <span class="blue">今日完成：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalDayPlanMoney>=0?'red':'green'"
+                  >{{alldata.totalDayPlanMoney}}万</span>
                 </span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">TB线索：</span>
-              <span class="black">
-                <span :class="TBxiansuo>=0?'red':'green'">{{TBxiansuo}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">本月开标：</span>
-              <span class="black">
-                <span :class="kaibiao>=0?'red':'green'">{{kaibiao}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">本月中标：</span>
-              <span class="black">
-                <span :class="zhongbiao>=0?'red':'green'">{{zhongbiao}}万</span>
-              </span>
-            </div>
-            <div>
-              <span class="blue">本月丢标：</span>
-              <span class="black">
-                <span :class="totalLoseTenderMoney>=0?'red':'green'">{{totalLoseTenderMoney}}万</span>
-              </span>
+              </div>
+              <div>
+                <span class="blue">截止今日应完成：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalMonthShouldMoney>=0?'red':'green'"
+                  >{{alldata.totalMonthShouldMoney}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">实际累计完成：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalFinishMthMoney>=0?'red':'green'"
+                  >{{alldata.totalFinishMthMoney}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">今日毛利率：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.dayTotalGrossProfit>=0?'red':'green'"
+                  >{{alldata.dayTotalGrossProfit}}%</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">累计毛利率：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalMthGrossProfit>=0?'red':'green'"
+                  >{{alldata.totalMthGrossProfit}}%</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">实时完成率：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalFinishMthRate>=0?'red':'green'"
+                  >{{alldata.totalFinishMthRate}}%</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">超额/差额：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.moneyDifference>=0?'red':'green'"
+                  >{{alldata.moneyDifference}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">净利：</span>
+                <span class="black">
+                  <span :class="jingli>=0?'red':'green'">{{jingli}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">净净利：</span>
+                <span class="black">
+                  <span :class="jingjingli>=0?'red':'green'">{{jingjingli}}万</span>
+                </span>
+              </div>
+              <div style="color:#999999;width:100%;font-size:0.3rem;">
+                <span style>
+                  上月环比
+                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
+                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
+                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
+                  </span>,去年同比
+                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
+                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
+                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
+                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">TB线索：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalTBClueMoney>=0?'red':'green'"
+                  >{{alldata.totalTBClueMoney}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">本月开标：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalOpenTenderMoney>=0?'red':'green'"
+                  >{{alldata.totalOpenTenderMoney}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">本月中标：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalGetTenderMoney>=0?'red':'green'"
+                  >{{alldata.totalGetTenderMoney}}万</span>
+                </span>
+              </div>
+              <div>
+                <span class="blue">本月丢标：</span>
+                <span class="black">
+                  <span
+                    :class="alldata.totalLoseTenderMoney>=0?'red':'green'"
+                  >{{alldata.totalLoseTenderMoney}}万</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
+        <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
+          <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
+            <span class="menu_border">
+              部门榜
+              <span class="menu_border_line"></span>
+            </span>
+          </div>
+          <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
+            <span class="menu_border">
+              全体销售
+              <span class="menu_border_line"></span>
+            </span>
+          </div>
+        </div>
+        <div v-show="indexnum==1">
+          <div class="qu_bumobile">
+            <div class="fl qu_bmmobile_b">筛选：</div>
+            <div class="fr clearfix">
+              <div class="qu_bmmobile_a fl">
+                <el-select
+                  class="qu_bmmobile_select"
+                  v-model="searchValue"
+                  placeholder="请选择"
+                  @change="search_change"
+                >
+                  <el-option
+                    v-for="item in searchType"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.label"
+                  ></el-option>
+                </el-select>
+              </div>
+            </div>
+          </div>
+          <div class="search_px search_px_pc">
+            <p v-for="(itemSearch,len3) in searchType" :key="len3">
+              <span
+                :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+              >{{itemSearch.label}}</span>
+            </p>
+          </div>
+          <Bumen :tabdata1.sync="tabdata1" :searchValue="searchValue" :value1.sync="value1" />
+        </div>
+        <div v-show="indexnum==3">
+          <div class="bd_search">
+            <div class="bd_search_a">
+              <el-input
+                size="small"
+                placeholder="请输入销售名称"
+                v-model="xskword"
+                class="qu_cuHead_search"
+              ></el-input>
+              <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+            </div>
+          </div>
+          <div class="search_pxbox">
+            <div class="search_px">
+              <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+                <span
+                  :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                  @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                >{{itemSearch.label}}</span>
+              </p>
+            </div>
+            <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+          </div>
+          <User
+            :pagenum="pagenum"
+            :searchValue1="searchValue1"
+            :tabdata3="tabdata3"
+            :value1="value1"
+          />
+        </div>
       </div>
-      <Kehu :tabdata1="tabdata1" :value1="value1" />
-      
-    </div>
-
-    
-   
-    <div
-      v-show="topshow"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
     </div>
     <Addcreate></Addcreate>
   </div>
 </template>
 
 <script>
-import CreateData from "@/view/userJh/xsuserdata/index"
+import CreateData from "@/view/userJh/xsuserdata/index";
 import Addcreate from "@/components/addcreate";
 // import BScroll from "better-scroll";
-import {
-  adddata,
-  chakehu,
-  updata,
-  needdata,
-  chabumen,
-  chakh
-} from "@/api/config";
+import { adddata, chakehu, chabumen, needdata } from "@/api/config";
 import { getisread } from "@/api/configWu";
 import Head from "@/view/common/head";
 import Kehu from "@/view/userCom/kehu";
+import Bumen from "@/view/userCom/bumen";
+import User from "@/view/userCom/user";
 export default {
   components: {
     Head,
     Addcreate,
-    Kehu
+    Kehu,
+    Bumen,
+    User
   },
   name: "index",
   data() {
     return {
-      isread:false,
+      xskword: "",
+      showOrHide: true,
+      paixunum1: 1,
+      paixunum: 5,
+      pagenum: 1,
+      searchValue: "实际销售额",
+      searchValue1: "累计完成",
+      searchType: [
+        {
+          value: "5",
+          label: "实际销售额"
+        },
+        {
+          value: "4",
+          label: "标准销售额"
+        },
+        {
+          value: "1",
+          label: "实时完成率"
+        },
+        {
+          value: "2",
+          label: "净利"
+        },
+        {
+          value: "3",
+          label: "净净利"
+        },
+        {
+          value: "6",
+          label: "部门费用率"
+        },
+        {
+          value: "7",
+          label: "人力成本费用率"
+        },
+        {
+          value: "8",
+          label: "年销售完成率"
+        }
+      ],
+      searchType3: [
+        {
+          value: "1",
+          label: "累计完成"
+        },
+        {
+          value: "2",
+          label: "实时完成率"
+        },
+        {
+          value: "3",
+          label: "标准销售额"
+        }
+      ],
+      indexnum: 3,
+
+      isread: false,
       restaurants: [],
-      topshow: false,
-      dayTotalGrossProfit: "",
       value: "",
-      options: [],
-      input101: "",
-      input102: "",
-      input103: "",
-      input104: "",
-      input105: "",
-      centerDialogVisible: false,
-      hb: "",
-      tb: "",
-      loadingConnecting: false,
-      down: false,
-      up: true,
       pulldownTip: {
         text: "下拉刷新", // 松开立即刷新
         textup: "上拉加载更多", // 松开立即刷新
@@ -198,26 +325,10 @@ export default {
       arr: [],
       jingli: 0,
       jingjingli: 0,
-      tzshow: false,
-      // scroll:true,
-      totalnum: 1,
-      pagenum: 1,
-      indexnum: 1,
-      urlA: "",
-      nianjihua: "",
-      nianleiji: "",
-      nianmaoli: "",
-      yuejihua: "",
-      yueleiji: "",
-      totalTBClueMoney: "",
-      yuemaoli: "",
       act: 1,
       act1: false,
-      box: "100",
       value1: "",
-      totalLoseTenderMoney: "",
       value2: "",
-      state2: "",
       input10: "",
       input11: "",
       show2: false,
@@ -226,23 +337,12 @@ export default {
       chaoe: "",
       TBxiansuo: "",
       yiwancheng: "",
-      kaibiao: "",
-      zhongbiao: "",
-      zhijinjihua: "",
-      zhijinwancheng: "0",
       choose: {},
-      tableData5: [],
-      tableData6: [],
-      tableData7: [],
-      isshow: 1,
-      su: [],
-      su1: [],
-      su2: [],
-      su3: [],
       initdate: "",
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
+      alldata: ""
     };
   },
   created() {},
@@ -250,94 +350,74 @@ export default {
     this.chakehu();
     this.aler();
     this.getallData();
-   
-    this.gethong()
-    this.getact()
+
+    this.gethong();
+    this.getact();
   },
   watch: {
     value1() {
-      this.pagenum = 1;
       this.getallData();
     }
-   
   },
   methods: {
-   
-    getact(){
-      var lodata = JSON.parse(sessionStorage.getItem('userMenus'))
-      lodata.forEach((e,index)=>{
-        if(e.path=="/xiaoshou1"){
-          this.act = index+1
-        }
-      })
+    search_change(val) {
+      console.log(val);
+      this.paixunum =
+        val == "实际销售额"
+          ? 5
+          : val == "标准销售额"
+          ? 4
+          : val == "实时完成率"
+          ? 1
+          : val == "净利"
+          ? 2
+          : val == "净净利"
+          ? 3
+          : val == "部门费用率"
+          ? 6
+          : val == "人力成本费用率"
+          ? 7
+          : val == "年销售完成率"
+          ? 8
+          : "";
+      this.getallData();
     },
-    gethong(){
-      getisread({userid:localStorage.getItem('userid')}).then(res=>{
-        // console.log()
-        this.isread = res.data.isread
-      })
-    },
-     handleSelect(item) {
-      this.choose = item
-    },
-    querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString.length>0 ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (restaurant) => {
-            // console.log(restaurant)
-          return (restaurant.companyName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-    gotop() {
-      this.scroll.stop();
-      this.scroll.scrollTo(0, 0, 0.5);
-      this.topshow = false;
-    },
-    getdata() {
-      if (this.input10 && this.input11 && this.choose.id) {
-        adddata({
-          dayMoney: this.input10,
-          grossProfit: this.input11,
-          customerId: this.choose.id,
-          customerName: this.choose.companyName,
-          tbClueMoney: this.returnZero(this.input101),
-          openTenderMoney: this.returnZero(this.input102),
-          getTenderMoney: this.returnZero(this.input103),
-          loseTenderMoney: this.returnZero(this.input104),
-          loseTenderReason: this.input105
-        })
-          .then(res => {
-            console.log(res);
-            if(res.code==200){
-              this.$message.success("添加成功");
-              this.show2 = false;
-              this.input10 = "";
-              this.input11 = "";
-              this.input101 = "";
-              this.input102 = "";
-              this.input103 = "";
-              this.input104 = "";
-              this.input105 = "";
-              this.choose = {};
-              this.value = "";
-              this.pagenum = 1;
-              this.getallData();
-            }
-            
-            
-          })
-          .catch(error => {
-            console.log(error);
-            this.$message.error("添加失败");
-          });
-      } else {
-        this.$message.error("客户、今日完成、预估毛利率为必填项");
+    bumenbanghandle(len, name) {
+      if (this.indexnum == 1) {
+        this.paixunum = len;
+        this.searchValue = name;
+      } else if (this.indexnum == 3) {
+        this.paixunum1 = len;
+        this.searchValue1 = name;
       }
+      this.getallData();
     },
+    XiaoSouListChange() {
+      this.showOrHide = !this.showOrHide;
+      this.pagenum = this.showOrHide ? -1 : 1;
+      this.getallData();
+    },
+    zhongjiedata(val) {
+      if (val.index) {
+        this.indexnum = val.index;
+      }
+      this.getallData();
+    },
+    getact() {
+      var lodata = JSON.parse(sessionStorage.getItem("userMenus"));
+      lodata.forEach((e, index) => {
+        if (e.path == "/xiaoshou1") {
+          this.act = index + 1;
+        }
+      });
+    },
+    gethong() {
+      getisread({ userid: localStorage.getItem("userid") }).then(res => {
+        // console.log()
+        this.isread = res.data.isread;
+      });
+    },
+
     chakehu() {
       chakehu({ role: "" })
         .then(res => {
@@ -346,20 +426,6 @@ export default {
         })
         .catch(error => {});
     },
-    changeLocationValue(val) {
-      //locations是v-for里面的也是datas里面的值
-      let obj = {};
-      obj = this.options.find(item => {
-        return item.id === val;
-      });
-      this.choose = obj;
-    },
-    tankuang(a, b) {
-      this.centerDialogVisible = true;
-      var data = a;
-      data.label = b;
-      localStorage.setItem("xiugaiData", JSON.stringify(data));
-    },
     returnZero(a) {
       if (a == "") {
         return -1;
@@ -367,115 +433,8 @@ export default {
         return a;
       }
     },
-    xiugaidata() {
-      let a = JSON.parse(localStorage.getItem("xiugaiData"));
 
-      if (!this.value2) {
-        this.$message.error("请填写完整信息");
-        return;
-      }
-      if (a.label == "今日完成(万)") {
-        var date = new Date(this.value1);
-        var date1 =
-          date.getFullYear() +
-          "-" +
-          this.getnum(Number(date.getMonth()) + 1) +
-          "-" +
-          this.getnum(date.getDate());
-        if (this.value2 > 1000) {
-          this.open("修改金额不可以超过1000万");
-          this.value2 = "";
-          return;
-        }
-        updata({
-          customerId: a.customerId,
-          customerName: a.customerName,
-          dayMoney: this.value2,
-          grossProfit: a.grossProfit,
-          submitTime: date1,
-          role: ""
-        })
-          .then(res => {
-            console.log(res);
-            if (res.code == 200) {
-              this.$message.success(res.message);
-              this.value2 = "";
-              this.pagenum = 1;
-              this.getallData();
-              this.centerDialogVisible = false;
-            } else {
-              this.$message.error(res.message);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        var date = new Date(this.value1);
-        var date1 =
-          date.getFullYear() +
-          "-" +
-          this.getnum(Number(date.getMonth()) + 1) +
-          "-" +
-          this.getnum(date.getDate());
-        updata({
-          customerId: a.customerId,
-          customerName: a.customerName,
-          dayMoney: a.dayMoney,
-          grossProfit: this.value2,
-          submitTime: date1
-        })
-          .then(res => {
-            if (res.code == 200) {
-              this.$message.success(res.message);
-              this.value2 = "";
-              this.pagenum = 1;
-              this.getallData();
-              this.centerDialogVisible = false;
-            } else {
-              this.$message.error(res.message);
-            }
-          })
-          .catch(error => {
-          });
-      }
-      this.centerDialogVisible = true;
-    },
-    setdate() {
-      this.$picker.show({
-        type: "datePicker",
-        date: this.initdate,
-        endTime: "2099-01-01", //截至时间
-        startTime: "2010-02-11", //开始时间
-        onOk: date => {
-          this.value1 = date; // birthday就是所需字段，在data 里定义下
-          this.initdate = date;
-          this.pagenum = 1;
-          this.getallData();
-        }
-      });
-    },
-
-    getSummaries(param) {
-      const { columns, data } = param;
-      const sums = this.su;
-
-      return sums;
-    },
-    getSummaries1(param) {
-      const { columns, data } = param;
-      const sums = this.su1;
-
-      return sums;
-    },
-    getSummaries2(param) {
-      const { columns, data } = param;
-      const sums = this.su2;
-      return sums;
-    },
-    setechart: function() {},
     aler() {
-     
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -491,27 +450,7 @@ export default {
         "-" +
         jiazero(Number(inittime.getDate()));
       this.value1 = this.initdate;
-    },
-    goA() {
-      this.urlA =
-        "http://wxtest1.98ep.com/khgx/khgx.html?userid=" +
-        localStorage.getItem("userid");
-      location.href = this.urlA;
-    },
-    setbiaogeWid(a, b) {
-      this.box = (a - 30) / b;
-    },
-    zhongjiedata(a) {
-      console.log(a);
-      this.pagenum = 1;
-      //   this.pulldownTip.textup = '上拉加载更多'
-      this.indexnum = Number(a.index) + 1;
-      console.log(this.indexnum);
-      this.getallData();
-    },
-    timechange() {
-      this.pagenum = 1;
-      this.getallData();
+      console.log(this.value1);
     },
     getallData() {
       var date = new Date(this.value1);
@@ -521,67 +460,52 @@ export default {
         this.getnum(Number(date.getMonth()) + 1) +
         "-" +
         this.getnum(date.getDate());
-      var scrollTop = document.documentElement.scrollTop;
-      // alert(this.indexnum)
-
-      needdata({
-        submitTime: date1,
-        page: this.pagenum,
-        role: ""
-      })
-        .then(res => {
-          this.yuejihua = res.totalMthPlanMoney;
-          this.totalLoseTenderMoney = res.totalLoseTenderMoney;
-          this.hb = res.totalMonthCompare;
-          this.tb = res.totalYearCompare;
-
-          this.nianjihua = res.yearPlanMoney;
-          this.nianleiji = res.yearFinishMoney;
-          this.nianmaoli = res.yearGrossProfit;
-
-          this.yueleiji = res.totalFinishMthMoney;
-          this.yuemaoli = res.totalMthGrossProfit;
-          this.biao1 = res.yearFinishRate;
-          this.biao2 = res.totalFinishMthRate;
-          this.yiwancheng = res.totalDayPlanMoney;
-          this.zhijinjihua = res.totalMonthShouldMoney;
-          this.zhijinwancheng = res.totalFinishMthMoney;
-          this.chaoe = res.moneyDifference;
-          this.TBxiansuo = res.totalTBClueMoney;
-          this.kaibiao = res.totalOpenTenderMoney;
-          this.zhongbiao = res.totalGetTenderMoney;
-          this.dayTotalGrossProfit = res.dayTotalGrossProfit;
-
-          if (this.pagenum == 1) {
-            this.tabdata1 = res.saleInfoList;
-          } else {
-            for (var i = 0; i < res.saleInfoList.length; i++) {
-              this.tabdata1.push(res.saleInfoList[i]);
-            }
-            document.scrollTop = scrollTop;
-          }
-          this.jingli = 0;
-          this.jingjingli = 0;
-          this.tabdata1.forEach(element => {
-            this.jingli += Number(element.netProfit);
-            this.jingjingli += Number(element.netsProfit);
-          });
-          this.jingli = this.jingli.toFixed(2);
-          this.jingjingli = this.jingjingli.toFixed(2);
-
-          if (res.saleInfoList.length > 0) {
-            this.pagenum++;
-            // alert(this.pagenum)
-            // this.scroll = true;
-          } else {
-            this.pulldownTip.textup = "我是有底线的";
-          }
-          this.setechart();
+      if (this.indexnum == 1) {
+        chabumen({
+          keyword: "",
+          submitTime: date1,
+          page: 1,
+          sortname: this.searchValue,
+          sort: 1,
+          role: localStorage.getItem("role")
         })
-        .catch(error => {
-          // console.log(error)
-          // open('添加失败')
-        });
+          .then(res => {
+            this.alldata = res;
+            this.tabdata1 = res.saleInfoList;
+            this.jingli = 0;
+            this.jingjingli = 0;
+            var jsid = 0;
+            this.tabdata1.forEach(element => {
+              element.is_act = false;
+              element.id = jsid;
+              jsid++;
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+            this.jingli = this.jingli.toFixed(2);
+            this.jingjingli = this.jingjingli.toFixed(2);
+          })
+          .catch(error => {});
+      } else if (this.indexnum == 3) {
+        this.pagenum = this.showOrHide ? -1 : 1;
+        needdata({
+          keyword: this.xskword,
+          submitTime: date1,
+          sortname: this.searchValue1,
+          sort: 1,
+          page: this.pagenum,
+          role: localStorage.getItem("role")
+        })
+          .then(res => {
+            this.alldata = res;
+            this.tabdata3 = res.saleInfoList;
+            this.tabdata3.forEach(element => {
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+          })
+          .catch(error => {});
+      }
     },
     getnum(a) {
       if (a < 10) {
@@ -590,49 +514,248 @@ export default {
       } else {
         return a;
       }
-    },
-  
-  },
+    }
+  }
 };
 </script>
-<style scoped>
+<style lang="stylus"  scoped>
+/* 筛选 start */
+.qu_bmmobile_select {
+  width: 130px;
+}
+
+.qu_bupc {
+  display: none;
+}
+
+.qu_bumobile {
+  height: 38px;
+  background: #fff;
+  margin-bottom: 8px;
+  padding: 0 15px;
+  line-height: 38px;
+}
+
+.bd_search {
+  display: flex;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.bd_search_a {
+  width: 100%;
+  position: relative;
+}
+
+.bd_search_btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: $colorb4b9bf;
+  font-size: 20px;
+}
+
+.search_px {
+  font-size: 13px;
+  padding: 0px 0 10px;
+  width: 100%;
+  line-height: 20px;
+  box-sizing: border-box;
+  display: flex;
+  background: #fff;
+}
+
+.search_px p {
+  width: 20%;
+  color: #333;
+  position: relative;
+}
+
+.search_px_tit {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 20px 0 0;
+}
+
+.search_px_tit:after {
+  width: 0;
+  height: 0;
+  z-index: 1;
+  border-top: 4px solid #999;
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 3px solid transparent;
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  content: ' ';
+}
+
+.search_px_tit.act {
+  color: #409eff;
+}
+
+.search_px_pc {
+  display: none;
+  font-size: 13px;
+  padding: 10px 8px 10px;
+}
+
+.search_px_pc p {
+  text-align: center;
+  width: 24%;
+}
+
+.search_px_pc p:nth-child(4) {
+  width: 14%;
+}
+
+.search_px_pc p:nth-child(5) {
+  width: 14%;
+}
+
+.search_px_pc .search_px_tit {
+  padding-right: 0;
+}
+
+.search_px_pc .search_px_tit:after {
+  width: 0;
+  height: 0;
+  z-index: 1;
+  border-top: 4px solid #999;
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 3px solid transparent;
+  position: absolute;
+  top: 8px;
+  right: -8px;
+  content: ' ';
+}
+
+.search_px_tit.act:after {
+  border-top: 4px solid #409eff;
+}
+
+.search_pxbox {
+  display: flex;
+  background: $colorfff;
+  padding: 0px 12px;
+  position: relative;
+}
+
+.search_pxbox .search_px {
+  margin-right: 70px;
+}
+
+.search_pxbox .search_px p {
+  width: 35%;
+  text-align: left;
+}
+
+.search_pxbox .search_px p:first-child {
+  width: 30%;
+  text-align: left;
+}
+
+.search_pxbox .search_px_tit {
+  padding: 0 15px 0 0;
+  font-size: 12px;
+}
+
+.search_px_btn {
+  position: absolute;
+  right: 12px;
+  font-size: 12px;
+  top: -3px;
+  padding: 0 6px;
+  border: 1px solid #409eff;
+  line-height: 24px;
+  border-radius: 30px;
+  text-align: center;
+  color: #409eff;
+}
+
+/* menu start */
+.menubox {
+  border-bottom: 1px solid #f0f0f0;
+  margin-top: 8px;
+}
+
+.menubox > div {
+  width: 50%;
+  background: #fff;
+}
+
+.menubox .menu_border {
+  line-height: 42px;
+  font-size: 14px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.menubox .act {
+  position: relative;
+}
+
+.menubox .act .menu_border {
+  position: relative;
+  color: #409eff;
+}
+
+.menubox .act .menu_border_line {
+  border-bottom: 2px solid #409eff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 
 .el-input__inner {
   border: none;
 }
+
 .bmqb {
   font-size: 0.3rem;
   color: black;
 }
+
 .bmbt {
   font-size: 0.26rem;
   color: #999;
   margin-top: 0.15rem;
 }
+
 .bmcontent {
   background: #fafafa;
   padding: 10px;
   font-size: 0.3rem;
 }
+
 .bmcontent > div {
   width: 33%;
   padding-bottom: 0.3rem;
 }
-body,
-html {
+
+body, html {
   background: #f2f2f5;
 }
+
 .flex_1 {
   flex-wrap: wrap;
 }
+
 .flex_1 > div {
   width: 100%;
   margin-bottom: 0.2rem;
 }
+
 .flex_1 > div > span {
   /* display: block; */
   /* width: 100%; */
 }
+
 .blue {
   color: #999;
   /* width: 30%; */
@@ -643,6 +766,7 @@ html {
   text-align: left;
   font-size: 0.3rem;
 }
+
 .black {
   color: black;
   /* width: 40%; */
@@ -652,20 +776,25 @@ html {
   white-space: nowrap;
   font-size: 0.3rem;
 }
+
 .el-tabs--border-card > .el-tabs__content {
   padding: 0;
 }
+
 .el-select-dropdown {
   width: 98%;
 }
+
 #maincontent1 p {
   padding-left: 20px;
   text-align: left;
 }
+
 #maincontent p {
   padding-left: 20px;
   text-align: left;
 }
+
 .head {
   height: 1rem;
   font-size: 0.3rem;
@@ -673,23 +802,28 @@ html {
   background: #21aefb;
   color: #fff;
 }
+
 .tap {
   font-size: 0.3rem;
   background: #21aefb;
   height: 0.7rem;
   line-height: 0.7rem;
 }
+
 .tap .act {
   background: #fff;
   color: #333;
 }
+
 .tap .act a {
   color: #333;
 }
+
 .tap a {
   color: #fff;
   text-decoration: none;
 }
+
 .maincontent {
   font-size: 0.3rem;
   /* height: 5.5rem; */
@@ -698,28 +832,27 @@ html {
   padding: 0.2rem;
   box-sizing: border-box;
 }
+
 .nianBt {
   line-height: 4.2rem;
   width: 20%;
   background: red;
   color: #fff;
 }
-table,
-tbody,
-thead {
+
+table, tbody, thead {
   width: 100% !important;
 }
 
-.el-table .cell,
-.el-table th div,
-.el-table--border td:first-child .cell,
-.el-table--border th:first-child .cell {
+.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
   padding: 0;
   text-align: center;
 }
+
 .red {
   color: #f16c5d;
 }
+
 .cheng {
   color: #fe8b16;
 }
@@ -728,6 +861,7 @@ thead {
 .green {
   color: green;
 }
+
 .newxin {
   width: 100%;
   height: 50px;
@@ -737,13 +871,83 @@ thead {
   color: #ccc;
   font-size: 0.24rem;
 }
+
 .bmcontent > div {
   border-bottom: 1px solid #ccc;
   padding-top: 0.2rem;
   border-right: 1px solid #ccc;
 }
+
 .bmcontent > div:nth-child(3n + 0) {
   border-right: none;
 }
 
+@media screen and (max-width: 640px) and (min-width: 375px) {
+  .search_pxbox .search_px_tit {
+    font-size: 13px;
+  }
+
+  .search_px_btn {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .search_px_pc p {
+    width: 20%;
+  }
+
+  .search_pxbox .search_px_tit {
+    font-size: 13px;
+  }
+
+  .search_px_btn {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .search_px_pc {
+    display: flex;
+    padding: 10px 20px 10px 15px;
+  }
+
+  .qu_bumobile {
+    display: none;
+  }
+
+  .search_px_pc p {
+    width: 16.333333%;
+  }
+
+  .search_px_pc p:nth-child(1) {
+    text-align: left;
+    width: 14%;
+  }
+
+  .search_px_pc p:nth-child(4) {
+    width: 12%;
+  }
+
+  .search_px_pc p:nth-child(5) {
+    width: 12%;
+  }
+
+  .search_px_pc p:nth-child(8) {
+    text-align: right;
+  }
+
+  .search_px_btn {
+    position: absolute;
+    right: 12px;
+    font-size: 13px;
+    top: -4px;
+    padding: 0 10px;
+    border: 1px solid #409eff;
+    line-height: 26px;
+    border-radius: 30px;
+    text-align: center;
+    color: #409eff;
+  }
+}
 </style>

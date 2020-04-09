@@ -2,8 +2,8 @@
   <div>
     <div style="background:#f2f2f5;">
       <div
-        style="border-bottom:1px solid #ccc;padding-bottom:0.3rem;margin-bottom:0.2rem;font-size:0.3rem;margin-top:0.2rem;"
-        v-for="(item,index) in tabdata1"
+        style="border-bottom:1px solid #ccc;padding-bottom:0.3rem;margin-bottom:0.2rem;font-size:0.3rem;"
+        v-for="(item,index) in tabdata3"
         :key="index"
       >
         <div>
@@ -103,7 +103,7 @@
 <script>
 import { updata } from "@/api/config";
 export default {
-  props: ["tabdata1", "value1"],
+  props: ["tabdata3", "value1"],
   data() {
     return {
       centerDialogVisible: false,
@@ -151,10 +151,10 @@ export default {
             if (res.code == 200) {
               this.$message.success(res.message);
               a.dayMoney=this.value2;
-              this.$set(this.tabdata1, a.len, a);
+              this.$set(this.tabdata3, a.len, a);
               this.value2 = "";
               this.pagenum = 1;
-                console.log(a);
+                console.log(res);
              
               this.centerDialogVisible = false;
             } else {
@@ -162,7 +162,6 @@ export default {
             }
           })
           .catch(error => {
-            console.log(error);
           });
       } else {
         var date = new Date(this.value1);
@@ -182,8 +181,8 @@ export default {
           .then(res => {
             if (res.code == 200) {
               this.$message.success(res.message);
-                 a.grossProfit=this.value2+"%";
-              this.$set(this.tabdata1, a.len, a);
+              a.grossProfit=this.value2+"%";
+              this.$set(this.tabdata3, a.len, a);
               this.value2 = "";
               this.pagenum = 1;
             

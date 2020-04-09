@@ -9,7 +9,7 @@
     <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
       <div class="tabs_info">
         <div v-if="item.is_act" class="tabs_info_line"></div>
-        <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
+        <div :class="item.is_act?'tabs_two act':'tabs_two'" >
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
           <div
@@ -603,22 +603,11 @@ export default {
       zhuan: false
     };
   },
-  props: ["tabdata1", "searchValue", "value1", "jxq", "alertNr", "zhezhao"],
+  props: ["tabdata1", "searchValue", "value1"],
 
   methods: {
     boxOrtextChange() {
       this.zhuan = !this.zhuan;
-    },
-    details_handle(row, len) {
-      this.zhuan = false;
-      this.tabdata1.map((item, index) => {
-        if (len == index) {
-          row.is_act = !row.is_act;
-          this.$set(this.tabdata1, len, row);
-        } else {
-          item.is_act = false;
-        }
-      });
     },
     getnum(a) {
       if (a < 10) {
@@ -666,4 +655,7 @@ export default {
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/css/bangdan.styl';
+.tabs_two{
+  cursor:auto;
+}
 </style>
