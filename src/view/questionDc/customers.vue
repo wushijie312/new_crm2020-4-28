@@ -11,7 +11,7 @@
           style="color: rgb(153, 153, 153);position: absolute;right: 15px;top: 16px;font-size: 20px;width: 32px;"
         ></i>
       </div>
-      <div class="qu_bmBox qu_bupc" >
+      <div class="qu_bmBox qu_bupc">
         <div class="qu_bmSearch">
           <div class="qu_bmSearch_a">部门：</div>
           <div class="qu_bmSearch_b">
@@ -25,7 +25,7 @@
         </div>
         <div class="qu_bmSearch bordertop1">
           <div class="qu_bmSearch_a">客户类型：</div>
-          <div class=" qu_bmSearch_b">
+          <div class="qu_bmSearch_b">
             <span
               @click="khSelectHandel(item, index)"
               :class="item.is_act? 'qu_bmleft act':'qu_bmleft'"
@@ -36,35 +36,38 @@
         </div>
       </div>
       <div class="qu_bumobile">
-        <div class="qu_bmmobile_a">
-          <el-select
-            :class="kehu_act?'qu_bmmobile_select act':'qu_bmmobile_select'"
-            v-model="level"
-            @visible-change="kehuSelectChange"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in khtags"
-              :key="item.result"
-              :label="item.result"
-              :value="item.result"
-            ></el-option>
-          </el-select>
-        </div>
-        <div class="qu_bmmobile_a">
-          <el-select
-            :class="bumen_act?'qu_bmmobile_select act':'qu_bmmobile_select'"
-            @visible-change="bumenSelectChange"
-            v-model="dept_id"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in departList"
-              :key="item.departmentName"
-              :label="item.departmentName"
-              :value="item.departmentId"
-            ></el-option>
-          </el-select>
+        <div class="fl qu_bmmobile_b">筛选：</div>
+        <div class="fr clearfix">
+          <div class="qu_bmmobile_a fl">
+            <el-select
+              :class="kehu_act?'qu_bmmobile_select act':'qu_bmmobile_select'"
+              v-model="level"
+              @visible-change="kehuSelectChange"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in khtags"
+                :key="item.result"
+                :label="item.result"
+                :value="item.result"
+              ></el-option>
+            </el-select>
+          </div>
+          <div class="qu_bmmobile_a fl">
+            <el-select
+              :class="bumen_act?'qu_bmmobile_select act':'qu_bmmobile_select'"
+              @visible-change="bumenSelectChange"
+              v-model="dept_id"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in departList"
+                :key="item.departmentName"
+                :label="item.departmentName"
+                :value="item.departmentId"
+              ></el-option>
+            </el-select>
+          </div>
         </div>
       </div>
       <div
@@ -116,7 +119,7 @@ export default {
       departList: [],
       khtags: [],
       kehu_act: false,
-      bumen_act: false,
+      bumen_act: false
     };
   },
   mounted() {
@@ -133,61 +136,60 @@ export default {
     // 获取部门
     wqdepart().then(res => {
       if (res.msg == "success") {
-        this.departList=res.dataList
-        this.departList.unshift({departmentName:"全部部门",is_act:true});
+        this.departList = res.dataList;
+        this.departList.unshift({ departmentName: "全部部门", is_act: true });
       }
     });
     // 获取标签
     wqtags().then(res => {
       //  console.log(res);
       if (res.msg == "success") {
-        this.khtags=res.data;
-        this.khtags.unshift({result:"全部客户",is_act:true});
+        this.khtags = res.data;
+        this.khtags.unshift({ result: "全部客户", is_act: true });
       }
     });
   },
   methods: {
     khSelectHandel(row, len) {
-        this.khtags.map((item, index) => {
-          if (item.result == row.result) {
-            item.is_act = !row.is_act;
-            this.level=row.result;
-            // this.$set(this.khtags, len, row);
-          } else {
-            item.is_act = false;
-          }
-        });
-     this.searchListHandel();
+      this.khtags.map((item, index) => {
+        if (item.result == row.result) {
+          item.is_act = !row.is_act;
+          this.level = row.result;
+          // this.$set(this.khtags, len, row);
+        } else {
+          item.is_act = false;
+        }
+      });
+      this.searchListHandel();
     },
     bmSelectHandel(row, len) {
-        this.departList.map((item, index) => {
-          if (item.departmentId == row.departmentId) {
-            item.is_act = !row.is_act;
-            this.dept_id= row.departmentId;
+      this.departList.map((item, index) => {
+        if (item.departmentId == row.departmentId) {
+          item.is_act = !row.is_act;
+          this.dept_id = row.departmentId;
 
-            // this.$set(this.departList, len, row);
-          } else {
-            item.is_act = false;
-          }
-        });
+          // this.$set(this.departList, len, row);
+        } else {
+          item.is_act = false;
+        }
+      });
       this.searchListHandel();
     },
     kehuSelectChange(val) {
       this.kehu_act = val;
       if (!val) {
-        this.khSelectHandel({result:this.level});
+        this.khSelectHandel({ result: this.level });
         // this.searchListHandel();
       }
     },
     bumenSelectChange(val) {
       this.bumen_act = val;
       if (!val) {
-        this.bmSelectHandel({departmentId:this.dept_id});
+        this.bmSelectHandel({ departmentId: this.dept_id });
         // this.searchListHandel();
       }
     },
 
-    
     getcust(page) {
       // 接口请求
       return wqcustomers({
@@ -196,8 +198,8 @@ export default {
         keyword: this.keyword,
         pageSize: 30,
         page: page,
-          dept_id: this.dept_id=="全部部门"?'':this.dept_id,
-        level: this.level=="全部客户"?'':this.level
+        dept_id: this.dept_id == "全部部门" ? "" : this.dept_id,
+        level: this.level == "全部客户" ? "" : this.level
       });
     },
     scrollBottom() {
@@ -223,16 +225,16 @@ export default {
       }
     },
     searchListHandel() {
-      this.page=1;
+      this.page = 1;
       // 接口请求
       wqcustomers({
         userId: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         keyword: this.keyword,
         pageSize: 30,
-        page:this.page,
-        dept_id: this.dept_id=="全部部门"?'':this.dept_id,
-        level: this.level=="全部客户"?'':this.level
+        page: this.page,
+        dept_id: this.dept_id == "全部部门" ? "" : this.dept_id,
+        level: this.level == "全部客户" ? "" : this.level
       }).then(res => {
         if (res.code == "200") {
           this.customList = res.data;
@@ -273,14 +275,11 @@ export default {
 .qu_bumobile {
   height: 38px;
   background: #fff;
-  display: flex;
   margin-bottom: 8px;
-  padding: 0 30px;
+  padding: 0 15px;
+  line-height: 38px;
 }
-.qu_bumobile > div {
-  text-align: center;
-  width: 50%;
-}
+
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;
@@ -321,7 +320,8 @@ export default {
   margin: 0 22px;
   cursor: pointer;
 }
-.qu_bmSearch_b span.act ,.qu_bmSearch_b span:hover{
+.qu_bmSearch_b span.act,
+.qu_bmSearch_b span:hover {
   color: #409eff;
 }
 /* .qu_bmleft:nth-child(5n),
@@ -333,13 +333,12 @@ export default {
   border-top: 1px solid #f0f0f0;
 }
 
-
 .qu_cu_a {
   width: 80%;
   margin-top: 3px;
 }
 .qu_cuHead {
-  padding: 10px 12px;
+  padding: 10px 12px 0;
   background: #fff;
   position: relative;
 }
@@ -379,11 +378,10 @@ export default {
 @media screen and (min-width: 850px) {
   .qu_bupc {
     display: block;
-  } 
+  }
   .qu_bumobile {
     display: none;
   }
- 
 }
 .qu_cu_b {
   padding-top: 4px;

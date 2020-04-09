@@ -465,7 +465,6 @@ export default {
       zhuan: "切换至文字版",
       zhuan1: "切换至表格版",
       zhuan2: "切换至文字版",
-      rqkj: false,
       soit: 1,
       pickerOptions0: {
         disabledDate(time) {
@@ -481,44 +480,19 @@ export default {
       tabdata4: [],
       hb: "",
       tb: "",
-      down: false,
-      up: true,
       pulldownTip: {
         text: "下拉刷新", // 松开立即刷新
         textup: "上拉加载更多", // 松开立即刷新
         rotate: "" // icon-rotate
       },
-      arr: [],
       jingli: 0,
       jingjingli: 0,
-      tzshow: false,
-      // scroll:true,
-      totalnum: 1,
       pagenum: 1,
       indexnum: 1,
-      urlA: "",
-      nianjihua: "",
-      nianleiji: "",
-      nianmaoli: "",
-      yuejihua: "",
-      yueleiji: "",
-      totalTBClueMoney: "",
-      yuemaoli: "",
       act: 1,
       act1: true,
       box: "100",
       value1: this.aler(),
-      totalLoseTenderMoney: "",
-      value2: "",
-      state2: "",
-      input10: "",
-      input11: "",
-      show2: false,
-      choose: {},
-      tableData5: [],
-      tableData6: [],
-      tableData7: [],
-      isshow: 1,
       initdate: "",
       tabdata1: [],
       tabdata2: [],
@@ -543,7 +517,7 @@ export default {
     // this.aler();
     this.getallData();
     this.gettc();
-    document.addEventListener("scroll", this.handleScroll);
+    // document.addEventListener("scroll", this.handleScroll);
     this.gethong();
     this.getact();
   },
@@ -671,25 +645,25 @@ export default {
         this.$refs.timechoose.blur();
       } catch (error) {}
     },
-    handleScroll() {
-      // //console.log(this.$refs)
-      try {
-        if (this.$refs.content.clientHeight) {
-          var boxnum = this.$refs.content.clientHeight;
-        }
-        if (
-          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-          this.isscroll
-        ) {
-          //console.log(111);
+    // handleScroll() {
+    //   // //console.log(this.$refs)
+    //   try {
+    //     if (this.$refs.content.clientHeight) {
+    //       var boxnum = this.$refs.content.clientHeight;
+    //     }
+    //     if (
+    //       window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
+    //       this.isscroll
+    //     ) {
+    //       //console.log(111);
 
-          this.isscroll = false;
-          this.getallData();
-        }
-      } catch (err) {
-        // //console.log(err);
-      }
-    },
+    //       this.isscroll = false;
+    //       this.getallData();
+    //     }
+    //   } catch (err) {
+    //     // //console.log(err);
+    //   }
+    // },
 
     jxq(a, b, c) {
       // //console.log(a)

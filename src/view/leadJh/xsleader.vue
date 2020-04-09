@@ -297,9 +297,16 @@
         ref="tabs"
       >-->
       <div :style="{display:soit===1?'block':'none'}">
-        <!-- <div class="bd_search_c">
-          <div class="bd_search_b">
-            <el-select class="qu_bmmobile_select" v-model="searchValue" placeholder="请选择" @change="search_change">
+        <div class="qu_bumobile">
+          <div class="fl qu_bmmobile_b">筛选：</div>
+          <div class="fr clearfix">
+            <div class="qu_bmmobile_a fl">
+             <el-select
+              class="qu_bmmobile_select"
+              v-model="searchValue"
+              placeholder="请选择"
+              @change="search_change"
+            >
               <el-option
                 v-for="item in searchType"
                 :key="item.value"
@@ -307,8 +314,9 @@
                 :value="item.label"
               ></el-option>
             </el-select>
+            </div>
           </div>
-        </div>-->
+        </div>
         <div class="search_px search_px_pc">
           <p v-for="(itemSearch,len3) in searchType" :key="len3">
             <span
@@ -377,7 +385,6 @@
       <!-- </el-tabs> -->
     </div>
 
-    
     <!-- <ShowbackTop/> -->
     <div :style="zhezhao"></div>
   </div>
@@ -414,7 +421,7 @@ export default {
     Kehu,
     User,
     Head,
-    ZhanduiWzb,
+    ZhanduiWzb
     // ShowbackTop
   },
   name: "index",
@@ -443,6 +450,18 @@ export default {
         {
           value: "3",
           label: "净净利"
+        },
+        {
+          value: "6",
+          label: "部门费用率"
+        },
+        {
+          value: "7",
+          label: "人力成本费用率"
+        },
+        {
+          value: "8",
+          label: "年销售完成率"
         }
       ],
       searchType3: [
@@ -552,6 +571,11 @@ export default {
     XiaoSouListChange() {
       this.showOrHide = !this.showOrHide;
       this.pagenum = this.showOrHide ? -1 : 1;
+      this.getallData();
+    },
+    search_change(val){
+      console.log(val);
+      this.paixunum=val=="实际销售额"?5:val=="标准销售额"?4:val=="实时完成率"?1:val=="净利"?2:val=="净净利"?3:val=="部门费用率"?6:val=="人力成本费用率"?7:val=="年销售完成率"?8:''
       this.getallData();
     },
     getact() {
@@ -749,7 +773,7 @@ export default {
             this.jingjingli = 0;
             var jsid = 0;
             this.tabdata1.forEach(element => {
-              element.is_act=false;
+              element.is_act = false;
               element.id = jsid;
               jsid++;
               this.jingli += Number(element.netProfit);
@@ -804,11 +828,10 @@ export default {
             this.tabdata3 = res.saleInfoList;
 
             this.tabdata3.forEach(element => {
-              element.is_act=false;
+              element.is_act = false;
               this.jingli += Number(element.netProfit);
               this.jingjingli += Number(element.netsProfit);
             });
-
           })
           .catch(error => {});
       } else {
@@ -861,6 +884,22 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.qu_bmmobile_select {
+  width: 130px;
+}
+
+.qu_bupc {
+  display: none;
+}
+
+.qu_bumobile {
+  height: 38px;
+  background: #fff;
+  margin-bottom: 8px;
+  padding: 0 15px;
+  line-height: 38px;
+}
+
 .bd_search {
   display: flex;
   padding: 10px 12px;
@@ -885,7 +924,7 @@ export default {
   font-size: 13px;
   padding: 0px 0 10px;
   width: 100%;
-  line-height:20px;
+  line-height: 20px;
   box-sizing: border-box;
   display: flex;
   background: #fff;
@@ -922,9 +961,8 @@ export default {
   color: #409eff;
 }
 
-
-
 .search_px_pc {
+  display:none;
   font-size: 13px;
   padding: 10px 8px 10px;
 }
@@ -959,9 +997,11 @@ export default {
   right: -8px;
   content: ' ';
 }
+
 .search_px_tit.act:after {
   border-top: 4px solid #409eff;
 }
+
 .search_pxbox {
   display: flex;
   background: $colorfff;
@@ -1223,18 +1263,11 @@ table, tbody, thead {
   border-right: 1px solid black;
 }
 
-@media screen and (max-width: 374px) {
-  .search_px_pc {
-    font-size: 12px;
-    padding: 10px 8px 10px 0;
-  }
-}
+
 
 @media screen and (max-width: 640px) and (min-width: 375px) {
-  .search_px_pc {
-    font-size: 13px;
-    padding: 10px 8px 10px 0;
-  }
+  
+
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -1249,14 +1282,7 @@ table, tbody, thead {
     width: 20%;
   }
 
-  .search_px_pc p:nth-child(4) {
-    width: 20%;
-  }
-
-  .search_px_pc p:nth-child(5) {
-    width: 20%;
-  }
-
+  
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -1271,23 +1297,27 @@ table, tbody, thead {
     display: flex;
     padding: 10px 20px 10px 15px;
   }
- .search_px_pc p {
-    width: 26%;
+ .qu_bumobile {
+    display: none;
   }
+  .search_px_pc p {
+    width: 16.333333%;
+  }
+
 .search_px_pc p:nth-child(1) {
-    width: 16%;
-    text-align:left;
+   text-align:left;
+   width:14%;
   }
   .search_px_pc p:nth-child(4) {
-    width: 16%;
+    width: 12%;
   }
-
   .search_px_pc p:nth-child(5) {
-    width: 16%;
-    text-align:right;
+    width: 12%;
   }
 
-  
+  .search_px_pc p:nth-child(8) {
+    text-align: right;
+  }
 
   .search_px_btn {
     position: absolute;

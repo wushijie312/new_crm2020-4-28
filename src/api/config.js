@@ -4,8 +4,8 @@ import addheadreq from '@/untils/addheadreq'
    	var HOSTNAME = window.location.hostname;
      var PATHNAME = window.location.pathname.indexOf("crm_page_test");
      
-     if(HOSTNAME=="localhost"){//本地
-      // if(HOSTNAME=="10.0.0.56"){//本地
+    //  if(HOSTNAME=="localhost"){//本地
+      if(HOSTNAME=="10.0.0.56"){//本地
       // if(HOSTNAME=="192.168.20.101"){//本地192.168.20.100
          var htp = 'http://101.200.137.247:9112/supplierRelation'
 
@@ -310,6 +310,44 @@ export function needdata(data) {
   })
 }
 
+export function salechabumen(data) {
+  let userid = localStorage.getItem('userid')
+  let username = localStorage.getItem('userName')
+  // let departmentId = localStorage.getItem('departmentId')
+  // let departmentName = localStorage.getItem('departmentName')
+  // let role = localStorage.getItem('role')
+  // let type = localStorage.getItem('type')
+
+
+  let Object1 = {}
+  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username })
+
+  // alert("userid" + userid)
+  // alert("username" + username)
+  // alert("departmentId" + departmentId)
+  // alert("departmentName" + departmentName)
+  // alert("role" + role)
+  // alert("type" + type)
+  return request({
+    url: htp + '/saleInfo/search/department2list.do',
+    method: 'post',
+    params: { "param": JSON.stringify(all) }
+  })
+}
+export function saleneeddata(data) {
+  let userid = localStorage.getItem('userid')
+  
+  let username = localStorage.getItem('userName')
+
+  let Object1 = {}
+  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username})
+
+  return request({
+    url: htp + '/saleInfo/search/user2list.do',
+    method: 'post',
+    params: { "param": JSON.stringify(all) }
+  })
+}
 export function chabumen(data) {
   let userid = localStorage.getItem('userid')
   let username = localStorage.getItem('userName')
@@ -334,6 +372,7 @@ export function chabumen(data) {
     params: { "param": JSON.stringify(all) }
   })
 }
+
 export function chazhandui(data) {
   let userid = localStorage.getItem('userid')
   let username = localStorage.getItem('userName')

@@ -132,111 +132,12 @@
           </div>
         </div>
       </div>
-      <div style="background:#f2f2f5;">
-        <div
-          style="border-bottom:1px solid #ccc;padding-bottom:0.3rem;margin-bottom:0.2rem;font-size:0.3rem;margin-top:0.2rem;"
-          v-for="(item,index) in tabdata1"
-          :key="index"
-        >
-          <div>
-            <h3 style="text-align:left;line-height:1.2rem;background:#fff;text-indent:15px;">
-              <p style="line-height:0.6rem;">{{item.customerName}}</p>
-            </h3>
-          </div>
-          <div class="bmcontent" style="display:flex;flex-wrap:wrap;">
-            <div>
-              <p class="bmqb">{{item.monthMoney}}W</p>
-              <p class="bmbt">本月任务</p>
-            </div>
-            <div @click="tankuang(item,'今日完成(万)')">
-              <p class="bmqb" style="color:red;">{{item.dayMoney}}W</p>
-              <p class="bmbt">今日完成</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.monthShouldMoney}}W</p>
-              <p class="bmbt">截止今日应完成</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.finishMoney}}W</p>
-              <p class="bmbt">实际累计完成</p>
-            </div>
-            <div @click="tankuang(item,'今日毛利率')">
-              <p class="bmqb" style="color:red;">{{item.grossProfit.split('/')[0]}}</p>
-              <p class="bmbt">今日毛利率</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.grossProfit.split('/')[1]}}</p>
-              <p class="bmbt">累计毛利率</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.finishRate.split('/')[1]}}</p>
-              <p class="bmbt">计划完成率</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.finishRate.split('/')[0]}}</p>
-              <p class="bmbt">实时完成率</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.differenceMoney}}W</p>
-              <p class="bmbt">超额/差额</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.netProfit}}</p>
-              <p class="bmbt">净利</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.netsProfit}}</p>
-              <p class="bmbt">净净利</p>
-            </div>
-
-            <div>
-              <p class="bmqb">{{item.monthYearCompare.split('/')[0]}}</p>
-              <p class="bmbt">上月环比</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.monthYearCompare.split('/')[1]}}</p>
-              <p class="bmbt">去年同比</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.standardFinishMoney}}W</p>
-              <p class="bmbt">标准销售额</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.tbClueMoney}}W</p>
-              <p class="bmbt">TB线索</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.openTenderMoney}}W</p>
-              <p class="bmbt">本月开标</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.getTenderMoney}}W</p>
-              <p class="bmbt">截止今日中标</p>
-            </div>
-            <div>
-              <p class="bmqb">{{item.loseTenderMoney}}W</p>
-              <p class="bmbt">丢标</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Kehu :tabdata1="tabdata1" :value1="value1" />
+      
     </div>
 
     
-    
-    <!-- <el-backtop target=".el-scrollbar__wrap">
-        <i class="el-icon-top"></i>
-    </el-backtop>-->
-    
-    <el-dialog title="修改" :visible.sync="centerDialogVisible" width="80%" center>
-      <span>
-        <el-input v-model="value2" placeholder="请输入修改值" type="number"></el-input>
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="xiugaidata()">确 定</el-button>
-      </span>
-    </el-dialog>
+   
     <div
       v-show="topshow"
       @click="gotop"
@@ -262,10 +163,12 @@ import {
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
 import Head from "@/view/common/head";
+import Kehu from "@/view/userCom/kehu";
 export default {
   components: {
     Head,
-    Addcreate
+    Addcreate,
+    Kehu
   },
   name: "index",
   data() {

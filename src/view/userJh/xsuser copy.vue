@@ -1,8 +1,9 @@
 <template>
   <div class="wrapper" ref="wrapper">
-    <Head :act.sync="act" :ty.sync="act1"></Head>
+     <Head :act.sync='act' :ty.sync='act1'></Head>
     <div class="content">
-      <div class="menu-head-top50"></div>
+     
+ <div class="menu-head-top50"></div>
       <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
         <div style="overflow:hidden;width:100%;float:left;text-align:left;">
           <h3 style="text-align:left;position:relative;padding-bottom:0.2rem;">
@@ -131,189 +132,6 @@
           </div>
         </div>
       </div>
-
-      <div
-        v-for="(item,index) in tabdata1"
-        :key="index"
-        class="wztabs_details xstabs_details tabs_details border_bf0f0f0"
-      >
-        <div class="padd_b12 border_bf0f0f0">
-          <div class="tabs_thr paddb3">
-            <h3>{{item.departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{item.saleNo}}</span>
-          </div>
-          <div class="tabs_four mart8">
-            <p class="tabs_four_a">
-              本月任务：
-              <span>{{item.departmentLevel}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="item.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-item.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="item.saleNo<=7&&item.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-item.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="item.saleNo>7">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="item.saleNo>9&&item.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="item.saleNo>11&&item.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="tabs_four mart8">
-            <p class="tabs_four_a">
-              本月已完成：
-              <span>{{item.finishMoney}}</span>
-            </p>
-          </div>
-        </div>
-        <div class="padd_bt12">
-          <div class="usertabspc tabs_four wztabs_pc_all">
-            <p class="tabs_four_a mart8">
-              标准销售额：
-              <span class="color333">{{item.standardFinishMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              实时完成率：
-              <span class="color333">{{item.finishRate.split('/')[0]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              今日完成：
-              <span class="color333">{{item.dayMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              环比：
-              <span :class="item.monthCompare>0?'rate_red':'rate_green'">{{item.monthCompare}}%</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              累计毛利率：
-              <span class="color333">{{item.grossProfit.split('/')[1]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              计划完成率：
-              <span class="color333">{{item.finishRate.split('/')[1]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              今日毛利率：
-              <span class="color333">{{item.grossProfit.split('/')[0]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              同比：
-              <span :class="item.yearCompare>0?'rate_red':'rate_green'">{{item.yearCompare}}%</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              超额/差额：
-              <span
-                :class="item.differenceMoney>0?'rate_red':'rate_green'"
-              >{{item.differenceMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              TB线索：
-              <span class="color333">{{item.tbClueMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              目前中标：
-              <span class="color333">{{item.getTenderMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              本月开标：
-              <span class="color333">{{item.openTenderMoney}}万</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              丢标：
-              <span class="color333">{{item.differenceMoney}}万</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              实际季累计完成：
-              <span class="color333">{{item.finishQuarterMoney}}万</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              实际年累计完成：
-              <span class="color333">{{item.finishYearMoney}}万</span>
-            </p>
-          </div>
-          <div class="usertabsmobile tabs_four wztabs_pc_all">
-            <p class="tabs_four_a mart8">
-              标准销售额：
-              <span class="color333">{{item.standardFinishMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              实时完成率：
-              <span class="color333">{{item.finishRate.split('/')[0]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              今日完成：
-              <span class="color333">{{item.dayMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              今日毛利率：
-              <span class="color333">{{item.grossProfit.split('/')[0]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              超额/差额：
-              <span
-                :class="item.differenceMoney>0?'rate_red':'rate_green'"
-              >{{item.differenceMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              累计毛利率：
-              <span class="color333">{{item.grossProfit.split('/')[1]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              TB线索：
-              <span class="color333">{{item.tbClueMoney}}万</span>
-            </p>
-
-            <p class="tabs_four_a mart8">
-              计划完成率：
-              <span class="color333">{{item.finishRate.split('/')[1]}}</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              本月开标：
-              <span class="color333">{{item.openTenderMoney}}万</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              环比：
-              <span :class="item.monthCompare>0?'rate_red':'rate_green'">{{item.monthCompare}}%</span>
-            </p>
-            <p class="tabs_four_a mart8">
-              目前中标：
-              <span class="color333">{{item.getTenderMoney}}万</span>
-            </p>
-
-            <p class="tabs_four_a mart8">
-              同比：
-              <span :class="item.yearCompare>0?'rate_red':'rate_green'">{{item.yearCompare}}%</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              丢标：
-              <span class="color333">{{item.differenceMoney}}万</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              实际季累计完成：
-              <span class="color333">{{item.finishQuarterMoney}}万</span>
-            </p>
-            <p class="tabs_four_a wztabs_pcdifmoney mart8">
-              实际年累计完成：
-              <span class="color333">{{item.finishYearMoney}}万</span>
-            </p>
-          </div>
-        </div>
-      </div>
       <div style="background:#f2f2f5;">
         <div
           style="border-bottom:1px solid #ccc;padding-bottom:0.3rem;margin-bottom:0.2rem;font-size:0.3rem;margin-top:0.2rem;"
@@ -403,14 +221,45 @@
         </div>
       </div>
     </div>
+
+    
+    
+    <!-- <el-backtop target=".el-scrollbar__wrap">
+        <i class="el-icon-top"></i>
+    </el-backtop>-->
+    
+    <el-dialog title="修改" :visible.sync="centerDialogVisible" width="80%" center>
+      <span>
+        <el-input v-model="value2" placeholder="请输入修改值" type="number"></el-input>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="xiugaidata()">确 定</el-button>
+      </span>
+    </el-dialog>
+    <div
+      v-show="topshow"
+      @click="gotop"
+      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
+    >
+      <i class="el-icon-top"></i>
+    </div>
     <Addcreate></Addcreate>
   </div>
 </template>
 
 <script>
-import CreateData from "@/view/userJh/xsuserdata/index";
+import CreateData from "@/view/userJh/xsuserdata/index"
 import Addcreate from "@/components/addcreate";
-import { adddata, chakehu, needdata, chabumen, chakh } from "@/api/config";
+// import BScroll from "better-scroll";
+import {
+  adddata,
+  chakehu,
+  updata,
+  needdata,
+  chabumen,
+  chakh
+} from "@/api/config";
 import { getisread } from "@/api/configWu";
 import Head from "@/view/common/head";
 export default {
@@ -421,15 +270,18 @@ export default {
   name: "index",
   data() {
     return {
-      hua: require("@/assets/img/bangdan/hua.png"),
-      zan: require("@/assets/img/bangdan/zan.png"),
-      xiao: require("@/assets/img/bangdan/xiao.png"),
-      ku: require("@/assets/img/bangdan/ku.png"),
-      isread: false,
+      isread:false,
+      restaurants: [],
+      topshow: false,
       dayTotalGrossProfit: "",
-      span: 7,
       value: "",
-      type: false,
+      options: [],
+      input101: "",
+      input102: "",
+      input103: "",
+      input104: "",
+      input105: "",
+      centerDialogVisible: false,
       hb: "",
       tb: "",
       loadingConnecting: false,
@@ -461,6 +313,7 @@ export default {
       box: "100",
       value1: "",
       totalLoseTenderMoney: "",
+      value2: "",
       state2: "",
       input10: "",
       input11: "",
@@ -482,40 +335,128 @@ export default {
       su: [],
       su1: [],
       su2: [],
+      su3: [],
       initdate: "",
       tabdata1: [],
       tabdata2: [],
-      tabdata3: []
+      tabdata3: [],
     };
   },
   created() {},
   mounted() {
+    this.chakehu();
     this.aler();
     this.getallData();
-    this.gethong();
-    this.getact();
+   
+    this.gethong()
+    this.getact()
   },
   watch: {
     value1() {
       this.pagenum = 1;
       this.getallData();
     }
+   
   },
   methods: {
-    getact() {
-      var lodata = JSON.parse(sessionStorage.getItem("userMenus"));
-      lodata.forEach((e, index) => {
-        if (e.path == "/xiaoshou1") {
-          this.act = index + 1;
+   
+    getact(){
+      var lodata = JSON.parse(sessionStorage.getItem('userMenus'))
+      lodata.forEach((e,index)=>{
+        if(e.path=="/xiaoshou1"){
+          this.act = index+1
         }
-      });
+      })
     },
-    gethong() {
-      getisread({ userid: localStorage.getItem("userid") }).then(res => {
-        this.isread = res.data.isread;
-      });
+    gethong(){
+      getisread({userid:localStorage.getItem('userid')}).then(res=>{
+        // console.log()
+        this.isread = res.data.isread
+      })
     },
-
+     handleSelect(item) {
+      this.choose = item
+    },
+    querySearch(queryString, cb) {
+        var restaurants = this.restaurants;
+        var results = queryString.length>0 ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (restaurant) => {
+            // console.log(restaurant)
+          return (restaurant.companyName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+    gotop() {
+      this.scroll.stop();
+      this.scroll.scrollTo(0, 0, 0.5);
+      this.topshow = false;
+    },
+    getdata() {
+      if (this.input10 && this.input11 && this.choose.id) {
+        adddata({
+          dayMoney: this.input10,
+          grossProfit: this.input11,
+          customerId: this.choose.id,
+          customerName: this.choose.companyName,
+          tbClueMoney: this.returnZero(this.input101),
+          openTenderMoney: this.returnZero(this.input102),
+          getTenderMoney: this.returnZero(this.input103),
+          loseTenderMoney: this.returnZero(this.input104),
+          loseTenderReason: this.input105
+        })
+          .then(res => {
+            console.log(res);
+            if(res.code==200){
+              this.$message.success("添加成功");
+              this.show2 = false;
+              this.input10 = "";
+              this.input11 = "";
+              this.input101 = "";
+              this.input102 = "";
+              this.input103 = "";
+              this.input104 = "";
+              this.input105 = "";
+              this.choose = {};
+              this.value = "";
+              this.pagenum = 1;
+              this.getallData();
+            }
+            
+            
+          })
+          .catch(error => {
+            console.log(error);
+            this.$message.error("添加失败");
+          });
+      } else {
+        this.$message.error("客户、今日完成、预估毛利率为必填项");
+      }
+    },
+    chakehu() {
+      chakehu({ role: "" })
+        .then(res => {
+          console.log(res);
+          this.restaurants = res.data;
+        })
+        .catch(error => {});
+    },
+    changeLocationValue(val) {
+      //locations是v-for里面的也是datas里面的值
+      let obj = {};
+      obj = this.options.find(item => {
+        return item.id === val;
+      });
+      this.choose = obj;
+    },
+    tankuang(a, b) {
+      this.centerDialogVisible = true;
+      var data = a;
+      data.label = b;
+      localStorage.setItem("xiugaiData", JSON.stringify(data));
+    },
     returnZero(a) {
       if (a == "") {
         return -1;
@@ -523,12 +464,115 @@ export default {
         return a;
       }
     },
-    aler() {
-      var type = localStorage.getItem("type");
-      if (type == 3) {
-        this.span = 7;
-        this.type = true;
+    xiugaidata() {
+      let a = JSON.parse(localStorage.getItem("xiugaiData"));
+
+      if (!this.value2) {
+        this.$message.error("请填写完整信息");
+        return;
       }
+      if (a.label == "今日完成(万)") {
+        var date = new Date(this.value1);
+        var date1 =
+          date.getFullYear() +
+          "-" +
+          this.getnum(Number(date.getMonth()) + 1) +
+          "-" +
+          this.getnum(date.getDate());
+        if (this.value2 > 1000) {
+          this.open("修改金额不可以超过1000万");
+          this.value2 = "";
+          return;
+        }
+        updata({
+          customerId: a.customerId,
+          customerName: a.customerName,
+          dayMoney: this.value2,
+          grossProfit: a.grossProfit,
+          submitTime: date1,
+          role: ""
+        })
+          .then(res => {
+            console.log(res);
+            if (res.code == 200) {
+              this.$message.success(res.message);
+              this.value2 = "";
+              this.pagenum = 1;
+              this.getallData();
+              this.centerDialogVisible = false;
+            } else {
+              this.$message.error(res.message);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        var date = new Date(this.value1);
+        var date1 =
+          date.getFullYear() +
+          "-" +
+          this.getnum(Number(date.getMonth()) + 1) +
+          "-" +
+          this.getnum(date.getDate());
+        updata({
+          customerId: a.customerId,
+          customerName: a.customerName,
+          dayMoney: a.dayMoney,
+          grossProfit: this.value2,
+          submitTime: date1
+        })
+          .then(res => {
+            if (res.code == 200) {
+              this.$message.success(res.message);
+              this.value2 = "";
+              this.pagenum = 1;
+              this.getallData();
+              this.centerDialogVisible = false;
+            } else {
+              this.$message.error(res.message);
+            }
+          })
+          .catch(error => {
+          });
+      }
+      this.centerDialogVisible = true;
+    },
+    setdate() {
+      this.$picker.show({
+        type: "datePicker",
+        date: this.initdate,
+        endTime: "2099-01-01", //截至时间
+        startTime: "2010-02-11", //开始时间
+        onOk: date => {
+          this.value1 = date; // birthday就是所需字段，在data 里定义下
+          this.initdate = date;
+          this.pagenum = 1;
+          this.getallData();
+        }
+      });
+    },
+
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = this.su;
+
+      return sums;
+    },
+    getSummaries1(param) {
+      const { columns, data } = param;
+      const sums = this.su1;
+
+      return sums;
+    },
+    getSummaries2(param) {
+      const { columns, data } = param;
+      const sums = this.su2;
+      return sums;
+    },
+    setechart: function() {},
+    aler() {
+     
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -545,7 +589,27 @@ export default {
         jiazero(Number(inittime.getDate()));
       this.value1 = this.initdate;
     },
-
+    goA() {
+      this.urlA =
+        "http://wxtest1.98ep.com/khgx/khgx.html?userid=" +
+        localStorage.getItem("userid");
+      location.href = this.urlA;
+    },
+    setbiaogeWid(a, b) {
+      this.box = (a - 30) / b;
+    },
+    zhongjiedata(a) {
+      console.log(a);
+      this.pagenum = 1;
+      //   this.pulldownTip.textup = '上拉加载更多'
+      this.indexnum = Number(a.index) + 1;
+      console.log(this.indexnum);
+      this.getallData();
+    },
+    timechange() {
+      this.pagenum = 1;
+      this.getallData();
+    },
     getallData() {
       var date = new Date(this.value1);
       var date1 =
@@ -555,6 +619,8 @@ export default {
         "-" +
         this.getnum(date.getDate());
       var scrollTop = document.documentElement.scrollTop;
+      // alert(this.indexnum)
+
       needdata({
         submitTime: date1,
         page: this.pagenum,
@@ -602,11 +668,17 @@ export default {
 
           if (res.saleInfoList.length > 0) {
             this.pagenum++;
+            // alert(this.pagenum)
+            // this.scroll = true;
           } else {
             this.pulldownTip.textup = "我是有底线的";
           }
+          this.setechart();
         })
-        .catch(error => {});
+        .catch(error => {
+          // console.log(error)
+          // open('添加失败')
+        });
     },
     getnum(a) {
       if (a < 10) {
@@ -615,62 +687,49 @@ export default {
       } else {
         return a;
       }
-    }
-  }
+    },
+  
+  },
 };
 </script>
-<style  lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../assets/css/bangdan.styl';
-
-.xstabs_details {
-  background: $colorfff;
-  text-align: left;
-}
+<style scoped>
 
 .el-input__inner {
   border: none;
 }
-
 .bmqb {
   font-size: 0.3rem;
   color: black;
 }
-
 .bmbt {
   font-size: 0.26rem;
   color: #999;
   margin-top: 0.15rem;
 }
-
 .bmcontent {
   background: #fafafa;
   padding: 10px;
   font-size: 0.3rem;
 }
-
 .bmcontent > div {
   width: 33%;
   padding-bottom: 0.3rem;
 }
-
-body, html {
+body,
+html {
   background: #f2f2f5;
 }
-
 .flex_1 {
   flex-wrap: wrap;
 }
-
 .flex_1 > div {
   width: 100%;
   margin-bottom: 0.2rem;
 }
-
 .flex_1 > div > span {
   /* display: block; */
   /* width: 100%; */
 }
-
 .blue {
   color: #999;
   /* width: 30%; */
@@ -681,7 +740,6 @@ body, html {
   text-align: left;
   font-size: 0.3rem;
 }
-
 .black {
   color: black;
   /* width: 40%; */
@@ -691,25 +749,20 @@ body, html {
   white-space: nowrap;
   font-size: 0.3rem;
 }
-
 .el-tabs--border-card > .el-tabs__content {
   padding: 0;
 }
-
 .el-select-dropdown {
   width: 98%;
 }
-
 #maincontent1 p {
   padding-left: 20px;
   text-align: left;
 }
-
 #maincontent p {
   padding-left: 20px;
   text-align: left;
 }
-
 .head {
   height: 1rem;
   font-size: 0.3rem;
@@ -717,28 +770,23 @@ body, html {
   background: #21aefb;
   color: #fff;
 }
-
 .tap {
   font-size: 0.3rem;
   background: #21aefb;
   height: 0.7rem;
   line-height: 0.7rem;
 }
-
 .tap .act {
   background: #fff;
   color: #333;
 }
-
 .tap .act a {
   color: #333;
 }
-
 .tap a {
   color: #fff;
   text-decoration: none;
 }
-
 .maincontent {
   font-size: 0.3rem;
   /* height: 5.5rem; */
@@ -747,27 +795,28 @@ body, html {
   padding: 0.2rem;
   box-sizing: border-box;
 }
-
 .nianBt {
   line-height: 4.2rem;
   width: 20%;
   background: red;
   color: #fff;
 }
-
-table, tbody, thead {
+table,
+tbody,
+thead {
   width: 100% !important;
 }
 
-.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+.el-table .cell,
+.el-table th div,
+.el-table--border td:first-child .cell,
+.el-table--border th:first-child .cell {
   padding: 0;
   text-align: center;
 }
-
 .red {
   color: #f16c5d;
 }
-
 .cheng {
   color: #fe8b16;
 }
@@ -776,7 +825,6 @@ table, tbody, thead {
 .green {
   color: green;
 }
-
 .newxin {
   width: 100%;
   height: 50px;
@@ -786,14 +834,13 @@ table, tbody, thead {
   color: #ccc;
   font-size: 0.24rem;
 }
-
 .bmcontent > div {
   border-bottom: 1px solid #ccc;
   padding-top: 0.2rem;
   border-right: 1px solid #ccc;
 }
-
 .bmcontent > div:nth-child(3n + 0) {
   border-right: none;
 }
+
 </style>

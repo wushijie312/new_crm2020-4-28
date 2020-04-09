@@ -3,16 +3,18 @@
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">部门负责人</div>
-      <div class="tabs_normal tabs_lc">{{searchValue}}(万)</div>
+      <div class="tabs_normal tabs_lc">{{searchValue}}{{searchValue=='实时完成率'||searchValue=='部门费用率'||searchValue=='人力成本费用率'||searchValue=='年销售完成率'?'':'(万)'}}</div>
       <div class="tabs_normal tabs_ld">光荣榜</div>
     </div>
     <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
       <div class="tabs_info">
-       <div v-if="item.is_act" class="tabs_info_line"></div>
+        <div v-if="item.is_act" class="tabs_info_line"></div>
         <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
-          <div class="tabs_normal_cont tabs_lc tabs_lmoney ">{{searchValue=="实际销售额"?item.finishMoney:searchValue=="标准销售额"?item.standardFinishMoney:searchValue=="实时完成率"?item.finishRate.split('/')[0]:searchValue=="净利"?item.netProfit:searchValue=="净净利"?item.netsProfit:''}}</div>
+          <div
+            class="tabs_normal_cont tabs_lc tabs_lmoney"
+          >{{searchValue=="实际销售额"?item.finishMoney:searchValue=="标准销售额"?item.standardFinishMoney:searchValue=="实时完成率"?item.finishRate.split('/')[0]:searchValue=="净利"?item.netProfit:searchValue=="净净利"?item.netsProfit:''}}</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img
@@ -39,7 +41,7 @@
               </span>
             </div>
             <div v-if="item.saleNo>15">
-              <span >
+              <span>
                 <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
               </span>
             </div>
@@ -48,13 +50,13 @@
         <div
           v-show="item.is_act && zhuan"
           :id="'textcopy'+len1"
-          class="wztabs_details tabs_details border_bf0f0f0 "
+          class="wztabs_details tabs_details border_bf0f0f0"
         >
           <div class="padd_b12 border_bf0f0f0">
             <div class="tabs_thr paddb3">
               <h3>{{item.departmentName}}</h3>
               <span @click="boxOrtextChange">
-                <i class="tabs_thr_img"></i>  表格版
+                <i class="tabs_thr_img"></i> 表格版
               </span>
             </div>
             <div class="tabs_four mart8">
@@ -88,7 +90,9 @@
               </p>
               <p class="tabs_four_a mart8">
                 目前应完成：
-                <span :class="item.monthShouldMoney>=0?'color333':'rate_green'">{{item.monthShouldMoney}}万</span>
+                <span
+                  :class="item.monthShouldMoney>=0?'color333':'rate_green'"
+                >{{item.monthShouldMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 累计毛利率：
@@ -96,15 +100,19 @@
               </p>
               <p class="tabs_four_a mart8">
                 实际累计完成：
-                <span :class="item.finishMoney>=0?'color333':'rate_green'">{{item.finishMoney}}万</span>
+                <span
+                  :class="item.finishMoney>=0?'color333':'rate_green'"
+                >{{item.finishMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 实时完成率：
                 <span class="color333">{{item.finishRate.split('/')[0]}}</span>
               </p>
-              <p class="tabs_four_a wztabs_pcdifmoney  mart8">
+              <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 年累计完成：
-                <span :class="item.totalFinishYearMoney>=0?'color333':'rate_green'">{{item.totalFinishYearMoney}}万</span>
+                <span
+                  :class="item.totalFinishYearMoney>=0?'color333':'rate_green'"
+                >{{item.totalFinishYearMoney}}万</span>
               </p>
               <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 超额/差额：
@@ -127,11 +135,15 @@
             <div class="tabs_four wztabs_pc_all">
               <p class="tabs_four_a mart8">
                 本月目标实现毛利：
-                <span :class="item.targetProfit>=0?'color333':'rate_green'">{{item.targetProfit}}万</span>
+                <span
+                  :class="item.targetProfit>=0?'color333':'rate_green'"
+                >{{item.targetProfit}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 目前毛利润：
-                <span :class="item.grossProfitMoney>=0?'color333':'rate_green'">{{item.grossProfitMoney}}万</span>
+                <span
+                  :class="item.grossProfitMoney>=0?'color333':'rate_green'"
+                >{{item.grossProfitMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 本月费用：
@@ -143,7 +155,9 @@
               </p>
               <p class="tabs_four_a mart8">
                 本月分摊及财务费用：
-                <span :class="item.bearsMoney>=0?'color333':'rate_green'">{{item.bearsMoney}}万</span>
+                <span
+                  :class="item.bearsMoney>=0?'color333':'rate_green'"
+                >{{item.bearsMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 本月净净利：
@@ -173,23 +187,31 @@
               </p>
             </div>
           </div>
-          <div class="padd_bt12 ">
+          <div class="padd_bt12">
             <div class="tabs_four wztabs_pc_all">
               <p class="tabs_four_a mart8">
                 TB线索：
-                <span :class="item.tbClueMoney>=0?'color333':'rate_green'">{{item.tbClueMoney}}万</span>
+                <span
+                  :class="item.tbClueMoney>=0?'color333':'rate_green'"
+                >{{item.tbClueMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 本月开标：
-                <span :class="item.openTenderMoney>=0?'color333':'rate_green'">{{item.openTenderMoney}}万</span>
+                <span
+                  :class="item.openTenderMoney>=0?'color333':'rate_green'"
+                >{{item.openTenderMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 本月中标：
-                <span :class="item.getTenderMoney>=0?'color333':'rate_green'">{{item.getTenderMoney}}万</span>
+                <span
+                  :class="item.getTenderMoney>=0?'color333':'rate_green'"
+                >{{item.getTenderMoney}}万</span>
               </p>
               <p class="tabs_four_a mart8">
                 已中标未下单：
-                <span :class="item.getTenderNotMoney>=0?'color333':'rate_green'">{{item.getTenderNotMoney}}万</span>
+                <span
+                  :class="item.getTenderNotMoney>=0?'color333':'rate_green'"
+                >{{item.getTenderNotMoney}}万</span>
               </p>
             </div>
             <div class="tabs_four mart8">
@@ -202,7 +224,6 @@
           <div class="tabs_thr paddb3">
             <h3>{{item.departmentName}}</h3>
             <span @click="boxOrtextChange">
-
               <i class="tabs_thr_img"></i> 文字版
             </span>
           </div>
@@ -255,7 +276,7 @@
               </div>
             </div>
           </div>
-          <div class="tabs_five  mart6">
+          <div class="tabs_five mart6">
             <div class="tabs_biaoge_all tabs_six_color_a">
               <div class="tabs_five_a">
                 <h3>{{item.dayMoney}}万</h3>
@@ -273,13 +294,17 @@
             </div>
             <div class="tabs_rate_pc tabs_biaoge_all tabs_six_color_a">
               <div class="tabs_five_a">
-                <h3 :class="item.monthCompare>0?'rate_red ':item.monthCompare==0?'color333 ':'rate_green '">{{item.monthCompare}}%</h3>
+                <h3
+                  :class="item.monthCompare>0?'rate_red ':item.monthCompare==0?'color333 ':'rate_green '"
+                >{{item.monthCompare}}%</h3>
                 <p>环比</p>
               </div>
             </div>
             <div class="tabs_rate_pc tabs_biaoge_all tabs_six_color_a">
               <div class="tabs_five_a">
-                <h3 :class="item.yearCompare>0?'rate_red ':item.yearCompare==0?'color333 ':'rate_green '">{{item.yearCompare}}%</h3>
+                <h3
+                  :class="item.yearCompare>0?'rate_red ':item.yearCompare==0?'color333 ':'rate_green '"
+                >{{item.yearCompare}}%</h3>
                 <p>同比</p>
               </div>
             </div>
@@ -300,9 +325,10 @@
               </div>
             </div>
           </div>
-          <div class="tabs_six ">
+          <div class="tabs_six">
             <h3 class="tabs_six_a">
-              <img :src="dd" />今日订单来自客户：<span v-for="(i,index) in item.customerList" :key="index">{{i}}&nbsp;</span>
+              <img :src="dd" />今日订单来自客户：
+              <span v-for="(i,index) in item.customerList" :key="index">{{i}}&nbsp;</span>
             </h3>
             <div class="tabs_five">
               <div class="tabs_biaoge_all tabs_six_color_b">
@@ -314,19 +340,17 @@
                   <p>目前销售累计</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
+              <div class="tabs_biaoge_all tabs_six_color_b">
                 <div class="tabs_five_a">
-                  <h3 class="color333">
-                    {{item.netProfit}}万
-                    <!-- <span class="tabs_five_arate">NO.{{item.netNo}}</span> -->
-                  </h3>
-                  <p>目前月净利</p>
+                  <h3 class="color333">{{item.differenceMoney}}万</h3>
+                  <p>距销售目标差额</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_d">
+
+              <div class="tabs_biaoge_all tabs_six_color_b">
                 <div class="tabs_five_a">
-                  <h3 class="color333">{{item.grossProfitMoney}}万</h3>
-                  <p>目前月毛利</p>
+                  <h3 class="color333">{{item.totalFinishYearMoney}}万</h3>
+                  <p>年累计完成</p>
                 </div>
               </div>
               <div class="tabs_biaoge_all tabs_six_color_b">
@@ -335,60 +359,10 @@
                   <p>目前应完成</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_e">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.targetNet}}万</h3>
-                  <p>月净利润目标</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_e">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.targetProfit}}万</h3>
-                  <p>月毛利润目标</p>
-                </div>
-              </div>
               <div class="tabs_biaoge_all tabs_six_color_b">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.differenceMoney}}万</h3>
-                  <p>距销售目标差额</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_c" >
-                <div class="tabs_five_a">
-                  <h3 class="color333">
-                    {{item.netsProfit}}万
-                    <!-- <span class="tabs_five_arate">NO.{{item.netsNo}}</span> -->
-                  </h3>
-                  <p>目前月净净利</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_d">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.targetProfitDif}}万</h3>
-                  <p>未完成毛利率</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_e">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.monthMoney}}万</h3>
                   <p>月销售额目标</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_e">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.targetNets}}万</h3>
-                  <p>月净净利目标</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_d">
-                <div class="tabs_five_a">
-                  <h3 class="color333">
-                    {{item.grossProfit.split('/')[1]}}
-                    <!-- <span
-                      class="tabs_five_arate"
-                    >NO.{{item.grossPNo}}</span> -->
-                  </h3>
-                  <p>月平均毛利率</p>
                 </div>
               </div>
               <div class="tabs_biaoge_all tabs_six_color_b">
@@ -399,8 +373,77 @@
               </div>
               <div class="tabs_biaoge_all tabs_six_color_c">
                 <div class="tabs_five_a">
-                  <h3 class="color333">{{item.totalFinishYearMoney}}万</h3>
-                  <p>年累计完成</p>
+                  <h3 class="color333">
+                    {{item.netProfit}}万
+                    <!-- <span class="tabs_five_arate">NO.{{item.netNo}}</span> -->
+                  </h3>
+                  <p>目前月净利</p>
+                </div>
+              </div>
+
+              <div class="tabs_biaoge_all tabs_six_color_c">
+                <div class="tabs_five_a">
+                  <h3 class="color333">
+                    {{item.netsProfit}}万
+                    <!-- <span class="tabs_five_arate">NO.{{item.netsNo}}</span> -->
+                  </h3>
+                  <p>目前月净净利</p>
+                </div>
+              </div>
+              <div class="tabs_biaoge_all tabs_six_color_c">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.grossProfitMoney}}万</h3>
+                  <p>目前月毛利</p>
+                </div>
+              </div>
+
+              <div class="tabs_biaoge_all tabs_six_color_c">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.targetNet}}万</h3>
+                  <p>月净利目标</p>
+                </div>
+              </div>
+
+              <div class="tabs_biaoge_all tabs_six_color_c">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.targetNets}}万</h3>
+                  <p>月净净利目标</p>
+                </div>
+              </div>
+              <div class="tabs_biaoge_all tabs_six_color_c">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.targetProfit}}万</h3>
+                  <p>月毛利目标</p>
+                </div>
+              </div>
+
+              <div class="tabs_biaoge_all tabs_six_color_e">
+                <div class="tabs_five_a">
+                  <h3 :class="item.tbClueMoney>=0?'color333':'rate_green'">
+                    {{item.tbClueMoney}}
+                    <!-- <span
+                      class="tabs_five_arate"
+                    >NO.{{item.grossPNo}}</span>-->
+                  </h3>
+                  <p>TB线索</p>
+                </div>
+              </div>
+              <div class="tabs_biaoge_all tabs_six_color_e">
+                <div class="tabs_five_a">
+                  <h3 class="color333">
+                    {{item.grossProfit.split('/')[1]}}
+                    <!-- <span
+                      class="tabs_five_arate"
+                    >NO.{{item.grossPNo}}</span>-->
+                  </h3>
+                  <p>月平均毛利率</p>
+                </div>
+              </div>
+
+              <div class="tabs_biaoge_all tabs_six_color_e">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.targetProfitDif}}万</h3>
+                  <p>未完成毛利</p>
                 </div>
               </div>
             </div>
@@ -410,7 +453,7 @@
               <img :src="bmys" />月部门费用
             </h3>
             <div class="tabs_five">
-               <div class="tabs_biaoge_all tabs_six_color_d">
+              <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.bearMoney}}万</h3>
                   <p>总费用</p>
@@ -435,23 +478,22 @@
                   <p>部门人数</p>
                 </div>
               </div>
-               <div class="tabs_biaoge_all tabs_six_color_d">
+              <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.bearsMoney}}万</h3>
                   <p>分摊费用</p>
                 </div>
               </div>
-             
+
               <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.otherBear}}万</h3>
                   <p>其他费用</p>
                 </div>
               </div>
-             
             </div>
           </div>
-          <div class="tabs_six ">
+          <div class="tabs_six">
             <h3 class="tabs_six_a">
               <img :src="cwqk" />财务情况
             </h3>
@@ -496,7 +538,7 @@
                   <p>应付款</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_a ">
+              <div class="tabs_biaoge_all tabs_six_color_a">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.departmentUseMoney}}万</h3>
                   <p>期初现金净额</p>
@@ -561,7 +603,7 @@ export default {
       zhuan: false
     };
   },
-  props: ["tabdata1","searchValue", "value1", "jxq", "alertNr", "zhezhao"],
+  props: ["tabdata1", "searchValue", "value1", "jxq", "alertNr", "zhezhao"],
 
   methods: {
     boxOrtextChange() {
@@ -571,7 +613,6 @@ export default {
       this.zhuan = false;
       this.tabdata1.map((item, index) => {
         if (len == index) {
-         
           row.is_act = !row.is_act;
           this.$set(this.tabdata1, len, row);
         } else {
@@ -624,6 +665,5 @@ export default {
 };
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
-@import "../../assets/css/bangdan.styl";
-
+@import '../../assets/css/bangdan.styl';
 </style>
