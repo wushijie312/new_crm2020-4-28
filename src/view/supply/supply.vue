@@ -116,7 +116,7 @@
         </el-table>
       </el-card>
     </div>
-    <ShowbackTop/>
+    <!-- <ShowbackTop/> -->
     <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
@@ -126,13 +126,13 @@ import BScroll from "better-scroll";
 import Head from "@/view/common/head";
 import { pca } from "@/assets/data/pca.js";
 import Addcreate from "@/components/addcreate";
-import ShowbackTop from "@/components/showbackTop";
+// import ShowbackTop from "@/components/showbackTop";
 export default {
   name: "index",
   components: {
     Head,
     Addcreate,
-    ShowbackTop
+    // ShowbackTop
   },
   data() {
     return {

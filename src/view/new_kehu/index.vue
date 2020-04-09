@@ -131,7 +131,7 @@
 			  </span>
 			</el-dialog>
 	
-      <ShowbackTop/>
+      <!-- <ShowbackTop/> -->
     	<p v-show="pulldownTip.textup" style="font-size: 0.12rem;padding: 10px;">{{pulldownTip.textup}}</p>
       <Addcreate v-if="!act1"></Addcreate>
     </div>
@@ -150,7 +150,7 @@ import RelationTable from "@/view/new_kehu/relationTable";
 import Fold from "@/view/new_kehu/fold";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-import ShowbackTop from "@/components/showbackTop";
+// import ShowbackTop from "@/components/showbackTop";
 export default {
   name: "index",
   components: {
@@ -161,7 +161,7 @@ export default {
     Visit,
     RelationTable,
     Addcreate,
-    ShowbackTop
+    // ShowbackTop
   },
   data() {
     return {
@@ -355,11 +355,11 @@ export default {
       }
     },
     handleScroll() {
-      if (window.pageYOffset > 1000) {
-        this.showbackTop = true;
-      } else {
-        this.showbackTop = false;
-      }
+      // if (window.pageYOffset > 1000) {
+      //   this.showbackTop = true;
+      // } else {
+      //   this.showbackTop = false;
+      // }
       try {
         if (this.$refs.content.clientHeight) {
           var boxnum = this.$refs.content.clientHeight;

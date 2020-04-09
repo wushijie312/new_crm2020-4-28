@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="mousedownFunc">
     <Head :act.sync="act" :ty.sync="act1"></Head>
-    <div class="content" ref="content">
-      
+    <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
       <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
         <div style="overflow:hidden;width:100%;float:left;text-align:left;">
@@ -135,23 +134,26 @@
                   >{{alldata.moneyDifference}}万</span>
                 </span>
               </div>
-             
-                <div class="black"  @click.stop="tantan(alertNr.totalCompareExp)">
-                  上月环比
-                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                  </span>
-                </div>
-                <div class="black" style="border-bottom:1px solid #ccc;"  @click.stop="tantan(alertNr.totalCompareExp)">
-                  去年同比
-                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                  </span>
-                </div>
+              <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
+                上月环比
+                <span :class="alldata.totalMonthCompare>=0?'red':'green'">
+                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
+                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
+                  {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
+                </span>
+              </div>
+              <div
+                class="black"
+                style="border-bottom:1px solid #ccc;"
+                @click.stop="tantan(alertNr.totalCompareExp)"
+              >
+                去年同比
+                <span :class="alldata.totalYearCompare>=0?'red':'green'">
+                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
+                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
+                  {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
+                </span>
+              </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalTargetGrossExp)">本月目标实现毛利：</span>
                 <span class="black" @click.stop="tantan(alertNr.totalTargetGrossExp)">
@@ -226,7 +228,7 @@
                 </span>
               </div>
 
-              <div @click.stop="tantan(alertNr.totalTbClueExp)">
+              <div ref="bumenbang" @click.stop="tantan(alertNr.totalTbClueExp)">
                 <span class="blue">TB线索：</span>
                 <span class="black">
                   <span
@@ -257,24 +259,37 @@
                     :class="alldata.totalGetTenderNotMoney>=0?'red':'green'"
                   >{{alldata.totalGetTenderNotMoney}}万</span>
                 </span>
-                <span style="text-decoration: underline;float:right;" @click="zhankai(2)">
-                  <!-- <router-link :to="{path:'/tanchujh/jrwc',query:{date:value1}}"></router-link> -->
-                  展开
-                </span>
+                <span style="text-decoration: underline;float:right;" @click="zhankai(2)">展开</span>
               </div>
-              <!-- <div>
-              <span class="blue" @click.stop="$message.warning(alertNr.totalDayMoneyExp)">本月丢标：</span>
-              <span class="black" @click.stop="$message.warning(alertNr.totalDayMoneyExp)"><span :class="totalLoseTenderMoney>=0?'red':'green'">{{totalLoseTenderMoney}}万</span></span>
-              </div>-->
             </div>
           </div>
         </div>
       </div>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">部门榜</div>
-        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">战队榜</div>
-        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">客户榜</div>
-        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">全体销售</div>
+        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">
+          <span class="menu_border">
+            部门榜
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
+        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">
+          <span class="menu_border">
+            战队榜
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
+        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">
+          <span class="menu_border">
+            客户榜
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
+        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">
+          <span class="menu_border">
+            全体销售
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
       </div>
       <!-- <el-tabs
         style="border:1px solid #fff;box-shadow:none;font-size:0.3rem;text-align:left;"
@@ -282,45 +297,33 @@
         ref="tabs"
       >-->
       <div :style="{display:soit===1?'block':'none'}">
-        <div style="background:#fff;">
-          <el-input
-            ref="timechoose1"
-            placeholder="请输入部门名称"
-            v-model="bmkword"
-            class="input-with-select"
-          >
-            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
-          </el-input>
-          <input type="text" id="ceshiinput" style="display:none;" />
+        <!-- <div class="bd_search_c">
+          <div class="bd_search_b">
+            <el-select class="qu_bmmobile_select" v-model="searchValue" placeholder="请选择" @change="search_change">
+              <el-option
+                v-for="item in searchType"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>-->
+        <div class="search_px search_px_pc">
+          <p v-for="(itemSearch,len3) in searchType" :key="len3">
+            <span
+              :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
+              @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+            >{{itemSearch.label}}</span>
+          </p>
         </div>
-        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
-          排序：
-          <span
-            style="margin-right:0.2rem;"
-            :class="paixunum===1?'xuanzhong':''"
-            @click="paixu(1)"
-          >实时完成率</span>
-          <span
-            style="margin-right:0.2rem;"
-            :class="paixunum===2?'xuanzhong':''"
-            @click="paixu(2)"
-          >净利</span>
-          <span :class="paixunum===3?'xuanzhong':''" @click="paixu(3)">净净利</span>
-        </div>
-        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-show="soit===1">
-          <span style="text-decoration: underline;" @click="qhbb">{{zhuan}}</span>
-        </h3>
 
-        <Wzb
-          v-show="soit===1&&zhuan!='切换至文字版'"
-          :tabdata1.sync="tabdata1"
-          :value1.sync="value1"
-          :jxq.sync="jxq"
-        ></Wzb>
         <Bumen
           v-show="soit===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
           :jxq.sync="jxq"
+          :searchValue="searchValue"
+          :value1.sync="value1"
           :alertNr.sync="alertNr"
           :zhezhao.sync="zhezhao"
           @confirm="confirm"
@@ -351,40 +354,31 @@
         <Kehu :tabdata1.sync="tabdata2"></Kehu>
       </div>
       <div :style="{display:soit===3?'block':'none'}">
-        <div style="background:#fff;">
-          <el-input placeholder="请输入销售名称" v-model="xskword" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
-          </el-input>
+        <div class="bd_search">
+          <div class="bd_search_a">
+            <el-input size="small" placeholder="请输入销售名称" v-model="xskword" class="qu_cuHead_search"></el-input>
+            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+          </div>
         </div>
-        <div id="pxcord" style="font-size:0.3rem;text-align:right;width:90%;margin:0.2rem auto;">
-          排序：
-          <span
-            style="margin-right:0.2rem;"
-            :class="paixunum1===1?'xuanzhong':''"
-            @click="paixu1(1)"
-          >累计完成</span>
-          <span
-            style="margin-right:0.2rem;"
-            :class="paixunum1===2?'xuanzhong':''"
-            @click="paixu1(2)"
-          >实时完成率</span>
-          <span :class="paixunum1===3?'xuanzhong':''" @click="paixu1(3)">标准销售额</span>
+        <div class="search_pxbox">
+          <div class="search_px">
+            <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+              <span
+                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+              >{{itemSearch.label}}</span>
+            </p>
+          </div>
+          <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
         </div>
-        <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;" v-if="false">
-          <span style="text-decoration: underline;" @click="qhbb1">{{zhuan1}}</span>
-        </h3>
-        <User :tabdata1.sync="tabdata3"></User>
+
+        <User :pagenum="pagenum" :tabdata1.sync="tabdata3" :searchValue1="searchValue1"></User>
       </div>
       <!-- </el-tabs> -->
     </div>
 
-    <div
-      v-show="topshow"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
-    </div>
+    
+    <!-- <ShowbackTop/> -->
     <div :style="zhezhao"></div>
   </div>
 </template>
@@ -402,27 +396,69 @@ import {
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
 
-let ybs = 5;
 import Wzb from "@/view/indexCom/indexwzb";
 import Bumen from "@/view/indexCom/bumen";
+import Wzb1 from "@/view/indexCom/indexwzb1";
 import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
 import User from "@/view/indexCom/user";
 import Head from "@/view/common/head";
+// import ShowbackTop from "@/components/showbackTop";
 export default {
   components: {
     Wzb,
     Bumen,
+    Wzb1,
     Zhandui,
     Kehu,
     User,
     Head,
-    ZhanduiWzb
+    ZhanduiWzb,
+    // ShowbackTop
   },
   name: "index",
   data() {
     return {
+      showOrHide: true,
+      searchValue: "实际销售额",
+      searchValue1: "累计完成",
+      searchType: [
+        {
+          value: "5",
+          label: "实际销售额"
+        },
+        {
+          value: "4",
+          label: "标准销售额"
+        },
+        {
+          value: "1",
+          label: "实时完成率"
+        },
+        {
+          value: "2",
+          label: "净利"
+        },
+        {
+          value: "3",
+          label: "净净利"
+        }
+      ],
+      searchType3: [
+        {
+          value: "1",
+          label: "累计完成"
+        },
+        {
+          value: "2",
+          label: "实时完成率"
+        },
+        {
+          value: "3",
+          label: "标准销售额"
+        }
+      ],
       isread: false,
       paixunum1: 1,
       zhezhao: {},
@@ -437,29 +473,14 @@ export default {
         }
       },
       alldata: {},
-      istop: true,
       bmkword: "",
       xskword: "",
       khkword: "",
       ladzd: true,
-      // ybs:4,
-      iszdz: false,
-      iszdzs: [
-        "0130396025886468",
-        "5126312424152546",
-        "51206852656521",
-        "30929",
-        "4412580523473075"
-      ],
-      yss: ["yl", "ql", "lql", "fs", "qh", "qgreen"],
+
       tabdata4: [],
-      topshow: false,
-      dayTotalGrossProfit: "",
-      span: 7,
-      type: false,
       hb: "",
       tb: "",
-      loadingConnecting: false,
       down: false,
       up: true,
       pulldownTip: {
@@ -486,7 +507,7 @@ export default {
       act: 1,
       act1: true,
       box: "100",
-      value1: "",
+      value1: this.aler(),
       totalLoseTenderMoney: "",
       value2: "",
       state2: "",
@@ -502,14 +523,11 @@ export default {
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
-      alldata: {},
-      jinzhi: false,
-      scrollY: 0,
       isscroll: true,
-      paixunum: 1,
-      paixulist: ["rateNo", "netNo", "netsNo"],
-      paixulist1: ["saleNo", "rateNo", "standSaleNo"],
-      alertNr: {}
+      paixunum: 5,
+      alertNr: {},
+      loading: true,
+      getdate1: ""
     };
   },
 
@@ -522,32 +540,51 @@ export default {
     }
   },
   mounted() {
-    this.getcolor();
-    this.aler();
-    var that = this;
+    // this.aler();
+    this.getallData();
     this.gettc();
     document.addEventListener("scroll", this.handleScroll);
     this.gethong();
     this.getact();
-    // document.addEventListener("mousedown", this.mousedownFunc);
   },
   watch: {
+    soit() {
+      if (this.soit == 1) {
+        this.$nextTick(() => {
+          this.$refs.bumenbang.scrollIntoView();
+        });
+      } else {
+        document.documentElement.scrollTop = 0;
+      }
+    },
     value1() {
       this.pagenum = 1;
       this.getallData();
     }
-
     // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
   },
 
   methods: {
+    bumenbanghandle(len, name) {
+      if (this.indexnum == 1) {
+        this.paixunum = len;
+        this.searchValue = name;
+      } else if (this.indexnum == 3) {
+        this.paixunum1 = len;
+        this.searchValue1 = name;
+      }
+      this.getallData();
+    },
+    XiaoSouListChange() {
+      this.showOrHide = !this.showOrHide;
+      this.pagenum = this.showOrHide ? -1 : 1;
+      this.getallData();
+    },
     getact() {
-      var that = this
+      var that = this;
       getnew();
-      console.log(that.act)
-      function getnew(){
-      var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
-        console.log(lodata);
+      function getnew() {
+        var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
         if (lodata) {
           lodata.forEach((e, index) => {
             if (e.path == "/xsleader") {
@@ -556,20 +593,17 @@ export default {
           });
         } else {
           setTimeout(function() {
-            getnew()
-            // alert(111)
+            getnew();
           }, 300);
         }
       }
     },
     gethong() {
       getisread({ userid: localStorage.getItem("userid") }).then(res => {
-        // //console.log()
         this.isread = res.data.isread;
       });
     },
     confirm(a) {
-      //console.log(a)
       this.zhezhao = a;
     },
     zhankai(a) {
@@ -586,17 +620,11 @@ export default {
         this.$router.push({ path: "/zbwxd", query: { date: date1, type: 1 } });
       }
     },
-    tantan1(a) {
-      //console.log(a)
-      return a;
-    },
+
     tantan(b) {
-      // alert(111)
       var a = window.event || event;
       var apath = a.path || (a.composedPath && a.composedPath());
-      // alert(apath.length)
       if (b) {
-        //console.log(a)
         var zhezhaoobj = {
           background: "rgba(0,0,0,0.3)",
           width: apath[0].clientWidth + "px",
@@ -610,8 +638,6 @@ export default {
           left: apath[0].offsetLeft + "px"
         };
 
-        //console.log(this.zhezhao)
-        // alert('aaa'+a.path[0].offsetLeft)
         this.$message.closeAll();
         this.zhezhao = zhezhaoobj;
         var obj = {};
@@ -619,7 +645,6 @@ export default {
         obj.duration = 0;
         obj.showClose = true;
         obj.onClose = this.closeTc;
-        // obj.iconClass = '1111'
         this.$message.warning(obj);
       }
     },
@@ -628,123 +653,25 @@ export default {
     },
     gettc() {
       gettc().then(res => {
-        //console.log(res)
         this.alertNr = res;
       });
     },
-    paixu(a) {
-      this.paixunum = a;
-      this.sort(this.paixulist[a - 1]);
-    },
-    paixu1(a) {
-      this.paixunum1 = a;
-      this.sort1(this.paixulist1[a - 1]);
-    },
-    sort1(type) {
-      this.sortType = type;
-      this.tabdata1.sort(this.compare(type));
-      // //console.log(type)
-      switch (type) {
-        case "saleNo":
-          this.sortType = "saleNo";
-          this.tabdata3.sort(this.compare("saleNo"));
-          // //console.log(this.tabdata1)
-          break;
-        case "rateNo":
-          // //console.log('净利')
-          this.sortType = "rateNo";
-          this.tabdata3.sort(this.compare("rateNo"));
-          break;
-        case "standSaleNo":
-          // //console.log('净利利')
-          this.sortType = "standSaleNo";
-          this.tabdata3.sort(this.compare("standSaleNo"));
-          break;
-      }
-    },
-    sort(type) {
-      this.sortType = type;
-      this.tabdata1.sort(this.compare(type));
-      // //console.log(type)
-      switch (type) {
-        case "rateNo":
-          this.sortType = "rateNo";
-          this.tabdata1.sort(this.compare("rateNo"));
-          // //console.log(this.tabdata1)
-          break;
-        case "netNo":
-          // //console.log('净利')
-          this.sortType = "netNo";
-          this.tabdata1.sort(this.compare("netNo"));
-          break;
-        case "netsNo":
-          // //console.log('净利利')
-          this.sortType = "netsNo";
-          this.tabdata1.sort(this.compare("netsNo"));
-          break;
-      }
-    },
-    compare(attr) {
-      return function(a, b) {
-        var val1 = a[attr];
-        var val2 = b[attr];
-        //console.log(a.attr)
-        return val1 - val2;
-      };
-    },
-    qhbb() {
-      this.$message.closeAll();
-      if (this.zhuan == "切换至文字版") {
-        this.zhuan = "切换至表格版";
-      } else {
-        // alert(111)
-        this.zhuan = "切换至文字版";
-      }
-    },
+
     qhbb2() {
       this.$message.closeAll();
-      console.log(this.zhuan2);
       if (this.zhuan2 == "切换至文字版") {
         this.zhuan2 = "切换至表格版";
       } else {
-        // alert(111)
         this.zhuan2 = "切换至文字版";
       }
     },
-    qhbb1() {
-      this.$message.closeAll();
 
-      if (this.zhuan1 == "切换至文字版") {
-        this.zhuan1 = "切换至表格版";
-      } else {
-        // alert(111)
-        this.zhuan1 = "切换至文字版";
-      }
-    },
     mousedownFunc(e) {
-      // alert(1112)
-      // //console.log(this.$refs.timechoose.blur)
-      // //console.log(e)
-      // alert(1)
-      // this.$refs.timechoose1.blur()
       try {
         this.$refs.timechoose.blur();
       } catch (error) {}
-
-      // this.$refs.timechoose.style.display = 'none'
-      // document.getElementById("ceshiinput").focus()
     },
-    listenerFunction(e) {
-      document.addEventListener("scroll", this.handleScroll);
-    },
-
     handleScroll() {
-      if (window.pageYOffset > 10) {
-        this.topshow = true;
-      } else {
-        this.topshow = false;
-      }
-
       // //console.log(this.$refs)
       try {
         if (this.$refs.content.clientHeight) {
@@ -764,32 +691,6 @@ export default {
       }
     },
 
-    ceshi() {
-      //console.log(111);
-    },
-    getcolor() {
-      this.iszdzs.forEach(e => {
-        if (e === localStorage.getItem("userid")) {
-          this.iszdz = true;
-          return;
-        }
-      });
-      if (!this.iszdz) {
-      }
-
-      var num = Math.random() * 10;
-      // //console.log(num.toString().slice(0,1))
-      if (num.toString().slice(0, 1) > 4) {
-        this.getcolor();
-        ybs--;
-        if (this.ybs < 0) {
-          ybs = 5;
-        }
-        return ybs;
-      } else {
-        return num.toString().slice(0, 1);
-      }
-    },
     jxq(a, b, c) {
       // //console.log(a)
       var date = new Date(this.value1);
@@ -799,8 +700,6 @@ export default {
         this.getnum(Number(date.getMonth()) + 1) +
         "-" +
         this.getnum(date.getDate());
-      // //console.log(this.scroll.absStartY);
-      // alert(document.body.scrollTop+document.documentElement.scrollTop)
       this.$router.push({
         path: "/leadbmjy",
         query: {
@@ -814,38 +713,8 @@ export default {
         }
       });
     },
-    gotop() {
-      // this.scroll.stop();
-      // //console.log( this.scroll.scrollBy)
-      // //console.log(111)
-      this.topshow = false;
-      //console.log(this.topshow);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    },
-    setdate() {
-      this.$picker.show({
-        type: "datePicker",
-        date: this.initdate,
-        endTime: "2099-01-01", //截至时间
-        startTime: "2010-02-11", //开始时间
-        onOk: date => {
-          // //console.log(date);
-          this.value1 = date; // birthday就是所需字段，在data 里定义下
-          this.initdate = date;
-          this.pagenum = 1;
-          this.getallData();
-        }
-      });
-    },
 
     aler() {
-      //   alert(111)
-      var type = localStorage.getItem("type");
-      if (type == 3) {
-        this.span = 7;
-        this.type = true;
-      }
       var inittime = new Date();
       function jiazero(a) {
         if (a < 10) {
@@ -860,33 +729,20 @@ export default {
         jiazero(Number(inittime.getMonth()) + 1) +
         "-" +
         jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
+      return this.initdate;
     },
-    goA() {
-      this.urlA =
-        "http://wxtest1.98ep.com/khgx/khgx.html?userid=" +
-        localStorage.getItem("userid");
-      location.href = this.urlA;
-    },
-    setbiaogeWid(a, b) {
-      this.box = (a - 30) / b;
-    },
+
     zhongjiedata(a) {
       this.$message.closeAll();
       this.isscroll = false;
       if (a.index) {
-        // document.body.scrollTop = 0;
-        // document.documentElement.scrollTop = 0;
         this.soit = a.index;
         if (a.index == 1) {
           this.ladzd = true;
         } else {
           this.ladzd = false;
         }
-
-        //   this.pulldownTip.textup = '上拉加载更多'
         this.indexnum = Number(a.index);
-        //console.log(this.indexnum);
       }
       this.pagenum = 1;
       this.getallData();
@@ -896,9 +752,6 @@ export default {
       this.getallData();
     },
     getallData() {
-      // alert(this.pagenum)
-      // this.scroll = false;
-      //   alert(this.indexnum)
       var date = new Date(this.value1);
       var date1 =
         date.getFullYear() +
@@ -906,27 +759,23 @@ export default {
         this.getnum(Number(date.getMonth()) + 1) +
         "-" +
         this.getnum(date.getDate());
-      // var scrollTop = document.documentElement.scrollTop;
-      // alert(this.indexnum)
       if (this.indexnum == 1) {
         chabumen({
           keyword: this.bmkword,
           submitTime: date1,
           page: this.pagenum,
+          sortname: this.searchValue,
+          sort: 1,
           role: localStorage.getItem("role")
         })
           .then(res => {
             this.alldata = res;
-
-            if (this.pagenum == 1) {
-              this.tabdata1 = res.saleInfoList;
-            } else {
-            }
+            this.tabdata1 = res.saleInfoList;
             this.jingli = 0;
             this.jingjingli = 0;
             var jsid = 0;
             this.tabdata1.forEach(element => {
-              // //console.log(element.monthBadDeb)
+              element.is_act=false;
               element.id = jsid;
               jsid++;
               this.jingli += Number(element.netProfit);
@@ -934,37 +783,8 @@ export default {
             });
             this.jingli = this.jingli.toFixed(2);
             this.jingjingli = this.jingjingli.toFixed(2);
-
-            if (res.saleInfoList.length > 0) {
-              this.pagenum++;
-            } else {
-              this.pulldownTip.textup = "我是有底线的";
-            }
-            //console.log(this.$route.query.top);
-
-            try {
-              setTimeout(() => {
-                if (this.$route.query.top) {
-                  document.body.scrollTop = this.$route.query.top;
-                  document.documentElement.scrollTop = this.$route.query.top;
-                  this.$route.query.top = 0;
-                }
-              }, 200);
-            } catch (error) {
-              // //console.log(error)
-            }
-            setTimeout(() => {
-              this.$nextTick(() => {
-                this.listenerFunction();
-              });
-            }, 200);
-
-            // this.setechart();
           })
-          .catch(error => {
-            // //console.log(error)
-            // open('添加失败')
-          });
+          .catch(error => {});
       } else if (this.indexnum == 2) {
         chakh({
           keyword: this.khkword,
@@ -995,32 +815,26 @@ export default {
           })
           .catch(error => {});
       } else if (this.indexnum == 3) {
+        this.getdate1 = date1;
+        this.pagenum = this.showOrHide ? -1 : 1;
         needdata({
           keyword: this.xskword,
           submitTime: date1,
+          sortname: this.searchValue1,
+          sort: 1,
           page: this.pagenum,
           role: localStorage.getItem("role")
         })
           .then(res => {
             this.alldata = res;
+            this.tabdata3 = res.saleInfoList;
 
-            if (this.pagenum == 1) {
-              this.tabdata3 = res.saleInfoList;
-            } else {
-              for (var i = 0; i < res.saleInfoList.length; i++) {
-                this.tabdata3.push(res.saleInfoList[i]);
-              }
-              // //console.log(scrollTop);
-              // document.documentElement.scrollTop = scrollTop;
-            }
+            this.tabdata3.forEach(element => {
+              element.is_act=false;
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
 
-            if (res.saleInfoList.length > 0) {
-              this.isscroll = true;
-              this.pagenum++;
-            } else {
-              this.pulldownTip.textup = "我是有底线的";
-            }
-            // this.setechart();
           })
           .catch(error => {});
       } else {
@@ -1060,6 +874,7 @@ export default {
           });
       }
     },
+
     getnum(a) {
       if (a < 10) {
         a = a.toString();
@@ -1067,68 +882,229 @@ export default {
       } else {
         return a;
       }
-    },
-    hastype() {
-      if (localStorage.getItem("type") == 3) {
-        return true;
-      } else {
-        return false;
-      }
     }
   }
 };
 </script>
-<style scoped>
-.menubox {
-  border-bottom: 1px solid rgb(220, 223, 230);
-}
-.menubox > div {
-  width: 25%;
-  line-height: 40px;
+<style lang="stylus"  scoped>
+.bd_search {
+  display: flex;
+  padding: 10px 12px;
   background: #fff;
-  margin-top: 0.2rem;
 }
-.menubox .act {
-  border-bottom: 2px solid #409eff;
+
+.bd_search_a {
+  width: 100%;
+  position: relative;
+}
+
+.bd_search_btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: $colorb4b9bf;
+  font-size: 20px;
+}
+
+.search_px {
+  font-size: 13px;
+  padding: 0px 0 10px;
+  width: 100%;
+  line-height:20px;
+  box-sizing: border-box;
+  display: flex;
+  background: #fff;
+}
+
+.search_px p {
+  width: 20%;
+  color: #333;
+  position: relative;
+}
+
+.search_px_tit {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 20px 0 0;
+}
+
+.search_px_tit:after {
+  width: 0;
+  height: 0;
+  z-index: 1;
+  border-top: 4px solid #999;
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 3px solid transparent;
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  content: ' ';
+}
+
+.search_px_tit.act {
   color: #409eff;
 }
+
+
+
+.search_px_pc {
+  font-size: 13px;
+  padding: 10px 8px 10px;
+}
+
+.search_px_pc p {
+  text-align: center;
+  width: 24%;
+}
+
+.search_px_pc p:nth-child(4) {
+  width: 14%;
+}
+
+.search_px_pc p:nth-child(5) {
+  width: 14%;
+}
+
+.search_px_pc .search_px_tit {
+  padding-right: 0;
+}
+
+.search_px_pc .search_px_tit:after {
+  width: 0;
+  height: 0;
+  z-index: 1;
+  border-top: 4px solid #999;
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 3px solid transparent;
+  position: absolute;
+  top: 8px;
+  right: -8px;
+  content: ' ';
+}
+.search_px_tit.act:after {
+  border-top: 4px solid #409eff;
+}
+.search_pxbox {
+  display: flex;
+  background: $colorfff;
+  padding: 0px 12px;
+  position: relative;
+}
+
+.search_pxbox .search_px {
+  margin-right: 70px;
+}
+
+.search_pxbox .search_px p {
+  width: 35%;
+  text-align: left;
+}
+
+.search_pxbox .search_px p:first-child {
+  width: 30%;
+  text-align: left;
+}
+
+.search_pxbox .search_px_tit {
+  padding: 0 15px 0 0;
+  font-size: 12px;
+}
+
+.search_px_btn {
+  position: absolute;
+  right: 12px;
+  font-size: 12px;
+  top: -3px;
+  padding: 0 6px;
+  border: 1px solid #409eff;
+  line-height: 24px;
+  border-radius: 30px;
+  text-align: center;
+  color: #409eff;
+}
+
+.menubox {
+  border-bottom: 1px solid #f0f0f0;
+  margin-top: 8px;
+}
+
+.menubox > div {
+  width: 25%;
+  background: #fff;
+}
+
+.menubox .menu_border {
+  line-height: 42px;
+  font-size: 14px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.menubox .act {
+  position: relative;
+}
+
+.menubox .act .menu_border {
+  position: relative;
+  color: #409eff;
+}
+
+.menubox .act .menu_border_line {
+  border-bottom: 2px solid #409eff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
 .bmqb {
   font-size: 0.3rem;
   color: black;
   font-weight: 900;
 }
+
 .bmbt {
   font-size: 0.3rem;
   color: black;
   margin-top: 0.15rem;
   font-weight: 900;
 }
+
 .bmcontent {
   background: #fafafa;
   padding: 10px;
   font-size: 0.3rem;
 }
+
 .bmcontent > div {
   width: 33%;
   /* padding-bottom: 0.3rem; */
 }
-body,
-html {
+
+body, html {
   background: #f2f2f5;
 }
+
 .flex_1 {
   flex-wrap: wrap;
 }
+
 .flex_1 > div {
   width: 100%;
   /* padding-bottom: 0.1rem; */
   line-height: 0.6rem;
   height: 0.6rem;
 }
+
 .flex_1 > div > span {
   /* display: block; */
   /* width: 100%; */
 }
+
 .blue {
   color: black;
   font-weight: 900;
@@ -1140,6 +1116,7 @@ html {
   text-align: left;
   font-size: 0.3rem;
 }
+
 .black {
   color: black;
   /* width: 40%; */
@@ -1150,20 +1127,25 @@ html {
   font-size: 0.3rem;
   font-weight: 900;
 }
+
 .el-tabs--border-card > .el-tabs__content {
   padding: 0;
 }
+
 .el-select-dropdown {
   width: 98%;
 }
+
 #maincontent1 p {
   padding-left: 20px;
   text-align: left;
 }
+
 #maincontent p {
   padding-left: 20px;
   text-align: left;
 }
+
 .head {
   height: 1rem;
   font-size: 0.3rem;
@@ -1171,23 +1153,28 @@ html {
   background: #21aefb;
   color: #fff;
 }
+
 .tap {
   font-size: 0.3rem;
   background: #21aefb;
   height: 0.7rem;
   line-height: 0.7rem;
 }
+
 .tap .act {
   background: #fff;
   color: #333;
 }
+
 .tap .act a {
   color: #333;
 }
+
 .tap a {
   color: #fff;
   text-decoration: none;
 }
+
 .maincontent {
   font-size: 0.3rem;
   /* height: 5.5rem; */
@@ -1196,43 +1183,47 @@ html {
   padding: 0.2rem;
   box-sizing: border-box;
 }
+
 .nianBt {
   line-height: 4.2rem;
   width: 20%;
   background: red;
   color: #fff;
 }
-table,
-tbody,
-thead {
+
+table, tbody, thead {
   width: 100% !important;
 }
+
 .bmcontent > div {
   border-bottom: 1px solid #ccc;
   /* padding-top: 0.2rem; */
   border-right: 1px solid #ccc;
 }
+
 .bmcontent > .noboder {
   border-right: none;
 }
+
 #pxcord > span {
   text-decoration: underline;
   color: black;
 }
+
 #pxcord > .xuanzhong {
   color: #ccc;
 }
-.el-table .cell,
-.el-table th div,
-.el-table--border td:first-child .cell,
-.el-table--border th:first-child .cell {
+
+.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
   padding: 0;
   text-align: center;
 }
+
 .red {
   color: #f16c5d;
   font-weight: 900;
 }
+
 .cheng {
   color: #fe8b16;
 }
@@ -1240,8 +1231,9 @@ thead {
 /* 刷新 */
 .green {
   color: green;
-  font-weight: 900;
+  font-weight: bold;
 }
+
 .newxin {
   width: 100%;
   height: 50px;
@@ -1251,15 +1243,96 @@ thead {
   color: #ccc;
   font-size: 0.24rem;
 }
+
 .bmcontent > div {
   border-bottom: 1px solid black;
-  /* padding-top: 0.2rem; */
   border-right: 1px solid black;
 }
-/* .bmcontent>div:nth-child(3n+0){border-right: none} */
+
+@media screen and (max-width: 374px) {
+  .search_px_pc {
+    font-size: 12px;
+    padding: 10px 8px 10px 0;
+  }
+}
+
+@media screen and (max-width: 640px) and (min-width: 375px) {
+  .search_px_pc {
+    font-size: 13px;
+    padding: 10px 8px 10px 0;
+  }
+  .search_pxbox .search_px_tit {
+    font-size: 13px;
+  }
+
+  .search_px_btn {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .search_px_pc p {
+    width: 20%;
+  }
+
+  .search_px_pc p:nth-child(4) {
+    width: 20%;
+  }
+
+  .search_px_pc p:nth-child(5) {
+    width: 20%;
+  }
+
+  .search_pxbox .search_px_tit {
+    font-size: 13px;
+  }
+
+  .search_px_btn {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .search_px_pc {
+    display: flex;
+    padding: 10px 20px 10px 15px;
+  }
+ .search_px_pc p {
+    width: 26%;
+  }
+.search_px_pc p:nth-child(1) {
+    width: 16%;
+    text-align:left;
+  }
+  .search_px_pc p:nth-child(4) {
+    width: 16%;
+  }
+
+  .search_px_pc p:nth-child(5) {
+    width: 16%;
+    text-align:right;
+  }
+
+  
+
+  .search_px_btn {
+    position: absolute;
+    right: 12px;
+    font-size: 13px;
+    top: -4px;
+    padding: 0 10px;
+    border: 1px solid #409eff;
+    line-height: 26px;
+    border-radius: 30px;
+    text-align: center;
+    color: #409eff;
+  }
+}
+
 .show {
   display: block;
 }
+
 .hidden {
   display: none;
 }

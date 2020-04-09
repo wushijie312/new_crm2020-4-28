@@ -19,6 +19,7 @@ module.exports = {
     //代理接口
     devServer: {
         host: 'localhost',
+        // host: '10.0.0.56',// 配置端口
         // host: '192.168.20.101',// 配置端口
         port: 8080,
         proxy: null,

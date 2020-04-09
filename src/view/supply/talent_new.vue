@@ -72,7 +72,7 @@
       </el-card>
     </div>
 
-    <ShowbackTop/>
+    <!-- <ShowbackTop/> -->
     <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
@@ -80,13 +80,13 @@
 import { talent } from "@/api/configWu";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-import ShowbackTop from "@/components/showbackTop";
+// import ShowbackTop from "@/components/showbackTop";
 
 export default {
   components: {
     Head,
     Addcreate,
-    ShowbackTop
+    // ShowbackTop
   },
   data() {
     return {

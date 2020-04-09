@@ -25,9 +25,10 @@ export default {
       }
     },
      gotop() {
+       alert(1);
       this.showbackTop = false;
-      document.documentElement.scrollTop = 0;
-      // document.body.scrollTop = document.documentElement.scrollTop=0;
+      // document.documentElement.scrollTop = 0;
+      document.body.scrollTop = document.documentElement.scrollTop=0;
     },
   }
 };

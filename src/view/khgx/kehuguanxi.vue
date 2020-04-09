@@ -96,7 +96,7 @@
     >
       <i class="el-icon-top"></i>
     </div> -->
-    <ShowbackTop ></ShowbackTop>
+    <!-- <ShowbackTop ></ShowbackTop> -->
     <Addcreate v-if="!act1"></Addcreate>
   </div>
 </template>
@@ -106,14 +106,14 @@ import { getisread } from "@/api/configWu";
 import BScroll from "better-scroll";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-import ShowbackTop from "@/components/showbackTop";
+// import ShowbackTop from "@/components/showbackTop";
 
 export default {
   name: "index",
   components: {
     Head,
     Addcreate,
-    ShowbackTop
+    // ShowbackTop
   },
   data() {
     return {

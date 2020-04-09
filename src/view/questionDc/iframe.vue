@@ -3,7 +3,7 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <iframe id="bdIframe"  scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
+    <iframe id="bdIframe"   scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
   </div>
 </template>
 <script>

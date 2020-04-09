@@ -107,6 +107,9 @@
 .tabs_six_color_e {
   background:$colorf0f9ff;
 }
+.tabs_six_color_f {
+  background:$colorf9dbde;
+}
 .tabs_four {
   display: flex;
 }
@@ -126,8 +129,13 @@
   width: 50%;
 }
 
+.wztabs_pc_all>.tabs_four_a:nth-child(2n+1) {
+  text-align: left;
+  width:60%;
+}
 .wztabs_pc_all>.tabs_four_a:nth-child(2n) {
   text-align: right;
+  width:40%;
 }
 
 .wztabs_pc_all>.tabs_four_a.wztabs_pcdifmoney {
@@ -321,6 +329,9 @@ span.usertabs_paidan {
    .tabs_normal{
      font-size:12px;
    }
+   .tabs_four .tabs_four_a{
+     font-size:12px;
+   }
 }
 
 @media screen and (min-width: 850px) {
@@ -350,9 +361,15 @@ span.usertabs_paidan {
     width: 25%;
   }
 
-  .wztabs_pc_all>.tabs_four_a:nth-child(2n) {
-    text-align: left;
-  }
+.wztabs_pc_all>.tabs_four_a:nth-child(2n) {
+  text-align: left;
+  width:25%;
+}
+.wztabs_pc_all>.tabs_four_a:nth-child(2n+1) {
+  text-align: left;
+  width:25%;
+}
+  
 
   .wztabs_pc_all>.tabs_four_a:nth-child(4n) {
     text-align: right;

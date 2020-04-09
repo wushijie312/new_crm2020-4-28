@@ -13,21 +13,19 @@ export default {
      //
     window.addEventListener("scroll", this.scrollbacktop, true);
   },
-  destroyed(){
-     window.removeEventListener("scroll", this.scrollbacktop, true);
-  },
   methods: {
     scrollbacktop() {
-      if (window.pageYOffset > 10) {
+      if (window.pageYOffset > 1000) {
         this.showbackTop = true;
       } else {
         this.showbackTop = false;
       }
     },
      gotop() {
+       alert(1);
       this.showbackTop = false;
-      document.documentElement.scrollTop = 0;
-      // document.body.scrollTop = document.documentElement.scrollTop=0;
+      // document.documentElement.scrollTop = 0;
+      document.body.scrollTop = document.documentElement.scrollTop=0;
     },
   }
 };

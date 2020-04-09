@@ -102,7 +102,7 @@
                 实时完成率：
                 <span class="color333">{{item.finishRate.split('/')[0]}}</span>
               </p>
-              <p class="tabs_four_a mart8">
+              <p class="tabs_four_a wztabs_pcdifmoney  mart8">
                 年累计完成：
                 <span :class="item.totalFinishYearMoney>=0?'color333':'rate_green'">{{item.totalFinishYearMoney}}万</span>
               </p>
@@ -149,7 +149,7 @@
                 本月净净利：
                 <span :class="item.netsProfit>=0?'color333':'rate_green'">{{item.netsProfit}}万</span>
               </p>
-              <p class="tabs_four_a mart8">
+              <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 距离实现本月目标毛利：
                 <span
                   :class="item.targetProfitDif>0?'rate_red ':item.targetProfitDif==0?'color333 ':'rate_green '"
@@ -407,45 +407,48 @@
           </div>
           <div class="tabs_six">
             <h3 class="tabs_six_a">
-              <img :src="bmys" />部门预算
+              <img :src="bmys" />月部门费用
             </h3>
             <div class="tabs_five">
-              <div class="tabs_biaoge_all tabs_six_color_c">
+               <div class="tabs_biaoge_all tabs_six_color_d">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.bearMoney}}万</h3>
+                  <p>总费用</p>
+                </div>
+              </div>
+              <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.departmentTargetBear}}万</h3>
-                  <p>月部门费用预算</p>
+                  <p>部门费用</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.bearsMoney}}万</h3>
-                  <p>分摊费用</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.departmentCount}}人</h3>
-                  <p>部门人数</p>
-                </div>
-              </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
+
+              <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.departmentSalary}}万</h3>
                   <p>部门工资</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
+              <div class="tabs_biaoge_all tabs_six_color_d">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.departmentCount}}人</h3>
+                  <p>部门人数</p>
+                </div>
+              </div>
+               <div class="tabs_biaoge_all tabs_six_color_d">
+                <div class="tabs_five_a">
+                  <h3 class="color333">{{item.bearsMoney}}万</h3>
+                  <p>分摊费用</p>
+                </div>
+              </div>
+             
+              <div class="tabs_biaoge_all tabs_six_color_d">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.otherBear}}万</h3>
-                  <p>月其他费用</p>
+                  <p>其他费用</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_c">
-                <div class="tabs_five_a">
-                  <h3 class="color333">{{item.bearMoney}}万</h3>
-                  <p>月总费用</p>
-                </div>
-              </div>
+             
             </div>
           </div>
           <div class="tabs_six ">
@@ -453,7 +456,7 @@
               <img :src="cwqk" />财务情况
             </h3>
             <div class="tabs_five">
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_e">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.receipt}}万</h3>
                   <p>月收款</p>
@@ -467,13 +470,13 @@
                 </div>
               </div>
 
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_e">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.shouldReceipt}}万</h3>
                   <p>应收款</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_e">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.payment}}万</h3>
                   <p>月付款</p>
@@ -487,13 +490,13 @@
                 </div>
               </div>
 
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_e">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.shouldPayment}}万</h3>
                   <p>应付款</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a ">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.departmentUseMoney}}万</h3>
                   <p>期初现金净额</p>
@@ -513,20 +516,20 @@
                   <p>期末现金净额</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_f">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.monthBadDebt}}万</h3>
                   <p>月提起坏账</p>
                 </div>
               </div>
 
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_f">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.quarterBadDebt}}万</h3>
                   <p>季度坏账</p>
                 </div>
               </div>
-              <div class="tabs_biaoge_all tabs_six_color_a">
+              <div class="tabs_biaoge_all tabs_six_color_a tabs_six_color_f">
                 <div class="tabs_five_a">
                   <h3 class="color333">{{item.yearBadDebt}}万</h3>
                   <p>年度坏账</p>
@@ -568,6 +571,7 @@ export default {
       this.zhuan = false;
       this.tabdata1.map((item, index) => {
         if (len == index) {
+         
           row.is_act = !row.is_act;
           this.$set(this.tabdata1, len, row);
         } else {
