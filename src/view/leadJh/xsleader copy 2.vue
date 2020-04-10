@@ -11,6 +11,7 @@
               id="sobox"
               style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
             >
+              <!-- {{value1}} -->
               <el-date-picker
                 ref="timechoose"
                 v-model="value1"
@@ -73,6 +74,7 @@
                   >{{alldata.totalDayPlanMoney}}万</span>
                 </span>
                 <span style="text-decoration: underline;float:right;" @click="zhankai(1)">
+                  <!-- <router-link :to="{path:'/tanchujh/jrwc',query:{date:value1}}"></router-link> -->
                   展开
                 </span>
               </div>
@@ -135,6 +137,8 @@
               <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
                 上月环比
                 <span :class="alldata.totalMonthCompare>=0?'red':'green'">
+                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
+                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
                   {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
                 </span>
               </div>
@@ -145,6 +149,8 @@
               >
                 去年同比
                 <span :class="alldata.totalYearCompare>=0?'red':'green'">
+                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
+                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
                   {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
                 </span>
               </div>
@@ -327,6 +333,8 @@
           :searchValue="searchValue"
           :value1.sync="value1"
           :alertNr.sync="alertNr"
+          :zhezhao.sync="zhezhao"
+          @confirm="confirm"
         ></Bumen>
       </div>
       <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
@@ -337,11 +345,11 @@
         >
           <span style="text-decoration: underline;" @click="qhbb2">{{zhuan2}}</span>
         </h3>
-        <Zhandui v-show="soit===4&&zhuan2=='切换至文字版'" :tabdata4.sync="tabdata4"></Zhandui>
+        <Zhandui v-show="soit===4&&zhuan2=='切换至文字版'" :tabdata1.sync="tabdata4"></Zhandui>
         <ZhanduiWzb
           v-show="soit===4&&zhuan2=='切换至表格版'"
           :value1.sync="value1"
-          :tabdata4.sync="tabdata4"
+          :tabdata1.sync="tabdata4"
           style="background:#fff;"
         ></ZhanduiWzb>
       </div>
@@ -351,7 +359,7 @@
             <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
           </el-input>
         </div>
-        <Kehu :tabdata2.sync="tabdata2"></Kehu>
+        <Kehu :tabdata1.sync="tabdata2"></Kehu>
       </div>
       <div :style="{display:soit===3?'block':'none'}">
         <div class="bd_search">
@@ -364,7 +372,7 @@
           <div class="search_px">
             <p v-for="(itemSearch,len3) in searchType3" :key="len3">
               <span
-                :class="paixunum3==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
                 @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
               >{{itemSearch.label}}</span>
             </p>
@@ -372,11 +380,13 @@
           <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
         </div>
 
-        <User :pagenum="pagenum" :tabdata3.sync="tabdata3" :searchValue3="searchValue3"></User>
+        <User :pagenum="pagenum" :tabdata1.sync="tabdata3" :searchValue1="searchValue1"></User>
       </div>
+      <!-- </el-tabs> -->
     </div>
 
     <!-- <ShowbackTop/> -->
+    <div :style="zhezhao"></div>
   </div>
 </template>
 <script>
@@ -419,7 +429,7 @@ export default {
     return {
       showOrHide: true,
       searchValue: "实际销售额",
-      searchValue3: "累计完成",
+      searchValue1: "累计完成",
       searchType: [
         {
           value: "5",
@@ -469,7 +479,8 @@ export default {
         }
       ],
       isread: false,
-      paixunum3: 1,
+      paixunum1: 1,
+      zhezhao: {},
       zhuan: "切换至文字版",
       zhuan1: "切换至表格版",
       zhuan2: "切换至文字版",
@@ -524,6 +535,7 @@ export default {
     this.gettc();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
+    // document.addEventListener("scroll", this.handleScroll);
     this.gethong();
     this.getact();
   },
@@ -577,8 +589,8 @@ export default {
         this.paixunum = len;
         this.searchValue = name;
       } else if (this.indexnum == 3) {
-        this.paixunum3 = len;
-        this.searchValue3 = name;
+        this.paixunum1 = len;
+        this.searchValue1 = name;
       }
       this.getallData();
     },
@@ -588,6 +600,7 @@ export default {
       this.getallData();
     },
     search_change(val) {
+      console.log(val);
       this.paixunum =
         val == "实际销售额"
           ? 5
@@ -631,6 +644,9 @@ export default {
         this.isread = res.data.isread;
       });
     },
+    confirm(a) {
+      this.zhezhao = a;
+    },
     zhankai(a) {
       var date = new Date(this.value1);
       var date1 =
@@ -647,14 +663,34 @@ export default {
     },
 
     tantan(b) {
+      var a = window.event || event;
+      var apath = a.path || (a.composedPath && a.composedPath());
       if (b) {
+        var zhezhaoobj = {
+          background: "rgba(0,0,0,0.3)",
+          width: apath[0].clientWidth + "px",
+          height: apath[0].clientHeight + "px",
+          position: "absolute",
+          top:
+            apath[0].getBoundingClientRect().top +
+            document.documentElement.scrollTop +
+            document.body.scrollTop +
+            "px",
+          left: apath[0].offsetLeft + "px"
+        };
+
         this.$message.closeAll();
+        this.zhezhao = zhezhaoobj;
         var obj = {};
         obj.message = b;
         obj.duration = 0;
         obj.showClose = true;
+        obj.onClose = this.closeTc;
         this.$message.warning(obj);
       }
+    },
+    closeTc() {
+      this.zhezhao = {};
     },
     gettc() {
       gettc().then(res => {
@@ -714,8 +750,6 @@ export default {
         jiazero(Number(inittime.getMonth()) + 1) +
         "-" +
         jiazero(Number(inittime.getDate()));
-        this.value1=this.initdate;
-        console.log(this.value1);
       return this.initdate;
     },
 
@@ -755,8 +789,11 @@ export default {
           this.tabdata1 = res.saleInfoList;
           this.jingli = 0;
           this.jingjingli = 0;
+          var jsid = 0;
           this.tabdata1.forEach(element => {
             element.is_act = false;
+            element.id = jsid;
+            jsid++;
             this.jingli += Number(element.netProfit);
             this.jingjingli += Number(element.netsProfit);
           });
@@ -778,7 +815,7 @@ export default {
         needdata({
           keyword: this.xskword,
           submitTime: date1,
-          sortname: this.searchValue3,
+          sortname: this.searchValue1,
           sort: 1,
           page: page,
           role: localStorage.getItem("role")

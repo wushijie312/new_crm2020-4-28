@@ -1,20 +1,14 @@
 <template>
-  <div>
+  <div style="min-height:300px;">
     <div
       class="flex_1"
       style="width:90%;font-size:0.3rem;padding-top:0.1rem;margin:0 auto;border-bottom:1px solid #ccc;margin-bottom:0.2rem;background:#fff;"
-      v-for="(item,index) in tabdata1"
+      v-for="(item,index) in tabdata4"
       :key="index"
     >
       <h3 style="text-align:left;line-height:0.8rem;font-size:0.4rem;">
         <p style="line-height:0.8rem;padding-bottom:0.2rem;overflow:hidden;">
-          
           <span class="left">{{item.leaderName}}--战队</span>
-          <!-- <span
-            
-            style="font-weight:900;font-size:0.3rem;"
-            @click="jxq(item.id,item.departmentName,item.departmentId)"
-          >查看详情</span> -->
           <span class="right">
               <el-button class="copy-btn1" data-clipboard-action="copy" :data-clipboard-target="'#textDivE'+index" @click="copy">一键复制</el-button>
           </span>
@@ -247,7 +241,7 @@
 import Clipboard from 'clipboard'
 
 export default {
-  props: ["tabdata1",'value1','jxq'],
+  props: ["tabdata4",'value1','jxq'],
   data() {
     return {
       box: ""

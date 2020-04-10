@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs_lists mart8">
+  <div class="tabs_lists mart8" style="min-height:300px;">
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">部门负责人</div>

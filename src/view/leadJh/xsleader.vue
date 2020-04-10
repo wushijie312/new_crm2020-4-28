@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="mousedownFunc">
+  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" >
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
@@ -11,12 +11,12 @@
               id="sobox"
               style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
             >
-              <!-- {{value1}} -->
               <el-date-picker
                 ref="timechoose"
                 v-model="value1"
                 type="date"
                 placeholder="选择日期"
+                value-format="yyyy-MM-dd"
                 style="border:none;font-size:0.4rem!importment;font-weight:900;"
                 :clearable="false"
                 class="el-icon-arrow-down1"
@@ -30,7 +30,7 @@
             </span>
           </h3>
 
-          <div style="overflow:hidden;" v-show="ladzd">
+          <div style="overflow:hidden;">
             <div
               style="width:18%;float:left;height:100%;border-right:1px solid #ccc;box-sizing:border-box;margin-right:2%;"
             >
@@ -73,10 +73,7 @@
                     :class="alldata.totalDayPlanMoney>=0?'red':'green'"
                   >{{alldata.totalDayPlanMoney}}万</span>
                 </span>
-                <span style="text-decoration: underline;float:right;" @click="zhankai(1)">
-                  <!-- <router-link :to="{path:'/tanchujh/jrwc',query:{date:value1}}"></router-link> -->
-                  展开
-                </span>
+                <span style="text-decoration: underline;float:right;" @click="zhankai(1)">展开</span>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalShouleMoneyExp)">目前应完成：</span>
@@ -136,11 +133,9 @@
               </div>
               <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
                 上月环比
-                <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                  <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                  <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                </span>
+                <span
+                  :class="alldata.totalMonthCompare>=0?'red':'green'"
+                >{{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%</span>
               </div>
               <div
                 class="black"
@@ -148,11 +143,9 @@
                 @click.stop="tantan(alertNr.totalCompareExp)"
               >
                 去年同比
-                <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                  <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                  <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                  {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                </span>
+                <span
+                  :class="alldata.totalYearCompare>=0?'red':'green'"
+                >{{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%</span>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalTargetGrossExp)">本月目标实现毛利：</span>
@@ -266,25 +259,25 @@
         </div>
       </div>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div class="left" @click="zhongjiedata({index:1})" :class="soit===1?'act':''">
+        <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
           <span class="menu_border">
             部门榜
             <span class="menu_border_line"></span>
           </span>
         </div>
-        <div class="left" @click="zhongjiedata({index:4})" :class="soit===4?'act':''">
+        <div class="left" @click="zhongjiedata({index:4})" :class="indexnum===4?'act':''">
           <span class="menu_border">
             战队榜
             <span class="menu_border_line"></span>
           </span>
         </div>
-        <div class="left" @click="zhongjiedata({index:2})" :class="soit===2?'act':''">
+        <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
           <span class="menu_border">
             客户榜
             <span class="menu_border_line"></span>
           </span>
         </div>
-        <div class="left" @click="zhongjiedata({index:3})" :class="soit===3?'act':''">
+        <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
           <span class="menu_border">
             全体销售
             <span class="menu_border_line"></span>
@@ -296,24 +289,24 @@
         @tab-click="zhongjiedata"
         ref="tabs"
       >-->
-      <div :style="{display:soit===1?'block':'none'}">
+      <div :style="{display:indexnum===1?'block':'none'}">
         <div class="qu_bumobile">
           <div class="fl qu_bmmobile_b">筛选：</div>
           <div class="fr clearfix">
             <div class="qu_bmmobile_a fl">
-             <el-select
-              class="qu_bmmobile_select"
-              v-model="searchValue"
-              placeholder="请选择"
-              @change="search_change"
-            >
-              <el-option
-                v-for="item in searchType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.label"
-              ></el-option>
-            </el-select>
+              <el-select
+                class="qu_bmmobile_select"
+                v-model="searchValue"
+                placeholder="请选择"
+                @change="search_change"
+              >
+                <el-option
+                  v-for="item in searchType"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label"
+                ></el-option>
+              </el-select>
             </div>
           </div>
         </div>
@@ -327,41 +320,39 @@
         </div>
 
         <Bumen
-          v-show="soit===1&&zhuan=='切换至文字版'"
+          v-show="indexnum===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
           :jxq.sync="jxq"
           :searchValue="searchValue"
           :value1.sync="value1"
           :alertNr.sync="alertNr"
-          :zhezhao.sync="zhezhao"
-          @confirm="confirm"
         ></Bumen>
       </div>
       <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
-      <div :style="{display:soit===4?'block':'none'}">
+      <div :style="{display:indexnum===4?'block':'none'}">
         <h3
           style="text-align:right;font-size:0.3rem;padding-right:0.3rem;line-height:0.6rem;"
-          v-show="soit===4"
+          v-show="indexnum===4"
         >
           <span style="text-decoration: underline;" @click="qhbb2">{{zhuan2}}</span>
         </h3>
-        <Zhandui v-show="soit===4&&zhuan2=='切换至文字版'" :tabdata1.sync="tabdata4"></Zhandui>
+        <Zhandui v-show="indexnum===4&&zhuan2=='切换至文字版'" :tabdata4.sync="tabdata4"></Zhandui>
         <ZhanduiWzb
-          v-show="soit===4&&zhuan2=='切换至表格版'"
+          v-show="indexnum===4&&zhuan2=='切换至表格版'"
           :value1.sync="value1"
-          :tabdata1.sync="tabdata4"
+          :tabdata4.sync="tabdata4"
           style="background:#fff;"
         ></ZhanduiWzb>
       </div>
-      <div :style="{display:soit===2?'block':'none'}">
+      <div :style="{display:indexnum===2?'block':'none'}">
         <div style="background:#fff;">
           <el-input placeholder="请输入客户名称" v-model="khkword" class="input-with-select">
             <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
           </el-input>
         </div>
-        <Kehu :tabdata1.sync="tabdata2"></Kehu>
+        <Kehu :tabdata2.sync="tabdata2"></Kehu>
       </div>
-      <div :style="{display:soit===3?'block':'none'}">
+      <div :style="{display:indexnum===3?'block':'none'}">
         <div class="bd_search">
           <div class="bd_search_a">
             <el-input size="small" placeholder="请输入销售名称" v-model="xskword" class="qu_cuHead_search"></el-input>
@@ -372,7 +363,7 @@
           <div class="search_px">
             <p v-for="(itemSearch,len3) in searchType3" :key="len3">
               <span
-                :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                :class="paixunum3==itemSearch.value?'search_px_tit act':'search_px_tit'"
                 @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
               >{{itemSearch.label}}</span>
             </p>
@@ -380,13 +371,11 @@
           <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
         </div>
 
-        <User :pagenum="pagenum" :tabdata1.sync="tabdata3" :searchValue1="searchValue1"></User>
+        <User :pagenum="pagenum" :tabdata3.sync="tabdata3" :searchValue3="searchValue3"></User>
       </div>
-      <!-- </el-tabs> -->
     </div>
 
     <!-- <ShowbackTop/> -->
-    <div :style="zhezhao"></div>
   </div>
 </template>
 <script>
@@ -429,7 +418,7 @@ export default {
     return {
       showOrHide: true,
       searchValue: "实际销售额",
-      searchValue1: "累计完成",
+      searchValue3: "累计完成",
       searchType: [
         {
           value: "5",
@@ -479,12 +468,10 @@ export default {
         }
       ],
       isread: false,
-      paixunum1: 1,
-      zhezhao: {},
+      paixunum3: 1,
       zhuan: "切换至文字版",
       zhuan1: "切换至表格版",
       zhuan2: "切换至文字版",
-      soit: 1,
       pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
@@ -494,33 +481,22 @@ export default {
       bmkword: "",
       xskword: "",
       khkword: "",
-      ladzd: true,
-
-      tabdata4: [],
-      hb: "",
-      tb: "",
-      pulldownTip: {
-        text: "下拉刷新", // 松开立即刷新
-        textup: "上拉加载更多", // 松开立即刷新
-        rotate: "" // icon-rotate
-      },
       jingli: 0,
       jingjingli: 0,
       pagenum: 1,
       indexnum: 1,
       act: 1,
       act1: true,
-      box: "100",
       value1: this.aler(),
       initdate: "",
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
+      tabdata4: [],
       isscroll: true,
       paixunum: 5,
       alertNr: {},
-      loading: true,
-      getdate1: ""
+      loading: true
     };
   },
 
@@ -536,19 +512,19 @@ export default {
     // this.aler();
     this.getallData();
     this.gettc();
-    // document.addEventListener("scroll", this.handleScroll);
+    //
+    window.addEventListener("scroll", this.scrollBottom, true);
     this.gethong();
     this.getact();
   },
+  destroyed() {
+    window.removeEventListener("scroll", this.scrollBottom, true);
+  },
   watch: {
-    soit() {
-      if (this.soit == 1) {
-        this.$nextTick(() => {
-          this.$refs.bumenbang.scrollIntoView();
-        });
-      } else {
-        document.documentElement.scrollTop = 0;
-      }
+    indexnum() {
+      this.$nextTick(() => {
+        this.$refs.bumenbang.scrollIntoView();
+      });
     },
     value1() {
       this.pagenum = 1;
@@ -558,13 +534,53 @@ export default {
   },
 
   methods: {
+    scrollBottom() {
+      // 滚动到页面底部时
+      // const el = document.getElementById("customlist");
+      if (this.indexnum == 2) {
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        let clientHeight = document.documentElement.clientHeight;
+        let scrollHeight = document.documentElement.scrollHeight;
+        const toBottom = scrollHeight - scrollTop - clientHeight;
+        if (toBottom < 30 && this.loading) {
+          this.loading = false;
+          chakh({
+            keyword: this.khkword,
+            submitTime: this.value1,
+            page: this.pagenum,
+            pageSize: 10,
+            role: localStorage.getItem("role")
+          }).then(res => {
+            if (res.code == 200) {
+              this.loading = true;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
+            } else {
+              this.$message.error({ message: `${res.msg}` });
+            }
+          });
+        }
+      }
+    },
+    getjingli(tabsdata) {
+      this.jingli = 0;
+      this.jingjingli = 0;
+      tabsdata.forEach(element => {
+        element.is_act = false;
+        this.jingli += Number(element.netProfit);
+        this.jingjingli += Number(element.netsProfit);
+      });
+      this.jingli = this.jingli.toFixed(2);
+      this.jingjingli = this.jingjingli.toFixed(2);
+    },
     bumenbanghandle(len, name) {
       if (this.indexnum == 1) {
         this.paixunum = len;
         this.searchValue = name;
       } else if (this.indexnum == 3) {
-        this.paixunum1 = len;
-        this.searchValue1 = name;
+        this.paixunum3 = len;
+        this.searchValue3 = name;
       }
       this.getallData();
     },
@@ -573,9 +589,25 @@ export default {
       this.pagenum = this.showOrHide ? -1 : 1;
       this.getallData();
     },
-    search_change(val){
-      console.log(val);
-      this.paixunum=val=="实际销售额"?5:val=="标准销售额"?4:val=="实时完成率"?1:val=="净利"?2:val=="净净利"?3:val=="部门费用率"?6:val=="人力成本费用率"?7:val=="年销售完成率"?8:''
+    search_change(val) {
+      this.paixunum =
+        val == "实际销售额"
+          ? 5
+          : val == "标准销售额"
+          ? 4
+          : val == "实时完成率"
+          ? 1
+          : val == "净利"
+          ? 2
+          : val == "净净利"
+          ? 3
+          : val == "部门费用率"
+          ? 6
+          : val == "人力成本费用率"
+          ? 7
+          : val == "年销售完成率"
+          ? 8
+          : "";
       this.getallData();
     },
     getact() {
@@ -601,53 +633,29 @@ export default {
         this.isread = res.data.isread;
       });
     },
-    confirm(a) {
-      this.zhezhao = a;
-    },
     zhankai(a) {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       if (a == 1) {
-        this.$router.push({ path: "/tanchujh/jrwc", query: { date: date1 } });
+        this.$router.push({
+          path: "/tanchujh/jrwc",
+          query: { date: this.value1 }
+        });
       } else if (a == 2) {
-        this.$router.push({ path: "/zbwxd", query: { date: date1, type: 1 } });
+        this.$router.push({
+          path: "/zbwxd",
+          query: { date: this.value1, type: 1 }
+        });
       }
     },
 
     tantan(b) {
-      var a = window.event || event;
-      var apath = a.path || (a.composedPath && a.composedPath());
       if (b) {
-        var zhezhaoobj = {
-          background: "rgba(0,0,0,0.3)",
-          width: apath[0].clientWidth + "px",
-          height: apath[0].clientHeight + "px",
-          position: "absolute",
-          top:
-            apath[0].getBoundingClientRect().top +
-            document.documentElement.scrollTop +
-            document.body.scrollTop +
-            "px",
-          left: apath[0].offsetLeft + "px"
-        };
-
         this.$message.closeAll();
-        this.zhezhao = zhezhaoobj;
         var obj = {};
         obj.message = b;
         obj.duration = 0;
         obj.showClose = true;
-        obj.onClose = this.closeTc;
         this.$message.warning(obj);
       }
-    },
-    closeTc() {
-      this.zhezhao = {};
     },
     gettc() {
       gettc().then(res => {
@@ -664,45 +672,14 @@ export default {
       }
     },
 
-    mousedownFunc(e) {
-      try {
-        this.$refs.timechoose.blur();
-      } catch (error) {}
-    },
-    // handleScroll() {
-    //   // //console.log(this.$refs)
-    //   try {
-    //     if (this.$refs.content.clientHeight) {
-    //       var boxnum = this.$refs.content.clientHeight;
-    //     }
-    //     if (
-    //       window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
-    //       this.isscroll
-    //     ) {
-    //       //console.log(111);
-
-    //       this.isscroll = false;
-    //       this.getallData();
-    //     }
-    //   } catch (err) {
-    //     // //console.log(err);
-    //   }
-    // },
-
     jxq(a, b, c) {
       // //console.log(a)
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
+      
       this.$router.push({
         path: "/leadbmjy",
         query: {
           id: a,
-          date: date1,
+          date: this.value1,
           name: b,
           departid: c,
           top: document.body.scrollTop + document.documentElement.scrollTop,
@@ -713,33 +690,20 @@ export default {
     },
 
     aler() {
-      var inittime = new Date();
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
+      let date = new Date();
+      let dates =
+        date.getFullYear() +
         "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
+        this.getnum(Number(date.getMonth()) + 1) +
         "-" +
-        jiazero(Number(inittime.getDate()));
-      return this.initdate;
+        this.getnum(date.getDate());
+      return dates;
     },
 
     zhongjiedata(a) {
       this.$message.closeAll();
       this.isscroll = false;
       if (a.index) {
-        this.soit = a.index;
-        if (a.index == 1) {
-          this.ladzd = true;
-        } else {
-          this.ladzd = false;
-        }
         this.indexnum = Number(a.index);
       }
       this.pagenum = 1;
@@ -750,125 +714,57 @@ export default {
       this.getallData();
     },
     getallData() {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       if (this.indexnum == 1) {
         chabumen({
           keyword: this.bmkword,
-          submitTime: date1,
+          submitTime: this.value1,
           page: this.pagenum,
           sortname: this.searchValue,
           sort: 1,
           role: localStorage.getItem("role")
-        })
-          .then(res => {
-            this.alldata = res;
-            this.tabdata1 = res.saleInfoList;
-            this.jingli = 0;
-            this.jingjingli = 0;
-            var jsid = 0;
-            this.tabdata1.forEach(element => {
-              element.is_act = false;
-              element.id = jsid;
-              jsid++;
-              this.jingli += Number(element.netProfit);
-              this.jingjingli += Number(element.netsProfit);
-            });
-            this.jingli = this.jingli.toFixed(2);
-            this.jingjingli = this.jingjingli.toFixed(2);
-          })
-          .catch(error => {});
+        }).then(res => {
+          this.alldata = res;
+          this.tabdata1 = res.saleInfoList;
+         this.getjingli(this.tabdata1);
+        });
       } else if (this.indexnum == 2) {
         chakh({
           keyword: this.khkword,
-          submitTime: date1,
+          submitTime: this.value1,
+          pageSize: 10,
           page: this.pagenum,
           role: localStorage.getItem("role")
-        })
-          .then(res => {
-            this.alldata = res;
-            if (this.pagenum == 1) {
-              this.tabdata2 = res.saleInfoList;
-            } else {
-              for (var i = 0; i < res.saleInfoList.length; i++) {
-                this.tabdata2.push(res.saleInfoList[i]);
-              }
-            }
-
-            if (res.saleInfoList.length > 0) {
-              this.isscroll = true;
-              this.pagenum++;
-            } else {
-              this.pulldownTip.textup = "我是有底线的";
-            }
-
-            // this.setechart();
-            if (this.tabdata2.length > 0) {
-            }
-          })
-          .catch(error => {});
+        }).then(res => {
+          this.alldata = res;
+          this.tabdata2 = res.saleInfoList;
+         this.getjingli(this.tabdata2);
+        });
       } else if (this.indexnum == 3) {
-        this.getdate1 = date1;
-        this.pagenum = this.showOrHide ? -1 : 1;
+        let page = this.showOrHide ? -1 : 1;
         needdata({
           keyword: this.xskword,
-          submitTime: date1,
-          sortname: this.searchValue1,
+          submitTime: this.value1,
+          sortname: this.searchValue3,
           sort: 1,
-          page: this.pagenum,
+          page: page,
           role: localStorage.getItem("role")
-        })
-          .then(res => {
-            this.alldata = res;
-            this.tabdata3 = res.saleInfoList;
-
-            this.tabdata3.forEach(element => {
-              element.is_act = false;
-              this.jingli += Number(element.netProfit);
-              this.jingjingli += Number(element.netsProfit);
-            });
-          })
-          .catch(error => {});
+        }).then(res => {
+          this.alldata = res;
+          this.tabdata3 = res.saleInfoList;
+         this.getjingli(this.tabdata3);
+        });
       } else {
         chazhandui({
-          submitTime: date1,
+          submitTime: this.value1,
           page: this.pagenum,
+          pageSize: 30,
           role: localStorage.getItem("role")
-        })
-          .then(res => {
-            this.alldata = res;
-            if (this.pagenum == 1) {
-              this.tabdata4 = res.saleInfoList;
-            } else {
-            }
-            //console.log(this.tabdata4);
-            this.jingli = 0;
-            this.jingjingli = 0;
-            this.tabdata1.forEach(element => {
-              this.jingli += Number(element.netProfit);
-              this.jingjingli += Number(element.netsProfit);
-            });
-            this.jingli = this.jingli.toFixed(2);
-            this.jingjingli = this.jingjingli.toFixed(2);
-            this.alldata = res;
-            if (res.saleInfoList.length > 0) {
-              this.pagenum++;
-              // alert(this.pagenum)
-              // this.scroll = true;
-            } else {
-              this.pulldownTip.textup = "我是有底线的";
-            }
-            // this.setechart();
-          })
-          .catch(error => {
-            // //console.log(error)
-            // open('添加失败')
-          });
+        }).then(res => {
+          this.alldata = res;
+          this.tabdata4 = res.saleInfoList;
+          this.getjingli(this.tabdata4);
+          
+        });
       }
     },
 
@@ -962,7 +858,7 @@ export default {
 }
 
 .search_px_pc {
-  display:none;
+  display: none;
   font-size: 13px;
   padding: 10px 8px 10px;
 }
@@ -1263,11 +1159,7 @@ table, tbody, thead {
   border-right: 1px solid black;
 }
 
-
-
 @media screen and (max-width: 640px) and (min-width: 375px) {
-  
-
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -1282,7 +1174,6 @@ table, tbody, thead {
     width: 20%;
   }
 
-  
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -1297,20 +1188,24 @@ table, tbody, thead {
     display: flex;
     padding: 10px 20px 10px 15px;
   }
- .qu_bumobile {
+
+  .qu_bumobile {
     display: none;
   }
+
   .search_px_pc p {
     width: 16.333333%;
   }
 
-.search_px_pc p:nth-child(1) {
-   text-align:left;
-   width:14%;
+  .search_px_pc p:nth-child(1) {
+    text-align: left;
+    width: 14%;
   }
+
   .search_px_pc p:nth-child(4) {
     width: 12%;
   }
+
   .search_px_pc p:nth-child(5) {
     width: 12%;
   }

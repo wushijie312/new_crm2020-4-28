@@ -1,12 +1,12 @@
 <template>
-  <div class="tabs_lists mart8">
+  <div class="tabs_lists mart8" style="min-height:300px;">
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">销售</div>
-      <div class="tabs_normal tabs_lc">{{searchValue1}}{{searchValue1=="实时完成率"?'':'(万)'}}</div>
+      <div class="tabs_normal tabs_lc">{{searchValue3}}{{searchValue3=="实时完成率"?'':'(万)'}}</div>
       <div class="tabs_normal tabs_ld">光荣榜</div>
     </div>
-    <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
+    <div class="tabs_two_box" v-for="(item,len1) in tabdata3" :key="len1">
       <div class="tabs_info">
         <div v-if="item.is_act" class="tabs_info_line"></div>
         <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
@@ -14,7 +14,7 @@
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.userName}}.{{item.departmentName}}</div>
           <div
             class="tabs_normal_cont tabs_lc tabs_lmoney"
-          >{{searchValue1=="累计完成"?item.finishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="标准销售额"?item.standardFinishMoney:''}}</div>
+          >{{searchValue3=="累计完成"?item.finishMoney:searchValue3=="实时完成率"?item.finishRate.split('/')[0]:searchValue3=="标准销售额"?item.standardFinishMoney:''}}</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img
@@ -241,7 +241,7 @@
 import Clipboard from "clipboard";
 
 export default {
-  props: ["tabdata1", "pagenum", "searchValue1"],
+  props: ["tabdata3", "pagenum", "searchValue3"],
   data() {
     return {
       hua: require("@/assets/img/bangdan/hua.png"),
@@ -252,7 +252,7 @@ export default {
   },
     mounted() {
     setTimeout(()=>{
-    console.log('2w',this.tabdata1);
+    console.log('2w',this.tabdata3);
 
     },6000);
   },
@@ -261,10 +261,10 @@ export default {
       this.$router.push({ path: "/create", query: { userid: id } });
     },
     details_handle(row, len) {
-      this.tabdata1.map((item, index) => {
+      this.tabdata3.map((item, index) => {
         if (len == index) {
           row.is_act = !row.is_act;
-          this.$set(this.tabdata1, len, row);
+          this.$set(this.tabdata3, len, row);
         } else {
           item.is_act = false;
         }

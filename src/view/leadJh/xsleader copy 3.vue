@@ -16,6 +16,7 @@
                 v-model="value1"
                 type="date"
                 placeholder="选择日期"
+                value-format="yyyy-MM-dd"
                 style="border:none;font-size:0.4rem!importment;font-weight:900;"
                 :clearable="false"
                 class="el-icon-arrow-down1"
@@ -72,9 +73,7 @@
                     :class="alldata.totalDayPlanMoney>=0?'red':'green'"
                   >{{alldata.totalDayPlanMoney}}万</span>
                 </span>
-                <span style="text-decoration: underline;float:right;" @click="zhankai(1)">
-                  展开
-                </span>
+                <span style="text-decoration: underline;float:right;" @click="zhankai(1)">展开</span>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalShouleMoneyExp)">目前应完成：</span>
@@ -134,9 +133,9 @@
               </div>
               <div class="black" @click.stop="tantan(alertNr.totalCompareExp)">
                 上月环比
-                <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                  {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                </span>
+                <span
+                  :class="alldata.totalMonthCompare>=0?'red':'green'"
+                >{{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%</span>
               </div>
               <div
                 class="black"
@@ -144,9 +143,9 @@
                 @click.stop="tantan(alertNr.totalCompareExp)"
               >
                 去年同比
-                <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                  {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                </span>
+                <span
+                  :class="alldata.totalYearCompare>=0?'red':'green'"
+                >{{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%</span>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalTargetGrossExp)">本月目标实现毛利：</span>
@@ -565,12 +564,24 @@ export default {
             if (res.code == 200) {
               this.loading = true;
               this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
             } else {
               this.$message.error({ message: `${res.msg}` });
             }
           });
         }
       }
+    },
+    getjingli(tabsdata) {
+      this.jingli = 0;
+      this.jingjingli = 0;
+      tabsdata.forEach(element => {
+        element.is_act = false;
+        this.jingli += Number(element.netProfit);
+        this.jingjingli += Number(element.netsProfit);
+      });
+      this.jingli = this.jingli.toFixed(2);
+      this.jingjingli = this.jingjingli.toFixed(2);
     },
     bumenbanghandle(len, name) {
       if (this.indexnum == 1) {
@@ -632,17 +643,16 @@ export default {
       });
     },
     zhankai(a) {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       if (a == 1) {
-        this.$router.push({ path: "/tanchujh/jrwc", query: { date: date1 } });
+        this.$router.push({
+          path: "/tanchujh/jrwc",
+          query: { date: this.value1 }
+        });
       } else if (a == 2) {
-        this.$router.push({ path: "/zbwxd", query: { date: date1, type: 1 } });
+        this.$router.push({
+          path: "/zbwxd",
+          query: { date: this.value1, type: 1 }
+        });
       }
     },
 
@@ -700,23 +710,14 @@ export default {
     },
 
     aler() {
-      var inittime = new Date();
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
+      let date = new Date();
+      let dates =
+        date.getFullYear() +
         "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
+        this.getnum(Number(date.getMonth()) + 1) +
         "-" +
-        jiazero(Number(inittime.getDate()));
-        this.value1=this.initdate;
-        console.log(this.value1);
-      return this.initdate;
+        this.getnum(date.getDate());
+      return dates;
     },
 
     zhongjiedata(a) {
@@ -735,17 +736,10 @@ export default {
       this.getallData();
     },
     getallData() {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       if (this.indexnum == 1) {
         chabumen({
           keyword: this.bmkword,
-          submitTime: date1,
+          submitTime: this.value1,
           page: this.pagenum,
           sortname: this.searchValue,
           sort: 1,
@@ -753,49 +747,45 @@ export default {
         }).then(res => {
           this.alldata = res;
           this.tabdata1 = res.saleInfoList;
-          this.jingli = 0;
-          this.jingjingli = 0;
-          this.tabdata1.forEach(element => {
-            element.is_act = false;
-            this.jingli += Number(element.netProfit);
-            this.jingjingli += Number(element.netsProfit);
-          });
-          this.jingli = this.jingli.toFixed(2);
-          this.jingjingli = this.jingjingli.toFixed(2);
+         this.getjingli(this.tabdata1);
         });
       } else if (this.indexnum == 2) {
         chakh({
           keyword: this.khkword,
-          submitTime: date1,
+          submitTime: this.value1,
           pageSize: 10,
           page: this.pagenum,
           role: localStorage.getItem("role")
         }).then(res => {
+          this.alldata = res;
           this.tabdata2 = res.saleInfoList;
+         this.getjingli(this.tabdata2);
         });
       } else if (this.indexnum == 3) {
         let page = this.showOrHide ? -1 : 1;
         needdata({
           keyword: this.xskword,
-          submitTime: date1,
+          submitTime: this.value1,
           sortname: this.searchValue3,
           sort: 1,
           page: page,
           role: localStorage.getItem("role")
         }).then(res => {
+          this.alldata = res;
           this.tabdata3 = res.saleInfoList;
-          this.tabdata3.forEach(element => {
-            element.is_act = false;
-          });
+         this.getjingli(this.tabdata3);
         });
       } else {
         chazhandui({
-          submitTime: date1,
+          submitTime: this.value1,
           page: this.pagenum,
           pageSize: 30,
           role: localStorage.getItem("role")
         }).then(res => {
+          this.alldata = res;
           this.tabdata4 = res.saleInfoList;
+          this.getjingli(this.tabdata4);
+          
         });
       }
     },

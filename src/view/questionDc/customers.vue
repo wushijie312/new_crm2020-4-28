@@ -149,6 +149,10 @@ export default {
       }
     });
   },
+  
+    destroyed() {
+        window.removeEventListener('scroll', this.scrollBottom,true);
+    },
   methods: {
     khSelectHandel(row, len) {
       this.khtags.map((item, index) => {

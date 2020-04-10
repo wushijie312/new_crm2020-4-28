@@ -18,7 +18,7 @@ module.exports = {
     productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
     //代理接口
     devServer: {
-        host: 'localhost',
+        // host: 'localhost',
         // host: '10.0.0.56',// 配置端口
         // host: '192.168.20.101',// 配置端口
         port: 8080,

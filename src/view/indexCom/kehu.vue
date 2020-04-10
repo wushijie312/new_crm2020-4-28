@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="min-height:300px;">
       <div style="overflow:auto">
           <div
-            v-for="(item,index) in tabdata1"
+            v-for="(item,index) in tabdata2"
             :key="index"
             style="padding: 15px;background: #fff;margin-bottom:0.2rem;"
           >
@@ -91,7 +91,7 @@
 
 <script>
 export default {
-    props: ["tabdata1"],
+    props: ["tabdata2"],
     data() {
         return {
         box: ""

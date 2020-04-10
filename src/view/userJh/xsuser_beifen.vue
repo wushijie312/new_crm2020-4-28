@@ -18,7 +18,6 @@
                   type="date"
                   placeholder="选择日期"
                   style="border:none;"
-                  value-format="yyyy-MM-dd"
                   :editable="false"
                   :clearable="false"
                   class="el-icon-arrow-down1"
@@ -30,6 +29,7 @@
               </span>
             </h3>
             <div
+              v-if="indexnum==2"
               class="left flex_1"
               style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
             >
@@ -100,7 +100,7 @@
                 </span>
               </div>
               <div>
-                <span class="blue">净净利：</span>
+                <span class="blue" >净净利：</span>
                 <span class="black">
                   <span :class="jingjingli>=0?'red':'green'">{{jingjingli}}万</span>
                 </span>
@@ -121,7 +121,7 @@
                 </span>
               </div>
               <div>
-                <span class="blue" ref="kehubang">TB线索：</span>
+                <span class="blue"  ref="kehubang">TB线索：</span>
                 <span class="black">
                   <span
                     :class="alldata.totalTBClueMoney>=0?'red':'green'"
@@ -129,7 +129,7 @@
                 </span>
               </div>
               <div>
-                <span class="blue">本月开标：</span>
+                <span class="blue" >本月开标：</span>
                 <span class="black">
                   <span
                     :class="alldata.totalOpenTenderMoney>=0?'red':'green'"
@@ -337,12 +337,29 @@ export default {
 
       isread: false,
       restaurants: [],
+      value: "",
+      pulldownTip: {
+        text: "下拉刷新", // 松开立即刷新
+        textup: "上拉加载更多", // 松开立即刷新
+        rotate: "" // icon-rotate
+      },
       arr: [],
       jingli: 0,
       jingjingli: 0,
       act: 1,
       act1: false,
-      value1: this.aler(),
+      value1: "",
+      value2: "",
+      input10: "",
+      input11: "",
+      show2: false,
+      biao1: 0,
+      biao2: 0,
+      chaoe: "",
+      TBxiansuo: "",
+      yiwancheng: "",
+      choose: {},
+      initdate: "",
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
@@ -351,7 +368,7 @@ export default {
   },
   mounted() {
     this.chakehu();
-    // this.aler();
+    this.aler();
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -359,15 +376,20 @@ export default {
     this.getact();
   },
   destroyed() {
-    window.removeEventListener("scroll", this.scrollBottom, true);
-  },
+        window.removeEventListener('scroll', this.scrollBottom,true);
+    },
   watch: {
     indexnum() {
-      this.$nextTick(() => {
-        this.$refs.kehubang.scrollIntoView();
-      });
+      if (this.indexnum == 2) {
+        this.$nextTick(() => {
+          this.$refs.kehubang.scrollIntoView();
+        });
+      } else {
+        document.documentElement.scrollTop = 0;
+      }
     },
     value1() {
+      
       this.getallData();
     }
   },
@@ -377,29 +399,37 @@ export default {
   methods: {
     scrollBottom() {
       // 滚动到页面底部时
-      if (this.indexnum == 2) {
-        let scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        let clientHeight = document.documentElement.clientHeight;
-        let scrollHeight = document.documentElement.scrollHeight;
-        const toBottom = scrollHeight - scrollTop - clientHeight;
-        if (toBottom < 30 && this.loading) {
-          this.loading = false;
-          needdata({
-            submitTime: this.value1,
-            page: ++this.pagenum,
-            pageSize: 10,
-            role: ""
-          }).then(res => {
+      // const el = document.getElementById("customlist");
+      if(this.indexnum==2){
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let clientHeight = document.documentElement.clientHeight;
+      let scrollHeight = document.documentElement.scrollHeight;
+      const toBottom = scrollHeight - scrollTop - clientHeight;
+      if (toBottom < 30 && this.loading) {
+        this.loading = false;
+        needdata({
+          submitTime: this.value1,
+          page: ++this.pagenum,
+          pageSize: 10,
+          role: ""
+        })
+          .then(res => {
             if (res.code == 200) {
               this.loading = true;
               this.alldata = res;
-              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-              this.getjingli(this.tabdata2);
+              this.tabdata2=this.tabdata2.concat(res.saleInfoList);
+              this.jingli = 0;
+              this.jingjingli = 0;
+              this.tabdata2.forEach(element => {
+                this.jingli += Number(element.netProfit);
+                this.jingjingli += Number(element.netsProfit);
+              });
             } else {
               this.$message.error({ message: `${res.msg}` });
             }
-          });
+           
+          })
         }
       }
     },
@@ -458,6 +488,7 @@ export default {
     },
     gethong() {
       getisread({ userid: localStorage.getItem("userid") }).then(res => {
+        // console.log()
         this.isread = res.data.isread;
       });
     },
@@ -465,6 +496,7 @@ export default {
     chakehu() {
       chakehu({ role: "" })
         .then(res => {
+          console.log(res);
           this.restaurants = res.data;
         })
         .catch(error => {});
@@ -476,78 +508,104 @@ export default {
         return a;
       }
     },
+
     aler() {
-      let date = new Date();
-      let dates =
+      var inittime = new Date();
+      function jiazero(a) {
+        if (a < 10) {
+          return "0" + a;
+        } else {
+          return a;
+        }
+      }
+      this.initdate =
+        inittime.getFullYear() +
+        "-" +
+        jiazero(Number(inittime.getMonth()) + 1) +
+        "-" +
+        jiazero(Number(inittime.getDate()));
+      this.value1 = this.initdate;
+      console.log(this.value1);
+    },
+    getallData() {
+      var date = new Date(this.value1);
+      var date1 =
         date.getFullYear() +
         "-" +
         this.getnum(Number(date.getMonth()) + 1) +
         "-" +
         this.getnum(date.getDate());
-      return dates;
-    },
-
-    getallData() {
       if (this.indexnum == 1) {
         salechabumen({
           keyword: "",
-          submitTime: this.value1,
+          submitTime: date1,
           page: 1,
           sortname: this.searchValue,
           sort: 1
-        }).then(res => {
-          this.alldata = res;
-          this.tabdata1 = res.saleInfoList;
-          this.getjingli(this.tabdata1);
-          // this.jingli = 0;
-          // this.jingjingli = 0;
-          // var jsid = 0;
-          // this.tabdata1.forEach(element => {
-          //   element.is_act = false;
-          //   element.id = jsid;
-          //   jsid++;
-          //   this.jingli += Number(element.netProfit);
-          //   this.jingjingli += Number(element.netsProfit);
-          // });
-          // this.jingli = this.jingli.toFixed(2);
-          // this.jingjingli = this.jingjingli.toFixed(2);
-        });
+        })
+          .then(res => {
+            this.alldata = res;
+            this.tabdata1 = res.saleInfoList;
+            this.jingli = 0;
+            this.jingjingli = 0;
+            var jsid = 0;
+            this.tabdata1.forEach(element => {
+              element.is_act = false;
+              element.id = jsid;
+              jsid++;
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+            this.jingli = this.jingli.toFixed(2);
+            this.jingjingli = this.jingjingli.toFixed(2);
+          })
+          .catch(error => {});
       } else if (this.indexnum == 2) {
         needdata({
-          submitTime: this.value1,
+          submitTime: date1,
           page: this.pagenum,
           pageSize: 10,
           role: ""
-        }).then(res => {
-          this.alldata = res;
-          this.tabdata2 = res.saleInfoList;
-          this.getjingli(this.tabdata2);
-        });
+        })
+          .then(res => {
+            this.alldata = res;
+            this.tabdata2 = res.saleInfoList;
+            this.jingli = 0;
+            this.jingjingli = 0;
+            this.tabdata2.forEach(element => {
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+            // if (res.saleInfoList.length > 0) {
+            //   this.pagenum++;
+            //   // alert(this.pagenum)
+            //   // this.scroll = true;
+            // } else {
+            //   this.pulldownTip.textup = "我是有底线的";
+            // }
+          })
+          .catch(error => {});
       } else if (this.indexnum == 3) {
         this.pagenum = this.showOrHide ? -1 : 1;
         saleneeddata({
           keyword: this.xskword,
-          submitTime: this.value1,
+          submitTime: date1,
           sortname: this.searchValue1,
           sort: 1,
           page: this.pagenum
-        }).then(res => {
-          this.alldata = res;
-          this.tabdata3 = res.saleInfoList;
-          this.getjingli(this.tabdata3);
-        });
+        })
+          .then(res => {
+            this.alldata = res;
+            this.tabdata3 = res.saleInfoList;
+            this.jingli = 0;
+            this.jingjingli = 0;
+            this.tabdata3.forEach(element => {
+              this.jingli += Number(element.netProfit);
+              this.jingjingli += Number(element.netsProfit);
+            });
+          })
+          .catch(error => {});
       }
-    },
-    getjingli(tabsdata) {
-      this.jingli = 0;
-      this.jingjingli = 0;
-      tabsdata.forEach(element => {
-        element.is_act = false;
-        this.jingli += Number(element.netProfit);
-        this.jingjingli += Number(element.netsProfit);
-      });
-      this.jingli = this.jingli.toFixed(2);
-      this.jingjingli = this.jingjingli.toFixed(2);
     },
     getnum(a) {
       if (a < 10) {
