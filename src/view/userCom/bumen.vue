@@ -14,12 +14,16 @@
         <div :class="item.is_act?'tabs_two act':'tabs_two'">
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
-          <div v-if="item.saleNo<=3"
+            <div
+              v-if="item.saleNo<=3 &&searchValue1!='实时完成率'"
+              class="tabs_normal_cont tabs_lc tabs_lmoney"
+            >{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
+            <div v-if="item.saleNo>3 &&searchValue1!='实时完成率' &&item.saleNo<=tabdata1.length-2" class="tabs_normal_cont tabs_lc tabs_lmoney">***</div>
+            <div v-if="item.saleNo>tabdata1.length-2 &&searchValue1!='实时完成率'" class="tabs_normal_cont tabs_lc tabs_lmoney">{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
+          <div
+            v-if="searchValue1=='实时完成率'"
             class="tabs_normal_cont tabs_lc tabs_lmoney"
-          >{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
-          <div v-if="item.saleNo>3"
-            class="tabs_normal_cont tabs_lc tabs_lmoney"
-          >***</div>
+          >{{item.finishRate.split('/')[0]}}</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img

@@ -13,10 +13,15 @@
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.userName}}.{{item.departmentName}}</div>
           <div
-            v-if="item.saleNo<=3"
+            v-if="item.saleNo<=3 &&searchValue3!='实时完成率'"
             class="tabs_normal_cont tabs_lc tabs_lmoney"
           >{{searchValue3=="累计完成"?item.finishMoney:searchValue3=="实时完成率"?item.finishRate.split('/')[0]:searchValue3=="标准销售额"?item.standardFinishMoney:''}}</div>
-          <div v-if="item.saleNo>3" class="tabs_normal_cont tabs_lc tabs_lmoney">***</div>
+          <div v-if="item.saleNo>3&&searchValue3!='实时完成率' &&item.saleNo<=tabdata3.length-2" class="tabs_normal_cont tabs_lc tabs_lmoney">***</div>
+          <div v-if="item.saleNo>tabdata3.length-2&&searchValue3!='实时完成率'" class="tabs_normal_cont tabs_lc tabs_lmoney">{{searchValue3=="累计完成"?item.finishMoney:searchValue3=="实时完成率"?item.finishRate.split('/')[0]:searchValue3=="标准销售额"?item.standardFinishMoney:''}}</div>
+          <div
+            v-if="searchValue3=='实时完成率'"
+            class="tabs_normal_cont tabs_lc tabs_lmoney"
+          >{{item.finishRate.split('/')[0]}}</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img
