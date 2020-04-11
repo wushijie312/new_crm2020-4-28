@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" ref="wrapper">
     <Head :act.sync="act" :ty.sync="act1"></Head>
-    <div class="content">
+    <div class="content" ref="others">
       <div class="menu-head-top50"></div>
       <div class="wrap850">
         <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
@@ -12,7 +12,6 @@
                 id="sobox"
                 style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
               >
-                <!-- {{value1}} -->
                 <el-date-picker
                   v-model="value1"
                   type="date"
@@ -30,6 +29,7 @@
               </span>
             </h3>
             <div
+              v-show="indexnum==2"
               class="left flex_1"
               style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
             >
@@ -121,7 +121,7 @@
                 </span>
               </div>
               <div>
-                <span class="blue" ref="kehubang">TB线索：</span>
+                <span class="blue">TB线索：</span>
                 <span class="black">
                   <span
                     :class="alldata.totalTBClueMoney>=0?'red':'green'"
@@ -129,7 +129,7 @@
                 </span>
               </div>
               <div>
-                <span class="blue">本月开标：</span>
+                <span class="blue" ref="kehubang">本月开标：</span>
                 <span class="black">
                   <span
                     :class="alldata.totalOpenTenderMoney>=0?'red':'green'"
@@ -156,18 +156,19 @@
           </div>
         </div>
         <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-          <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
-            <span class="menu_border">
-              部门榜
-              <span class="menu_border_line"></span>
-            </span>
-          </div>
           <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
             <span class="menu_border">
               本月销售客户
               <span class="menu_border_line"></span>
             </span>
           </div>
+          <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
+            <span class="menu_border">
+              部门榜
+              <span class="menu_border_line"></span>
+            </span>
+          </div>
+
           <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
             <span class="menu_border">
               全体销售
@@ -175,6 +176,7 @@
             </span>
           </div>
         </div>
+
         <div v-show="indexnum==1">
           <div class="qu_bumobile">
             <div class="fl qu_bmmobile_b">筛选：</div>
@@ -182,7 +184,7 @@
               <div class="qu_bmmobile_a fl">
                 <el-select
                   class="qu_bmmobile_select"
-                  v-model="searchValue"
+                  v-model="searchValue1"
                   placeholder="请选择"
                   @change="search_change"
                 >
@@ -199,20 +201,15 @@
           <div class="search_px search_px_pc">
             <p v-for="(itemSearch,len3) in searchType" :key="len3">
               <span
-                :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
                 @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
               >{{itemSearch.label}}</span>
             </p>
           </div>
-          <Bumen :tabdata1.sync="tabdata1" :searchValue="searchValue" :value1.sync="value1" />
+          <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
         </div>
         <div v-show="indexnum==2">
-          <Kehu
-            :pagenum="pagenum"
-            :searchValue1="searchValue1"
-            :tabdata2="tabdata2"
-            :value1="value1"
-          />
+          <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
         </div>
         <div v-show="indexnum==3">
           <div class="bd_search">
@@ -230,7 +227,7 @@
             <div class="search_px">
               <p v-for="(itemSearch,len3) in searchType3" :key="len3">
                 <span
-                  :class="paixunum1==itemSearch.value?'search_px_tit act':'search_px_tit'"
+                  :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
                   @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
                 >{{itemSearch.label}}</span>
               </p>
@@ -239,7 +236,7 @@
           </div>
           <User
             :pagenum="pagenum"
-            :searchValue1="searchValue1"
+            :searchValue3="searchValue3"
             :tabdata3="tabdata3"
             :value1="value1"
           />
@@ -279,60 +276,38 @@ export default {
     return {
       xskword: "",
       showOrHide: true,
-      paixunum1: 1,
-      paixunum: 5,
       pagenum: 1,
-      searchValue: "实际销售额",
-      searchValue1: "累计完成",
+      searchValue1: "实际销售额",
+      searchValue3: "累计完成",
       searchType: [
         {
-          value: "5",
           label: "实际销售额"
         },
         {
-          value: "4",
           label: "标准销售额"
         },
         {
-          value: "1",
           label: "实时完成率"
         },
         {
-          value: "2",
           label: "净利"
         },
         {
-          value: "3",
           label: "净净利"
-        },
-        {
-          value: "6",
-          label: "部门费用率"
-        },
-        {
-          value: "7",
-          label: "人力成本费用率"
-        },
-        {
-          value: "8",
-          label: "年销售完成率"
         }
       ],
       searchType3: [
         {
-          value: "1",
           label: "累计完成"
         },
         {
-          value: "2",
           label: "实时完成率"
         },
         {
-          value: "3",
           label: "标准销售额"
         }
       ],
-      indexnum: 1,
+      indexnum: 2,
       loading: true,
 
       isread: false,
@@ -346,6 +321,7 @@ export default {
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
+      tabdata3xskword: [],
       alldata: ""
     };
   },
@@ -363,9 +339,15 @@ export default {
   },
   watch: {
     indexnum() {
-      this.$nextTick(() => {
-        this.$refs.kehubang.scrollIntoView();
-      });
+      if (this.indexnum == 2) {
+        this.$nextTick(() => {
+          this.$refs.kehubang.scrollIntoView();
+        });
+      } else {
+        this.$nextTick(() => {
+          this.$refs.others.scrollIntoView();
+        });
+      }
     },
     value1() {
       this.getallData();
@@ -397,42 +379,20 @@ export default {
               this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
               this.getjingli(this.tabdata2);
             } else {
-              this.$message.error({ message: `${res.msg}` });
+              this.$message.error({ message: `${res.message}` });
             }
           });
         }
       }
     },
     search_change(val) {
-      this.paixunum =
-        val == "实际销售额"
-          ? 5
-          : val == "标准销售额"
-          ? 4
-          : val == "实时完成率"
-          ? 1
-          : val == "净利"
-          ? 2
-          : val == "净净利"
-          ? 3
-          : val == "部门费用率"
-          ? 6
-          : val == "人力成本费用率"
-          ? 7
-          : val == "年销售完成率"
-          ? 8
-          : "";
       this.getallData();
     },
     bumenbanghandle(len, name) {
       if (this.indexnum == 1) {
-        this.paixunum = len;
-        this.searchValue = name;
-      } else if (this.indexnum == 2) {
-        this.paixunum1 = len;
-      } else if (this.indexnum == 3) {
-        this.paixunum1 = len;
         this.searchValue1 = name;
+      } else if (this.indexnum == 3) {
+        this.searchValue3 = name;
       }
       this.getallData();
     },
@@ -445,8 +405,16 @@ export default {
       if (val.index) {
         this.pagenum = 1;
         this.indexnum = val.index;
+        this.getallData();
+      } else {
+        if (this.xskword) {
+          this.tabdata3 = this.tabdata3xskword.filter((item, index) => {
+            return item.userName.indexOf(this.xskword)>-1;
+          });
+        } else {
+          this.tabdata3 = this.tabdata3xskword;
+        }
       }
-      this.getallData();
     },
     getact() {
       var lodata = JSON.parse(sessionStorage.getItem("userMenus"));
@@ -469,13 +437,6 @@ export default {
         })
         .catch(error => {});
     },
-    returnZero(a) {
-      if (a == "") {
-        return -1;
-      } else {
-        return a;
-      }
-    },
     aler() {
       let date = new Date();
       let dates =
@@ -493,12 +454,16 @@ export default {
           keyword: "",
           submitTime: this.value1,
           page: 1,
-          sortname: this.searchValue,
+          sortname: this.searchValue1,
           sort: 1
         }).then(res => {
-          this.alldata = res;
-          this.tabdata1 = res.saleInfoList;
-          this.getjingli(this.tabdata1);
+          if (res.code == 200) {
+            // this.alldata = res;
+            this.tabdata1 = res.saleInfoList;
+            // this.getjingli(this.tabdata1);
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
           // this.jingli = 0;
           // this.jingjingli = 0;
           // var jsid = 0;
@@ -519,22 +484,32 @@ export default {
           pageSize: 10,
           role: ""
         }).then(res => {
-          this.alldata = res;
-          this.tabdata2 = res.saleInfoList;
-          this.getjingli(this.tabdata2);
+          if (res.code == 200) {
+            this.alldata = res;
+            this.tabdata2 = res.saleInfoList;
+            this.getjingli(this.tabdata2);
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       } else if (this.indexnum == 3) {
         this.pagenum = this.showOrHide ? -1 : 1;
+        this.xskword='';
         saleneeddata({
-          keyword: this.xskword,
+          keyword: '',
           submitTime: this.value1,
-          sortname: this.searchValue1,
+          sortname: this.searchValue3,
           sort: 1,
           page: this.pagenum
         }).then(res => {
-          this.alldata = res;
-          this.tabdata3 = res.saleInfoList;
-          this.getjingli(this.tabdata3);
+          if (res.code == 200) {
+            // this.alldata = res;
+            this.tabdata3 = res.saleInfoList;
+            this.tabdata3xskword = res.saleInfoList;
+            // this.getjingli(this.tabdata3);
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       }
     },
@@ -542,7 +517,6 @@ export default {
       this.jingli = 0;
       this.jingjingli = 0;
       tabsdata.forEach(element => {
-        element.is_act = false;
         this.jingli += Number(element.netProfit);
         this.jingjingli += Number(element.netsProfit);
       });

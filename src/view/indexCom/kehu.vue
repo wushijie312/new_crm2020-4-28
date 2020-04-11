@@ -8,7 +8,7 @@
           >
             <div>
               <h3 style="text-align:left;line-height:0.8rem;font-size:0.3rem;overflow:hidden;">
-                <p style="line-height:0.8rem;"><span style="float:left;">{{item.customerName}}</span>
+                <p style="line-height:0.8rem;"><span style="float:left;">{{item.customerName}}--{{item.userName}}</span>
                 <router-link :to='{path:"/create",query:{customerName:item.customerName,customerId:item.customerId}}' style="float:right;">针对此客户派单</router-link>
                 </p>
                 <p></p>

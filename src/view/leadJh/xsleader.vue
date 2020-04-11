@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" >
+  <div class="wrapper xslead sobig" ref="wrapper" id="wrap">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
@@ -296,7 +296,7 @@
             <div class="qu_bmmobile_a fl">
               <el-select
                 class="qu_bmmobile_select"
-                v-model="searchValue"
+                v-model="searchValue1"
                 placeholder="请选择"
                 @change="search_change"
               >
@@ -313,8 +313,8 @@
         <div class="search_px search_px_pc">
           <p v-for="(itemSearch,len3) in searchType" :key="len3">
             <span
-              :class="paixunum==itemSearch.value?'search_px_tit act':'search_px_tit'"
-              @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+              :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
+              @click="bumenbanghandle(itemSearch.label)"
             >{{itemSearch.label}}</span>
           </p>
         </div>
@@ -323,7 +323,7 @@
           v-show="indexnum===1&&zhuan=='切换至文字版'"
           :tabdata1.sync="tabdata1"
           :jxq.sync="jxq"
-          :searchValue="searchValue"
+          :searchValue1="searchValue1"
           :value1.sync="value1"
           :alertNr.sync="alertNr"
         ></Bumen>
@@ -356,15 +356,15 @@
         <div class="bd_search">
           <div class="bd_search_a">
             <el-input size="small" placeholder="请输入销售名称" v-model="xskword" class="qu_cuHead_search"></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+            <i class="el-icon-search bd_search_btn" @click="zhongjieuserdata"></i>
           </div>
         </div>
         <div class="search_pxbox">
           <div class="search_px">
             <p v-for="(itemSearch,len3) in searchType3" :key="len3">
               <span
-                :class="paixunum3==itemSearch.value?'search_px_tit act':'search_px_tit'"
-                @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                @click="bumenbanghandle(itemSearch.label)"
               >{{itemSearch.label}}</span>
             </p>
           </div>
@@ -417,58 +417,37 @@ export default {
   data() {
     return {
       showOrHide: true,
-      searchValue: "实际销售额",
+      searchValue1: "实际销售额",
       searchValue3: "累计完成",
       searchType: [
         {
-          value: "5",
           label: "实际销售额"
         },
         {
-          value: "4",
           label: "标准销售额"
         },
         {
-          value: "1",
           label: "实时完成率"
         },
         {
-          value: "2",
           label: "净利"
         },
         {
-          value: "3",
           label: "净净利"
-        },
-        {
-          value: "6",
-          label: "部门费用率"
-        },
-        {
-          value: "7",
-          label: "人力成本费用率"
-        },
-        {
-          value: "8",
-          label: "年销售完成率"
         }
       ],
       searchType3: [
         {
-          value: "1",
           label: "累计完成"
         },
         {
-          value: "2",
           label: "实时完成率"
         },
         {
-          value: "3",
           label: "标准销售额"
         }
       ],
       isread: false,
-      paixunum3: 1,
       zhuan: "切换至文字版",
       zhuan1: "切换至表格版",
       zhuan2: "切换至文字版",
@@ -481,8 +460,6 @@ export default {
       bmkword: "",
       xskword: "",
       khkword: "",
-      jingli: 0,
-      jingjingli: 0,
       pagenum: 1,
       indexnum: 1,
       act: 1,
@@ -492,9 +469,9 @@ export default {
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
+      tabdata3xskword:[],
       tabdata4: [],
       isscroll: true,
-      paixunum: 5,
       alertNr: {},
       loading: true
     };
@@ -548,38 +525,29 @@ export default {
           chakh({
             keyword: this.khkword,
             submitTime: this.value1,
-            page: this.pagenum,
+            page: ++this.pagenum,
             pageSize: 10,
             role: localStorage.getItem("role")
           }).then(res => {
             if (res.code == 200) {
               this.loading = true;
               this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-              this.getjingli(this.tabdata2);
             } else {
-              this.$message.error({ message: `${res.msg}` });
+              this.$message.error({ message: `${res.message}` });
             }
           });
         }
       }
     },
-    getjingli(tabsdata) {
-      this.jingli = 0;
-      this.jingjingli = 0;
+    getis_act(tabsdata) {
       tabsdata.forEach(element => {
         element.is_act = false;
-        this.jingli += Number(element.netProfit);
-        this.jingjingli += Number(element.netsProfit);
       });
-      this.jingli = this.jingli.toFixed(2);
-      this.jingjingli = this.jingjingli.toFixed(2);
     },
-    bumenbanghandle(len, name) {
+    bumenbanghandle(name) {
       if (this.indexnum == 1) {
-        this.paixunum = len;
-        this.searchValue = name;
+        this.searchValue1 = name;
       } else if (this.indexnum == 3) {
-        this.paixunum3 = len;
         this.searchValue3 = name;
       }
       this.getallData();
@@ -590,24 +558,6 @@ export default {
       this.getallData();
     },
     search_change(val) {
-      this.paixunum =
-        val == "实际销售额"
-          ? 5
-          : val == "标准销售额"
-          ? 4
-          : val == "实时完成率"
-          ? 1
-          : val == "净利"
-          ? 2
-          : val == "净净利"
-          ? 3
-          : val == "部门费用率"
-          ? 6
-          : val == "人力成本费用率"
-          ? 7
-          : val == "年销售完成率"
-          ? 8
-          : "";
       this.getallData();
     },
     getact() {
@@ -673,8 +623,6 @@ export default {
     },
 
     jxq(a, b, c) {
-      // //console.log(a)
-      
       this.$router.push({
         path: "/leadbmjy",
         query: {
@@ -709,9 +657,14 @@ export default {
       this.pagenum = 1;
       this.getallData();
     },
-    timechange() {
-      this.pagenum = 1;
-      this.getallData();
+    zhongjieuserdata(val) {
+        if (this.xskword) {
+          this.tabdata3 = this.tabdata3xskword.filter((item, index) => {
+            return item.userName.indexOf(this.xskword)>-1;
+          });
+        } else {
+          this.tabdata3 = this.tabdata3xskword;
+        }
     },
     getallData() {
       if (this.indexnum == 1) {
@@ -719,13 +672,17 @@ export default {
           keyword: this.bmkword,
           submitTime: this.value1,
           page: this.pagenum,
-          sortname: this.searchValue,
+          sortname: this.searchValue1,
           sort: 1,
           role: localStorage.getItem("role")
         }).then(res => {
-          this.alldata = res;
-          this.tabdata1 = res.saleInfoList;
-         this.getjingli(this.tabdata1);
+          if (res.code == 200) {
+            this.alldata = res;
+            this.tabdata1 = res.saleInfoList;
+            this.getis_act(this.tabdata1);
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       } else if (this.indexnum == 2) {
         chakh({
@@ -735,23 +692,32 @@ export default {
           page: this.pagenum,
           role: localStorage.getItem("role")
         }).then(res => {
-          this.alldata = res;
-          this.tabdata2 = res.saleInfoList;
-         this.getjingli(this.tabdata2);
+          if (res.code == 200) {
+            this.alldata = res;
+            this.tabdata2 = res.saleInfoList;
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       } else if (this.indexnum == 3) {
         let page = this.showOrHide ? -1 : 1;
+        this.xskword='';
         needdata({
-          keyword: this.xskword,
+          keyword: '',
           submitTime: this.value1,
           sortname: this.searchValue3,
           sort: 1,
           page: page,
           role: localStorage.getItem("role")
         }).then(res => {
-          this.alldata = res;
-          this.tabdata3 = res.saleInfoList;
-         this.getjingli(this.tabdata3);
+          if (res.code == 200) {
+            this.alldata = res;
+            this.tabdata3 = res.saleInfoList;
+             this.tabdata3xskword = res.saleInfoList;
+            this.getis_act(this.tabdata3);
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       } else {
         chazhandui({
@@ -760,10 +726,12 @@ export default {
           pageSize: 30,
           role: localStorage.getItem("role")
         }).then(res => {
-          this.alldata = res;
-          this.tabdata4 = res.saleInfoList;
-          this.getjingli(this.tabdata4);
-          
+          if (res.code == 200) {
+            this.alldata = res;
+            this.tabdata4 = res.saleInfoList;
+          } else {
+            this.$message.error({ message: `${res.message}` });
+          }
         });
       }
     },
@@ -866,14 +834,6 @@ export default {
 .search_px_pc p {
   text-align: center;
   width: 24%;
-}
-
-.search_px_pc p:nth-child(4) {
-  width: 14%;
-}
-
-.search_px_pc p:nth-child(5) {
-  width: 14%;
 }
 
 .search_px_pc .search_px_tit {
@@ -1170,9 +1130,7 @@ table, tbody, thead {
 }
 
 @media screen and (min-width: 450px) {
-  .search_px_pc p {
-    width: 20%;
-  }
+  
 
   .search_pxbox .search_px_tit {
     font-size: 13px;
@@ -1194,25 +1152,24 @@ table, tbody, thead {
   }
 
   .search_px_pc p {
-    width: 16.333333%;
+    width: 20%;
   }
 
   .search_px_pc p:nth-child(1) {
     text-align: left;
-    width: 14%;
   }
-
-  .search_px_pc p:nth-child(4) {
-    width: 12%;
+.search_px_pc p:nth-child(3) {
+    width:26%;
+  }
+.search_px_pc p:nth-child(4) {
+    width:20%;
   }
 
   .search_px_pc p:nth-child(5) {
-    width: 12%;
+    text-align:right
   }
 
-  .search_px_pc p:nth-child(8) {
-    text-align: right;
-  }
+ 
 
   .search_px_btn {
     position: absolute;

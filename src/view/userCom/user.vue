@@ -3,7 +3,7 @@
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">销售</div>
-      <div class="tabs_normal tabs_lc">{{searchValue1}}{{searchValue1=="实时完成率"?'':'(万)'}}</div>
+      <div class="tabs_normal tabs_lc">{{searchValue3}}{{searchValue3=="实时完成率"?'':'(万)'}}</div>
       <div class="tabs_normal tabs_ld">光荣榜</div>
     </div>
     <div class="tabs_two_box" v-for="(item,len1) in tabdata3" :key="len1">
@@ -13,8 +13,10 @@
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.userName}}.{{item.departmentName}}</div>
           <div
+            v-if="item.saleNo<=3"
             class="tabs_normal_cont tabs_lc tabs_lmoney"
-          >{{searchValue1=="累计完成"?item.finishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="标准销售额"?item.standardFinishMoney:''}}</div>
+          >{{searchValue3=="累计完成"?item.finishMoney:searchValue3=="实时完成率"?item.finishRate.split('/')[0]:searchValue3=="标准销售额"?item.standardFinishMoney:''}}</div>
+          <div v-if="item.saleNo>3" class="tabs_normal_cont tabs_lc tabs_lmoney">***</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img
@@ -51,7 +53,7 @@
 import Clipboard from "clipboard";
 
 export default {
-  props: ["tabdata3", "pagenum", "searchValue1"],
+  props: ["tabdata3", "pagenum", "searchValue3"],
   data() {
     return {
       hua: require("@/assets/img/bangdan/hua.png"),
@@ -60,23 +62,21 @@ export default {
       ku: require("@/assets/img/bangdan/ku.png")
     };
   },
-  mounted() {
-    // setTimeout(() => {
-    //   console.log("2w", this.tabdata3);
-    // }, 6000);
-  },
+
   methods: {
     gotoPaiDan(id) {
       this.$router.push({ path: "/create", query: { userid: id } });
-    },
+    }
   }
 };
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/css/bangdan.styl';
-.tabs_two{
-  cursor :auto;
+
+.tabs_two {
+  cursor: auto;
 }
+
 @media screen and (min-width: 850px) {
   .tabs_la {
     width: 25%;

@@ -25,26 +25,21 @@
               />
               <img class="tabs_ld_img" :src="zan" />
             </div>
-            <div v-if="item.saleNo==5"><img class="tabs_ld_img" :src="zan" /></div>
+            <div v-if="item.saleNo==5">
+              <img class="tabs_ld_img" :src="zan" />
+            </div>
             <div v-if="item.saleNo<=10&&item.saleNo>5">
-              <img
-                class="tabs_ld_img"
-                v-for="(itemNo,len2) in 1"
-                :key="len2"
-                :src="xiao"
-              />
+              <img class="tabs_ld_img" v-for="(itemNo,len2) in 1" :key="len2" :src="xiao" />
             </div>
             <div v-if="item.saleNo>10&&item.saleNo<=15 &&pagenum==1">
               <img class="tabs_ld_img" :src="xiao" />
             </div>
             <div v-if="item.saleNo>15 &&pagenum==1">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+              <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
             </div>
             <div v-if="item.saleNo>10 &&pagenum==-1">
-             
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+              <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
             </div>
-          
           </div>
         </div>
         <div v-show="item.is_act " class="wztabs_details tabs_details border_bf0f0f0">
@@ -129,7 +124,9 @@
               </p>
               <p class="tabs_four_a mart8">
                 同比：
-                <span :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'">{{item.yearCompare}}%</span>
+                <span
+                  :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'"
+                >{{item.yearCompare}}%</span>
               </p>
               <p class="tabs_four_a mart8">
                 超额/差额：
@@ -215,7 +212,9 @@
 
               <p class="tabs_four_a mart8">
                 同比：
-                <span :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'">{{item.yearCompare}}%</span>
+                <span
+                  :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'"
+                >{{item.yearCompare}}%</span>
               </p>
               <p class="tabs_four_a wztabs_pcdifmoney mart8">
                 丢标：
@@ -250,12 +249,7 @@ export default {
       ku: require("@/assets/img/bangdan/ku.png")
     };
   },
-    mounted() {
-    setTimeout(()=>{
-    console.log('2w',this.tabdata3);
 
-    },6000);
-  },
   methods: {
     gotoPaiDan(id) {
       this.$router.push({ path: "/create", query: { userid: id } });
@@ -277,18 +271,20 @@ export default {
 @import '../../assets/css/bangdan.styl';
 
 @media screen and (min-width: 850px) {
-  .tabs_la{
-  width:25%;
-}
-.tabs_lb{
-  width:25%;
-}
-.tabs_lc{
-  width:25%;
-}
-.tabs_ld{
-  width:25%;
-}
- 
+  .tabs_la {
+    width: 25%;
+  }
+
+  .tabs_lb {
+    width: 25%;
+  }
+
+  .tabs_lc {
+    width: 25%;
+  }
+
+  .tabs_ld {
+    width: 25%;
+  }
 }
 </style>
