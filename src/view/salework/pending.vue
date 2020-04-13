@@ -1,6 +1,6 @@
 <!-- A.html -->
 <template>
-  <div>
+  <div style="text-align:left;">
     <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
       <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
         <span class="menu_border">
@@ -21,7 +21,7 @@
         </span>
       </div>
     </div>
-    <div class="pend_box mart8">
+    <div class="pend_box marb8">
       <h3 class="pend_head">销售数据</h3>
       <div class="pend_one mart10">
         <span class="pend_one_tit">任务时间：</span>
@@ -140,6 +140,8 @@ export default {
   font-size: 14px;
   display: inline-block;
   cursor: pointer;
+  color:#333;
+
 }
 
 .menubox .act {

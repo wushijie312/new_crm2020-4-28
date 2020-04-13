@@ -1,30 +1,69 @@
 <!-- A.html -->
 <template>
-  <div class="wrapper wrapwhite" id="customlist" ref="customlist" style="font-size:14px;text-align:left;">
+  <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;text-align:left;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <div class="wrap850">
+    <div class="wrap850 details_minheight">
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
         <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
           <span class="menu_border">
-            待处理（1）
+            标准销售额
             <span class="menu_border_line"></span>
           </span>
         </div>
         <div class="left" @click="saleindexhandle(2)" :class="soit===2?'act':''">
           <span class="menu_border">
-            我的发起
+            累计完成
             <span class="menu_border_line"></span>
           </span>
         </div>
         <div class="left" @click="saleindexhandle(3)" :class="soit===3?'act':''">
           <span class="menu_border">
-            我参与的
+            实时完成率
             <span class="menu_border_line"></span>
           </span>
         </div>
       </div>
       <div class="details_one padd_bt6" v-for="(item,index) in datalists" :key="index">
+        <div class="detais_one_head">
+          <div class="tabs_thr paddb3">
+            <h3>{{item.departmentName}}</h3>
+            <span class="tabs_four_c">NO.{{item.saleNo}}</span>
+          </div>
+          <div class="tabs_four mart8">
+            <p class="tabs_four_a">
+              本月已完成：
+              <span class="color333">{{item.monthBusiness}}</span>
+            </p>
+            <div class="tabs_four_d">
+              <div v-if="item.saleNo<=4">
+                <img
+                  class="tabs_ld_img"
+                  v-for="(itemNo,len2) in 4-item.saleNo"
+                  :key="len2"
+                  :src="hua"
+                />
+                <img class="tabs_ld_img" :src="zan" />
+              </div>
+              <div v-if="item.saleNo<=7&&item.saleNo>4">
+                <img
+                  class="tabs_ld_img"
+                  v-for="(itemNo,len2) in 8-item.saleNo"
+                  :key="len2"
+                  :src="xiao"
+                />
+              </div>
+              <div v-if="item.saleNo>7">
+                <img class="tabs_ld_img" :src="ku" />
+                <img v-if="item.saleNo>9&&item.saleNo<=11" class="tabs_ld_img" :src="ku" />
+                <span v-if="item.saleNo>11&&item.saleNo<=15">
+                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="usertabspc tabs_four wztabs_pc_all">
           <p class="tabs_four_a mart8">
             标准销售额：
@@ -164,24 +203,33 @@
           </p>
         </div>
       </div>
-      <div class="details_back">
-        返回
-      </div>
+      <div class="details_back">返回</div>
     </div>
   </div>
 </template>
 <script>
 import Head from "@/view/common/head";
-
+import {
+  adddata,
+  chakehu,
+  saleneeddata,
+  needdata,
+  salechabumen
+} from "@/api/config";
 export default {
   components: {
     Head
   },
   data() {
     return {
+      pagenum:1,
       soit: 1,
       act: 2,
       act1: true,
+      hua: require("@/assets/img/bangdan/hua.png"),
+      zan: require("@/assets/img/bangdan/zan.png"),
+      xiao: require("@/assets/img/bangdan/xiao.png"),
+      ku: require("@/assets/img/bangdan/ku.png"),
       datalists: [
         {
           id: null,
@@ -307,31 +355,77 @@ export default {
           quarterCost: null,
           yearDepartmentSalary: null
         }
-      ]
+      ],
+      alldata: []
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getdata();
+  },
   methods: {
     saleindexhandle(len) {
       this.soit = len;
+    },
+
+    getdata() {
+      needdata({
+        submitTime: this.aler(),
+        page: this.pagenum,
+        role: ""
+      }).then(res => {
+        if (res.code == 200) {
+          this.alldata = res;
+        } else {
+          this.$message.error({ message: `${res.message}` });
+        }
+      });
+    },
+    aler() {
+      let date = new Date();
+      let dates =
+        date.getFullYear() +
+        "-" +
+        this.getnum(Number(date.getMonth()) + 1) +
+        "-" +
+        this.getnum(date.getDate());
+      return dates;
+    },
+    getnum(a) {
+      if (a < 10) {
+        a = a.toString();
+        return 0 + a;
+      } else {
+        return a;
+      }
     }
   }
 };
 </script>
 <style lang="stylus"  scoped>
 @import '../../assets/css/bangdan.styl';
-.details_back{
-  line-height :44px;
-  border-top:1px solid $colorf0f0f0;
-  text-align:center;
-  color:$color409eff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
+.details_minheight{
+  height:'calc(100vh - %s)' % rem(50);
+  background:$colorfff;
+  }
+.detais_one_head {
+  padding: 12px 0;
+  margin-top: 8px;
+  border-bottom: 1px solid $colorf0f0f0;
 }
+
+.details_back {
+  line-height: 44px;
+  border-top: 1px solid $colorf0f0f0;
+  text-align: center;
+  color: $color409eff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
 .details_one {
   background: $colorfff;
   padding: 0 15px 20px;
@@ -351,6 +445,7 @@ export default {
   line-height: 42px;
   font-size: 14px;
   display: inline-block;
+  color: #333;
   cursor: pointer;
 }
 

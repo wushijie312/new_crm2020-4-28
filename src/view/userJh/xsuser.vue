@@ -4,242 +4,146 @@
     <div class="content" ref="others">
       <div class="menu-head-top50"></div>
       <div class="wrap850">
-        <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
-          <div style="overflow:hidden;width:100%;float:left;text-align:left;">
-            <h3 style="text-align:left;position:relative;padding-bottom:0.2rem;">
-              <span style="line-height:1rem;display:block;">汇总销售日报</span>
-              <span
-                id="sobox"
-                style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
-              >
-                <el-date-picker
-                  v-model="value1"
-                  type="date"
-                  placeholder="选择日期"
-                  style="border:none;"
-                  value-format="yyyy-MM-dd"
-                  :editable="false"
-                  :clearable="false"
-                  class="el-icon-arrow-down1"
-                >
-                  <template>
-                    <i class="el-icon-arrow-down"></i>
-                  </template>
-                </el-date-picker>
-              </span>
-            </h3>
-            <div
-              v-show="indexnum==2"
-              class="left flex_1"
-              style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
+        <div class="menubox sale_tab_head" style="overflow:hidden;font-size:0.3rem;">
+          <div class="left" @click="saleindexhandle(1)" :class="salesoit===1?'act':''">
+            <span class="menu_border">
+              首页
+              <span class="menu_border_line"></span>
+            </span>
+          </div>
+          <div class="left" @click="saleindexhandle(2)" :class="salesoit===2?'act':''">
+            <span class="menu_border">
+              待办事项
+              <span class="menu_border_line"></span>
+            </span>
+          </div>
+        </div>
+       
+        <div v-show="salesoit==1">
+           <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
+          <h3
+            style="text-align:left;position:relative;padding:0.2rem;background:#fff;margin-top:0.2rem;"
+          >
+            <span style="line-height:1rem;display:block;">汇总销售日报</span>
+            <span
+              id="sobox"
+              style="position:absolute;top:10px;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
             >
-              <div>
-                <span class="blue">本月任务：</span>
-                <span class="black">{{alldata.totalMthPlanMoney}}万</span>
-              </div>
-              <div>
-                <span class="blue">今日完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalDayPlanMoney>=0?'red':'green'"
-                  >{{alldata.totalDayPlanMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">截止今日应完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalMonthShouldMoney>=0?'red':'green'"
-                  >{{alldata.totalMonthShouldMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">实际累计完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalFinishMthMoney>=0?'red':'green'"
-                  >{{alldata.totalFinishMthMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">今日毛利率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.dayTotalGrossProfit>=0?'red':'green'"
-                  >{{alldata.dayTotalGrossProfit}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">累计毛利率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalMthGrossProfit>=0?'red':'green'"
-                  >{{alldata.totalMthGrossProfit}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">实时完成率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalFinishMthRate>=0?'red':'green'"
-                  >{{alldata.totalFinishMthRate}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">超额/差额：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.moneyDifference>=0?'red':'green'"
-                  >{{alldata.moneyDifference}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">净利：</span>
-                <span class="black">
-                  <span :class="jingli>=0?'red':'green'">{{jingli}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">净净利：</span>
-                <span class="black">
-                  <span :class="jingjingli>=0?'red':'green'">{{jingjingli}}万</span>
-                </span>
-              </div>
-              <div style="color:#999999;width:100%;font-size:0.3rem;">
-                <span style>
-                  上月环比
-                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                  </span>,去年同比
-                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                  </span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">TB线索：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalTBClueMoney>=0?'red':'green'"
-                  >{{alldata.totalTBClueMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue" ref="kehubang">本月开标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalOpenTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalOpenTenderMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">本月中标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalGetTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalGetTenderMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">本月丢标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalLoseTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalLoseTenderMoney}}万</span>
-                </span>
-              </div>
+              <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="选择日期"
+                style="border:none;"
+                value-format="yyyy-MM-dd"
+                :editable="false"
+                :clearable="false"
+                class="el-icon-arrow-down1"
+              >
+                <template>
+                  <i class="el-icon-arrow-down"></i>
+                </template>
+              </el-date-picker>
+            </span>
+          </h3>
+          <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
+            <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
+              <span class="menu_border">
+                部门榜
+                <span class="menu_border_line"></span>
+              </span>
             </div>
-          </div>
-        </div>
-        <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-          <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
-            <span class="menu_border">
-              本月销售客户
-              <span class="menu_border_line"></span>
-            </span>
-          </div>
-          <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
-            <span class="menu_border">
-              部门榜
-              <span class="menu_border_line"></span>
-            </span>
+
+            <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
+              <span class="menu_border">
+                全体销售
+                <span class="menu_border_line"></span>
+              </span>
+            </div>
+            <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
+              <span class="menu_border">
+                本月销售客户
+                <span class="menu_border_line"></span>
+              </span>
+            </div>
           </div>
 
-          <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
-            <span class="menu_border">
-              全体销售
-              <span class="menu_border_line"></span>
-            </span>
-          </div>
-        </div>
-
-        <div v-show="indexnum==1">
-          <div class="qu_bumobile">
-            <div class="fl qu_bmmobile_b">筛选：</div>
-            <div class="fr clearfix">
-              <div class="qu_bmmobile_a fl">
-                <el-select
-                  class="qu_bmmobile_select"
-                  v-model="searchValue1"
-                  placeholder="请选择"
-                  @change="search_change"
-                >
-                  <el-option
-                    v-for="item in searchType"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.label"
-                  ></el-option>
-                </el-select>
+          <div v-show="indexnum==1">
+            <div v-if="tabdata1&&tabdata1.length">
+              <div class="qu_bumobile">
+                <div class="fl qu_bmmobile_b">筛选：</div>
+                <div class="fr clearfix">
+                  <div class="qu_bmmobile_a fl">
+                    <el-select
+                      class="qu_bmmobile_select"
+                      v-model="searchValue1"
+                      placeholder="请选择"
+                      @change="search_change"
+                    >
+                      <el-option
+                        v-for="item in searchType"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </div>
               </div>
+              <div class="search_px search_px_pc">
+                <p v-for="(itemSearch,len3) in searchType" :key="len3">
+                  <span
+                    :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                    @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                  >{{itemSearch.label}}</span>
+                </p>
+              </div>
+              <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
             </div>
+            <div v-else class="nothing">暂无数据</div>
           </div>
-          <div class="search_px search_px_pc">
-            <p v-for="(itemSearch,len3) in searchType" :key="len3">
-              <span
-                :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
-                @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
-              >{{itemSearch.label}}</span>
-            </p>
+          <div v-show="indexnum==2">
+            <div v-if="tabdata2&&tabdata2.length">
+              <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
+            </div>
+            <div v-else class="nothing">暂无数据</div>
           </div>
-          <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
+          <div v-show="indexnum==3">
+            <div v-if="tabdata3&&tabdata3.length">
+              <div class="bd_search">
+                <div class="bd_search_a">
+                  <el-input
+                    size="small"
+                    placeholder="请输入销售名称"
+                    v-model="xskword"
+                    class="qu_cuHead_search"
+                  ></el-input>
+                  <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+                </div>
+              </div>
+              <div class="search_pxbox">
+                <div class="search_px">
+                  <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+                    <span
+                      :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                      @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                    >{{itemSearch.label}}</span>
+                  </p>
+                </div>
+                <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+              </div>
+              <User
+                :pagenum="pagenum"
+                :searchValue3="searchValue3"
+                :tabdata3="tabdata3"
+                :tabdata3xskword="tabdata3xskword"
+                :value1="value1"
+              />
+            </div>
+            <div v-else class="nothing">暂无数据</div>
+          </div>
         </div>
-        <div v-show="indexnum==2">
-          <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
-        </div>
-        <div v-show="indexnum==3">
-          <div class="bd_search">
-            <div class="bd_search_a">
-              <el-input
-                size="small"
-                placeholder="请输入销售名称"
-                v-model="xskword"
-                class="qu_cuHead_search"
-              ></el-input>
-              <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-            </div>
-          </div>
-          <div class="search_pxbox">
-            <div class="search_px">
-              <p v-for="(itemSearch,len3) in searchType3" :key="len3">
-                <span
-                  :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
-                  @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
-                >{{itemSearch.label}}</span>
-              </p>
-            </div>
-            <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
-          </div>
-          <User
-            :pagenum="pagenum"
-            :searchValue3="searchValue3"
-            :tabdata3="tabdata3"
-            :value1="value1"
-          />
+        <div v-show="salesoit==2">
+          <SalePending/>
         </div>
       </div>
     </div>
@@ -263,17 +167,23 @@ import Head from "@/view/common/head";
 import Kehu from "@/view/userCom/kehu";
 import Bumen from "@/view/userCom/bumen";
 import User from "@/view/userCom/user";
+// 销售工作台 start
+import SaleWorkIndex from "@/view/salework/sale.vue";
+import SalePending from "@/view/salework/pending.vue";
 export default {
   components: {
     Head,
     Addcreate,
     Kehu,
     Bumen,
-    User
+    User,
+    SaleWorkIndex,
+    SalePending
   },
   name: "index",
   data() {
     return {
+      salesoit: 1,
       xskword: "",
       showOrHide: true,
       pagenum: 1,
@@ -307,7 +217,7 @@ export default {
           label: "标准销售额"
         }
       ],
-      indexnum: 2,
+      indexnum: 1,
       loading: true,
 
       isread: false,
@@ -318,10 +228,12 @@ export default {
       act: 1,
       act1: false,
       value1: this.aler(),
+      pageSize2: 10,
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
       tabdata3xskword: [],
+      // is_xskword:false,
       alldata: ""
     };
   },
@@ -338,17 +250,6 @@ export default {
     window.removeEventListener("scroll", this.scrollBottom, true);
   },
   watch: {
-    indexnum() {
-      if (this.indexnum == 2) {
-        this.$nextTick(() => {
-          this.$refs.kehubang.scrollIntoView();
-        });
-      } else {
-        this.$nextTick(() => {
-          this.$refs.others.scrollIntoView();
-        });
-      }
-    },
     value1() {
       this.getallData();
     }
@@ -357,6 +258,9 @@ export default {
     window.removeEventListener("scroll", this.scrollBottom, true);
   },
   methods: {
+     saleindexhandle(len) {
+      this.salesoit = len;
+    },
     scrollBottom() {
       // 滚动到页面底部时
       if (this.indexnum == 2) {
@@ -365,12 +269,16 @@ export default {
         let clientHeight = document.documentElement.clientHeight;
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
-        if (toBottom < 30 && this.loading) {
+        if (
+          toBottom < 30 &&
+          this.loading &&
+          this.tabdata2.length == this.pagenum * this.pageSize2
+        ) {
           this.loading = false;
           needdata({
             submitTime: this.value1,
             page: ++this.pagenum,
-            pageSize: 10,
+            pageSize: this.pageSize2,
             role: ""
           }).then(res => {
             if (res.code == 200) {
@@ -405,11 +313,13 @@ export default {
       if (val.index) {
         this.pagenum = 1;
         this.indexnum = val.index;
+        // this.is_xskword=false;
         this.getallData();
       } else {
         if (this.xskword) {
+          // this.is_xskword=true;
           this.tabdata3 = this.tabdata3xskword.filter((item, index) => {
-            return item.userName.indexOf(this.xskword)>-1;
+            return item.userName.indexOf(this.xskword) > -1;
           });
         } else {
           this.tabdata3 = this.tabdata3xskword;
@@ -481,7 +391,7 @@ export default {
         needdata({
           submitTime: this.value1,
           page: this.pagenum,
-          pageSize: 10,
+          pageSize: this.pageSize2,
           role: ""
         }).then(res => {
           if (res.code == 200) {
@@ -494,9 +404,9 @@ export default {
         });
       } else if (this.indexnum == 3) {
         this.pagenum = this.showOrHide ? -1 : 1;
-        this.xskword='';
+        this.xskword = "";
         saleneeddata({
-          keyword: '',
+          keyword: "",
           submitTime: this.value1,
           sortname: this.searchValue3,
           sort: 1,
@@ -629,15 +539,19 @@ export default {
 
 .search_px_pc p {
   text-align: center;
-  width: 24%;
+  width: 20%;
 }
 
-.search_px_pc p:nth-child(4) {
-  width: 14%;
+.search_px_pc p:nth-child(1) {
+  text-align: left;
+}
+
+.search_px_pc p:nth-child(3) {
+  width: 28%;
 }
 
 .search_px_pc p:nth-child(5) {
-  width: 14%;
+  text-align: right;
 }
 
 .search_px_pc .search_px_tit {
@@ -711,12 +625,19 @@ export default {
   width: 33.333333%;
   background: #fff;
 }
+.sale_tab_head{
+  margin-top:0;
+  }
+.sale_tab_head>div {
+  width: 50%;
+}
 
 .menubox .menu_border {
   line-height: 42px;
   font-size: 14px;
   display: inline-block;
   cursor: pointer;
+  color: #333;
 }
 
 .menubox .act {
@@ -809,16 +730,6 @@ body, html {
   width: 98%;
 }
 
-#maincontent1 p {
-  padding-left: 20px;
-  text-align: left;
-}
-
-#maincontent p {
-  padding-left: 20px;
-  text-align: left;
-}
-
 .head {
   height: 1rem;
   font-size: 0.3rem;
@@ -846,15 +757,6 @@ body, html {
 .tap a {
   color: #fff;
   text-decoration: none;
-}
-
-.maincontent {
-  font-size: 0.3rem;
-  /* height: 5.5rem; */
-  overflow: hidden;
-  background: #fff;
-  padding: 0.2rem;
-  box-sizing: border-box;
 }
 
 .nianBt {
@@ -917,10 +819,6 @@ table, tbody, thead {
 }
 
 @media screen and (min-width: 450px) {
-  .search_px_pc p {
-    width: 20%;
-  }
-
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -931,34 +829,13 @@ table, tbody, thead {
 }
 
 @media screen and (min-width: 850px) {
-  .search_px_pc {
-    display: flex;
-    padding: 10px 20px 10px 15px;
-  }
-
   .qu_bumobile {
     display: none;
   }
 
-  .search_px_pc p {
-    width: 16.333333%;
-  }
-
-  .search_px_pc p:nth-child(1) {
-    text-align: left;
-    width: 14%;
-  }
-
-  .search_px_pc p:nth-child(4) {
-    width: 12%;
-  }
-
-  .search_px_pc p:nth-child(5) {
-    width: 12%;
-  }
-
-  .search_px_pc p:nth-child(8) {
-    text-align: right;
+  .search_px_pc {
+    display: flex;
+    padding: 10px 20px 10px 15px;
   }
 
   .search_px_btn {

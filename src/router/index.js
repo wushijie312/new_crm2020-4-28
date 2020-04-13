@@ -46,9 +46,9 @@ import dcTabs from '@/view/questionDc/dcTabs'
 import customers from '@/view/questionDc/customers'
 import iframe from '@/view/questionDc/iframe'
 
-// 销售工作台 start 
-import saleWorkIndex from '@/view/salework/index.vue'
 
+// 销售工作台 start
+import Saledetails from "@/view/salework/details.vue";
 // xsuser
 // 问卷调查 end
 
@@ -66,6 +66,11 @@ let router =new Router({
       path: '/bmjjl',
       component: bmjjl,
       meta: {index: 1,title:'部门净利'}
+    },
+    {
+      path: '/saledetails',
+      component: Saledetails,
+      meta: {index: 1,title:'销售详情'}
     },
     {
       path: '/iframe',

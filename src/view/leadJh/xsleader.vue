@@ -221,7 +221,7 @@
                 </span>
               </div>
 
-              <div ref="bumenbang" @click.stop="tantan(alertNr.totalTbClueExp)">
+              <div  @click.stop="tantan(alertNr.totalTbClueExp)">
                 <span class="blue">TB线索：</span>
                 <span class="black">
                   <span
@@ -290,88 +290,109 @@
         ref="tabs"
       >-->
       <div :style="{display:indexnum===1?'block':'none'}">
-        <div class="qu_bumobile">
-          <div class="fl qu_bmmobile_b">筛选：</div>
-          <div class="fr clearfix">
-            <div class="qu_bmmobile_a fl">
-              <el-select
-                class="qu_bmmobile_select"
-                v-model="searchValue1"
-                placeholder="请选择"
-                @change="search_change"
-              >
-                <el-option
-                  v-for="item in searchType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.label"
-                ></el-option>
-              </el-select>
+        <div v-if="tabdata1&&tabdata1.length">
+          <div class="qu_bumobile">
+            <div class="fl qu_bmmobile_b">筛选：</div>
+            <div class="fr clearfix">
+              <div class="qu_bmmobile_a fl">
+                <el-select
+                  class="qu_bmmobile_select"
+                  v-model="searchValue1"
+                  placeholder="请选择"
+                  @change="search_change"
+                >
+                  <el-option
+                    v-for="item in searchType"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.label"
+                  ></el-option>
+                </el-select>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="search_px search_px_pc">
-          <p v-for="(itemSearch,len3) in searchType" :key="len3">
-            <span
-              :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
-              @click="bumenbanghandle(itemSearch.label)"
-            >{{itemSearch.label}}</span>
-          </p>
-        </div>
-
-        <Bumen
-          v-show="indexnum===1&&zhuan=='切换至文字版'"
-          :tabdata1.sync="tabdata1"
-          :jxq.sync="jxq"
-          :searchValue1="searchValue1"
-          :value1.sync="value1"
-          :alertNr.sync="alertNr"
-        ></Bumen>
-      </div>
-      <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
-      <div :style="{display:indexnum===4?'block':'none'}">
-        <h3
-          style="text-align:right;font-size:0.3rem;padding-right:0.3rem;line-height:0.6rem;"
-          v-show="indexnum===4"
-        >
-          <span style="text-decoration: underline;" @click="qhbb2">{{zhuan2}}</span>
-        </h3>
-        <Zhandui v-show="indexnum===4&&zhuan2=='切换至文字版'" :tabdata4.sync="tabdata4"></Zhandui>
-        <ZhanduiWzb
-          v-show="indexnum===4&&zhuan2=='切换至表格版'"
-          :value1.sync="value1"
-          :tabdata4.sync="tabdata4"
-          style="background:#fff;"
-        ></ZhanduiWzb>
-      </div>
-      <div :style="{display:indexnum===2?'block':'none'}">
-        <div style="background:#fff;">
-          <el-input placeholder="请输入客户名称" v-model="khkword" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search" @click="zhongjiedata"></el-button>
-          </el-input>
-        </div>
-        <Kehu :tabdata2.sync="tabdata2"></Kehu>
-      </div>
-      <div :style="{display:indexnum===3?'block':'none'}">
-        <div class="bd_search">
-          <div class="bd_search_a">
-            <el-input size="small" placeholder="请输入销售名称" v-model="xskword" class="qu_cuHead_search"></el-input>
-            <i class="el-icon-search bd_search_btn" @click="zhongjieuserdata"></i>
-          </div>
-        </div>
-        <div class="search_pxbox">
-          <div class="search_px">
-            <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+          <div class="search_px search_px_pc">
+            <p v-for="(itemSearch,len3) in searchType" :key="len3">
               <span
-                :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
                 @click="bumenbanghandle(itemSearch.label)"
               >{{itemSearch.label}}</span>
             </p>
           </div>
-          <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+          <Bumen
+            v-show="indexnum===1&&zhuan=='切换至文字版'"
+            :tabdata1.sync="tabdata1"
+            :jxq.sync="jxq"
+            :searchValue1="searchValue1"
+            :value1.sync="value1"
+            :alertNr.sync="alertNr"
+          ></Bumen>
         </div>
-
-        <User :pagenum="pagenum" :tabdata3.sync="tabdata3" :searchValue3="searchValue3"></User>
+        <div v-else class="nothing">暂无数据</div>
+      </div>
+      <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
+      <div :style="{display:indexnum===4?'block':'none'}">
+        <div v-if="tabdata4&&tabdata4.length">
+          <h3
+            style="text-align:right;font-size:0.3rem;padding-right:0.3rem;line-height:0.6rem;"
+            v-show="indexnum===4"
+          >
+            <span style="text-decoration: underline;" @click="qhbb2">{{zhuan2}}</span>
+          </h3>
+          <Zhandui v-show="indexnum===4&&zhuan2=='切换至文字版'" :tabdata4.sync="tabdata4"></Zhandui>
+          <ZhanduiWzb
+            v-show="indexnum===4&&zhuan2=='切换至表格版'"
+            :value1.sync="value1"
+            :tabdata4.sync="tabdata4"
+            style="background:#fff;"
+          ></ZhanduiWzb>
+        </div>
+        <div v-else class="nothing">暂无数据</div>
+      </div>
+      <div :style="{display:indexnum===2?'block':'none'}">
+        <div v-if="tabdata2&&tabdata2.length">
+          <div class="bd_search">
+            <div class="bd_search_a">
+              <el-input
+                size="small"
+                placeholder="请输入销售名称"
+                v-model="khkword"
+                class="qu_cuHead_search"
+              ></el-input>
+              <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+            </div>
+          </div>
+          <Kehu :tabdata2.sync="tabdata2"></Kehu>
+        </div>
+        <div v-else class="nothing">暂无数据</div>
+      </div>
+      <div :style="{display:indexnum===3?'block':'none'}">
+        <div v-if="tabdata3&&tabdata3.length">
+          <div class="bd_search">
+            <div class="bd_search_a">
+              <el-input
+                size="small"
+                placeholder="请输入销售名称"
+                v-model="xskword"
+                class="qu_cuHead_search"
+              ></el-input>
+              <i class="el-icon-search bd_search_btn" @click="zhongjieuserdata"></i>
+            </div>
+          </div>
+          <div class="search_pxbox">
+            <div class="search_px">
+              <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+                <span
+                  :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                  @click="bumenbanghandle(itemSearch.label)"
+                >{{itemSearch.label}}</span>
+              </p>
+            </div>
+            <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+          </div>
+          <User :pagenum="pagenum" :tabdata3.sync="tabdata3" :searchValue3="searchValue3"></User>
+        </div>
+        <div v-else class="nothing">暂无数据</div>
       </div>
     </div>
 
@@ -466,10 +487,12 @@ export default {
       act1: true,
       value1: this.aler(),
       initdate: "",
+      pageSize2: 10,
+      pageSize4: 30,
       tabdata1: [],
       tabdata2: [],
       tabdata3: [],
-      tabdata3xskword:[],
+      tabdata3xskword: [],
       tabdata4: [],
       isscroll: true,
       alertNr: {},
@@ -498,11 +521,7 @@ export default {
     window.removeEventListener("scroll", this.scrollBottom, true);
   },
   watch: {
-    indexnum() {
-      this.$nextTick(() => {
-        this.$refs.bumenbang.scrollIntoView();
-      });
-    },
+   
     value1() {
       this.pagenum = 1;
       this.getallData();
@@ -520,13 +539,17 @@ export default {
         let clientHeight = document.documentElement.clientHeight;
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
-        if (toBottom < 30 && this.loading) {
+        if (
+          toBottom < 30 &&
+          this.loading &&
+          this.tabdata2.length == this.pageSize2 * this.pagenum
+        ) {
           this.loading = false;
           chakh({
             keyword: this.khkword,
             submitTime: this.value1,
             page: ++this.pagenum,
-            pageSize: 10,
+            pageSize: this.pageSize2,
             role: localStorage.getItem("role")
           }).then(res => {
             if (res.code == 200) {
@@ -658,13 +681,13 @@ export default {
       this.getallData();
     },
     zhongjieuserdata(val) {
-        if (this.xskword) {
-          this.tabdata3 = this.tabdata3xskword.filter((item, index) => {
-            return item.userName.indexOf(this.xskword)>-1;
-          });
-        } else {
-          this.tabdata3 = this.tabdata3xskword;
-        }
+      if (this.xskword) {
+        this.tabdata3 = this.tabdata3xskword.filter((item, index) => {
+          return item.userName.indexOf(this.xskword) > -1;
+        });
+      } else {
+        this.tabdata3 = this.tabdata3xskword;
+      }
     },
     getallData() {
       if (this.indexnum == 1) {
@@ -688,7 +711,7 @@ export default {
         chakh({
           keyword: this.khkword,
           submitTime: this.value1,
-          pageSize: 10,
+          pageSize: this.pageSize2,
           page: this.pagenum,
           role: localStorage.getItem("role")
         }).then(res => {
@@ -701,9 +724,9 @@ export default {
         });
       } else if (this.indexnum == 3) {
         let page = this.showOrHide ? -1 : 1;
-        this.xskword='';
+        this.xskword = "";
         needdata({
-          keyword: '',
+          keyword: "",
           submitTime: this.value1,
           sortname: this.searchValue3,
           sort: 1,
@@ -713,7 +736,7 @@ export default {
           if (res.code == 200) {
             this.alldata = res;
             this.tabdata3 = res.saleInfoList;
-             this.tabdata3xskword = res.saleInfoList;
+            this.tabdata3xskword = res.saleInfoList;
             this.getis_act(this.tabdata3);
           } else {
             this.$message.error({ message: `${res.message}` });
@@ -723,7 +746,7 @@ export default {
         chazhandui({
           submitTime: this.value1,
           page: this.pagenum,
-          pageSize: 30,
+          pageSize: this.pageSize4,
           role: localStorage.getItem("role")
         }).then(res => {
           if (res.code == 200) {
@@ -825,6 +848,7 @@ export default {
   color: #409eff;
 }
 
+
 .search_px_pc {
   display: none;
   font-size: 13px;
@@ -833,9 +857,20 @@ export default {
 
 .search_px_pc p {
   text-align: center;
-  width: 24%;
+  width: 20%;
 }
-
+  .search_px_pc p:nth-child(1) {
+    text-align: left;
+  }
+  .search_px_pc p:nth-child(3) {
+    width: 28%;
+  }
+  .search_px_pc p:nth-child(5) {
+    text-align: right;
+  }
+.search_px_pc .search_px_tit {
+  padding-right: 0;
+}
 .search_px_pc .search_px_tit {
   padding-right: 0;
 }
@@ -911,6 +946,7 @@ export default {
   line-height: 42px;
   font-size: 14px;
   display: inline-block;
+  color:#333;
   cursor: pointer;
 }
 
@@ -1130,8 +1166,6 @@ table, tbody, thead {
 }
 
 @media screen and (min-width: 450px) {
-  
-
   .search_pxbox .search_px_tit {
     font-size: 13px;
   }
@@ -1142,35 +1176,14 @@ table, tbody, thead {
 }
 
 @media screen and (min-width: 850px) {
-  .search_px_pc {
-    display: flex;
-    padding: 10px 20px 10px 15px;
-  }
-
   .qu_bumobile {
     display: none;
   }
 
-  .search_px_pc p {
-    width: 20%;
+  .search_px_pc {
+    display: flex;
+    padding: 10px 20px 10px 15px;
   }
-
-  .search_px_pc p:nth-child(1) {
-    text-align: left;
-  }
-.search_px_pc p:nth-child(3) {
-    width:26%;
-  }
-.search_px_pc p:nth-child(4) {
-    width:20%;
-  }
-
-  .search_px_pc p:nth-child(5) {
-    text-align:right
-  }
-
- 
-
   .search_px_btn {
     position: absolute;
     right: 12px;

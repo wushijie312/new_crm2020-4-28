@@ -115,6 +115,7 @@ export default {
       act: 2,
       act1: true,
       page: 1,
+      pageSize:30,
       loading: true,
       departList: [],
       khtags: [],
@@ -200,7 +201,7 @@ export default {
         userId: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         keyword: this.keyword,
-        pageSize: 30,
+        pageSize: this.pageSize,
         page: page,
         dept_id: this.dept_id == "全部部门" ? "" : this.dept_id,
         level: this.level == "全部客户" ? "" : this.level
@@ -214,7 +215,8 @@ export default {
       let clientHeight = document.documentElement.clientHeight;
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
-      if (toBottom < 30 && this.loading) {
+      if (toBottom < 30 && this.loading && this.customList.length==this.pageSize*this.page) {
+
         this.loading = false;
         this.getcust(++this.page).then(res => {
           if (res.code == 200) {
@@ -235,7 +237,7 @@ export default {
         userId: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         keyword: this.keyword,
-        pageSize: 30,
+        pageSize: this.pageSize,
         page: this.page,
         dept_id: this.dept_id == "全部部门" ? "" : this.dept_id,
         level: this.level == "全部客户" ? "" : this.level

@@ -53,9 +53,12 @@
       </div>
       <div class="saleb">
         <ul class="sale_mouthyear">
-          <li class="act">本月</li>
-          <li>本季度</li>
-          <li>本年度</li>
+          <li
+            :class="item.name==tabact1?'act':''"
+            v-for="(item,index) in mylists"
+            :key="index"
+            @click="salehandle('tabact1',item.name)"
+          >{{item.name}}</li>
         </ul>
         <div class="saleb_one">
           <div class="saleb_one_li">
@@ -73,7 +76,7 @@
         </div>
         <div class="saleb_two clearfix">
           <span class="saleb_two_renwu">任务：2000.00</span>
-          <span class="saleb_two_details fr">查看详情</span>
+          <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
         </div>
       </div>
     </div>
@@ -83,9 +86,12 @@
       </div>
       <div class="saleb padd_b30">
         <ul class="sale_mouthyear">
-          <li class="act">本月</li>
-          <li>本季度</li>
-          <li>本年度</li>
+          <li
+            :class="item.name==tabact2?'act':''"
+            v-for="(item,index) in mylists"
+            :key="index"
+            @click="salehandle('tabact2',item.name)"
+          >{{item.name}}</li>
         </ul>
         <div class="saleb_one">
           <div class="saleb_one_li">
@@ -114,6 +120,19 @@ export default {
   },
   data() {
     return {
+      tabact1: "本月",
+      tabact2:'本月',
+      mylists: [
+        {
+          name: "本月"
+        },
+        {
+          name: "本季度"
+        },
+        {
+          name: "本年度"
+        }
+      ],
       hua: require("@/assets/img/bangdan/hua.png"),
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
@@ -123,13 +142,23 @@ export default {
       kpi: require("@/assets/img/salework/KPI.png"),
       pd: require("@/assets/img/salework/pd.png"),
       rb: require("@/assets/img/salework/rb.png"),
-      wj: require("@/assets/img/salework/wj.png"),
+      wj: require("@/assets/img/salework/wj.png")
     };
   },
   created() {},
   mounted() {},
   methods: {
-   
+    detailshandel(){
+      //  this.$router.push({path:this.tzList[tab],query:this.routerData})
+       this.$router.push({path:'/saledetails'})
+    },
+    salehandle(type, val) {
+      if (type == "tabact1") {
+        this.tabact1 = val;
+      } else if (type == "tabact2") {
+        this.tabact2 = val;
+      }
+    }
   }
 };
 </script>
@@ -149,6 +178,7 @@ export default {
   position: absolute;
   right: 15px;
   top: 0;
+  cursor: pointer;
 }
 
 .saleb_two_renwu {
@@ -202,6 +232,7 @@ export default {
   box-sizing: border-box;
   line-height: 15px;
   margin: 7px 0;
+  cursor: pointer;
 }
 
 .sale_mouthyear li:last-child {
