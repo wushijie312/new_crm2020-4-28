@@ -330,7 +330,6 @@
         </div>
         <div v-else class="nothing">暂无数据</div>
       </div>
-      <!-- <el-tab-pane ref="zdb" label="战队榜" @tab-click="aler(4)"> -->
       <div :style="{display:indexnum===4?'block':'none'}">
         <div v-if="tabdata4&&tabdata4.length">
           <h3
@@ -412,10 +411,9 @@ import {
   gettc
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
+import {getNowDate} from "@/untils/common";
 
-import Wzb from "@/view/indexCom/indexwzb";
 import Bumen from "@/view/indexCom/bumen";
-import Wzb1 from "@/view/indexCom/indexwzb1";
 import Zhandui from "@/view/indexCom/zhandui";
 import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
 import Kehu from "@/view/indexCom/kehu";
@@ -424,9 +422,7 @@ import Head from "@/view/common/head";
 // import ShowbackTop from "@/components/showbackTop";
 export default {
   components: {
-    Wzb,
     Bumen,
-    Wzb1,
     Zhandui,
     Kehu,
     User,
@@ -485,7 +481,7 @@ export default {
       indexnum: 1,
       act: 1,
       act1: true,
-      value1: this.aler(),
+      value1: getNowDate(),
       initdate: "",
       pageSize2: 10,
       pageSize4: 30,
@@ -509,7 +505,6 @@ export default {
     }
   },
   mounted() {
-    // this.aler();
     this.getallData();
     this.gettc();
     //
@@ -660,16 +655,7 @@ export default {
       });
     },
 
-    aler() {
-      let date = new Date();
-      let dates =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
-      return dates;
-    },
+
 
     zhongjiedata(a) {
       this.$message.closeAll();
@@ -759,14 +745,6 @@ export default {
       }
     },
 
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    }
   }
 };
 </script>

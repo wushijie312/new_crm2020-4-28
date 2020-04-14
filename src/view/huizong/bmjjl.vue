@@ -9,13 +9,13 @@
         style="font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
       >
         <el-date-picker
-          v-model="routerData.date"
+          v-model="value1"
           style="border:none;font-size:0.4rem!importment;font-weight:900;width:45%;"
           align="left"
+          value-format="yyyy-MM-dd"
           type="date"
           :clearable="false"
           placeholder="选择日期"
-           @change="changetime"
           class="el-icon-arrow-down1"
           :picker-options="pickerOptions"
         ></el-date-picker>
@@ -68,6 +68,8 @@
 <script>
 import Head from "@/view/common/head";
 import { alldepartmentSale } from "@/api/configWu";
+import {getNowDate} from "@/untils/common";
+
 export default {
   components: {
     Head
@@ -79,7 +81,7 @@ export default {
           return time.getTime() > Date.now();
         }
       },
-      routerData: { date: new Date() },
+      value1: getNowDate(),
       listdata: [],
       act: 1,
       act1: true
@@ -88,6 +90,11 @@ export default {
   mounted() {
     this.getdata();
     this.getact();
+  },
+  watch: {
+    value1() {
+      this.getdata();
+    }
   },
   methods: {
     getact() {
@@ -125,28 +132,11 @@ export default {
 
       return sums;
     },
-changetime(){
-      this.getdata()
-    },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
+   
     getdata() {
-      var date = new Date(this.routerData.date);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       alldepartmentSale({
         role: localStorage.getItem("role"),
-        submitTime: date1
+        submitTime: this.value1
       }).then(res => {
         if (res.code == 200) {
           this.listdata = res.data;

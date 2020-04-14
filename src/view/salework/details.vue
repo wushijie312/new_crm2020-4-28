@@ -4,6 +4,30 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850 details_minheight">
+      <h3
+        style="text-align:left;position:relative;padding:0.2rem;background:#fff;margin-top:0.2rem;"
+      >
+        <span style="line-height:1rem;display:block;">汇总销售日报</span>
+        <span
+          id="sobox"
+          style="position:absolute;top:10px;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
+        >
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            placeholder="选择日期"
+            style="border:none;"
+            value-format="yyyy-MM-dd"
+            :editable="false"
+            :clearable="false"
+            class="el-icon-arrow-down1"
+          >
+            <template>
+              <i class="el-icon-arrow-down"></i>
+            </template>
+          </el-date-picker>
+        </span>
+      </h3>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
         <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
           <span class="menu_border">
@@ -216,13 +240,16 @@ import {
   needdata,
   salechabumen
 } from "@/api/config";
+import { getNowDate } from "@/untils/common";
+
 export default {
   components: {
     Head
   },
   data() {
     return {
-      pagenum:1,
+      value1: getNowDate(),
+      pagenum: 1,
       soit: 1,
       act: 2,
       act1: true,
@@ -363,6 +390,12 @@ export default {
   mounted() {
     this.getdata();
   },
+  watch: {
+    value1() {
+      this.getdata();
+    }
+    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
+  },
   methods: {
     saleindexhandle(len) {
       this.soit = len;
@@ -370,7 +403,7 @@ export default {
 
     getdata() {
       needdata({
-        submitTime: this.aler(),
+        submitTime: this.value1,
         page: this.pagenum,
         role: ""
       }).then(res => {
@@ -380,34 +413,18 @@ export default {
           this.$message.error({ message: `${res.message}` });
         }
       });
-    },
-    aler() {
-      let date = new Date();
-      let dates =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
-      return dates;
-    },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
     }
   }
 };
 </script>
 <style lang="stylus"  scoped>
 @import '../../assets/css/bangdan.styl';
-.details_minheight{
-  height:'calc(100vh - %s)' % rem(50);
-  background:$colorfff;
-  }
+
+.details_minheight {
+  height: 'calc(100vh - %s)' % rem(50);
+  background: $colorfff;
+}
+
 .detais_one_head {
   padding: 12px 0;
   margin-top: 8px;

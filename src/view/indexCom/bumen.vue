@@ -587,6 +587,8 @@
 
 <script>
 import Clipboard from "clipboard";
+import { getNowDate } from "@/untils/common";
+
 export default {
   data() {
     return {
@@ -620,28 +622,14 @@ export default {
         }
       });
     },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
+   
     TBzhankai(a, b) {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       if (a == 1) {
-        this.$router.push({ path: "/tanchujh/jrwc", query: { date: date1 } });
+        this.$router.push({ path: "/tanchujh/jrwc", query: { date: this.value1 } });
       } else if (a == 2) {
         this.$router.push({
           path: "/zbwxd",
-          query: { date: date1, type: 2, role: b }
+          query: { date: this.value1, type: 2, role: b }
         });
       }
     },

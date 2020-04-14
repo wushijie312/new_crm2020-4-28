@@ -127,13 +127,6 @@ export default {
         return;
       }
       if (a.label == "今日完成(万)") {
-        var date = new Date(this.value1);
-        var date1 =
-          date.getFullYear() +
-          "-" +
-          this.getnum(Number(date.getMonth()) + 1) +
-          "-" +
-          this.getnum(date.getDate());
         if (this.value2 > 1000) {
           this.open("修改金额不可以超过1000万");
           this.value2 = "";
@@ -144,7 +137,7 @@ export default {
           customerName: a.customerName,
           dayMoney: this.value2,
           grossProfit: a.grossProfit,
-          submitTime: date1,
+          submitTime: this.value1,
           role: ""
         })
           .then(res => {
@@ -164,19 +157,13 @@ export default {
           .catch(error => {
           });
       } else {
-        var date = new Date(this.value1);
-        var date1 =
-          date.getFullYear() +
-          "-" +
-          this.getnum(Number(date.getMonth()) + 1) +
-          "-" +
-          this.getnum(date.getDate());
+     
         updata({
           customerId: a.customerId,
           customerName: a.customerName,
           dayMoney: a.dayMoney,
           grossProfit: this.value2,
-          submitTime: date1
+          submitTime: this.value1
         })
           .then(res => {
             if (res.code == 200) {
@@ -195,14 +182,6 @@ export default {
           .catch(error => {});
       }
       this.centerDialogVisible = true;
-    },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
     }
   }
 };

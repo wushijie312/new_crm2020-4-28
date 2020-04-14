@@ -9,7 +9,7 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="客户名称" prop="options" >
+      <el-form-item label="客户名称" prop="options">
         <el-col :span="20">
           <!-- <el-select style="width:100%;" v-model="ruleForm.options" placeholder="请选择活动区域"> -->
           <el-autocomplete
@@ -18,24 +18,24 @@
             :fetch-suggestions="querySearch"
             placeholder="请客户名称"
             @select="handleSelect"
-            value-key='companyName'
+            value-key="companyName"
             style="width:100%;"
           ></el-autocomplete>
           <!-- </el-select> -->
         </el-col>
       </el-form-item>
-       <el-form-item label="选择类型" required>
-           <el-col :span="20">
-               <el-select v-model="ruleForm.tagcode"  placeholder="请选择" style="width:100%;">
-                    <el-option
-                    v-for="item in optionsCs"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label">
-                    </el-option>
-                </el-select>
-           </el-col>
-       </el-form-item> 
+      <el-form-item label="选择类型" required>
+        <el-col :span="20">
+          <el-select v-model="ruleForm.tagcode" placeholder="请选择" style="width:100%;">
+            <el-option
+              v-for="item in optionsCs"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            ></el-option>
+          </el-select>
+        </el-col>
+      </el-form-item>
       <el-form-item label="结束时间" required>
         <el-col :span="20">
           <el-form-item prop="date1">
@@ -129,19 +129,27 @@
 <script>
 import contact from "@/components/choose";
 
-import { createRw, chakehu,getPersonInfo } from "@/api/configWu";
+import { createRw, chakehu, getPersonInfo } from "@/api/configWu";
 export default {
   components: {
     contact
   },
   data() {
     return {
-        socode:'',
-        optionsCs:[{label:'帮助',value:1},{label:'任务',value:3},{label:'建议',value:2}],
+      socode: "",
+      optionsCs: [
+        { label: "帮助", value: 1 },
+        { label: "任务", value: 3 },
+        { label: "建议", value: 2 }
+      ],
       restaurants: [],
       status: false,
-      list: [{ url: require("../../assets/img/normal/add.png"), name: "点击添加" }],
-      list1: [{ url: require("../../assets/img/normal/add2.png"), name: "点击添加" }],
+      list: [
+        { url: require("../../assets/img/normal/add.png"), name: "点击添加" }
+      ],
+      list1: [
+        { url: require("../../assets/img/normal/add2.png"), name: "点击添加" }
+      ],
       dialogClient: false,
       dialogClient1: false,
       options: [],
@@ -154,21 +162,23 @@ export default {
         type: [],
         resource: "",
         desc: "",
-        options: '',
-        optionsId:'',
-        tagcode:''
+        options: "",
+        optionsId: "",
+        tagcode: ""
       },
       rules: {
         name: [
-          { required: true, message: "请输入客户名称", trigger:['blur', 'change'] },
-          
+          {
+            required: true,
+            message: "请输入客户名称",
+            trigger: ["blur", "change"]
+          }
         ],
         region: [
           { required: true, message: "请选择活动区域", trigger: "change" }
         ],
         date1: [
           {
-            type: "date",
             required: true,
             message: "请选择日期",
             trigger: "change"
@@ -176,7 +186,6 @@ export default {
         ],
         date2: [
           {
-            type: "date",
             required: true,
             message: "请选择时间",
             trigger: "change"
@@ -199,30 +208,31 @@ export default {
   },
   mounted() {
     this.chakehu();
-
-    // this.restaurants = this.loadAll()
   },
   methods: {
     handleSelect(item) {
-      console.log(this.ruleForm.options)
-      console.log(item.id);
-      this.ruleForm.options = item.companyName
-      this.ruleForm.optionsId = item.id
+      this.ruleForm.options = item.companyName;
+      this.ruleForm.optionsId = item.id;
     },
     querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        // console.log(this.restaurants)
-        // console.log(this.createFilter(queryString))
-        var results = queryString.length>0 ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (restaurant) => {
-            // console.log(restaurant)
-          return (restaurant.companyName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
+      var restaurants = this.restaurants;
+      var results =
+        queryString.length > 0
+          ? restaurants.filter(this.createFilter(queryString))
+          : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return restaurant => {
+        // console.log(restaurant)
+        return (
+          restaurant.companyName
+            .toLowerCase()
+            .indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
 
     submitForm() {
       var toUser = "",
@@ -237,27 +247,16 @@ export default {
           tozhu += e.id + ",";
         }
       });
-      //   console.log(toUser)
-    //   alert(this.ruleForm.date1)
-      var date = new Date(this.ruleForm.date1);
-    //   alert(date)
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
-        var socode = this.gettypezhi(this.ruleForm.tagcode)
-        // alert(date1)
+      var socode = this.gettypezhi(this.ruleForm.tagcode);
       var senddata = {
         create_id: localStorage.getItem("userid"),
         to_user_id: toUser,
         look_user_id: tozhu,
         msginfo: this.ruleForm.desc,
-        end_time: date1,
+        end_time: this.ruleForm.date1,
         customerid: this.ruleForm.optionsId,
         customername: this.ruleForm.options,
-        tagcode:this.socode
+        tagcode: this.socode
       };
       if (this.$route.query.line_code) {
         senddata = {
@@ -265,18 +264,18 @@ export default {
           to_user_id: toUser,
           look_user_id: tozhu,
           msginfo: this.ruleForm.desc,
-          end_time: date1,
+          end_time: this.ruleForm.date1,
           customerid: this.ruleForm.optionsId,
           customername: this.ruleForm.options,
           line_code: this.$route.query.line_code,
-          tagcode:this.socode
+          tagcode: this.socode
         };
       }
 
       if (
         senddata.to_user_id.length > 0 &&
         senddata.end_time &&
-        senddata.msginfo 
+        senddata.msginfo
       ) {
         createRw(senddata).then(res => {
           if (res.code == 200) {
@@ -288,62 +287,39 @@ export default {
         });
       }
     },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
     addpeo() {
       this.dialogClient = true;
-      console.log(this.dialogClient);
     },
     addpeo1() {
       this.dialogClient1 = true;
-      console.log(this.dialogClient);
     },
     removePeo(e) {
-      console.log(e);
       this.list.splice(e, 1);
     },
     removePeo1(e) {
-      console.log(e);
       this.list1.splice(e, 1);
     },
     clientConfirm(node) {
-      console.log(node);
-      var box = true
+      var box = true;
       this.list.forEach(e => {
-          if(e.id == node.id){
-              box = false
-          }
+        if (e.id == node.id) {
+          box = false;
+        }
       });
-      if (node.id != ""&&box) {
+      if (node.id != "" && box) {
         this.list.unshift(node);
       }
-
-      //   this.ruleForm.projectId = node.key;
-      //   this.ruleForm.clientName = node.title + "-" + node.contacts.title;
-      //   this.ruleForm.clientId = node.contacts.key;
-      //   this.pjId = node.key;
     },
     clientConfirm1(node) {
-      console.log(node);
-      var box1 = true
+      var box1 = true;
       this.list1.forEach(e => {
-          if(e.id == node.id){
-              box1 = false
-          }
+        if (e.id == node.id) {
+          box1 = false;
+        }
       });
-      if (node.id != ""&&box1) {
+      if (node.id != "" && box1) {
         this.list1.unshift(node);
       }
-      //   this.ruleForm.projectId = node.key;
-      //   this.ruleForm.clientName = node.title + "-" + node.contacts.title;
-      //   this.ruleForm.clientId = node.contacts.key;
-      //   this.pjId = node.key;
     },
     chushi() {
       if (this.$route.query.line_code) {
@@ -352,50 +328,61 @@ export default {
         this.ruleForm.id = this.$route.query.customerid;
         this.ruleForm.date1 = this.$route.query.end_time;
         this.ruleForm.tagcode = this.$route.query.tagname;
-      }else if(true){
-        //   alert(userid)
-          if(this.$route.query.userid){
-            //   alert(111)
-              getPersonInfo({dingdingId:this.$route.query.userid}).then(res=>{
-                  this.list.unshift({ url:res.data[0].avatar, name: res.data[0].name,id:res.data[0].dingdingId})
-                  if(res.data[0].leader_avatar){
-                    this.list1.unshift({ url:res.data[0].leader_avatar, name: res.data[0].leader_name,id:res.data[0].leader_id})
-                  }
-             });
-               if(this.$route.query.customerId&&this.$route.query.userid){
-                  this.ruleForm.options = this.$route.query.customerName;
-                  this.ruleForm.optionsId = this.$route.query.customerId;
-               }
-          }else if(this.$route.query.customerId){
-              getPersonInfo({customerId:this.$route.query.customerId}).then(res=>{
-                  this.list.unshift({ url:res.data[0].avatar, name: res.data[0].name,id:res.data[0].dingdingId})
-                  this.list1.unshift({ url:res.data[0].leader_avatar, name: res.data[0].leader_name,id:res.data[0].leader_id})
-              })
-              this.ruleForm.options = this.$route.query.customerName
-              this.ruleForm.optionsId = this.$route.query.customerId
+      } else if (true) {
+        if (this.$route.query.userid) {
+          getPersonInfo({ dingdingId: this.$route.query.userid }).then(res => {
+            this.list.unshift({
+              url: res.data[0].avatar,
+              name: res.data[0].name,
+              id: res.data[0].dingdingId
+            });
+            if (res.data[0].leader_avatar) {
+              this.list1.unshift({
+                url: res.data[0].leader_avatar,
+                name: res.data[0].leader_name,
+                id: res.data[0].leader_id
+              });
+            }
+          });
+          if (this.$route.query.customerId && this.$route.query.userid) {
+            this.ruleForm.options = this.$route.query.customerName;
+            this.ruleForm.optionsId = this.$route.query.customerId;
           }
+        } else if (this.$route.query.customerId) {
+          getPersonInfo({ customerId: this.$route.query.customerId }).then(
+            res => {
+              this.list.unshift({
+                url: res.data[0].avatar,
+                name: res.data[0].name,
+                id: res.data[0].dingdingId
+              });
+              this.list1.unshift({
+                url: res.data[0].leader_avatar,
+                name: res.data[0].leader_name,
+                id: res.data[0].leader_id
+              });
+            }
+          );
+          this.ruleForm.options = this.$route.query.customerName;
+          this.ruleForm.optionsId = this.$route.query.customerId;
+        }
       }
     },
-    gettypezhi(a){
-        // console.log(a)
-        this.optionsCs.forEach(e=>{
-           
-            if(e.label==a){
-                console.log(e.value)
-                this.socode = e.value
-                // return e.value
-            }
-        })
+    gettypezhi(a) {
+      this.optionsCs.forEach(e => {
+        if (e.label == a) {
+          this.socode = e.value;
+        }
+      });
     },
     chakehu() {
       chakehu({ role: "" })
         .then(res => {
-          this.restaurants = res.data
+          this.restaurants = res.data;
           this.chushi();
         })
         .catch(error => {});
     }
-    
   }
 };
 </script>

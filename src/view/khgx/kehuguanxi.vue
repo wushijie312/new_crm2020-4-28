@@ -145,6 +145,9 @@ export default {
     window.addEventListener("scroll", this.scrollKehuGuanLi, true);
     this.gethong();
   },
+   destroyed() {
+    window.removeEventListener("scroll", this.scrollKehuGuanLi, true);
+  },
   methods: {
     getact() {
       var lodata =
@@ -190,7 +193,7 @@ export default {
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
 
-      if (toBottom <= 30 && this.loading) {
+      if (toBottom <= 30 && this.loading&&this.data1.length == this.pagenum * this.pageSize) {
         this.loading = false;
         let scrollTop =
           document.documentElement.scrollTop || document.body.scrollTop;
@@ -200,9 +203,6 @@ export default {
               this.status.push(true);
             }
             this.data1 = this.data1.concat(res.data);
-            if (this.data1.length < this.pagenum * this.pageSize) {
-              this.$message.success("已经到底部了");
-            }
             this.loading = true;
           }
         });

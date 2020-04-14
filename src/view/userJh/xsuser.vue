@@ -24,10 +24,9 @@
           <h3
             style="text-align:left;position:relative;padding:0.2rem;background:#fff;margin-top:0.2rem;"
           >
-            <span style="line-height:1rem;display:block;">汇总销售日报</span>
             <span
               id="sobox"
-              style="position:absolute;top:10px;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
+              style="font-size:1.1em;color:#999;width:45%;display:block;font-size:0.4rem;"
             >
               <el-date-picker
                 v-model="value1"
@@ -154,6 +153,7 @@
 <script>
 import CreateData from "@/view/userJh/xsuserdata/index";
 import Addcreate from "@/components/addcreate";
+import {getNowDate} from "@/untils/common";
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -227,7 +227,7 @@ export default {
       jingjingli: 0,
       act: 1,
       act1: false,
-      value1: this.aler(),
+      value1: getNowDate(),
       pageSize2: 10,
       tabdata1: [],
       tabdata2: [],
@@ -238,8 +238,8 @@ export default {
     };
   },
   mounted() {
+ 
     this.chakehu();
-    // this.aler();
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -347,16 +347,6 @@ export default {
         })
         .catch(error => {});
     },
-    aler() {
-      let date = new Date();
-      let dates =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
-      return dates;
-    },
 
     getallData() {
       if (this.indexnum == 1) {
@@ -433,14 +423,6 @@ export default {
       this.jingli = this.jingli.toFixed(2);
       this.jingjingli = this.jingjingli.toFixed(2);
     },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    }
   }
 };
 </script>

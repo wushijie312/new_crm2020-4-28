@@ -17,6 +17,7 @@
             v-model="value1"
             type="date"
             placeholder="选择日期"
+             value-format="yyyy-MM-dd"
             style="border:none;font-size:0.4rem!importment;font-weight:900;"
             :clearable="false"
             class="el-icon-arrow-down1"
@@ -184,19 +185,14 @@
        
       </div>
     </div>
-    <div
-      v-show="topshow"
-      @click="gotop"
-      style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-    >
-      <i class="el-icon-top"></i>
-    </div>
   </div>
 </template>
 <script>
 // import BScroll from "better-scroll";
 import { biaotou1, needdata, infobyUser, getisread } from "@/api/configWu";
 import Head from "@/view/common/head";
+import {getNowDate} from "@/untils/common";
+
 export default {
   name: "index",
   components: {
@@ -205,21 +201,10 @@ export default {
   data() {
     return {
       isread: false,
-      zhankaidata: [],
-      topshow: false,
       click: true,
       biaotou_new: {},
-      tzshow: false,
       tabdata2: [],
-      loadingConnecting: false,
-      down: false,
-      up: true,
       gowidth: 300,
-      pulldownTip: {
-        text: "下拉刷新", // 松开立即刷新
-        textup: "上拉加载更多", // 松开立即刷新
-        rotate: "" // icon-rotate
-      },
       arr: [],
       biao: 0,
       totalnum: 1,
@@ -228,32 +213,12 @@ export default {
       act: 2,
       act1: true,
       box: "100",
-      value1: "",
-      value2: "",
+      value1: getNowDate(),
       value: "",
-      value2: "",
       value11: "",
       state2: "",
       input10: "",
-      centerDialogVisible: false,
       choose: {},
-      choose1: {},
-      su1: [],
-      su2: [],
-      su3: [],
-      headData: {
-        jihua1: 0,
-        jihua2: 0,
-        jihua3: 0,
-        jihua4: 0,
-        jihua5: 0,
-        jihua6: 0,
-        jihua7: 0,
-        jihua8: 0
-      },
-      tableData6: [],
-      tableData5: [],
-      tableData7: [],
       paixunum1: 1,
       getd: true,
       paixulist1: ["week_count", "month_count"],
@@ -268,32 +233,12 @@ export default {
   },
   mounted() {
     this.aler();
-    // this.setechart();
     this.getdata();
-    // this.shouci();
-    // setTimeout(() => {
-    //   this.BS();
-    // }, 20);
     this.gethong();
     this.getact()
   },
   watch: {
     value1() {
-      var inittime = new Date(this.value1);
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
-        "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
-        "-" +
-        jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
       this.getdata();
     }
   },
@@ -301,7 +246,6 @@ export default {
   methods: {
     getact(){
       var lodata = JSON.parse(sessionStorage.getItem('leaderMenus'))
-      console.log(lodata)
       lodata.forEach((e,index)=>{
         if(e.path=="/baifang"){
           this.act = index+1
@@ -309,7 +253,6 @@ export default {
       })
     },
     ccc(a){
-      console.log(a)
       this.$router.push({path:'/create',query:{userid:a.user_id}})
     },
     gethong() {
@@ -327,91 +270,27 @@ export default {
         name: this.xsname,
         submitTime: this.value1
       }).then(res => {
-        //console.log(res);
         this.tabdata2 = res.data;
         this.paixu1(this.paixunum1);
-        // var num = 0
-        // this.tabdata2.forEach(item => {
-        //   item.index = num
-        //   item.zhankai = false
-        //   num++
-        // });
         this.getd = false;
       });
     },
     clickTable(row, index, e) {
-      //console.log(row);
-      //console.log(index);
       var box = index;
-      // //console.log(e)
-      //console.log(this.$refs.tables[index]);
       this.$refs.tables[index].toggleRowExpansion(row);
     },
     ceshi(a, b) {
-      //console.log(this.$refs);
-      // if(b.length==1){
-      var inittime = new Date(this.value1);
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
-        "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
-        "-" +
-        jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
       infobyUser({ userid: a.user_id, submitTime: this.value1 }).then(res => {
-        //console.log(res);
         if (res.data.length > 0) {
           this.$set((a.id = res.data));
         } else {
           this.$set((a.id = [{ visit_way: "暂无记录" }]));
         }
-
-        // var  listceshi = this.tabdata2
-        // this.tabdata2 = listceshi
       });
-      // }
-    },
-    gotop() {
-      //console.log(this.scroll.scrollBy);
-      this.scroll.scrollTo(0, 0, 0.5);
-      this.topshow = false;
-    },
-    zhiding() {},
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
     },
     aler() {
-      //console.log(document.body.clientWidth);
       this.gowidth =
         document.body.clientWidth || document.documentElement.clientWidth;
-   
-      var inittime = new Date();
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
-        "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
-        "-" +
-        jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
     },
     paixu1(a) {
       this.paixunum1 = a;
@@ -420,51 +299,35 @@ export default {
     sort1(type) {
       this.sortType = type;
       this.tabdata2.sort(this.compare(type));
-      // //console.log(type)
       switch (type) {
         case "week_customer_count":
-          //console.log(111);
           this.sortType = "week_customer_count";
           this.tabdata2.sort(this.compare("week_customer_count"));
-          // //console.log(this.tabdata1)
           break;
         case "week_count":
-          //console.log(112221);
-          // //console.log('净利')
           this.sortType = "week_count";
           this.tabdata2.sort(this.compare("week_count"));
           break;
         case "month_count":
-          // //console.log('净利利')
           this.sortType = "month_count";
           this.tabdata2.sort(this.compare("month_count"));
           break;
       }
     },
     compare(attr) {
-      // //console.log(attr)
       return function(a, b) {
         var val1 = a[attr];
         var val2 = b[attr];
-        // //console.log(a[attr])
         return val2 - val1;
       };
     },
     getdata(a) {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       var scrollTop = document.documentElement.scrollTop;
       biaotou1({
         userid: localStorage.getItem("userid"),
         role: localStorage.getItem("role"),
         submitTime: this.value1
       }).then(res => {
-        //console.log(res);
         this.biaotou_new = res.data;
       });
       needdata({
@@ -475,15 +338,8 @@ export default {
         name: this.xsname,
         submitTime: this.value1
       }).then(res => {
-        //console.log(res);
         this.tabdata2 = res.data;
         this.paixu1(this.paixunum1);
-        // var num = 0
-        // this.tabdata2.forEach(item => {
-        //   item.index = num
-        //   item.zhankai = false
-        //   num++
-        // });
         this.getd = false;
       });
 

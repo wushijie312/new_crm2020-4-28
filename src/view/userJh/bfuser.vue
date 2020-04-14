@@ -18,6 +18,7 @@
                 v-model="value1"
                 type="date"
                 placeholder="选择日期"
+                value-format="yyyy-MM-dd"
                 style="border:none;font-size:0.4rem!importment;font-weight:900;"
                 :clearable="false"
                 class="el-icon-arrow-down1"
@@ -61,18 +62,6 @@
         </div>
       </div>
     </div>
-    
-    <!-- <CreateData v-show="show2"></CreateData> -->
-    <!-- <el-backtop target=".el-scrollbar__wrap">
-        <i class="el-icon-top"></i>
-    </el-backtop>-->
-    <div
-        v-show="topshow"
-        @click="gotop"
-        style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
-      >
-        <i class="el-icon-top"></i>
-      </div>
       <Addcreate></Addcreate>
   </div>
 </template>
@@ -82,6 +71,7 @@ import CreateData from "@/view/userJh/bfuserdata/createUse"
 import { biaotou1, needdata, adddata, chakehu,infobyUser,getisread} from "@/api/configWu";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
+import {getNowDate} from "@/untils/common";
 
 export default {
   name: "index",
@@ -93,77 +83,29 @@ export default {
   data() {
     return {
       isread:false,
-      gxcd:'',
-      khzw:'',
-      shengri:'',
-      beizhu:'',
-      topshow: false,
-      click: true,
       biaotou_new: {},
-      tzshow: false,
       tabdata2: [],
-      loadingConnecting: false,
-      down: false,
-      up: true,
-
       arr: [],
       biao: 0,
-      totalnum: 1,
       pagenum: 1,
       indexnum: 1,
       act: 2,
       act1: false,
-      box: "100",
-      value1: "",
-      value2: "",
+      value1: getNowDate(),
       value: "",
-      value2: "",
-      value11: "",
-      state2: "",
-      input10: "",
-      show2: false,
-      restaurants: [],
-      centerDialogVisible: false,
       choose: {},
-      choose1: {},
-      restaurants: [],
-      su1: [],
-      su2: [],
-      su3: [],
-      
       options: []
     };
   },
   mounted() {
     this.getact()
-    this.aler();
-    // this.setechart();
     this.getdata();
-    // this.shouci();
     this.chakehu();
     this.gethong()
-    // setTimeout(() => {
-    //   this.BS();
-    // }, 20);
   },
   watch: {
     
     value1(){
-      var inittime = new Date(this.value1);
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
-        "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
-        "-" +
-        jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
       this.getdata()
     }
   },
@@ -171,7 +113,6 @@ export default {
   methods: {
     getact(){
       var lodata = JSON.parse(sessionStorage.getItem('userMenus'))
-      console.log(lodata)
       lodata.forEach((e,index)=>{
         if(e.path=="/baifang1"){
           this.act = index+1
@@ -182,11 +123,6 @@ export default {
       getisread({userid:localStorage.getItem('userid')}).then(res=>{
         this.isread = res.data.isread
       })
-    },
-    gotop() {
-      console.log(this.scroll.scrollBy);
-      this.scroll.scrollTo(0, 0, 0.5);
-      this.topshow = false;
     },
    
     chakehu() {
@@ -205,51 +141,13 @@ export default {
       this.choose = obj;
     },
     zhiding() {},
-   
-  
-
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
-    aler() {
-     
-      var inittime = new Date();
-      function jiazero(a) {
-        if (a < 10) {
-          return "0" + a;
-        } else {
-          return a;
-        }
-      }
-      this.initdate =
-        inittime.getFullYear() +
-        "-" +
-        jiazero(Number(inittime.getMonth()) + 1) +
-        "-" +
-        jiazero(Number(inittime.getDate()));
-      this.value1 = this.initdate;
-    },
-
     getdata(a) {
-      var date = new Date(this.value1);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       var scrollTop = document.documentElement.scrollTop;
       biaotou1({
         userid: localStorage.getItem("userid"),
         role: "",
         submitTime:this.value1
       }).then(res => {
-        console.log(res);
         this.biaotou_new = res.data;
       });
       infobyUser({
@@ -258,14 +156,7 @@ export default {
         curPage: this.pagenum,
         submitTime:this.value1
       }).then(res => {
-        console.log(res);
         this.tabdata2 = res.data;
-        // var num = 0;
-        // this.tabdata2.forEach(item => {
-        //   item.index = num;
-        //   item.zhankai = false;
-        //   num++;
-        // });
       });
 
       if (a == 6) {

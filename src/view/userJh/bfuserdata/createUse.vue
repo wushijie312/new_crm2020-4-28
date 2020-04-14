@@ -306,16 +306,6 @@ export default {
       ;
     },
     adddata() {
-      //   if (this.input10 && this.choose.id) {
-    //   console.log(this.sendData);
-      // var date = new Date(this.value2);
-      // var date1 =
-      //   date.getFullYear() +
-      //   "-" +
-      //   this.getnum(Number(date.getMonth()) + 1) +
-      //   "-" +
-      //   this.getnum(date.getDate());
-
       adddata(this.sendData)
         .then(res => {
           if (res.code == 200) {

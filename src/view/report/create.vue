@@ -266,29 +266,13 @@ export default {
         this.$message.error("请选择接收人");
       }
     },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
     addpeo() {
       this.dialogClient = true;
-      console.log(this.dialogClient);
-    },
-    addpeo1() {
-      this.dialogClient1 = true;
       console.log(this.dialogClient);
     },
     removePeo(e) {
       console.log(e);
       this.list.splice(e, 1);
-    },
-    removePeo1(e) {
-      console.log(e);
-      this.list1.splice(e, 1);
     },
     clientConfirm(node) {
       console.log(node);
@@ -324,11 +308,8 @@ export default {
       //   this.pjId = node.key;
     },
     chushi() {
-      console.log(this.$route);
       if (this.$route.query.line_code) {
-        console.log("ok");
         this.status = true;
-        console.log(this.$route.query);
         this.ruleForm.options = this.$route.query.customerName;
         this.ruleForm.id = this.$route.query.customerid;
         this.ruleForm.date1 = this.$route.query.end_time;

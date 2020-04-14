@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper wrapwhite">
-      <Head :act.sync='act' :ty.sync='act1'></Head>
-       
-    <div class="content " style="font-size:0.3rem;padding:0 15px;color:black;">
+    <Head :act.sync="act" :ty.sync="act1"></Head>
+
+    <div class="content" style="font-size:0.3rem;padding:0 15px;color:black;">
       <div class="menu-head-top50"></div>
       <h3 style="text-align:left;line-height:0.8rem;">
         <p style="overflow:hidden;">
@@ -13,7 +13,7 @@
             <!-- {{value1}} -->
             <el-date-picker
               ref="timechoose"
-              v-model="routerData.date"
+              v-model="value1"
               type="date"
               placeholder="选择日期"
               style="border:none;font-size:0.4rem!importment;font-weight:900;width:45%;"
@@ -29,7 +29,6 @@
               </template>
             </el-date-picker>
           </span>
-          
         </p>
       </h3>
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;" v-show="false">
@@ -83,12 +82,14 @@
 <script>
 import { salkpi } from "@/api/configWu";
 import Head from "@/view/common/head";
+import {getNowDate} from "@/untils/common";
+
 let ybs = 5;
 export default {
   name: "khqk",
-components:{
+  components: {
     Head
-},
+  },
   data() {
     return {
       pickerOptions0: {
@@ -96,32 +97,33 @@ components:{
           return time.getTime() > Date.now() - 8.64e6;
         }
       },
-      yss: ["yl", "ql", "lql", "fs", "qh"],
       indexnum: "3",
-      routerData: { date: new Date() },
+      value1: getNowDate(),
       alldata: {},
       listdata: [],
       wxdlist: [],
       soit: 1,
       act: 4,
-      act1: true,
-
+      act1: true
     };
   },
   mounted() {
     this.getdata();
-    this.getact()
+    this.getact();
+  },
+  watch: {
+    value1() {
+      this.getdata();
+    }
   },
   methods: {
-    getact(){
-      var lodata = JSON.parse(sessionStorage.getItem('leaderMenus'))
-      console.log(lodata)
-      lodata.forEach((e,index)=>{
-        if(e.path=="/kpi"){
-          this.act = index+1
-          console.log(index)
+    getact() {
+      var lodata = JSON.parse(sessionStorage.getItem("leaderMenus"));
+      lodata.forEach((e, index) => {
+        if (e.path == "/kpi") {
+          this.act = index + 1;
         }
-      })
+      });
     },
     xiazai(a) {
       window.location.href = a;
@@ -141,25 +143,10 @@ components:{
       console.log(111);
       this.getdata();
     },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
-    },
     getdata() {
-      var date = new Date(this.routerData.date);
-      var date1 =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
       salkpi({
         role: localStorage.getItem("role"),
-        submitTime: date1,
+        submitTime: this.value1,
         submitTimeType: this.soit == 1 ? "m" : "y"
       }).then(res => {
         console.log(res);
