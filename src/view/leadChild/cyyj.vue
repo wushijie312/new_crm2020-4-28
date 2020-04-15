@@ -55,7 +55,7 @@
                 <span :style="{color:scope.row.grade==='转出期销售'||scope.row.grade==='观察期销售'?'red':'black'}">{{scope.row.grade}}</span>
             </template>
         </el-table-column>
-        <el-table-column  :width="needwidth" sortable  prop="lastStandMoney" label="上月标准销售额">
+        <el-table-column  :width="needwidth" sortable  prop="lastStandMoney" label="本月标准销售额">
             <template v-slot="scope">
                 {{Number(scope.row.lastStandMoney).toFixed(1)}}万
             </template>

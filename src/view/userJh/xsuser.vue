@@ -254,9 +254,6 @@ export default {
       this.getallData();
     }
   },
-  destroyed() {
-    window.removeEventListener("scroll", this.scrollBottom, true);
-  },
   methods: {
      saleindexhandle(len) {
       this.salesoit = len;

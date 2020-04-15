@@ -41,7 +41,7 @@
                 style="width:100%;height:4.1rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.9rem;"
               >收入</div>
               <div
-                style="width:100%;height:2.6rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.6rem;"
+                style="width:100%;height:4.05rem;border-bottom:1px solid #ccc;text-align:center;padding-top:1.6rem;"
               >月利润</div>
               <div
                 style="width:100%;height:1rem;border-bottom:1px solid #ccc;text-align:center;padding-top:0.8rem;"
@@ -163,16 +163,16 @@
                   >{{alldata.totalGrossProfitMoney}}万</span>
                 </span>
               </div>
-              <div>
-                <span class="blue" @click.stop="tantan(alertNr.totalBearMoneyExp)">本月费用：</span>
-                <span class="black" @click.stop="tantan(alertNr.totalBearMoneyExp)">
-                  <span :class="alldata.totalBearMoney>=0?'red':'green'">{{alldata.totalBearMoney}}万</span>
+              <div style="padding-top:0.05rem;margin-top:0.05rem;border-top:1px dashed #f0f0f0">
+                <span class="blue" @click.stop="tantan(alertNr.deptSalaryExp)">本月部门工资：</span>
+                <span class="black" @click.stop="tantan(alertNr.deptSalaryExp)">
+                  <span :class="alldata.totalSalary>=0?'red':'green'">{{alldata.totalSalary}}万</span>
                 </span>
               </div>
               <div>
-                <span class="blue" @click.stop="tantan(alertNr.totalMonthNetExp)">本月净利润：</span>
-                <span class="black" @click.stop="tantan(alertNr.totalMonthNetExp)">
-                  <span :class="alldata.totalNetProfit>=0?'red':'green'">{{alldata.totalNetProfit}}万</span>
+                <span class="blue" @click.stop="tantan(alertNr.deptBearExp)">本月部门费用：</span>
+                <span class="black" @click.stop="tantan(alertNr.deptBearExp)">
+                  <span :class="alldata.totalBear>=0?'red':'green'">{{alldata.totalBear}}万</span>
                 </span>
               </div>
               <div>
@@ -183,6 +183,32 @@
                   >{{alldata.totalBearsMoney}}万</span>
                 </span>
               </div>
+              <div
+                style="position:relative;padding-bottom:0.05rem;margin-bottom:0.05rem;px;border-bottom:1px dashed #f0f0f0"
+              >
+                <span class="blue" @click.stop="totalBearMoneyhandle">本月整体费用：</span>
+                <span class="black" @click.stop="totalBearMoneyhandle">
+                  <span
+                    :class="alldata.totalBearsMoney>=0?'red':'green'"
+                  >{{alldata.totalBearMoney}}万</span>
+                  <img
+                    :src="zs"
+                    style="display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
+                    alt
+                  />
+                </span>
+                <span
+                  v-if="is_totalBearMoney"
+                  class="leader_totalBearMoney"
+                >{{alertNr.totalBearMoneyExp}}</span>
+              </div>
+              <div>
+                <span class="blue" @click.stop="tantan(alertNr.totalMonthNetExp)">本月净利润：</span>
+                <span class="black" @click.stop="tantan(alertNr.totalMonthNetExp)">
+                  <span :class="alldata.totalNetProfit>=0?'red':'green'">{{alldata.totalNetProfit}}万</span>
+                </span>
+              </div>
+
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalMonthNetsExp)">本月净净利：</span>
                 <span class="black" @click.stop="tantan(alertNr.totalMonthNetsExp)">
@@ -221,7 +247,7 @@
                 </span>
               </div>
 
-              <div  @click.stop="tantan(alertNr.totalTbClueExp)">
+              <div @click.stop="tantan(alertNr.totalTbClueExp)">
                 <span class="blue">TB线索：</span>
                 <span class="black">
                   <span
@@ -411,7 +437,7 @@ import {
   gettc
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
-import {getNowDate} from "@/untils/common";
+import { getNowDate } from "@/untils/common";
 
 import Bumen from "@/view/indexCom/bumen";
 import Zhandui from "@/view/indexCom/zhandui";
@@ -433,6 +459,7 @@ export default {
   name: "index",
   data() {
     return {
+      is_totalBearMoney: false,
       showOrHide: true,
       searchValue1: "实际销售额",
       searchValue3: "累计完成",
@@ -492,7 +519,8 @@ export default {
       tabdata4: [],
       isscroll: true,
       alertNr: {},
-      loading: true
+      loading: true,
+      zs: require("@/assets/img/bangdan/zs.png")
     };
   },
 
@@ -516,7 +544,6 @@ export default {
     window.removeEventListener("scroll", this.scrollBottom, true);
   },
   watch: {
-   
     value1() {
       this.pagenum = 1;
       this.getallData();
@@ -525,6 +552,10 @@ export default {
   },
 
   methods: {
+    totalBearMoneyhandle(){
+      this.$message.closeAll();
+      this.is_totalBearMoney=!this.is_totalBearMoney
+    },
     scrollBottom() {
       // 滚动到页面底部时
       // const el = document.getElementById("customlist");
@@ -623,6 +654,7 @@ export default {
         obj.duration = 0;
         obj.showClose = true;
         this.$message.warning(obj);
+        this.is_totalBearMoney=false;
       }
     },
     gettc() {
@@ -654,8 +686,6 @@ export default {
         }
       });
     },
-
-
 
     zhongjiedata(a) {
       this.$message.closeAll();
@@ -743,12 +773,37 @@ export default {
           }
         });
       }
-    },
-
+    }
   }
 };
 </script>
 <style lang="stylus"  scoped>
+.leader_totalBearMoney {
+         position: absolute;
+    top: 0.6rem;
+    border-radius: 3px;
+    left: 0;
+    min-width: 4rem;
+    padding: 0px 10px;
+    color: #fff;
+    background: rgba(0,0,0,0.8);
+
+}
+
+.leader_totalBearMoney:after {
+     width: 0;
+    height: 0;
+    z-index: 1000;
+    border-top: 6px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid rgba(0,0,0,0.8);
+    border-left: 5px solid transparent;
+    position: absolute;
+    top: -12px;
+    left: 2.4rem;
+    content: ' ';
+}
+
 .qu_bmmobile_select {
   width: 130px;
 }
@@ -826,7 +881,6 @@ export default {
   color: #409eff;
 }
 
-
 .search_px_pc {
   display: none;
   font-size: 13px;
@@ -837,18 +891,23 @@ export default {
   text-align: center;
   width: 20%;
 }
-  .search_px_pc p:nth-child(1) {
-    text-align: left;
-  }
-  .search_px_pc p:nth-child(3) {
-    width: 28%;
-  }
-  .search_px_pc p:nth-child(5) {
-    text-align: right;
-  }
+
+.search_px_pc p:nth-child(1) {
+  text-align: left;
+}
+
+.search_px_pc p:nth-child(3) {
+  width: 28%;
+}
+
+.search_px_pc p:nth-child(5) {
+  text-align: right;
+}
+
 .search_px_pc .search_px_tit {
   padding-right: 0;
 }
+
 .search_px_pc .search_px_tit {
   padding-right: 0;
 }
@@ -924,7 +983,7 @@ export default {
   line-height: 42px;
   font-size: 14px;
   display: inline-block;
-  color:#333;
+  color: #333;
   cursor: pointer;
 }
 
@@ -1162,6 +1221,7 @@ table, tbody, thead {
     display: flex;
     padding: 10px 20px 10px 15px;
   }
+
   .search_px_btn {
     position: absolute;
     right: 12px;

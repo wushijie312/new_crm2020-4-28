@@ -11,9 +11,10 @@
               id="sobox"
               style="font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
             >
+              <!-- {{value1}} -->
               <el-date-picker
                 ref="timechoose"
-                v-model="value1"
+                v-model="datevalue"
                 type="date"
                 placeholder="选择日期"
                 style="border:none;font-size:0.4rem!importment;font-weight:900;"
@@ -34,6 +35,7 @@
        
       </h3>
       <!--搜索条件-->
+      <div class="newxin" v-if="down"></div>
       <div class="searchBox">
       	<el-select class="customerForm" v-model="department.checked" placeholder="选择部门" @change="zhongjian">
 		      <el-option 
@@ -108,7 +110,11 @@
 			      </div>  
 				  </div>
 				</el-card>
-			
+				
+				<div v-show="!tabdata2 || !tabdata2.length && showLoading">
+		      <p class="empty"></p>
+		    </div>
+				
      	</div>
       
       
@@ -124,6 +130,9 @@
 			    <el-button type="primary" @click="flowinConfirm(dialogCon.val)">确 定</el-button>
 			  </span>
 			</el-dialog>
+	
+      <!-- <ShowbackTop/> -->
+    	<p v-show="pulldownTip.textup" style="font-size: 0.12rem;padding: 10px;">{{pulldownTip.textup}}</p>
       <Addcreate v-if="!act1"></Addcreate>
     </div>
       
@@ -141,8 +150,6 @@ import RelationTable from "@/view/new_kehu/relationTable";
 import Fold from "@/view/new_kehu/fold";
 import Head from "@/view/common/head";
 import Addcreate from "@/components/addcreate";
-import {getNowDate} from "@/untils/common";
-
 // import ShowbackTop from "@/components/showbackTop";
 export default {
   name: "index",
@@ -158,26 +165,38 @@ export default {
   },
   data() {
     return {
-      loading:true,
-      pageSize:20,
       act:1,
       act1:this.$route.query.id == 2 ? false : true,
+      isscroll: false,
       isread: false,
+      down: false,
       dialogCon:{
       	center:true,
       	dialogVisible:false,
       	val:{}
       },
-      
+      pulldownTip: {
+        text: "下拉刷新", // 松开立即刷新
+        textup: false, // 松开立即刷新
+        rotate: "" // icon-rotate
+      },
       pagenum: 1,
+      data1: {},
+      value: "",
       customername: "",
       ty: true,
+      restaurants: [],
       urlA: "",
+      choose: {},
+      choose1: {},
+      restaurants: [],
+      su1: [],
+      su2: [],
       options: [],
 //    routerData:{
 //    	date:new Date()
 //    },
-      value1: getNowDate(),//日期
+      datevalue: new Date(),//日期
    		pickerOptions0: {
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6;
@@ -192,12 +211,21 @@ export default {
       	checked:"",
       	options:[]//{result:"全部",source:"0"}
       },
+      showLoading:false,
       empty:require("../../assets/img/normal/empty.png"),
       newPic: require("../../assets/img/normal/new.png"),
     };
   },
   mounted() {
+//	localStorage.setItem("userid","204203401427767824");
+//	localStorage.setItem("userName","温俊花");
+//	localStorage.setItem("level",2);
+//	localStorage.setItem("role","1003,1004,1005,1006,1001,1002,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020");
     window.addEventListener("scroll", this.scrollBottom, true);
+
+//  this.getallData();//全部数据
+    this.handleScroll();
+    document.addEventListener("scroll", this.BS);
     this.getdepartment();//部门
     this.getCustomerTag(this.getallData);
     this.getact()
@@ -207,9 +235,18 @@ export default {
   },
   watch: {
     // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-    value1() {
+    "datevalue" (newDate,oldDate) {
       this.pagenum = 1;
-      this.getallData();
+      this.pulldownTip.textup = false;
+		 	this.showLoading = this.$loading({
+	      lock: true,
+	      text: '',
+	      spinner: 'el-icon-loading',
+	      background: 'rgba(0, 0, 0, 0.6)'
+	    });
+	     this.$nextTick(() => {
+			    this.getallData();
+			  })
     },
     topScroll(){
     	
@@ -218,35 +255,35 @@ export default {
   methods: {
     scrollBottom() {
       // 滚动到页面底部时
+      if (this.indexnum == 2) {
         let scrollTop =
           document.documentElement.scrollTop || document.body.scrollTop;
         let clientHeight = document.documentElement.clientHeight;
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
-        if (toBottom < 30 &&this.loading &&this.tabdata2.length == this.pagenum * this.pageSize) {
+        if (
+          toBottom < 30 &&
+          this.loading &&
+          this.tabdata2.length == this.pagenum * this.pageSize2
+        ) {
           this.loading = false;
-          customerpoolData({
-        	submitTime: this.value1,//提交时间
-          search: this.customername,//客户搜索
-          dept_id:this.department.checked,//部门搜索
-          tagSource:this.customerType.checked,//客户类型
-          page: ++this.pagenum,//页码
-          pageSize:this.pageSize,
-          userId:localStorage.getItem("userid"),
-          level:localStorage.getItem("level"),
-          role: localStorage.getItem("role"),
-          visitSize:10
-        })
-          .then(res => {
-          	if(res && res.code==200){
+          needdata({
+            submitTime: this.value1,
+            page: ++this.pagenum,
+            pageSize: this.pageSize2,
+            role: ""
+          }).then(res => {
+            if (res.code == 200) {
               this.loading = true;
-	            this.alldata = res;
-              this.tabdata2 = this.tabdata2.concat(res.dataList);
-          	}else{
+              this.alldata = res;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
+            } else {
               this.$message.error({ message: `${res.message}` });
-          	}
+            }
           });
         }
+      }
     },
      getact() {
       var lodata = this.$route.query.id == 1 ?JSON.parse(sessionStorage.getItem('leaderMenus')):JSON.parse(sessionStorage.getItem('userMenus'))
@@ -307,9 +344,35 @@ export default {
         }
       });
     },
+    BS() {
+      try {
+        if (this.$refs.wrapper.clientHeight) {
+          var boxnum = this.$refs.wrapper.clientHeight;
+        }else{
+        	var boxnum = 0;
+        }
+        //是否滚动
+        if (
+          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
+          this.isscroll
+        ) {
+          this.isscroll = false;
+          this.getallData();
+        }
+      
+      } catch (err) {
+        // //console.log(err);
+      }
+    },
     zhongjian() {
       this.pagenum = 1;
-	 	
+      this.pulldownTip.textup= false;
+	 		this.showLoading = this.$loading({
+	      lock: true,
+	      text: '',
+	      spinner: 'el-icon-loading',
+	      background: 'rgba(0, 0, 0, 0.6)'
+	    });
       this.$nextTick(() => {
 		    this.getallData();
 		  })
@@ -318,15 +381,51 @@ export default {
     	this.customerType.checked = val;
     	this.zhongjian();
     },
+    getnum(a) {
+      if (a < 10) {
+        a = a.toString();
+        return 0 + a;
+      } else {
+        return a;
+      }
+    },
+    handleScroll() {
+      // if (window.pageYOffset > 1000) {
+      //   this.showbackTop = true;
+      // } else {
+      //   this.showbackTop = false;
+      // }
+      try {
+        if (this.$refs.content.clientHeight) {
+          var boxnum = this.$refs.content.clientHeight;
+        }
+        if (
+          window.outerHeight + window.pageYOffset + 1000 >= boxnum &&
+          this.isscroll
+        ) {
+          this.isscroll = false;
+          this.getallData();
+        }
+      } catch (err) {
+        // //console.log(err);
+      }
+        
+    },
   
 		getallData() {
+      var date = new Date(this.datevalue);
+      var date1 =
+        date.getFullYear() +
+        "-" +
+        this.getnum(Number(date.getMonth()) + 1) +
+        "-" +
+        this.getnum(date.getDate());
         customerpoolData({
-        	submitTime: this.value1,//提交时间
+        	submitTime: date1,//提交时间
           search: this.customername,//客户搜索
           dept_id:this.department.checked,//部门搜索
           tagSource:this.customerType.checked,//客户类型
           page: this.pagenum,//页码
-           pageSize:this.pageSize,
           userId:localStorage.getItem("userid"),
           level:localStorage.getItem("level"),
           role: localStorage.getItem("role"),
@@ -334,10 +433,102 @@ export default {
         })
           .then(res => {
           	if(res && res.code==200){
+	          	if(this.showLoading) this.showLoading.close();
 	            this.alldata = res;
+	            if (this.pagenum == 1) {
 	              this.tabdata2 = res.dataList;
+	//            if(this.tabdata2.length) this.$set(this.tabdata2[0],"itemhide",true);
+	            } else {
+	              for (var i = 0; i < res.dataList.length; i++) {
+	                this.tabdata2.push(res.dataList[i]);
+	              }
+	            }
+	
+	            if (res.dataList.length > 0 && res.data>this.tabdata2.length) {
+	              this.isscroll = true;
+	              this.pagenum++;
+	            } else{
+	            	if(this.tabdata2.length){
+		            	this.isscroll = false;
+		              this.pulldownTip.textup = "-已经到底了-";
+	            	}
+	            }
+	            
+          	}else{
+          		if(this.showLoading) this.showLoading.close();
           	}
+          })
+          .catch(error => {
+          	if(this.showLoading) this.showLoading.close();
           });
+      
+    }
+  },
+  props: {
+    /**
+     * 1 滚动的时候会派发scroll事件，会截流。
+     * 2 滚动的时候实时派发scroll事件，不会截流。
+     * 3 除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
+     */
+    probeType: {
+      type: Number,
+      default: 3
+    },
+    /**
+     * 点击列表是否派发click事件
+     */
+    click: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * 是否开启横向滚动
+     */
+    scrollX: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 是否派发滚动事件
+     */
+    listenScroll: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 列表的数据
+     */
+    data: {
+      type: Array,
+      default: null
+    },
+    /**
+     * 是否派发滚动到底部的事件，用于上拉加载
+     */
+    pullup: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * 是否派发顶部下拉的事件，用于下拉刷新
+     */
+    pulldown: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * 是否派发列表滚动开始的事件
+     */
+    beforeScroll: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 当数据更新后，刷新scroll的延时。
+     */
+    refreshDelay: {
+      type: Number,
+      default: 20
     }
   }
 };
