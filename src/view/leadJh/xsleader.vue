@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper xslead sobig" ref="wrapper" id="wrap">
+  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="is_totalBearMoney=false">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
@@ -186,14 +186,24 @@
               <div
                 style="position:relative;padding-bottom:0.05rem;margin-bottom:0.05rem;px;border-bottom:1px dashed #f0f0f0"
               >
-                <span class="blue" @click.stop="totalBearMoneyhandle">本月整体费用：</span>
-                <span class="black" @click.stop="totalBearMoneyhandle">
+                <span class="blue">本月整体费用：</span>
+                <span class="black totalBearMoney_pc"  @mouseover.stop="is_totalBearMoney = true" @mouseout.stop="is_totalBearMoney = false" style="position:relative;z-index:1001;">
                   <span
                     :class="alldata.totalBearsMoney>=0?'red':'green'"
                   >{{alldata.totalBearMoney}}万</span>
                   <img
                     :src="zs"
-                    style="display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
+                    style="cursor:pointer;display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
+                    alt
+                  />
+                </span>
+                <span class="black totalBearMoney_mobile" @click.stop="totalBearMoneyhandle"  style="position:relative;z-index:1001;">
+                  <span
+                    :class="alldata.totalBearsMoney>=0?'red':'green'"
+                  >{{alldata.totalBearMoney}}万</span>
+                  <img
+                    :src="zs"
+                    style="cursor:pointer;display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
                     alt
                   />
                 </span>
@@ -778,6 +788,12 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.totalBearMoney_pc{
+    display:none;
+  }
+   .totalBearMoney_mobile{
+    display:block;
+  }
 .leader_totalBearMoney {
          position: absolute;
     top: 0.6rem;
@@ -800,7 +816,7 @@ export default {
     border-left: 5px solid transparent;
     position: absolute;
     top: -12px;
-    left: 2.4rem;
+    left: 3.1rem;
     content: ' ';
 }
 
@@ -1216,7 +1232,12 @@ table, tbody, thead {
   .qu_bumobile {
     display: none;
   }
-
+  .totalBearMoney_pc{
+    display:block;
+  }
+   .totalBearMoney_mobile{
+    display:none;
+  }
   .search_px_pc {
     display: flex;
     padding: 10px 20px 10px 15px;
