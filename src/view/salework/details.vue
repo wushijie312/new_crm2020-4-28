@@ -4,31 +4,38 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850 details_minheight">
-      <h3
-        style="text-align:left;position:relative;padding:0.2rem;background:#fff;margin-top:0.2rem;"
+      <div
+        id="sobox"
+        style="    color: #333;
+    width: 5rem;
+    font-size: 0.3rem;
+    display: flex;
+    padding: 5px 12px;
+    line-height:0.8rem;
+    margin-top: 8px;
+    background: rgb(255, 255, 255);
+    text-align: left;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;"
+        class="clearfix"
       >
-        <span style="line-height:1rem;display:block;">汇总销售日报</span>
-        <span
-          id="sobox"
-          style="position:absolute;top:10px;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;line-height:1rem;"
+        <div style="width:3rem;">当前日期：</div>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="选择日期"
+          style="border:none;top:0.15rem;"
+          value-format="yyyy-MM-dd"
+          :editable="false"
+          :clearable="false"
+          class="el-icon-arrow-down1"
         >
-          <el-date-picker
-            v-model="value1"
-            type="date"
-            placeholder="选择日期"
-            style="border:none;"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :clearable="false"
-            class="el-icon-arrow-down1"
-          >
-            <template>
-              <i class="el-icon-arrow-down"></i>
-            </template>
-          </el-date-picker>
-        </span>
-      </h3>
-      <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
+          <template>
+            <i class="el-icon-arrow-down"></i>
+          </template>
+        </el-date-picker>
+      </div>
+      <div class="mart8 menubox" style="overflow:hidden;font-size:0.3rem;">
         <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
           <span class="menu_border">
             标准销售额
@@ -422,7 +429,6 @@ export default {
 
 .details_minheight {
   height: 'calc(100vh - %s)' % rem(50);
-  background: $colorfff;
 }
 
 .detais_one_head {

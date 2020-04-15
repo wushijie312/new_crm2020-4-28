@@ -18,41 +18,32 @@
             </span>
           </div>
         </div>
-
+       
         <div v-show="salesoit==1">
-          <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
-
-          <div
-            id="sobox"
-            style="    color: #333;
-    width: 5rem;
-    font-size: 0.3rem;
-    display: flex;
-    padding: 5px 12px;
-    line-height:0.8rem;
-    margin-top: 8px;
-    background: rgb(255, 255, 255);
-    text-align: left;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;"
-            class="clearfix"
+           <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
+          <h3
+            style="text-align:left;position:relative;padding:0.2rem;background:#fff;margin-top:0.2rem;"
           >
-            <div style="width:3rem;">当前日期：</div>
-            <el-date-picker
-              v-model="value1"
-              type="date"
-              placeholder="选择日期"
-              style="border:none;top:0.15rem;"
-              value-format="yyyy-MM-dd"
-              :editable="false"
-              :clearable="false"
-              class="el-icon-arrow-down1"
+            <span
+              id="sobox"
+              style="font-size:1.1em;color:#999;width:45%;display:block;font-size:0.4rem;"
             >
-              <template>
-                <i class="el-icon-arrow-down"></i>
-              </template>
-            </el-date-picker>
-          </div>
+              <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="选择日期"
+                style="border:none;"
+                value-format="yyyy-MM-dd"
+                :editable="false"
+                :clearable="false"
+                class="el-icon-arrow-down1"
+              >
+                <template>
+                  <i class="el-icon-arrow-down"></i>
+                </template>
+              </el-date-picker>
+            </span>
+          </h3>
           <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
             <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
               <span class="menu_border">
@@ -151,7 +142,7 @@
           </div>
         </div>
         <div v-show="salesoit==2">
-          <SalePending />
+          <SalePending/>
         </div>
       </div>
     </div>
@@ -162,7 +153,7 @@
 <script>
 import CreateData from "@/view/userJh/xsuserdata/index";
 import Addcreate from "@/components/addcreate";
-import { getNowDate } from "@/untils/common";
+import {getNowDate} from "@/untils/common";
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -247,6 +238,7 @@ export default {
     };
   },
   mounted() {
+ 
     this.chakehu();
     this.getallData();
     //
@@ -263,7 +255,7 @@ export default {
     }
   },
   methods: {
-    saleindexhandle(len) {
+     saleindexhandle(len) {
       this.salesoit = len;
     },
     scrollBottom() {
@@ -427,7 +419,7 @@ export default {
       });
       this.jingli = this.jingli.toFixed(2);
       this.jingjingli = this.jingjingli.toFixed(2);
-    }
+    },
   }
 };
 </script>
@@ -612,11 +604,9 @@ export default {
   width: 33.333333%;
   background: #fff;
 }
-
-.sale_tab_head {
-  margin-top: 0;
-}
-
+.sale_tab_head{
+  margin-top:0;
+  }
 .sale_tab_head>div {
   width: 50%;
 }

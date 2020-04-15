@@ -49,6 +49,7 @@ import iframe from '@/view/questionDc/iframe'
 
 // 销售工作台 start
 import Saledetails from "@/view/salework/details.vue";
+import Kkdemo from "@/view/userJh/kkdemo.vue";
 // xsuser
 // 问卷调查 end
 
