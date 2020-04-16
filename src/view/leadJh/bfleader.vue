@@ -190,8 +190,8 @@
 <script>
 // import BScroll from "better-scroll";
 import { biaotou1, needdata, infobyUser, getisread } from "@/api/configWu";
-import Head from "@/view/common/head";
 import {getNowDate} from "@/untils/common";
+const Head = () => import('@/view/common/head')
 
 export default {
   name: "index",

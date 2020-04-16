@@ -11,86 +11,83 @@
       <h3 style="text-align:right;font-size:0.3rem;padding-right:0.3rem;margin-top:0.2rem;">
         <span style="text-decoration: underline;" @click="qhbb">{{zhuan}}</span>
       </h3>
-      <div class="padd_b30">
-        <div
-          v-for="(a,b) in data1"
-          :key="b"
-          style="font-size:0.3rem;margin:0.2rem auto; width:98%;background:#fff;"
-        >
-          <div slot="header" class="clearfix" style="text-align:left;font-size:0.3rem;color:black;">
-            <router-link
-              :to="{path:'/create',query:{customerName:a.company_name,customerId:a.company_id}}"
-              style
-            >
-              <span>{{a.company_name}}</span>
-            </router-link>
-            <el-button
-              v-show="!status[b]"
-              style="float: right; padding: 3px 0;color:#999;"
-              type="text"
-              icon="el-icon-arrow-right"
-              @click="((val)=>{clishou(val, a ,b)})"
-            ></el-button>
-            <el-button
-              v-show="status[b]"
-              style="float: right; padding: 3px 0;color:#999;"
-              type="text"
-              icon="el-icon-arrow-down"
-              @click="((val)=>{clishou(val, a ,b)})"
-            ></el-button>
-          </div>
-          <el-table
-            v-show="status[b]&&zhuan==='切换至文字版'"
-            :data="a.relations"
-            :row-class-name="tableRowClassName"
-            border
-            style="width: 100%"
-            @row-click="goxq(a)"
+      <div
+        v-for="(a,b) in data1"
+        :key="b"
+        style="font-size:0.3rem;margin:0.2rem auto; width:98%;background:#fff;"
+      >
+        <div slot="header" class="clearfix" style="text-align:left;font-size:0.3rem;color:black;">
+          <router-link
+            :to="{path:'/create',query:{customerName:a.company_name,customerId:a.company_id}}"
+            style
           >
-            <el-table-column width="30" prop="level" label="级">
-              <template v-slot="scope">{{scope.row.level}}</template>
-            </el-table-column>
-            <el-table-column prop="contact_person" label="联系人">
-              <template v-slot="scope">{{scope.row.contact_person?scope.row.contact_person:'/'}}</template>
-            </el-table-column>
-            <el-table-column prop="position" label="职务">
-              <template v-slot="scope">{{scope.row.position?scope.row.position:'/'}}</template>
-            </el-table-column>
-            <el-table-column prop="correlation_person" label="对接人">
-              <template
-                v-slot="scope"
-              >{{scope.row.correlation_person?scope.row.correlation_person:'/'}}</template>
-            </el-table-column>
-
-            <el-table-column prop="relation" label="关系">
-              <template v-slot="scope">{{scope.row.relation?scope.row.relation:'/'}}</template>
-            </el-table-column>
-          </el-table>
-          <div
-            v-for="(o,c) in a.relations"
-            :key="c"
-            class="text item"
-            style="overflow:hidden;border-bottom:2px solid #ccc;font-size:0.28rem;"
-            v-show="status[b]&&zhuan==='切换至表格版'"
-            @click="goxq(a)"
-          >
-            <div>联系人：{{o.contact_person}}</div>
-            <div>职务：{{o.position}}</div>
-            <div>对接人：{{o.correlation_person}}</div>
-            <div>关系：{{o.relation}}</div>
-          </div>
-          <div
+            <span>{{a.company_name}}</span>
+          </router-link>
+          <el-button
+            v-show="!status[b]"
+            style="float: right; padding: 3px 0;color:#999;"
+            type="text"
+            icon="el-icon-arrow-right"
+            @click="((val)=>{clishou(val, a ,b)})"
+          ></el-button>
+          <el-button
             v-show="status[b]"
-            style="line-height:0.8rem;background:#21aefb;width:98%;margin:0 auto;"
-          >
-            <router-link
-              :to="{path:'/kehuedit',query:{id:a.relations[0].supplier_id,type:2}}"
-              style="color:#fff;text-decoration:none;width:100%;display:block;"
-            >编 辑</router-link>
-          </div>
+            style="float: right; padding: 3px 0;color:#999;"
+            type="text"
+            icon="el-icon-arrow-down"
+            @click="((val)=>{clishou(val, a ,b)})"
+          ></el-button>
+        </div>
+        <el-table
+          v-show="status[b]&&zhuan==='切换至文字版'"
+          :data="a.relations"
+          :row-class-name="tableRowClassName"
+          border
+          style="width: 100%"
+          @row-click="goxq(a)"
+        >
+          <el-table-column width="30" prop="level" label="级">
+            <template v-slot="scope">{{scope.row.level}}</template>
+          </el-table-column>
+          <el-table-column prop="contact_person" label="联系人">
+            <template v-slot="scope">{{scope.row.contact_person?scope.row.contact_person:'/'}}</template>
+          </el-table-column>
+          <el-table-column prop="position" label="职务">
+            <template v-slot="scope">{{scope.row.position?scope.row.position:'/'}}</template>
+          </el-table-column>
+          <el-table-column prop="correlation_person" label="对接人">
+            <template
+              v-slot="scope"
+            >{{scope.row.correlation_person?scope.row.correlation_person:'/'}}</template>
+          </el-table-column>
+
+          <el-table-column prop="relation" label="关系">
+            <template v-slot="scope">{{scope.row.relation?scope.row.relation:'/'}}</template>
+          </el-table-column>
+        </el-table>
+        <div
+          v-for="(o,c) in a.relations"
+          :key="c"
+          class="text item"
+          style="overflow:hidden;border-bottom:2px solid #ccc;font-size:0.28rem;"
+          v-show="status[b]&&zhuan==='切换至表格版'"
+          @click="goxq(a)"
+        >
+          <div>联系人：{{o.contact_person}}</div>
+          <div>职务：{{o.position}}</div>
+          <div>对接人：{{o.correlation_person}}</div>
+          <div>关系：{{o.relation}}</div>
+        </div>
+        <div
+          v-show="status[b]"
+          style="line-height:0.8rem;background:#21aefb;width:98%;margin:0 auto;"
+        >
+          <router-link
+            :to="{path:'/kehuedit',query:{id:a.relations[0].supplier_id,type:2}}"
+            style="color:#fff;text-decoration:none;width:100%;display:block;"
+          >编 辑</router-link>
         </div>
       </div>
-      <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
     </div>
     <!-- <div
       v-show="showbackTop"
@@ -98,7 +95,7 @@
       style="position:fixed;bottom:20px;right:20px;width:1rem;height:1rem;background:skyblue;border-radius:1rem;color:#fff;font-size:0.6rem;line-height:1rem;opacity:0.8;"
     >
       <i class="el-icon-top"></i>
-    </div>-->
+    </div> -->
     <!-- <ShowbackTop ></ShowbackTop> -->
     <Addcreate v-if="!act1"></Addcreate>
   </div>
@@ -115,12 +112,11 @@ export default {
   name: "index",
   components: {
     Head,
-    Addcreate
+    Addcreate,
     // ShowbackTop
   },
   data() {
     return {
-      is_totheend: false,
       zhuan: "切换至文字版",
       isread: false,
       loading: true,
@@ -137,14 +133,19 @@ export default {
     };
   },
   mounted() {
-    this.getdata(this.pagenum);
+    this.getdata(this.pagenum).then(res => {
+      for (var i = 0; i < res.data.length; i++) {
+        this.status.push(true);
+      }
+      this.data1 = res.data;
+    });
     this.handleScroll();
     this.getact();
     //
     window.addEventListener("scroll", this.scrollKehuGuanLi, true);
     this.gethong();
   },
-  destroyed() {
+   destroyed() {
     window.removeEventListener("scroll", this.scrollKehuGuanLi, true);
   },
   methods: {
@@ -192,26 +193,24 @@ export default {
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
 
-      if (
-        toBottom <= clientHeight / 2 &&
-        this.loading &&
-        this.data1.length == this.pagenum * this.pageSize
-      ) {
+      if (toBottom <= 30 && this.loading&&this.data1.length == this.pagenum * this.pageSize) {
         this.loading = false;
-        this.getdata(++this.pagenum);
+        let scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        this.getdata(++this.pagenum).then(res => {
+          if (res.code == 200) {
+            for (var i = 0; i < res.data.length; i++) {
+              this.status.push(true);
+            }
+            this.data1 = this.data1.concat(res.data);
+            this.loading = true;
+          }
+        });
       }
-      // 加载到所有数据底部提示
-      if (
-        toBottom <= 0 &&
-        this.loading &&
-        this.data1.length < this.pagenum * this.pageSize
-      ) {
-        this.is_totheend = true;
-      } else {
-        this.is_totheend = false;
-      }
+     
     },
 
+   
     handleScroll() {
       if (this.$route.query.id == 2) {
         this.ty = false;
@@ -238,20 +237,6 @@ export default {
         role: localStorage.getItem("role"),
         userid: localStorage.getItem("userid"),
         level: localStorage.getItem("level")
-      }).then(res => {
-        if (res.code == "200") {
-          for (var i = 0; i < res.data.length; i++) {
-            this.status.push(true);
-          }
-          if (this.pagenum == 1) {
-            this.data1 = res.data;
-          } else {
-            this.loading = true;
-            this.data1 = this.data1.concat(res.data);
-          }
-        } else {
-          this.$message.error({ message: `${res.message}` });
-        }
       });
     }
   }
@@ -296,4 +281,6 @@ thead {
   padding: 0;
   text-align: center;
 }
+
+
 </style>

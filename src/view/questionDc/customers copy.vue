@@ -70,8 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="padd_b30">
-         <div
+      <div
         class="qu_cuList clearfix"
         v-for="(item,index) in customList"
         ref="chatContainer"
@@ -94,8 +93,6 @@
           ></el-progress>
         </div>
       </div>
-      </div>
-      <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
     </div>
   </div>
 </template>
@@ -110,7 +107,6 @@ export default {
   },
   data() {
     return {
-      is_totheend: false,
       level: "全部客户",
       dept_id: "全部部门",
       right_new: require("../../assets/img/normal/right_new.png"),
@@ -119,7 +115,7 @@ export default {
       act: 2,
       act1: true,
       page: 1,
-      pageSize: 30,
+      pageSize:30,
       loading: true,
       departList: [],
       khtags: [],
@@ -128,7 +124,13 @@ export default {
     };
   },
   mounted() {
-    this.getcust(this.page);
+    this.getcust(this.page).then(res => {
+      if (res.code == "200") {
+        this.customList = res.data;
+      } else {
+        this.$message.error({ message: `${res.msg}` });
+      }
+    });
     this.getact();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -148,10 +150,10 @@ export default {
       }
     });
   },
-
-  destroyed() {
-    window.removeEventListener("scroll", this.scrollBottom, true);
-  },
+  
+    destroyed() {
+        window.removeEventListener('scroll', this.scrollBottom,true);
+    },
   methods: {
     khSelectHandel(row, len) {
       this.khtags.map((item, index) => {
@@ -203,17 +205,6 @@ export default {
         page: page,
         dept_id: this.dept_id == "全部部门" ? "" : this.dept_id,
         level: this.level == "全部客户" ? "" : this.level
-      }).then(res => {
-        if (res.code == "200") {
-          if (this.page == 1) {
-            this.customList = res.data;
-          } else {
-            this.loading = true;
-            this.customList = this.customList.concat(res.data);
-          }
-        } else {
-          this.$message.error({ message: `${res.msg}` });
-        }
       });
     },
     scrollBottom() {
@@ -224,23 +215,19 @@ export default {
       let clientHeight = document.documentElement.clientHeight;
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
-      if (
-        toBottom < clientHeight / 2 &&
-        this.loading &&
-        this.customList.length == this.pageSize * this.page
-      ) {
+      if (toBottom < 30 && this.loading && this.customList.length==this.pageSize*this.page) {
+
         this.loading = false;
-        this.getcust(++this.page);
-      }
-      // 加载到所有数据底部提示
-      if (
-        toBottom <= 0 &&
-        this.loading &&
-        this.customList.length < this.page * this.pageSize
-      ) {
-        this.is_totheend = true;
-      } else {
-        this.is_totheend = false;
+        this.getcust(++this.page).then(res => {
+          if (res.code == 200) {
+            this.loading = true;
+            for (var i in res.data) {
+              this.customList.push(res.data[i]);
+            }
+          } else {
+            this.$message.error({ message: `${res.msg}` });
+          }
+        });
       }
     },
     searchListHandel() {

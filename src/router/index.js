@@ -2,54 +2,64 @@
 /* eslint-disable quotes */
 import Vue from 'vue'
 import Router from 'vue-router'
-import index5 from '@/view/khgx/kehuguanxi'
-import shengri from '@/view/khgx/shengri'
-import xsleader from '@/view/leadJh/xsleader'
-import bfleader from '@/view/leadJh/bfleader'
-import xsuser from '@/view/userJh/xsuser'
-import bfuser from '@/view/userJh/bfuser'
-import kehuedit from '@/view/khgx/kehuedit'
-import leadzong from '@/view/leadzong'
-import leadbmjy from '@/view/leadChild/leadbmjy'
-import cyyj from '@/view/leadChild/cyyj'
-import khqk from '@/view/leadChild/khqk'
-import bfl from '@/view/leadChild/bfl'
-import yyqk from '@/view/leadChild/yyqk'
-import jrwc from '@/view/tanchujh/jrwc'
-import zbwxd from '@/view/tanchujh/zbwxd'
+const index5 = () => import('@/view/khgx/kehuguanxi')
+const shengri = () => import('@/view/khgx/shengri')
+const xsleader = () => import('@/view/leadJh/xsleader')
+const bfleader = () => import('@/view/leadJh/bfleader')
+const xsuser = () => import('@/view/userJh/xsuser')
+const bfuser = () => import('@/view/userJh/bfuser')
+const kehuedit = () => import('@/view/khgx/kehuedit')
+const leadzong = () => import('@/view/leadzong')
+const leadbmjy = () => import('@/view/leadChild/leadbmjy')
+const cyyj = () => import('@/view/leadChild/cyyj')
+const khqk = () => import('@/view/leadChild/khqk')
+const bfl = () => import('@/view/leadChild/bfl')
+const yyqk = () => import('@/view/leadChild/yyqk')
 
-import znzx from '@/view/renwu/index'
-import create from '@/view/renwu/create'
-import xq from '@/view/renwu/xq'
+const jrwc = () => import('@/view/tanchujh/jrwc')
+const zbwxd = () => import('@/view/tanchujh/zbwxd')
 
-import rbznzx from '@/view/report/index'
-import rbcreate from '@/view/report/create'
+const znzx = () => import('@/view/renwu/index')
+const create = () => import('@/view/renwu/create')
+const xq = () => import('@/view/renwu/xq')
+
+
+const rbznzx = () => import('@/view/report/index')
+const rbcreate = () => import('@/view/report/create')
+
 // import rbxq from '@/view/report/xq'
+const CreateData = () => import('@/view/userJh/bfuserdata/createUse')
+const xsCreateData = () => import('@/view/userJh/xsuserdata/index')
 
-import CreateData from "@/view/userJh/bfuserdata/createUse"
-import xsCreateData from "@/view/userJh/xsuserdata/index"
-import huizong from '@/view/huizong/index'
-import bmjjl from '@/view/huizong/bmjjl'
-import kpi from '@/view/kpi/index'
 
-import khgxXq from '@/view/khgx/khgxXq'
-import newKehu from '@/view/new_kehu/index'
-import addCustomer from '@/view/new_kehu/addcustomer'
-import supply from '@/view/supply/supply'
-import supplyd from '@/view/supply/supplyd'
-import talent from '@/view/supply/talent'
-import talentd from '@/view/supply/talentd'
+const huizong = () => import('@/view/huizong/index')
+const bmjjl = () => import('@/view/huizong/bmjjl')
+
+const kpi = () => import('@/view/kpi/index')
+
+
+const khgxXq = () => import('@/view/khgx/khgxXq')
+
+
+const newKehu = () => import('@/view/new_kehu/index')
+const addCustomer = () => import('@/view/new_kehu/addcustomer')
+
+
+const supply = () => import('@/view/supply/supply')
+const supplyd = () => import('@/view/supply/supplyd')
+const talent = () => import('@/view/supply/talent')
+const talentd = () => import('@/view/supply/talentd')
 
 
 // 问卷调查 start 
-import dcTabs from '@/view/questionDc/dcTabs'
-import customers from '@/view/questionDc/customers'
-import iframe from '@/view/questionDc/iframe'
 
+const dcTabs = () => import('@/view/questionDc/dcTabs')
+const customers = () => import('@/view/questionDc/customers')
+const iframe = () => import('@/view/questionDc/iframe')
 
 // 销售工作台 start
-import Saledetails from "@/view/salework/details.vue";
-import Kkdemo from "@/view/userJh/kkdemo.vue";
+const Saledetails = () => import('@/view/salework/details')
+
 // xsuser
 // 问卷调查 end
 

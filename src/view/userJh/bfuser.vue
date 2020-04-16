@@ -67,11 +67,12 @@
 </template>
 <script>
 // import BScroll from "better-scroll";
-import CreateData from "@/view/userJh/bfuserdata/createUse"
 import { biaotou1, needdata, adddata, chakehu,infobyUser,getisread} from "@/api/configWu";
-import Head from "@/view/common/head";
-import Addcreate from "@/components/addcreate";
+
 import {getNowDate} from "@/untils/common";
+const Head = () => import('@/view/common/head')
+const Addcreate = () => import('@/components/addcreate')
+const CreateData = () => import('@/view/userJh/bfuserdata/createUse')
 
 export default {
   name: "index",

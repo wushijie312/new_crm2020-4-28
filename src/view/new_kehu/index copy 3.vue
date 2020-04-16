@@ -6,7 +6,7 @@
       <div class="menu-head-top50"></div>
       <!--日期和返回-->
       <h3
-        style="text-align:left;line-height:0.8rem;padding:0px 1% ; font-size: 0.3rem; color: black;"
+        style="text-align:left;line-height:0.8rem;padding:0px 1%; font-size: 0.3rem; color: black;"
       >
         <p
           style="overflow:hidden;display: flex;display: -webkit-flex;justify-content: space-between;-webkit-justify-content: space-between;"
@@ -65,7 +65,7 @@
         </span>
       </div>
       <!--客户-->
-      <div style="padding: 0px 1% 30px;">
+      <div style="padding: 0px 1%;">
         <el-card class="box-card" v-for="(item,key) in tabdata2" :key="key">
           <div class="dataitem">
             <h1 @click="foldFromParent('item'+key)">
@@ -252,7 +252,7 @@ export default {
   },
   data() {
     return {
-      is_totheend: false,
+      is_totheend:false,
 
       loading: true,
       pageSize: 20,
@@ -319,23 +319,36 @@ export default {
       let scrollHeight = document.documentElement.scrollHeight;
       const toBottom = scrollHeight - scrollTop - clientHeight;
       if (
-        toBottom < clientHeight/2 &&
+        toBottom < 300 &&
         this.loading &&
         this.tabdata2.length == this.pagenum * this.pageSize
       ) {
         this.loading = false;
-        this.pagenum+=1;
-        this.getallData();
+        customerpoolData({
+          submitTime: this.value1, //提交时间
+          search: this.customername, //客户搜索
+          dept_id: this.department.checked, //部门搜索
+          tagSource: this.customerType.checked, //客户类型
+          page: ++this.pagenum, //页码
+          pageSize: this.pageSize,
+          userId: localStorage.getItem("userid"),
+          level: localStorage.getItem("level"),
+          role: localStorage.getItem("role"),
+          visitSize: 10
+        }).then(res => {
+          if (res && res.code == 200) {
+            this.loading = true;
+            this.alldata = res;
+            this.tabdata2 = this.tabdata2.concat(res.dataList);
+          } else {
+            this.$message.error({ message: `${res.message}`});
+          }
+        });
       }
-      // 加载到所有数据底部提示
-      if (
-        toBottom <= 0 &&
-        this.loading &&
-        this.tabdata2.length < this.pagenum * this.pageSize
-      ) {
-        this.is_totheend = true;
-      } else {
-        this.is_totheend = false;
+      if (toBottom <= 0 && this.loading && this.tabdata2.length < this.pagenum * this.pageSize){
+         this.is_totheend=true;
+      }else{
+         this.is_totheend=false;
       }
     },
     getact() {
@@ -431,14 +444,7 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.alldata = res;
-          if (this.pagenum == 1) {
-            this.tabdata2 = res.dataList;
-          } else if(this.pagenum>1) {
-            this.loading = true;
-            this.tabdata2 = this.tabdata2.concat(res.dataList);
-          }
-        } else {
-          this.$message.error({ message: `${res.message}` });
+          this.tabdata2 = res.dataList;
         }
       });
     }

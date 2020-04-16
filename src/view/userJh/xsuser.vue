@@ -213,6 +213,7 @@
         <div v-show="indexnum==2">
           <div v-if="tabdata2&&tabdata2.length">
             <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
+            <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
           </div>
           <div v-else class="nothing">暂无数据</div>
         </div>
@@ -257,8 +258,6 @@
 </template>
 
 <script>
-import CreateData from "@/view/userJh/xsuserdata/index";
-import Addcreate from "@/components/addcreate";
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -268,10 +267,13 @@ import {
   salechabumen
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
-import Head from "@/view/common/head";
-import Kehu from "@/view/userCom/kehu";
-import Bumen from "@/view/userCom/bumen";
-import User from "@/view/userCom/user";
+const Head = () => import("@/view/common/head");
+const Kehu = () => import("@/view/userCom/kehu");
+const Bumen = () => import("@/view/userCom/bumen");
+const User = () => import("@/view/userCom/user");
+const CreateData = () => import("@/view/userJh/xsuserdata/index");
+const Addcreate = () => import("@/components/addcreate");
+
 export default {
   components: {
     Head,
@@ -283,6 +285,7 @@ export default {
   name: "index",
   data() {
     return {
+      is_totheend: false,
       xskword: "",
       showOrHide: true,
       pagenum: 1,
@@ -377,26 +380,18 @@ export default {
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
         if (
-          toBottom < 30 &&
-          this.loading &&
+          toBottom < clientHeight / 2 && this.loading &&
           this.tabdata2.length == this.pagenum * this.pageSize2
         ) {
           this.loading = false;
-          needdata({
-            submitTime: this.value1,
-            page: ++this.pagenum,
-            pageSize: this.pageSize2,
-            role: ""
-          }).then(res => {
-            if (res.code == 200) {
-              this.loading = true;
-              this.alldata = res;
-              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-              this.getjingli(this.tabdata2);
-            } else {
-              this.$message.error({ message: `${res.message}` });
-            }
-          });
+          this.pagenum += 1;
+          this.getallData();
+        }
+        // 加载到所有数据底部提示
+        if (toBottom <= 0 && this.loading && this.tabdata2.length < this.pagenum * this.pageSize2 ) {
+          this.is_totheend = true;
+        } else {
+          this.is_totheend = false;
         }
       }
     },
@@ -503,8 +498,14 @@ export default {
         }).then(res => {
           if (res.code == 200) {
             this.alldata = res;
-            this.tabdata2 = res.saleInfoList;
-            this.getjingli(this.tabdata2);
+            if (this.pagenum == 1) {
+              this.tabdata2 = res.saleInfoList;
+              this.getjingli(this.tabdata2);
+            } else if (this.pagenum > 1) {
+              this.loading = true;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
+            }
           } else {
             this.$message.error({ message: `${res.message}` });
           }

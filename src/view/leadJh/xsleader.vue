@@ -187,7 +187,12 @@
                 style="position:relative;padding-bottom:0.05rem;margin-bottom:0.05rem;px;border-bottom:1px dashed #f0f0f0"
               >
                 <span class="blue">本月整体费用：</span>
-                <span class="black totalBearMoney_pc"  @mouseover.stop="is_totalBearMoney = true" @mouseout.stop="is_totalBearMoney = false" style="position:relative;z-index:1001;">
+                <span
+                  class="black totalBearMoney_pc"
+                  @mouseover.stop="is_totalBearMoney = true"
+                  @mouseout.stop="is_totalBearMoney = false"
+                  style="position:relative;z-index:1001;"
+                >
                   <span
                     :class="alldata.totalBearsMoney>=0?'red':'green'"
                   >{{alldata.totalBearMoney}}万</span>
@@ -196,21 +201,29 @@
                     style="cursor:pointer;display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
                     alt
                   />
-                </span>
-                <span class="black totalBearMoney_mobile" @click.stop="totalBearMoneyhandle"  style="position:relative;z-index:1001;">
                   <span
-                    :class="alldata.totalBearsMoney>=0?'red':'green'"
-                  >{{alldata.totalBearMoney}}万</span>
-                  <img
-                    :src="zs"
-                    style="cursor:pointer;display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
-                    alt
-                  />
+                    v-if="is_totalBearMoney"
+                    class="leader_totalBearMoney"
+                  >{{alertNr.totalBearMoneyExp}}</span>
                 </span>
                 <span
-                  v-if="is_totalBearMoney"
-                  class="leader_totalBearMoney"
-                >{{alertNr.totalBearMoneyExp}}</span>
+                  class="black totalBearMoney_mobile"
+                  @click.stop="totalBearMoneyhandle"
+                  style="position:relative;z-index:1001;"
+                >
+                  <span
+                    :class="alldata.totalBearsMoney>=0?'red':'green'"
+                  >{{alldata.totalBearMoney}}万</span>
+                  <img
+                    :src="zs"
+                    style="cursor:pointer;display:inline-block;width:0.35rem;vertical-align: sub;margin-left:5px;"
+                    alt
+                  />
+                  <span
+                    v-if="is_totalBearMoney"
+                    class="leader_totalBearMoney"
+                  >{{alertNr.totalBearMoneyExp}}</span>
+                </span>
               </div>
               <div>
                 <span class="blue" @click.stop="tantan(alertNr.totalMonthNetExp)">本月净利润：</span>
@@ -398,6 +411,7 @@
             </div>
           </div>
           <Kehu :tabdata2.sync="tabdata2"></Kehu>
+          <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
         </div>
         <div v-else class="nothing">暂无数据</div>
       </div>
@@ -448,13 +462,12 @@ import {
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
 import { getNowDate } from "@/untils/common";
-
-import Bumen from "@/view/indexCom/bumen";
-import Zhandui from "@/view/indexCom/zhandui";
-import ZhanduiWzb from "@/view/indexCom/zhanduiwzb";
-import Kehu from "@/view/indexCom/kehu";
-import User from "@/view/indexCom/user";
-import Head from "@/view/common/head";
+const Bumen = () => import("@/view/indexCom/bumen");
+const Zhandui = () => import("@/view/indexCom/zhandui");
+const ZhanduiWzb = () => import("@/view/indexCom/zhanduiwzb");
+const Kehu = () => import("@/view/indexCom/kehu");
+const User = () => import("@/view/indexCom/user");
+const Head = () => import("@/view/common/head");
 // import ShowbackTop from "@/components/showbackTop";
 export default {
   components: {
@@ -469,6 +482,7 @@ export default {
   name: "index",
   data() {
     return {
+      is_totheend: false,
       is_totalBearMoney: false,
       showOrHide: true,
       searchValue1: "实际销售额",
@@ -562,9 +576,9 @@ export default {
   },
 
   methods: {
-    totalBearMoneyhandle(){
+    totalBearMoneyhandle() {
       this.$message.closeAll();
-      this.is_totalBearMoney=!this.is_totalBearMoney
+      this.is_totalBearMoney = !this.is_totalBearMoney;
     },
     scrollBottom() {
       // 滚动到页面底部时
@@ -576,25 +590,23 @@ export default {
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
         if (
-          toBottom < 30 &&
+          toBottom < clientHeight/2 &&
           this.loading &&
           this.tabdata2.length == this.pageSize2 * this.pagenum
         ) {
           this.loading = false;
-          chakh({
-            keyword: this.khkword,
-            submitTime: this.value1,
-            page: ++this.pagenum,
-            pageSize: this.pageSize2,
-            role: localStorage.getItem("role")
-          }).then(res => {
-            if (res.code == 200) {
-              this.loading = true;
-              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-            } else {
-              this.$message.error({ message: `${res.message}` });
-            }
-          });
+          this.pagenum += 1;
+          this.getallData();
+        }
+        // 加载到所有数据底部提示
+        if (
+          toBottom <= 0 &&
+          this.loading &&
+          this.tabdata2.length < this.pagenum * this.pageSize2
+        ) {
+          this.is_totheend = true;
+        } else {
+          this.is_totheend = false;
         }
       }
     },
@@ -664,7 +676,7 @@ export default {
         obj.duration = 0;
         obj.showClose = true;
         this.$message.warning(obj);
-        this.is_totalBearMoney=false;
+        this.is_totalBearMoney = false;
       }
     },
     gettc() {
@@ -743,7 +755,12 @@ export default {
         }).then(res => {
           if (res.code == 200) {
             this.alldata = res;
-            this.tabdata2 = res.saleInfoList;
+            if (this.pagenum == 1) {
+              this.tabdata2 = res.saleInfoList;
+            } else if (this.pagenum > 1) {
+              this.loading = true;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+            }
           } else {
             this.$message.error({ message: `${res.message}` });
           }
@@ -788,36 +805,37 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
-.totalBearMoney_pc{
-    display:none;
-  }
-   .totalBearMoney_mobile{
-    display:block;
-  }
-.leader_totalBearMoney {
-         position: absolute;
-    top: 0.6rem;
-    border-radius: 3px;
-    left: 0;
-    min-width: 4rem;
-    padding: 0px 10px;
-    color: #fff;
-    background: rgba(0,0,0,0.8);
+.totalBearMoney_pc {
+  display: none;
+}
 
+.totalBearMoney_mobile {
+  display: block;
+}
+
+.leader_totalBearMoney {
+  position: absolute;
+  top: 0.65rem;
+  border-radius: 3px;
+  right: -1rem;
+  min-width: 4rem;
+  padding: 0px 10px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .leader_totalBearMoney:after {
-     width: 0;
-    height: 0;
-    z-index: 1000;
-    border-top: 6px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 6px solid rgba(0,0,0,0.8);
-    border-left: 5px solid transparent;
-    position: absolute;
-    top: -12px;
-    left: 3.1rem;
-    content: ' ';
+  width: 0;
+  height: 0;
+  z-index: 1000;
+  border-top: 6px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 6px solid rgba(0, 0, 0, 0.8);
+  border-left: 5px solid transparent;
+  position: absolute;
+  top: -12px;
+  right: 1.1rem;
+  content: ' ';
 }
 
 .qu_bmmobile_select {
@@ -1077,61 +1095,13 @@ body, html {
 }
 
 .black {
-  color: black;
-  /* width: 40%; */
-  float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.3rem;
-  font-weight: 900;
+  font-weight: bold;
 }
 
 .el-tabs--border-card > .el-tabs__content {
   padding: 0;
-}
-
-.el-select-dropdown {
-  width: 98%;
-}
-
-#maincontent1 p {
-  padding-left: 20px;
-  text-align: left;
-}
-
-#maincontent p {
-  padding-left: 20px;
-  text-align: left;
-}
-
-.head {
-  height: 1rem;
-  font-size: 0.3rem;
-  line-height: 1rem;
-  background: #21aefb;
-  color: #fff;
-}
-
-.tap {
-  font-size: 0.3rem;
-  background: #21aefb;
-  height: 0.7rem;
-  line-height: 0.7rem;
-}
-
-.tap .act {
-  background: #fff;
-  color: #333;
-}
-
-.tap .act a {
-  color: #333;
-}
-
-.tap a {
-  color: #fff;
-  text-decoration: none;
 }
 
 .maincontent {
@@ -1232,12 +1202,15 @@ table, tbody, thead {
   .qu_bumobile {
     display: none;
   }
-  .totalBearMoney_pc{
-    display:block;
+
+  .totalBearMoney_pc {
+    display: block;
   }
-   .totalBearMoney_mobile{
-    display:none;
+
+  .totalBearMoney_mobile {
+    display: none;
   }
+
   .search_px_pc {
     display: flex;
     padding: 10px 20px 10px 15px;
