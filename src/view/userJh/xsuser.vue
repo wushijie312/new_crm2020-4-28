@@ -4,252 +4,154 @@
     <div class="content" ref="others">
       <div class="menu-head-top50"></div>
       <div class="wrap850">
-        <div class="maincontent" id="maincontent1" style="position:relative;margin-top:0.2rem;">
-          <div style="overflow:hidden;width:100%;float:left;text-align:left;">
-            <h3 style="text-align:left;position:relative;padding-bottom:0.2rem;">
-              <span style="line-height:1rem;display:block;">汇总销售日报</span>
-              <span
-                id="sobox"
-                style="position:absolute;right:10px;font-size:1.1em;color:#999;width:45%;font-size:0.4rem;top:-0;line-height:1rem;"
-              >
-                <el-date-picker
-                  v-model="value1"
-                  type="date"
-                  placeholder="选择日期"
-                  style="border:none;"
-                  value-format="yyyy-MM-dd"
-                  :editable="false"
-                  :clearable="false"
-                  class="el-icon-arrow-down1"
-                >
-                  <template>
-                    <i class="el-icon-arrow-down"></i>
-                  </template>
-                </el-date-picker>
-              </span>
-            </h3>
-            <div
-              v-show="indexnum==2"
-              class="left flex_1"
-              style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
-            >
-              <div>
-                <span class="blue">本月任务：</span>
-                <span class="black">{{alldata.totalMthPlanMoney}}万</span>
-              </div>
-              <div>
-                <span class="blue">今日完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalDayPlanMoney>=0?'red':'green'"
-                  >{{alldata.totalDayPlanMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">截止今日应完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalMonthShouldMoney>=0?'red':'green'"
-                  >{{alldata.totalMonthShouldMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">实际累计完成：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalFinishMthMoney>=0?'red':'green'"
-                  >{{alldata.totalFinishMthMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">今日毛利率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.dayTotalGrossProfit>=0?'red':'green'"
-                  >{{alldata.dayTotalGrossProfit}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">累计毛利率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalMthGrossProfit>=0?'red':'green'"
-                  >{{alldata.totalMthGrossProfit}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">实时完成率：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalFinishMthRate>=0?'red':'green'"
-                  >{{alldata.totalFinishMthRate}}%</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">超额/差额：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.moneyDifference>=0?'red':'green'"
-                  >{{alldata.moneyDifference}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">净利：</span>
-                <span class="black">
-                  <span :class="jingli>=0?'red':'green'">{{jingli}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">净净利：</span>
-                <span class="black">
-                  <span :class="jingjingli>=0?'red':'green'">{{jingjingli}}万</span>
-                </span>
-              </div>
-              <div style="color:#999999;width:100%;font-size:0.3rem;">
-                <span style>
-                  上月环比
-                  <span :class="alldata.totalMonthCompare>=0?'red':'green'">
-                    <!-- <i v-if="hb>=0" class="el-icon-top"></i>
-                    <i v-if="hb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%
-                  </span>,去年同比
-                  <span :class="alldata.totalYearCompare>=0?'red':'green'">
-                    <!-- <i v-if="tb>=0" class="el-icon-top"></i>
-                    <i v-if="tb<0" class="el-icon-bottom"></i>-->
-                    {{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%
-                  </span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">TB线索：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalTBClueMoney>=0?'red':'green'"
-                  >{{alldata.totalTBClueMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue" ref="kehubang">本月开标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalOpenTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalOpenTenderMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">本月中标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalGetTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalGetTenderMoney}}万</span>
-                </span>
-              </div>
-              <div>
-                <span class="blue">本月丢标：</span>
-                <span class="black">
-                  <span
-                    :class="alldata.totalLoseTenderMoney>=0?'red':'green'"
-                  >{{alldata.totalLoseTenderMoney}}万</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
-          <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
+        <div class="menubox sale_tab_head" style="overflow:hidden;font-size:0.3rem;">
+          <div class="left" @click="saleindexhandle(1)" :class="salesoit===1?'act':''">
             <span class="menu_border">
-              本月销售客户
+              首页
               <span class="menu_border_line"></span>
             </span>
           </div>
-          <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
+          <div class="left" @click="saleindexhandle(2)" :class="salesoit===2?'act':''">
             <span class="menu_border">
-              部门榜
-              <span class="menu_border_line"></span>
-            </span>
-          </div>
-          <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
-            <span class="menu_border">
-              全体销售
+              待办事项
               <span class="menu_border_line"></span>
             </span>
           </div>
         </div>
 
-        <div v-show="indexnum==1">
-          <div v-if="tabdata1&&tabdata1.length">
-            <div class="qu_bumobile">
-              <div class="fl qu_bmmobile_b">筛选：</div>
-              <div class="fr clearfix">
-                <div class="qu_bmmobile_a fl">
-                  <el-select
-                    class="qu_bmmobile_select"
-                    v-model="searchValue1"
-                    placeholder="请选择"
-                    @change="search_change"
-                  >
-                    <el-option
-                      v-for="item in searchType"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.label"
-                    ></el-option>
-                  </el-select>
+        <div v-show="salesoit==1">
+          <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
+
+          <div
+            id="sobox"
+            style="    color: #333;
+    width: 5rem;
+    font-size: 0.3rem;
+    display: flex;
+    padding: 0px 12px;
+    line-height:0.8rem;
+    margin-top: 8px;
+    background: rgb(255, 255, 255);
+    text-align: left;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;"
+            class="clearfix"
+          >
+            <div style="width:3rem;">当前日期：</div>
+            <el-date-picker
+              v-model="value1"
+              type="date"
+              placeholder="选择日期"
+              style="border:none;top:0.15rem;"
+              value-format="yyyy-MM-dd"
+              :editable="false"
+              :clearable="false"
+              class="el-icon-arrow-down1"
+            >
+              <template>
+                <i class="el-icon-arrow-down"></i>
+              </template>
+            </el-date-picker>
+          </div>
+          <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
+            <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
+              <span class="menu_border">
+                部门榜
+                <span class="menu_border_line"></span>
+              </span>
+            </div>
+
+            <div class="left" @click="zhongjiedata({index:3})" :class="indexnum===3?'act':''">
+              <span class="menu_border">
+                全体销售
+                <span class="menu_border_line"></span>
+              </span>
+            </div>
+            <div class="left" @click="zhongjiedata({index:2})" :class="indexnum===2?'act':''">
+              <span class="menu_border">
+                本月销售客户
+                <span class="menu_border_line"></span>
+              </span>
+            </div>
+          </div>
+
+          <div v-show="indexnum==1">
+            <div v-if="tabdata1&&tabdata1.length">
+              <div class="qu_bumobile">
+                <div class="fl qu_bmmobile_b">筛选：</div>
+                <div class="fr clearfix">
+                  <div class="qu_bmmobile_a fl">
+                    <el-select
+                      class="qu_bmmobile_select"
+                      v-model="searchValue1"
+                      placeholder="请选择"
+                      @change="search_change"
+                    >
+                      <el-option
+                        v-for="item in searchType"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label"
+                      ></el-option>
+                    </el-select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="search_px search_px_pc">
-              <p v-for="(itemSearch,len3) in searchType" :key="len3">
-                <span
-                  :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
-                  @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
-                >{{itemSearch.label}}</span>
-              </p>
-            </div>
-            <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
-          </div>
-          <div v-else class="nothing">暂无数据</div>
-        </div>
-        <div v-show="indexnum==2">
-          <div v-if="tabdata2&&tabdata2.length">
-            <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
-            <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
-          </div>
-          <div v-else class="nothing">暂无数据</div>
-        </div>
-        <div v-show="indexnum==3">
-          <div v-if="tabdata3&&tabdata3.length">
-            <div class="bd_search">
-              <div class="bd_search_a">
-                <el-input
-                  size="small"
-                  placeholder="请输入销售名称"
-                  v-model="xskword"
-                  class="qu_cuHead_search"
-                ></el-input>
-                <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
-              </div>
-            </div>
-            <div class="search_pxbox">
-              <div class="search_px">
-                <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+              <div class="search_px search_px_pc">
+                <p v-for="(itemSearch,len3) in searchType" :key="len3">
                   <span
-                    :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                    :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
                     @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
                   >{{itemSearch.label}}</span>
                 </p>
               </div>
-              <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+              <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
             </div>
-            <User
-              :pagenum="pagenum"
-              :searchValue3="searchValue3"
-              :tabdata3="tabdata3"
-              :tabdata3xskword="tabdata3xskword"
-              :value1="value1"
-            />
+            <div v-else class="nothing">暂无数据</div>
           </div>
-          <div v-else class="nothing">暂无数据</div>
+          <div v-show="indexnum==2">
+            <div v-if="tabdata2&&tabdata2.length">
+              <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
+            </div>
+            <div v-else class="nothing">暂无数据</div>
+          </div>
+          <div v-show="indexnum==3">
+            <div v-if="tabdata3&&tabdata3.length">
+              <div class="bd_search">
+                <div class="bd_search_a">
+                  <el-input
+                    size="small"
+                    placeholder="请输入销售名称"
+                    v-model="xskword"
+                    class="qu_cuHead_search"
+                  ></el-input>
+                  <i class="el-icon-search bd_search_btn" @click="zhongjiedata"></i>
+                </div>
+              </div>
+              <div class="search_pxbox">
+                <div class="search_px">
+                  <p v-for="(itemSearch,len3) in searchType3" :key="len3">
+                    <span
+                      :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                      @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                    >{{itemSearch.label}}</span>
+                  </p>
+                </div>
+                <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
+              </div>
+              <User
+                :pagenum="pagenum"
+                :searchValue3="searchValue3"
+                :tabdata3="tabdata3"
+                :tabdata3xskword="tabdata3xskword"
+                :value1="value1"
+              />
+            </div>
+            <div v-else class="nothing">暂无数据</div>
+          </div>
+        </div>
+        <div v-show="salesoit==2">
+          <SalePending />
         </div>
       </div>
     </div>
@@ -258,6 +160,9 @@
 </template>
 
 <script>
+import CreateData from "@/view/userJh/xsuserdata/index";
+import Addcreate from "@/components/addcreate";
+import { getNowDate } from "@/untils/common";
 // import BScroll from "better-scroll";
 import {
   adddata,
@@ -267,25 +172,27 @@ import {
   salechabumen
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
-const Head = () => import("@/view/common/head");
-const Kehu = () => import("@/view/userCom/kehu");
-const Bumen = () => import("@/view/userCom/bumen");
-const User = () => import("@/view/userCom/user");
-const CreateData = () => import("@/view/userJh/xsuserdata/index");
-const Addcreate = () => import("@/components/addcreate");
-
+import Head from "@/view/common/head";
+import Kehu from "@/view/userCom/kehu";
+import Bumen from "@/view/userCom/bumen";
+import User from "@/view/userCom/user";
+// 销售工作台 start
+import SaleWorkIndex from "@/view/salework/sale.vue";
+import SalePending from "@/view/salework/pending.vue";
 export default {
   components: {
     Head,
     Addcreate,
     Kehu,
     Bumen,
-    User
+    User,
+    SaleWorkIndex,
+    SalePending
   },
   name: "index",
   data() {
     return {
-      is_totheend: false,
+      salesoit: 1,
       xskword: "",
       showOrHide: true,
       pagenum: 1,
@@ -319,7 +226,7 @@ export default {
           label: "标准销售额"
         }
       ],
-      indexnum: 2,
+      indexnum: 1,
       loading: true,
 
       isread: false,
@@ -329,7 +236,7 @@ export default {
       jingjingli: 0,
       act: 1,
       act1: false,
-      value1: this.aler(),
+      value1: getNowDate(),
       pageSize2: 10,
       tabdata1: [],
       tabdata2: [],
@@ -341,7 +248,6 @@ export default {
   },
   mounted() {
     this.chakehu();
-    // this.aler();
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -352,25 +258,14 @@ export default {
     window.removeEventListener("scroll", this.scrollBottom, true);
   },
   watch: {
-    indexnum() {
-      if (this.indexnum == 2) {
-        this.$nextTick(() => {
-          this.$refs.kehubang.scrollIntoView();
-        });
-      } else {
-        this.$nextTick(() => {
-          this.$refs.others.scrollIntoView();
-        });
-      }
-    },
     value1() {
       this.getallData();
     }
   },
-  destroyed() {
-    window.removeEventListener("scroll", this.scrollBottom, true);
-  },
   methods: {
+    saleindexhandle(len) {
+      this.salesoit = len;
+    },
     scrollBottom() {
       // 滚动到页面底部时
       if (this.indexnum == 2) {
@@ -380,18 +275,26 @@ export default {
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
         if (
-          toBottom < clientHeight / 2 && this.loading &&
+          toBottom < 30 &&
+          this.loading &&
           this.tabdata2.length == this.pagenum * this.pageSize2
         ) {
           this.loading = false;
-          this.pagenum += 1;
-          this.getallData();
-        }
-        // 加载到所有数据底部提示
-        if (toBottom <= 0 && this.loading && this.tabdata2.length < this.pagenum * this.pageSize2 ) {
-          this.is_totheend = true;
-        } else {
-          this.is_totheend = false;
+          needdata({
+            submitTime: this.value1,
+            page: ++this.pagenum,
+            pageSize: this.pageSize2,
+            role: ""
+          }).then(res => {
+            if (res.code == 200) {
+              this.loading = true;
+              this.alldata = res;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
+            } else {
+              this.$message.error({ message: `${res.message}` });
+            }
+          });
         }
       }
     },
@@ -449,16 +352,6 @@ export default {
         })
         .catch(error => {});
     },
-    aler() {
-      let date = new Date();
-      let dates =
-        date.getFullYear() +
-        "-" +
-        this.getnum(Number(date.getMonth()) + 1) +
-        "-" +
-        this.getnum(date.getDate());
-      return dates;
-    },
 
     getallData() {
       if (this.indexnum == 1) {
@@ -498,14 +391,8 @@ export default {
         }).then(res => {
           if (res.code == 200) {
             this.alldata = res;
-            if (this.pagenum == 1) {
-              this.tabdata2 = res.saleInfoList;
-              this.getjingli(this.tabdata2);
-            } else if (this.pagenum > 1) {
-              this.loading = true;
-              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-              this.getjingli(this.tabdata2);
-            }
+            this.tabdata2 = res.saleInfoList;
+            this.getjingli(this.tabdata2);
           } else {
             this.$message.error({ message: `${res.message}` });
           }
@@ -540,14 +427,6 @@ export default {
       });
       this.jingli = this.jingli.toFixed(2);
       this.jingjingli = this.jingjingli.toFixed(2);
-    },
-    getnum(a) {
-      if (a < 10) {
-        a = a.toString();
-        return 0 + a;
-      } else {
-        return a;
-      }
     }
   }
 };
@@ -734,6 +613,14 @@ export default {
   background: #fff;
 }
 
+.sale_tab_head {
+  margin-top: 0;
+}
+
+.sale_tab_head>div {
+  width: 50%;
+}
+
 .menubox .menu_border {
   line-height: 42px;
   font-size: 14px;
@@ -832,16 +719,6 @@ body, html {
   width: 98%;
 }
 
-#maincontent1 p {
-  padding-left: 20px;
-  text-align: left;
-}
-
-#maincontent p {
-  padding-left: 20px;
-  text-align: left;
-}
-
 .head {
   height: 1rem;
   font-size: 0.3rem;
@@ -869,15 +746,6 @@ body, html {
 .tap a {
   color: #fff;
   text-decoration: none;
-}
-
-.maincontent {
-  font-size: 0.3rem;
-  /* height: 5.5rem; */
-  overflow: hidden;
-  background: #fff;
-  padding: 0.2rem;
-  box-sizing: border-box;
 }
 
 .nianBt {

@@ -10,7 +10,7 @@
     width: 5rem;
     font-size: 0.3rem;
     display: flex;
-    padding: 5px 12px;
+    padding: 0px 12px;
     line-height:0.8rem;
     margin-top: 8px;
     background: rgb(255, 255, 255);
@@ -63,8 +63,8 @@
           </div>
           <div class="tabs_four mart8">
             <p class="tabs_four_a">
-              本月已完成：
-              <span class="color333">{{item.monthBusiness}}</span>
+              实际累计完成：
+              <span class="color333">{{item.totalFinishMthMoney}}</span>
             </p>
             <div class="tabs_four_d">
               <div v-if="item.saleNo<=4">
@@ -97,70 +97,67 @@
 
         <div class="usertabspc tabs_four wztabs_pc_all">
           <p class="tabs_four_a mart8">
-            标准销售额：
-            <span class="color333">{{item.standardFinishMoney}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            实时完成率：
-            <span class="color333">{{item.finishRate.split('/')[0]}}</span>
+            本月任务：
+            <span class="color333">{{item.totalMthPlanMoney}}万</span>
           </p>
           <p class="tabs_four_a mart8">
             今日完成：
-            <span class="color333">{{item.dayMoney}}万</span>
+            <span class="color333">{{item.totalDayPlanMoney}}</span>
           </p>
           <p class="tabs_four_a mart8">
-            环比：
-            <span
-              :class="item.monthCompare>0?'rate_red':item.monthCompare==0?'color333':'rate_green'"
-            >{{item.monthCompare}}%</span>
+            截止今日应完成：
+            <span class="color333">{{item.totalMonthShouldMoney}}万</span>
+          </p>
+          
+          <p class="tabs_four_a mart8">
+            今日毛利率：
+            <span class="color333">{{item.dayTotalGrossProfit}}%</span>
           </p>
           <p class="tabs_four_a mart8">
             累计毛利率：
-            <span class="color333">{{item.grossProfit.split('/')[1]}}</span>
+            <span class="color333">{{item.totalMthGrossProfit}}</span>
           </p>
           <p class="tabs_four_a mart8">
-            计划完成率：
-            <span class="color333">{{item.finishRate.split('/')[1]}}</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            今日毛利率：
-            <span class="color333">{{item.grossProfit.split('/')[0]}}</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            同比：
-            <span
-              :class="item.yearCompare>0?'rate_red':item.yearCompare==0?'color333':'rate_green'"
-            >{{item.yearCompare}}%</span>
+            实时完成率：
+            <span class="color333">{{item.totalFinishMthRate}}</span>
           </p>
           <p class="tabs_four_a mart8">
             超额/差额：
             <span
-              :class="item.differenceMoney>0?'rate_red':item.differenceMoney==0?'color333':'rate_green'"
-            >{{item.differenceMoney}}万</span>
+              :class="item.moneyDifference>0?'rate_red':item.moneyDifference==0?'color333':'rate_green'"
+            >{{item.moneyDifference}}万</span>
+          </p>
+          <p class="tabs_four_a mart8">
+            净利：
+            <span class="color333">{{item.jingli}}万</span>
+          </p>
+          <p class="tabs_four_a mart8">
+            净净利：
+            <span class="color333">{{item.jingjingli}}万</span>
+          </p>
+           <p class="tabs_four_a mart8">
+            上月环比：
+            <span
+              :class="item.totalMonthCompare>0?'rate_red':item.totalMonthCompare==0?'color333':'rate_green'"
+            > {{item.totalMonthCompare>0?item.totalMonthCompare:-item.totalMonthCompare}}%</span>
+          </p>
+          <p class="tabs_four_a mart8">
+            去年同比：
+            <span
+              :class="item.totalYearCompare>0?'rate_red':item.totalYearCompare==0?'color333':'rate_green'"
+            > {{item.totalYearCompare>0?item.totalYearCompare:-item.totalYearCompare}}%</span>
           </p>
           <p class="tabs_four_a mart8">
             TB线索：
-            <span class="color333">{{item.tbClueMoney}}万</span>
+            <span class="color333">{{item.totalTBClueMoney}}万</span>
           </p>
-          <p class="tabs_four_a mart8">
-            目前中标：
-            <span class="color333">{{item.getTenderMoney}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
+           <p class="tabs_four_a mart8">
             本月开标：
-            <span class="color333">{{item.openTenderMoney}}万</span>
+            <span class="color333">{{item.totalOpenTenderMoney}}万</span>
           </p>
           <p class="tabs_four_a wztabs_pcdifmoney mart8">
-            丢标：
-            <span class="color333">{{item.differenceMoney}}万</span>
-          </p>
-          <p class="tabs_four_a wztabs_pcdifmoney mart8">
-            实际季累计完成：
-            <span class="color333">{{item.finishQuarterMoney}}万</span>
-          </p>
-          <p class="tabs_four_a wztabs_pcdifmoney mart8">
-            实际年累计完成：
-            <span class="color333">{{item.finishYearMoney}}万</span>
+            本月丢标：
+            <span class="color333">{{item.totalGetTenderMoney}}万</span>
           </p>
         </div>
         <div class="usertabsmobile tabs_four wztabs_pc_all">

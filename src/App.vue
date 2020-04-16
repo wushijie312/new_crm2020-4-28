@@ -28,15 +28,15 @@ export default {
     // });
 
     // // 模拟存储用户信息
-    // localStorage.setItem("userid", "30843");
-    // localStorage.setItem("userName", "吴世界");
-    // localStorage.setItem("level", 0);
-    // localStorage.setItem("departmentId", 1018);
-    // localStorage.setItem("departmentName", "北京事业一部");
-    // localStorage.setItem(
-    //   "role",
-    //   "1018"
-    // );
+    localStorage.setItem("userid", "30843");
+    localStorage.setItem("userName", "吴世界");
+    localStorage.setItem("level", 0);
+    localStorage.setItem("departmentId", 1018);
+    localStorage.setItem("departmentName", "北京事业一部");
+    localStorage.setItem(
+      "role",
+      "1018"
+    );
 
     // localStorage.setItem("userid", "30843");
     // localStorage.setItem("userName", "吴世界");
