@@ -94,7 +94,7 @@
     <!-- 新加 -->
     <div class="js" style="position:relative;top:55px;" v-show="iszhanshi&&gdlist.length>0">
       <div style="position:absolute;right:0.1rem;z-index:1;" @click="guanbi">
-        <img :src="ygb" style="height:21px;" alt />
+        <img :src="ygb" style="height:0.5rem;" alt />
       </div>
       <el-carousel
         direction="vertical"
@@ -108,7 +108,7 @@
             class="medium"
             style="text-align:left;posiiton:relative;width:100%;display:block;color:red;padding-left:0.8rem;"
           >
-            <img :src="xlb" style="height:21px;position:absolute;left:0.2rem;" alt />
+            <img :src="xlb" style="height:0.5rem;position:absolute;left:0.2rem;" alt />
             {{item.msg }}
           </h3>
         </el-carousel-item>
@@ -280,15 +280,21 @@ export default {
   font-size: 0.25rem;
 }
 .js {
-  font-size: 13px;
-  line-height:21px;
+  font-size: 0.24rem;
+  line-height: 0.5rem;
   background: #fff8bf;
-  height: 21px;
+  height: 0.5rem;
   width: 98%;
   border-radius: 3px;
   margin: 0 auto;
 }
-
+.head {
+  height: 1rem;
+  font-size: 0.3rem;
+  line-height: 1rem;
+  background: #21aefb;
+  color: #fff;
+}
 .tap {
   font-size: 0.3rem;
   background: #21aefb;

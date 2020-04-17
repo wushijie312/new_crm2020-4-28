@@ -355,7 +355,8 @@ export default {
 @import '../../assets/css/bangdan.styl';
 
 .details_minheight {
-  height: 'calc(100vh - %s)' % rem(50);
+  height : 'calc(100vh - %s)' % 85px;
+  background:$colorfff;
 }
 
 .detais_one_head {
@@ -373,6 +374,7 @@ export default {
   bottom: 0;
   width: 100%;
   max-width: 850px;
+  background:$colorfff;
   margin: 0 auto;
 }
 
