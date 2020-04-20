@@ -90,8 +90,8 @@
                       <el-option
                         v-for="item in searchType"
                         :key="item.value"
-                        :label="item"
-                        :value="item"
+                        :label="item.label"
+                        :value="item.label"
                       ></el-option>
                     </el-select>
                   </div>
@@ -100,9 +100,9 @@
               <div class="search_px search_px_pc">
                 <p v-for="(itemSearch,len3) in searchType" :key="len3">
                   <span
-                    :class="searchValue1==itemSearch?'search_px_tit act':'search_px_tit'"
-                    @click="bumenbanghandle(itemSearch.value,itemSearch)"
-                  >{{itemSearch}}</span>
+                    :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                    @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                  >{{itemSearch.label}}</span>
                 </p>
               </div>
               <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
@@ -132,9 +132,9 @@
                 <div class="search_px">
                   <p v-for="(itemSearch,len3) in searchType3" :key="len3">
                     <span
-                      :class="searchValue3==itemSearch?'search_px_tit act':'search_px_tit'"
-                      @click="bumenbanghandle(itemSearch.value,itemSearch)"
-                    >{{itemSearch}}</span>
+                      :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
+                      @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
+                    >{{itemSearch.label}}</span>
                   </p>
                 </div>
                 <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
@@ -198,8 +198,34 @@ export default {
       pagenum: 1,
       searchValue1: "实际销售额",
       searchValue3: "累计完成",
-      searchType: ["实际销售额","标准销售额","实时完成率","净利","净净利"],
-      searchType3: ["累计完成","实时完成率","标准销售额"],
+      searchType: [
+        {
+          label: "实际销售额"
+        },
+        {
+          label: "标准销售额"
+        },
+        {
+          label: "实时完成率"
+        },
+        {
+          label: "净利"
+        },
+        {
+          label: "净净利"
+        }
+      ],
+      searchType3: [
+        {
+          label: "累计完成"
+        },
+        {
+          label: "实时完成率"
+        },
+        {
+          label: "标准销售额"
+        }
+      ],
       indexnum: 1,
       loading: true,
 
