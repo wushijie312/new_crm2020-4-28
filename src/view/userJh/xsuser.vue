@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" ref="wrapper">
+  <div class="wrapper padd_b30" ref="wrapper">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content" ref="others">
       <div class="menu-head-top50"></div>
@@ -20,7 +20,7 @@
         </div>
 
         <div v-show="salesoit==1">
-          <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
+          <Gzt :gzlist="gzlist"  :salerlist="salerlist" />
 
           <div
             id="sobox"
@@ -151,7 +151,7 @@
           </div>
         </div>
         <div v-show="salesoit==2">
-          <SalePending />
+          <Gzpend :gzlist="gzlist" />
         </div>
       </div>
     </div>
@@ -160,8 +160,16 @@
 </template>
 
 <script>
-import CreateData from "@/view/userJh/xsuserdata/index";
-import Addcreate from "@/components/addcreate";
+const Head = () => import("@/view/common/head");
+const Kehu = () => import("@/view/userCom/kehu");
+const Bumen = () => import("@/view/userCom/bumen");
+const User = () => import("@/view/userCom/user");
+const CreateData = () => import("@/view/userJh/xsuserdata/index");
+const Addcreate = () => import("@/components/addcreate");
+// 销售工作台 start
+const Gzt = () => import("@/view/salework/gzt.vue");
+const Gzpend = () => import("@/view/salework/gzpend.vue");
+
 import { getNowDate } from "@/untils/common";
 // import BScroll from "better-scroll";
 import {
@@ -169,16 +177,12 @@ import {
   chakehu,
   saleneeddata,
   needdata,
+  getSalerIndex,
+  noticeshow,
   salechabumen
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
-import Head from "@/view/common/head";
-import Kehu from "@/view/userCom/kehu";
-import Bumen from "@/view/userCom/bumen";
-import User from "@/view/userCom/user";
-// 销售工作台 start
-import SaleWorkIndex from "@/view/salework/sale.vue";
-import SalePending from "@/view/salework/pending.vue";
+
 export default {
   components: {
     Head,
@@ -186,20 +190,22 @@ export default {
     Kehu,
     Bumen,
     User,
-    SaleWorkIndex,
-    SalePending
+    Gzt,
+    Gzpend
   },
   name: "index",
   data() {
     return {
+      gzlist: [],
+      salerlist: [],
       salesoit: 1,
       xskword: "",
       showOrHide: true,
       pagenum: 1,
       searchValue1: "实际销售额",
       searchValue3: "累计完成",
-      searchType: ["实际销售额","标准销售额","实时完成率","净利","净净利"],
-      searchType3: ["累计完成","实时完成率","标准销售额"],
+      searchType: ["实际销售额", "标准销售额", "实时完成率", "净利", "净净利"],
+      searchType3: ["累计完成", "实时完成率", "标准销售额"],
       indexnum: 1,
       loading: true,
 
@@ -222,6 +228,22 @@ export default {
   },
   mounted() {
     this.chakehu();
+    // this.getnotices();
+    noticeshow({ userid: localStorage.getItem("userid") }).then(res => {
+      if (res.code == 200) {
+        this.gzlist = res.data;
+      } else {
+        this.$message.error(res.msg);
+      }
+    });
+    getSalerIndex().then(res => {
+      if (res.code == 200) {
+        this.salerlist = res.data;
+        console.log("s", res);
+      } else {
+        this.$message.error(res.msg);
+      }
+    });
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -237,6 +259,15 @@ export default {
     }
   },
   methods: {
+    // getnotices() {
+    //   noticeshow({ userid: localStorage.getItem("userid") }).then(res => {
+    //     if (res.code == 200) {
+    //       this.gzlist = res.data;
+    //     } else {
+    //       this.$message.error(res.msg);
+    //     }
+    //   });
+    // },
     saleindexhandle(len) {
       this.salesoit = len;
     },

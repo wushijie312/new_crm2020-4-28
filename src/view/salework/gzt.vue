@@ -6,40 +6,18 @@
         <h3 class="sale_head_a fl">工作提醒</h3>
       </div>
       <div class="sale_a">
-        <div class="sale_a_one">
-          <div class="sale_a_work">
-            <img class="sale_a_icon" :src="pd" alt />
-            <p class="sale_a_tit">待处理派单</p>
-            <span class="sale_a_number">10</span>
-          </div>
-        </div>
-        <div class="sale_a_one">
-          <div class="sale_a_work">
-            <img class="sale_a_icon" :src="bf" alt />
-            <p class="sale_a_tit">客户拜访</p>
-            <span class="sale_a_number">1</span>
-          </div>
-        </div>
-        <div class="sale_a_one">
-          <div class="sale_a_work">
-            <img class="sale_a_icon" :src="rb" alt />
-            <p class="sale_a_tit">销售日报</p>
-            <span class="sale_a_number">1</span>
-          </div>
-        </div>
-        <div class="sale_a_one">
-          <div class="sale_a_work">
-            <img class="sale_a_icon" :src="kpi" alt />
-            <p class="sale_a_tit">月度KPI</p>
-            <span class="sale_a_number">1</span>
-          </div>
-        </div>
-        <div class="sale_a_one">
-          <div class="sale_a_work">
-            <img class="sale_a_icon" :src="wj" alt />
-            <p class="sale_a_tit">客户问卷调查</p>
-            <span class="sale_a_number">1</span>
-          </div>
+        <div class="sale_a_one" v-for="(item,index) in gzlist" :key="index">
+          <router-link :to="item.url">
+            <div class="sale_a_work">
+              <img
+                class="sale_a_icon"
+                :src="item.desc_info.indexOf('派单')>-1?pd:item.desc_info.indexOf('销售')>-1?rb:item.desc_info.indexOf('拜访')>-1?bf:item.desc_info.indexOf('KPI')>-1?kpi:item.desc_info.indexOf('问卷')>-1?wj:''"
+                alt
+              />
+              <p class="sale_a_tit">{{item.desc_info}}</p>
+              <span class="sale_a_number">{{item.result}}</span>
+            </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -54,44 +32,46 @@
       <div class="saleb">
         <ul class="sale_mouthyear">
           <li
-            :class="item.name==tabact1?'act':''"
+            :class="item==tabact1?'act':''"
             v-for="(item,index) in mylists"
             :key="index"
-            @click="salehandle('tabact1',item.name)"
-          >{{item.name}}</li>
+            @click="salehandle('tabact1',item)"
+          >{{item}}</li>
         </ul>
-        <div class="saleb_one">
-          <div class="saleb_one_li">
-            <h3 class="saleb_one_money">50.0</h3>
-            <p class="saleb_one_tit">已确认回款</p>
+        <div  v-for="(item,index) in salerlist" :key="index">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{item.finishMoney}}</h3>
+              <p class="saleb_one_tit">已确认回款</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{item.standardFinishMoney}}</h3>
+              <p class="saleb_one_tit">销售额</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{item.finishRates}}</h3>
+              <p class="saleb_one_tit">未确认回款</p>
+            </div>
           </div>
-          <div class="saleb_one_li">
-            <h3 class="saleb_one_money">100.12</h3>
-            <p class="saleb_one_tit">销售额</p>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">任务：{{item.monthmoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
           </div>
-          <div class="saleb_one_li">
-            <h3 class="saleb_one_money">500.33</h3>
-            <p class="saleb_one_tit">未确认回款</p>
-          </div>
-        </div>
-        <div class="saleb_two clearfix">
-          <span class="saleb_two_renwu">任务：2000.00</span>
-          <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
         </div>
       </div>
     </div>
-    <div class="sale_cont_bg mart8">
+    <div class="sale_cont_bg mart8" style="display:none;">
       <div class="sale_head clearfix">
         <h3 class="sale_head_a fl">客户数据</h3>
       </div>
       <div class="saleb padd_b30">
         <ul class="sale_mouthyear">
           <li
-            :class="item.name==tabact2?'act':''"
+            :class="item==tabact2?'act':''"
             v-for="(item,index) in mylists"
             :key="index"
-            @click="salehandle('tabact2',item.name)"
-          >{{item.name}}</li>
+            @click="salehandle('tabact2',item)"
+          >{{item}}</li>
         </ul>
         <div class="saleb_one">
           <div class="saleb_one_li">
@@ -112,27 +92,17 @@
   </div>
 </template>
 <script>
-import Head from "@/view/common/head";
-
+const Head = () => import("@/view/common/head");
 export default {
   components: {
     Head
   },
+  props: ["gzlist", "salerlist"],
   data() {
     return {
       tabact1: "本月",
-      tabact2:'本月',
-      mylists: [
-        {
-          name: "本月"
-        },
-        {
-          name: "本季度"
-        },
-        {
-          name: "本年度"
-        }
-      ],
+      tabact2: "本月",
+      mylists: ["本月", "本季度", "本年度"],
       hua: require("@/assets/img/bangdan/hua.png"),
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
@@ -148,9 +118,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    detailshandel(){
+    detailshandel() {
       //  this.$router.push({path:this.tzList[tab],query:this.routerData})
-       this.$router.push({path:'/saledetails'})
+      this.$router.push({ path: "/gzdetails" });
     },
     salehandle(type, val) {
       if (type == "tabact1") {

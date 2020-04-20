@@ -8,33 +8,33 @@
           <span class="menu_border_line"></span>
         </span>
       </div>
-      <div class="left" @click="saleindexhandle(2)" :class="soit===2?'act':''">
+      <div class="left" style="display:none;" @click="saleindexhandle(2)" :class="soit===2?'act':''">
         <span class="menu_border">
           我的发起
           <span class="menu_border_line"></span>
         </span>
       </div>
-      <div class="left" @click="saleindexhandle(3)" :class="soit===3?'act':''">
+      <div class="left" style="display:none;" @click="saleindexhandle(3)" :class="soit===3?'act':''">
         <span class="menu_border">
           我参与的
           <span class="menu_border_line"></span>
         </span>
       </div>
     </div>
-    <div class="pend_box marb8">
+    <div class="pend_box marb8" v-for="(item,index) in gzlist" :key="index">
       <h3 class="pend_head">销售数据</h3>
       <div class="pend_one mart10">
         <span class="pend_one_tit">任务时间：</span>
-        <p class="pend_one_cont">2020-03-28 ～ 2020-05-05</p>
+        <p class="pend_one_cont">{{item.start_time.slice(0,10)}} ～ {{item.end_time.slice(0,10)}}</p>
       </div>
       <div class="pend_one mart10">
         <span class="pend_one_tit">任务内容：</span>
-        <p class="pend_one_cont">飞机上电脑课福建省科技的疯狂世界的方式旅客发送量看到麻烦了飞机上电脑课福建省科技的疯狂世界的方式旅客发送量看到麻烦了</p>
+        <p class="pend_one_cont">{{item.msg}}</p>
       </div>
       <div class="saleb_two clearfix">
         <span class="pend_two_time fl">2020-03-28 . 创建</span>
-        <span class="saleb_two_details  fr">查看详情</span>
-        <span class="saleb_two_details pend_two_borderr fr marr20">转发</span>
+         <router-link class="saleb_two_details  fr" :to="item.url">查看详情</router-link>
+        <span class="saleb_two_details pend_two_borderr fr marr20" style="display:none;">转发</span>
       </div>
     </div>
   </div>
@@ -46,6 +46,7 @@ export default {
   components: {
     Head
   },
+  props:['gzlist'],
   data() {
     return {
       soit: 1
@@ -114,6 +115,7 @@ export default {
   color: $color409eff;
   cursor :pointer;
   font-size:14px;
+  text-decoration: none;
 }
 
 .saleb_two_renwu {

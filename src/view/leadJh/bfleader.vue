@@ -188,10 +188,11 @@
   </div>
 </template>
 <script>
+const Head = () => import('@/view/common/head')
 // import BScroll from "better-scroll";
 import { biaotou1, needdata, infobyUser, getisread } from "@/api/configWu";
 import {getNowDate} from "@/untils/common";
-const Head = () => import('@/view/common/head')
+
 
 export default {
   name: "index",

@@ -4,36 +4,39 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850 details_minheight">
-      <div
-        id="sobox"
-        style="    color: #333;
+      <div style="background:#f2f2f5;">
+        <div
+          id="sobox"
+          style="    color: #333;
     width: 5rem;
     font-size: 0.3rem;
+    border-top:8px solid #f2f2f5;
+    border-bottom:8px solid #f2f2f5;
     display: flex;
     padding: 0px 12px;
     line-height:0.8rem;
-    margin-top: 8px;
     background: rgb(255, 255, 255);
     text-align: left;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;"
-        class="clearfix"
-      >
-        <div style="width:3rem;">当前日期：</div>
-        <el-date-picker
-          v-model="value1"
-          type="date"
-          placeholder="选择日期"
-          style="border:none;top:0.15rem;"
-          value-format="yyyy-MM-dd"
-          :editable="false"
-          :clearable="false"
-          class="el-icon-arrow-down1"
+          class="clearfix"
         >
-          <template>
-            <i class="el-icon-arrow-down"></i>
-          </template>
-        </el-date-picker>
+          <div style="width:3rem;">当前日期：</div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            placeholder="选择日期"
+            style="border:none;top:0.15rem;"
+            value-format="yyyy-MM-dd"
+            :editable="false"
+            :clearable="false"
+            class="el-icon-arrow-down1"
+          >
+            <template>
+              <i class="el-icon-arrow-down"></i>
+            </template>
+          </el-date-picker>
+        </div>
       </div>
       <div class="mart8 menubox" style="overflow:hidden;font-size:0.3rem;">
         <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
@@ -95,7 +98,7 @@
           </div>
         </div>
 
-        <div class=" tabs_four wztabs_pc_all">
+        <div class="tabs_four wztabs_pc_all">
           <p class="tabs_four_a mart8">
             本月任务：
             <span class="color333">{{item.totalMthPlanMoney}}万</span>
@@ -108,7 +111,7 @@
             截止今日应完成：
             <span class="color333">{{item.totalMonthShouldMoney}}万</span>
           </p>
-          
+
           <p class="tabs_four_a mart8">
             今日毛利率：
             <span class="color333">{{item.dayTotalGrossProfit}}%</span>
@@ -135,23 +138,23 @@
             净净利：
             <span class="color333">{{item.jingjingli}}万</span>
           </p>
-           <p class="tabs_four_a mart8">
+          <p class="tabs_four_a mart8">
             上月环比：
             <span
               :class="item.totalMonthCompare>0?'rate_red':item.totalMonthCompare==0?'color333':'rate_green'"
-            > {{item.totalMonthCompare>0?item.totalMonthCompare:-item.totalMonthCompare}}%</span>
+            >{{item.totalMonthCompare>0?item.totalMonthCompare:-item.totalMonthCompare}}%</span>
           </p>
           <p class="tabs_four_a mart8">
             去年同比：
             <span
               :class="item.totalYearCompare>0?'rate_red':item.totalYearCompare==0?'color333':'rate_green'"
-            > {{item.totalYearCompare>0?item.totalYearCompare:-item.totalYearCompare}}%</span>
+            >{{item.totalYearCompare>0?item.totalYearCompare:-item.totalYearCompare}}%</span>
           </p>
           <p class="tabs_four_a mart8">
             TB线索：
             <span class="color333">{{item.totalTBClueMoney}}万</span>
           </p>
-           <p class="tabs_four_a mart8">
+          <p class="tabs_four_a mart8">
             本月开标：
             <span class="color333">{{item.totalOpenTenderMoney}}万</span>
           </p>
@@ -161,7 +164,7 @@
           </p>
         </div>
       </div>
-      <div class="details_back">返回</div>
+      <div class="details_back" @click="$router.go(-1)">返回</div>
     </div>
   </div>
 </template>
@@ -355,8 +358,8 @@ export default {
 @import '../../assets/css/bangdan.styl';
 
 .details_minheight {
-  height : 'calc(100vh - %s)' % 85px;
-  background:$colorfff;
+  height: 'calc(100vh - %s)' % 85px;
+  background: $colorfff;
 }
 
 .detais_one_head {
@@ -374,8 +377,9 @@ export default {
   bottom: 0;
   width: 100%;
   max-width: 850px;
-  background:$colorfff;
+  background: $colorfff;
   margin: 0 auto;
+  cursor: pointer;
 }
 
 .details_one {

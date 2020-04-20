@@ -1,22 +1,32 @@
 
 import request from '@/untils/request'
 import addheadreq from '@/untils/addheadreq'
-   	var HOSTNAME = window.location.hostname;
-     var PATHNAME = window.location.pathname.indexOf("crm_page_test");
-     
-     if(HOSTNAME=="localhost"){//本地
-      // if(HOSTNAME=="10.0.0.56"){//本地
-      // if(HOSTNAME=="192.168.20.101"){//本地192.168.20.100
-         var htp = 'http://101.200.137.247:9112/supplierRelation'
+var HOSTNAME = window.location.hostname;
+var PATHNAME = window.location.pathname.indexOf("crm_page_test");
 
-   	}else if(HOSTNAME="u.easypnp.com"){
-   		if(PATHNAME>-1){//测试
-		 	var htp = 'http://101.200.137.247:9112/supplierRelation'
-   		}else{//正式
-   			var htp = 'http://u.easypnp.com/supplierRelation'
-   		}
-   }
+if (HOSTNAME == "localhost") {//本地
+  // if(HOSTNAME=="10.0.0.56"){//本地
+  // if(HOSTNAME=="192.168.20.101"){//本地192.168.20.100
+  var htp = 'http://101.200.137.247:9112/supplierRelation'
 
+} else if (HOSTNAME = "u.easypnp.com") {
+  if (PATHNAME > -1) {//测试
+    var htp = 'http://101.200.137.247:9112/supplierRelation'
+  } else {//正式
+    var htp = 'http://u.easypnp.com/supplierRelation'
+  }
+}
+
+
+// 获取标签
+export function getSalerIndex(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url: htp + '/search/searchSalerIndex ',
+    method: 'get',
+    params: { "param": JSON.stringify(data) }
+  })
+}
 //  问卷调查 start
 
 // 获取标签
@@ -25,16 +35,17 @@ export function wqtags(data) {
     // url: htp + '/visit/data',
     url: htp + '/question/tags.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
+
 // 头部信息
 export function wqtopinfo(data) {
   return request({
     // url: htp + '/visit/data',
     url: htp + '/question/topinfo.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 export function wqtaskinfo(data) {
@@ -42,7 +53,7 @@ export function wqtaskinfo(data) {
     // url: htp + '/visit/data',
     url: htp + '/question/taskinfo.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -97,19 +108,19 @@ export function wqinfo(data) {
     params: { "param": JSON.stringify(data) }
   }).then(body => {
     if (body.code === 200) {
-      body.data.map((item,index) => {
-        item.select_values = item.select_values?JSON.parse(item.select_values):'';
-        if(item.select_type == "check"){
-          item.select_value=item.select_value?JSON.parse(item.select_value):[];
+      body.data.map((item, index) => {
+        item.select_values = item.select_values ? JSON.parse(item.select_values) : '';
+        if (item.select_type == "check") {
+          item.select_value = item.select_value ? JSON.parse(item.select_value) : [];
         }
         // if(item.select_type=="no"){
-          item.answer_json=item.answer_json?JSON.parse(item.answer_json):'';
+        item.answer_json = item.answer_json ? JSON.parse(item.answer_json) : '';
         // }
-        if(item.select_link=="el-icon-thumb" ){
-          item.select_url=item.select_url?JSON.parse(item.select_url):[];
+        if (item.select_link == "el-icon-thumb") {
+          item.select_url = item.select_url ? JSON.parse(item.select_url) : [];
         }
-        
-        item.file_json = item.file_json?JSON.parse(item.file_json):'';
+
+        item.file_json = item.file_json ? JSON.parse(item.file_json) : '';
         return item;
       })
     }
@@ -122,7 +133,7 @@ export function wqeditcompany(data) {
     // url: htp + '/visit/data',
     url: htp + '/question/editcompany.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -131,7 +142,7 @@ export function wqvisits(data) {
     // url: htp + '/visit/data',
     url: htp + '/question/visits.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 //  问卷调查 end
@@ -141,7 +152,7 @@ export function wqvisits(data) {
 export function gettoken(data) {
   return request({
     // url: htp + '/visit/data',
-    url:'https://openapi.yangguangqicai.com/bi2crm/oauth/token?grant_type=client_credentials&client_id=crmOnline&client_secret=03ec615459ed779237b48b5bbac5d708&scopes=read',
+    url: 'https://openapi.yangguangqicai.com/bi2crm/oauth/token?grant_type=client_credentials&client_id=crmOnline&client_secret=03ec615459ed779237b48b5bbac5d708&scopes=read',
     method: 'post',
     data
   })
@@ -151,7 +162,7 @@ export function iframeKB(data) {
   return addheadreq({
     url: 'https://openapi.yangguangqicai.com/online/dashboard',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   });
 }
 
@@ -164,7 +175,7 @@ export function getisread1(data) {
     // url: htp + '/visit/data',
     url: htp + '/daily/getisread.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -173,7 +184,7 @@ export function deldaily(data) {
     // url: htp + '/visit/data',
     url: htp + '/daily/deldaily.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -182,7 +193,7 @@ export function reply(data) {
     // url: htp + '/visit/data',
     url: htp + '/daily/reply.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 export function delreply(data) {
@@ -190,7 +201,7 @@ export function delreply(data) {
     // url: htp + '/visit/data',
     url: htp + '/daily/delreply.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -208,7 +219,7 @@ export function queryByid(data) {
     // url: htp + '/visit/data',
     url: htp + '/daily/queryByid.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
@@ -217,19 +228,19 @@ export function closenotice(data) {
     // url: htp + '/visit/data',
     url: htp + '/center/closenotice.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 
 export function upload() {
-  return htp+'/daily/upload.do'
+  return htp + '/daily/upload.do'
 }
 export function templateshow(data) {
   return request({
     // url: htp + '/visit/data',
     url: htp + '/daily/templateshow.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 //
@@ -239,7 +250,7 @@ export function pathshow(data) {
     // url: htp + '/visit/data',
     url: htp + '/center/treepathshow.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 export function noticeshow(data) {
@@ -247,7 +258,7 @@ export function noticeshow(data) {
     // url: htp + '/visit/data',
     url: htp + '/center/noticeshow.do',
     method: 'get',
-    params: {"param":JSON.stringify(data)}
+    params: { "param": JSON.stringify(data) }
   })
 }
 export function adddata(data) {
@@ -293,11 +304,11 @@ export function updata(data) {
 
 export function needdata(data) {
   let userid = localStorage.getItem('userid')
-  
+
   let username = localStorage.getItem('userName')
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username})
+  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username })
 
   return request({
     url: htp + '/saleInfo/search/user2.do',
@@ -332,11 +343,11 @@ export function salechabumen(data) {
 }
 export function saleneeddata(data) {
   let userid = localStorage.getItem('userid')
-  
+
   let username = localStorage.getItem('userName')
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username})
+  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username })
 
   return request({
     url: htp + '/saleInfo/search/user2list.do',
@@ -399,7 +410,7 @@ export function chakh(data) {
   let username = localStorage.getItem('userName')
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username})
+  let all = Object.assign(Object1, data, { 'userId': userid, 'userName': username })
 
   return request({
     url: htp + '/saleInfo/search/customer',
@@ -412,13 +423,13 @@ export function chakh(data) {
 export function getkehu(data) {
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { 'dept_id': localStorage.getItem('departmentId')})
+  let all = Object.assign(Object1, data, { 'dept_id': localStorage.getItem('departmentId') })
 
   return request({
-    url:htp + '/relation/data',
+    url: htp + '/relation/data',
     method: 'get',
-    params:{ "param": JSON.stringify(all) }
-  
+    params: { "param": JSON.stringify(all) }
+
   })
 }
 
@@ -439,12 +450,12 @@ export function getpics(data) {
   let userid = localStorage.getItem('userid')
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { 'userid': userid})
+  let all = Object.assign(Object1, data, { 'userid': userid })
 
   return request({
     url: htp + '/birthday/imginfo',
     method: 'get',
-    params : all
+    params: all
   })
 }
 
@@ -456,41 +467,41 @@ export function bumenxq(data) {
   return request({
     url: htp + '/depSale/search/departmentSale',
     method: 'get',
-    params :  { "param": JSON.stringify(all) }
+    params: { "param": JSON.stringify(all) }
   })
 }
 export function getechars(data) {
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { })
+  let all = Object.assign(Object1, data, {})
 
   return request({
     url: htp + '/depSale/search/yearInfo',
     method: 'get',
-    params :  { "param": JSON.stringify(all) }
+    params: { "param": JSON.stringify(all) }
   })
 }
 
 export function getcyyj(data) {
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { })
+  let all = Object.assign(Object1, data, {})
 
   return request({
     url: htp + '/depSale/search/userInfo',
     method: 'get',
-    params :  { "param": JSON.stringify(all) }
+    params: { "param": JSON.stringify(all) }
   })
 }
 export function getkhqk(data) {
 
   let Object1 = {}
-  let all = Object.assign(Object1, data, { })
+  let all = Object.assign(Object1, data, {})
 
   return request({
     url: htp + '/depSale/search/customerInfo',
     method: 'get',
-    params :  { "param": JSON.stringify(all) }
+    params: { "param": JSON.stringify(all) }
   })
 }
 
@@ -500,33 +511,33 @@ export function getyyqk(data) {
   let all = Object.assign(Object1, data, {})
 
   return request({
-    url:  htp + '/customerDetail/data',
+    url: htp + '/customerDetail/data',
     method: 'post',
-    params: {"param":JSON.stringify(all)}
+    params: { "param": JSON.stringify(all) }
   })
 }
 
 export function gettbjl(data) {
   let role = localStorage.getItem('role')
   let Object1 = {}
-  let all = Object.assign(Object1, data, {role:role})
+  let all = Object.assign(Object1, data, { role: role })
 
   return request({
-    url:  htp + '/depSale/search/todaySaleInfo',
+    url: htp + '/depSale/search/todaySaleInfo',
     method: 'post',
-    params: {"param":JSON.stringify(all)}
+    params: { "param": JSON.stringify(all) }
   })
 }
 
 export function gettc(data) {
   let role = localStorage.getItem('role')
   let Object1 = {}
-  let all = Object.assign(Object1, data, {role:role})
+  let all = Object.assign(Object1, data, { role: role })
 
   return request({
-    url:  htp + '/saleInfo/search/words',
+    url: htp + '/saleInfo/search/words',
     method: 'post',
-    params: {"param":JSON.stringify(all)}
+    params: { "param": JSON.stringify(all) }
   })
 }
 

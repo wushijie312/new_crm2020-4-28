@@ -58,7 +58,7 @@ const customers = () => import('@/view/questionDc/customers')
 const iframe = () => import('@/view/questionDc/iframe')
 
 // 销售工作台 start
-const Saledetails = () => import('@/view/salework/details')
+const Gzdetails = () => import('@/view/salework/gzdetails')
 
 // xsuser
 // 问卷调查 end
@@ -79,8 +79,8 @@ let router =new Router({
       meta: {index: 1,title:'部门净利'}
     },
     {
-      path: '/saledetails',
-      component: Saledetails,
+      path: '/gzdetails',
+      component: Gzdetails,
       meta: {index: 1,title:'销售详情'}
     },
     {

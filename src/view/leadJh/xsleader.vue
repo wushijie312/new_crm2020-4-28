@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper xslead sobig" ref="wrapper" id="wrap" @click="is_totalBearMoney=false">
+  <div class="wrapper xslead sobig padd_b30" ref="wrapper" id="wrap" @click="is_totalBearMoney=false">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content wrap850" ref="content">
       <div class="menu-head-top50"></div>
