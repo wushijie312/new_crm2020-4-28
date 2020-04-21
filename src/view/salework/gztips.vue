@@ -53,7 +53,7 @@ export default {
 }
 
 .sale_head {
-  line-height: 13px;
+  line-height: 16px;
   padding: 10px 15px;
   border-bottom: 1px solid $colorf0f0f0;
   position: relative;

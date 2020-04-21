@@ -246,7 +246,7 @@ export default {
   margin: 0 auto;
   padding: 0px 5px;
   border: 1px solid $colore5e5e5;
-  border-radius: 15px;
+  border-radius: 18px;
   box-shadow: 0 0 3px $colord8eafc;
 }
 
@@ -255,7 +255,7 @@ export default {
   border-right: 1px solid $colore5e5e5;
   box-sizing: border-box;
   line-height: 15px;
-  margin: 7px 0;
+  margin: 9px 0;
   cursor: pointer;
 }
 
@@ -272,7 +272,7 @@ export default {
 }
 
 .sale_head {
-  line-height: 13px;
+  line-height: 16px;
   padding: 10px 15px;
   border-bottom: 1px solid $colorf0f0f0;
   position :relative;

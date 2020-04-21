@@ -28,7 +28,7 @@
     width: 5rem;
     font-size: 0.3rem;
     display: flex;
-    padding: 0px 12px;
+    padding: 0px 15px;
     line-height:0.8rem;
     margin-top: 8px;
     background: rgb(255, 255, 255);
@@ -37,7 +37,7 @@
     border-bottom-right-radius: 30px;"
             class="clearfix"
           >
-            <div style="width:3rem;">当前日期：</div>
+            <div style="width:3rem;font-size:14px;font-weight:bold;">当前日期：</div>
             <el-date-picker
               v-model="value1"
               type="date"

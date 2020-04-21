@@ -191,7 +191,7 @@
                   class="black totalBearMoney_pc"
                   @mouseover.stop="is_totalBearMoney = true"
                   @mouseout.stop="is_totalBearMoney = false"
-                  style="position:relative;z-index:1001;"
+                  style="position:relative;z-index:2;"
                 >
                   <span
                     :class="alldata.totalBearsMoney>=0?'red':'green'"
@@ -209,7 +209,7 @@
                 <span
                   class="black totalBearMoney_mobile"
                   @click.stop="totalBearMoneyhandle"
-                  style="position:relative;z-index:1001;"
+                  style="position:relative;z-index:2;"
                 >
                   <span
                     :class="alldata.totalBearsMoney>=0?'red':'green'"
@@ -802,13 +802,13 @@ export default {
 .leader_totalBearMoney:after {
   width: 0;
   height: 0;
-  z-index: 1000;
-  border-top: 6px solid transparent;
+  z-index: 1;
+  border-top: none;
   border-right: 5px solid transparent;
   border-bottom: 6px solid rgba(0, 0, 0, 0.8);
   border-left: 5px solid transparent;
   position: absolute;
-  top: -12px;
+  top: -6px;
   right: 1.1rem;
   content: ' ';
 }

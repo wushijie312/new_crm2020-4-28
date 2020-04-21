@@ -13,7 +13,7 @@
     border-top:8px solid #f2f2f5;
     border-bottom:8px solid #f2f2f5;
     display: flex;
-    padding: 0px 12px;
+    padding: 0px 15px;
     line-height:0.8rem;
     background: rgb(255, 255, 255);
     text-align: left;
@@ -21,7 +21,7 @@
     border-bottom-right-radius: 30px;"
           class="clearfix"
         >
-          <div style="width:3rem;">当前日期：</div>
+          <div style="width:3rem;font-size:14px;font-weight:bold;">当前日期：</div>
           <el-date-picker
             v-model="value1"
             type="date"
@@ -279,7 +279,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.departmentName=localStorage.getItem("departmentName");
+    this.departmentName=localStorage.getItem("departmentName")+'--'+localStorage.getItem("userName");
     this.getdata();
     this.getSalerIndex();
   },
