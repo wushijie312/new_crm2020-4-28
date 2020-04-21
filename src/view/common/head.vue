@@ -92,7 +92,7 @@
     </el-drawer>
 
     <!-- 新加 -->
-    <div class="js" style="position:relative;top:55px;" v-show="iszhanshi&&gdlist.length>0">
+    <div class="js" style="position:relative;top:55px;" v-show="ty&&iszhanshi&&gdlist.length>0">
       <div style="position:absolute;right:0.1rem;z-index:1;" @click="guanbi">
         <img :src="ygb" style="height:21px;" alt />
       </div>

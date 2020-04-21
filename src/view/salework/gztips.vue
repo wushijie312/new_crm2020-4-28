@@ -1,26 +1,24 @@
 <!-- A.html -->
 <template>
   <div>
-    <div class="sale_cont_bg mart8">
+    <div class="sale_cont_bg mart8" v-if="gzlist.length">
       <div class="sale_head clearfix">
         <h3 class="sale_head_a fl">工作提醒</h3>
       </div>
-      <div class="sale_a" v-if="gzlist.length">
-        <template v-for="item in gzlist">
-          <div class="sale_a_one" v-if="item.result">
-            <router-link :to="item.url">
-              <div class="sale_a_work">
-                <img
-                  class="sale_a_icon"
-                  :src="item.desc_info.indexOf('派单')>-1?pd:item.desc_info.indexOf('销售')>-1?rb:item.desc_info.indexOf('拜访')>-1?bf:item.desc_info.indexOf('KPI')>-1?kpi:item.desc_info.indexOf('问卷')>-1?wj:''"
-                  alt
-                />
-                <p class="sale_a_tit">{{item.desc_info}}</p>
-                <span class="sale_a_number">{{item.result}}</span>
-              </div>
-            </router-link>
-          </div>
-        </template>
+      <div class="sale_a">
+        <div class="sale_a_one" v-for="(item,index) in gz_list" :key='index'>
+          <router-link :to="item.url">
+            <div class="sale_a_work">
+              <img
+                class="sale_a_icon"
+                :src="item.desc_info.indexOf('派单')>-1?pd:item.desc_info.indexOf('销售')>-1?rb:item.desc_info.indexOf('拜访')>-1?bf:item.desc_info.indexOf('KPI')>-1?kpi:item.desc_info.indexOf('问卷')>-1?wj:''"
+                alt
+              />
+              <p class="sale_a_tit">{{item.desc_info}}</p>
+              <span class="sale_a_number">{{item.result}}</span>
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -35,12 +33,18 @@ export default {
   data() {
     return {
       bf: require("@/assets/img/salework/bf.png"),
-      empty: require("@/assets/img/salework/empty.png"),
       kpi: require("@/assets/img/salework/KPI.png"),
       pd: require("@/assets/img/salework/pd.png"),
       rb: require("@/assets/img/salework/rb.png"),
       wj: require("@/assets/img/salework/wj.png")
     };
+  },
+  computed: {
+    gz_list: function() {
+      return this.gzlist.filter(item => {
+        return item.result;
+      });
+    }
   },
   created() {},
   mounted() {},
