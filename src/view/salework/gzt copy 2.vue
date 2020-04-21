@@ -27,7 +27,34 @@
           销售数据
           <span class="sale_head_money">（单位：万）</span>
         </h3>
-        <div class="fr">🌹 🌹 🌹</div>
+        <div class="fr sale_head_b">
+          <div class="tabs_four_d">
+            <div v-if="salerlist.saleNo<=4">
+              <img
+                class="tabs_ld_img"
+                v-for="(itemNo,len2) in 4-salerlist.saleNo"
+                :key="len2"
+                :src="hua"
+              />
+              <img class="tabs_ld_img" :src="zan" />
+            </div>
+            <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
+              <img
+                class="tabs_ld_img"
+                v-for="(itemNo,len2) in 8-salerlist.saleNo"
+                :key="len2"
+                :src="xiao"
+              />
+            </div>
+            <div v-if="salerlist.saleNo>7">
+              <img class="tabs_ld_img" :src="ku" />
+              <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
+              <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
+                <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="saleb">
         <ul class="sale_mouthyear">
@@ -38,23 +65,63 @@
             @click="salehandle('tabact1',item)"
           >{{item}}</li>
         </ul>
-        <div  v-for="(item,index) in salerlist" :key="index">
+        <div v-if="tabact1==mylists[0]">
           <div class="saleb_one">
             <div class="saleb_one_li">
-              <h3 class="saleb_one_money">{{item.finishMoney}}</h3>
-              <p class="saleb_one_tit">已确认回款</p>
+              <h3 class="saleb_one_money">{{salerlist.finishMoney}}</h3>
+              <p class="saleb_one_tit">月累计</p>
             </div>
             <div class="saleb_one_li">
-              <h3 class="saleb_one_money">{{item.standardFinishMoney}}</h3>
-              <p class="saleb_one_tit">销售额</p>
+              <h3 class="saleb_one_money">{{salerlist.standardFinishMoney}}</h3>
+              <p class="saleb_one_tit">月标准</p>
             </div>
             <div class="saleb_one_li">
-              <h3 class="saleb_one_money">{{item.finishRates}}</h3>
-              <p class="saleb_one_tit">未确认回款</p>
+              <h3 class="saleb_one_money">{{salerlist.finishRates}}</h3>
+              <p class="saleb_one_tit">月完成率</p>
             </div>
           </div>
           <div class="saleb_two clearfix">
-            <span class="saleb_two_renwu">任务：{{item.monthmoney}}</span>
+            <span class="saleb_two_renwu">月任务：{{salerlist.monthmoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
+          </div>
+        </div>
+        <div v-if="tabact1==mylists[1]">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishQuarterMoney}}</h3>
+              <p class="saleb_one_tit">季累计</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.standardQuarterFinishMoney}}</h3>
+              <p class="saleb_one_tit">季标准</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishQuarterRates}}</h3>
+              <p class="saleb_one_tit">季完成率</p>
+            </div>
+          </div>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">季任务：{{salerlist.quartermoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
+          </div>
+        </div>
+        <div v-if="tabact1==mylists[2]">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishYearMoney}}</h3>
+              <p class="saleb_one_tit">年累计</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.standardYearFinishMoney}}</h3>
+              <p class="saleb_one_tit">年标准</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishYearRates}}</h3>
+              <p class="saleb_one_tit">年完成率</p>
+            </div>
+          </div>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">年任务：{{salerlist.yearmoney}}</span>
             <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
           </div>
         </div>
@@ -116,7 +183,10 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.gzlist);
+    console.log(this.salerlist);
+  },
   methods: {
     detailshandel() {
       //  this.$router.push({path:this.tzList[tab],query:this.routerData})
@@ -133,6 +203,15 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.sale_head_b{
+  position :absolute;
+  right:15px;
+  top:10px;
+}
+.tabs_ld_img{
+  width:15px;
+  line-height 15px;
+}
 .saleb_two {
   line-height: 36px;
   padding: 0 15px;
@@ -218,9 +297,10 @@ export default {
 }
 
 .sale_head {
-  line-height: 36px;
-  padding: 0 15px;
+  line-height: 13px;
+  padding: 10px 15px;
   border-bottom: 1px solid $colorf0f0f0;
+  position :relative;
 }
 
 .sale_head_a {

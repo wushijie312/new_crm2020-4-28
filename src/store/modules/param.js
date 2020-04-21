@@ -8,7 +8,8 @@ const state = {
 const mutations = {
   CHANGE_OVERFLOW_HIDE: (state, val) => {
     state.is_hide = val;
-  }
+  },
+
 }
 
 const actions = {

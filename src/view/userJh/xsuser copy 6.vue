@@ -20,7 +20,7 @@
         </div>
 
         <div v-show="salesoit==1">
-          <Gztips :gzlist.sync="gzlist" />
+          <Gzt :gzlist.sync="gzlist" :salerlist.sync="salerlist" />
 
           <div
             id="sobox"
@@ -53,8 +53,6 @@
               </template>
             </el-date-picker>
           </div>
-          <Gzdata :salerlist.sync="salerlist" :value1.sync="value1" />
-
           <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
             <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
               <span class="menu_border">
@@ -170,8 +168,7 @@ const User = () => import("@/view/userCom/user");
 const CreateData = () => import("@/view/userJh/xsuserdata/index");
 const Addcreate = () => import("@/components/addcreate");
 // 销售工作台 start
-const Gztips = () => import("@/view/salework/gztips.vue");
-const Gzdata = () => import("@/view/salework/gzdata.vue");
+const Gzt = () => import("@/view/salework/gzt.vue");
 const Gzpend = () => import("@/view/salework/gzpend.vue");
 
 import { getNowDate } from "@/untils/common";
@@ -194,8 +191,7 @@ export default {
     Kehu,
     Bumen,
     User,
-    Gztips,
-    Gzdata,
+    Gzt,
     Gzpend
   },
   name: "index",
@@ -242,7 +238,13 @@ export default {
         this.$message.error(res.msg);
       }
     });
-    this.getSalerIndex();
+    getSalerIndex({ userId: localStorage.getItem("userid"),submitTime:this.value1 }).then(res => {
+      if (res.code == 200) {
+        this.salerlist = res;
+      } else {
+        this.$message.error(res.msg);
+      }
+    });
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -255,22 +257,18 @@ export default {
   watch: {
     value1() {
       this.getallData();
-      this.getSalerIndex();
     }
   },
   methods: {
-    getSalerIndex() {
-      getSalerIndex({
-        userId: localStorage.getItem("userid"),
-        submitTime: this.value1
-      }).then(res => {
-        if (res.code == 200) {
-          this.salerlist = res;
-        } else {
-          this.$message.error(res.msg);
-        }
-      });
-    },
+    // getnotices() {
+    //   noticeshow({ userid: localStorage.getItem("userid") }).then(res => {
+    //     if (res.code == 200) {
+    //       this.gzlist = res.data;
+    //     } else {
+    //       this.$message.error(res.msg);
+    //     }
+    //   });
+    // },
     saleindexhandle(len) {
       this.salesoit = len;
     },
@@ -282,9 +280,8 @@ export default {
         let clientHeight = document.documentElement.clientHeight;
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
-        if (
-          toBottom < clientHeight / 2 &&
-          this.loading &&
+         if (
+          toBottom < clientHeight / 2 && this.loading &&
           this.tabdata2.length == this.pagenum * this.pageSize2
         ) {
           this.loading = false;
@@ -292,11 +289,7 @@ export default {
           this.getallData();
         }
         // 加载到所有数据底部提示
-        if (
-          toBottom <= 0 &&
-          this.loading &&
-          this.tabdata2.length < this.pagenum * this.pageSize2
-        ) {
+        if (toBottom <= 0 && this.loading && this.tabdata2.length < this.pagenum * this.pageSize2 ) {
           this.is_totheend = true;
         } else {
           this.is_totheend = false;

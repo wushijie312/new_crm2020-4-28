@@ -39,111 +39,35 @@
         </div>
       </div>
       <div class="mart8 menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div
-          class="left"
-          v-for="(item,index) in delists"
-          :key="index"
-          @click="dehandle(item)"
-          :class="item==deact?'act':''"
-        >
+        <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
           <span class="menu_border">
-            {{item}}
+            标准销售额
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
+        <div class="left" @click="saleindexhandle(2)" :class="soit===2?'act':''">
+          <span class="menu_border">
+            累计完成
+            <span class="menu_border_line"></span>
+          </span>
+        </div>
+        <div class="left" @click="saleindexhandle(3)" :class="soit===3?'act':''">
+          <span class="menu_border">
+            实时完成率
             <span class="menu_border_line"></span>
           </span>
         </div>
       </div>
       <div class="details_one padd_bt6">
-        <div class="detais_one_head" v-if="deact==delists[0]">
+        <div class="detais_one_head">
           <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
+            <h3>{{alldata.departmentName}}</h3>
+            <span class="tabs_four_c">NO.{{alldata.saleNo}}</span>
           </div>
-          <div  class="tabs_four">
+          <div class="tabs_four mart8">
             <p class="tabs_four_a">
-              {{delists[0]}}：
-              <span class="color333">{{salerlist.standardFinishMoney}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="salerlist.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-salerlist.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-salerlist.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-              <div v-if="salerlist.saleNo>15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="detais_one_head" v-if="deact==delists[1]">
-          <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
-          </div>
-          <div  class="tabs_four">
-            <p class="tabs_four_a">
-              {{delists[1]}}：
-              <span class="color333">{{salerlist.finishMoney}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="salerlist.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-salerlist.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-salerlist.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-              <div v-if="salerlist.saleNo>15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="detais_one_head" v-if="deact==delists[2]">
-          <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
-          </div>
-          <div  class="tabs_four">
-            <p class="tabs_four_a">
-              {{delists[2]}}：
-              <span class="color333">{{salerlist.finishRates}}</span>
+              实际累计完成：
+              <span class="color333">{{salerlist.totalFinishMthMoney}}</span>
             </p>
             <div class="tabs_four_d">
               <div v-if="salerlist.saleNo<=4">
@@ -199,7 +123,10 @@
             累计毛利率：
             <span class="color333">{{alldata.totalMthGrossProfit}}</span>
           </p>
-         
+          <p class="tabs_four_a mart8">
+            实时完成率：
+            <span class="color333">{{alldata.totalFinishMthRate}}</span>
+          </p>
           <p class="tabs_four_a mart8">
             超额/差额：
             <span
@@ -208,11 +135,11 @@
           </p>
           <p class="tabs_four_a mart8">
             净利：
-            <span class="color333">{{jingli}}万</span>
+            <span class="color333">{{alldata.jingli}}万</span>
           </p>
           <p class="tabs_four_a mart8">
             净净利：
-            <span class="color333">{{jingjingli}}万</span>
+            <span class="color333">{{alldata.jingjingli}}万</span>
           </p>
           <p class="tabs_four_a mart8">
             上月环比：
@@ -264,22 +191,19 @@ export default {
       delists: ["标准销售额", "累计完成", "实时完成率"],
       value1: this.$route.query.value1,
       pagenum: 1,
-      act: 1,
-      act1: false,
+      soit: 1,
+      act: 2,
+      act1: true,
       hua: require("@/assets/img/bangdan/hua.png"),
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
       ku: require("@/assets/img/bangdan/ku.png"),
-      jingli:0,
-      jingjingli:0,
       alldata: [],
-      salerlist: [],
-      departmentName:''
+      salerlist: []
     };
   },
   created() {},
   mounted() {
-    this.departmentName=localStorage.getItem("departmentName");
     this.getdata();
     this.getSalerIndex();
   },
@@ -292,14 +216,12 @@ export default {
   },
   methods: {
     dehandle(val) {
-      this.deact = val;
-      this.getSalerIndex();
+        this.deact = val;
     },
     getSalerIndex() {
       getSalerIndex({
         userId: localStorage.getItem("userid"),
-        submitTime: this.value1,
-        sortname:this.deact=="标准销售额"?'standardFinishMoney':this.deact=="累计完成"?'finishMoney':this.deact=="实时完成率"?'finishRates':''
+        submitTime: this.value1
       }).then(res => {
         if (res.code == 200) {
           this.salerlist = res;
@@ -308,6 +230,10 @@ export default {
         }
       });
     },
+    saleindexhandle(len) {
+      this.soit = len;
+    },
+
     getdata() {
       needdata({
         submitTime: this.value1,
@@ -316,22 +242,11 @@ export default {
       }).then(res => {
         if (res.code == 200) {
           this.alldata = res;
-          this.getjingli(res.saleInfoList);
         } else {
           this.$message.error({ message: `${res.message}` });
         }
       });
-    },
-    getjingli(tabsdata) {
-      this.jingli = 0;
-      this.jingjingli = 0;
-      tabsdata.forEach(element => {
-        this.jingli += Number(element.netProfit);
-        this.jingjingli += Number(element.netsProfit);
-      });
-      this.jingli = this.jingli.toFixed(2);
-      this.jingjingli = this.jingjingli.toFixed(2);
-    },
+    }
   }
 };
 </script>

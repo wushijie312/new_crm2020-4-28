@@ -17,12 +17,11 @@ if (HOSTNAME == "localhost") {//本地
   }
 }
 
-
 // 获取标签
 export function getSalerIndex(data) {
   return request({
     // url: htp + '/visit/data',
-    url: htp + '/search/searchSalerIndex ',
+    url: htp + '/saleInfo/search/searchSalerIndex.do',
     method: 'get',
     params: { "param": JSON.stringify(data) }
   })

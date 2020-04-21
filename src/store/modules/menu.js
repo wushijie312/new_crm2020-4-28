@@ -18,9 +18,7 @@ const actions = {
         pathshow().then(res => {
         const list = res.data
         var menus = []
-        console.log(list)
         commit('SET_MENUS', list)
-        console.log(list)
         resolve(menus)
       }).catch(error => {
         reject(error)

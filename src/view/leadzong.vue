@@ -166,8 +166,6 @@ export default {
         
             var date1 = this.$route.query.date
             var idnum = this.$route.query.id
-            console.log(date1)
-            console.log(idnum)
             chabumen({
                 submitTime: date1,
                 page: 1,

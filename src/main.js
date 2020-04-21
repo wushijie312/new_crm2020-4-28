@@ -23,8 +23,7 @@ rem()
 Vue.use(ElementUI)
 // import { Button } from 'ant-design-vue';
 // Vue.use(Button);
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
 /* eslint-disable no-new */
 // new Vue({
 //   el: '#app',
