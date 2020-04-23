@@ -1,4 +1,5 @@
 
+// const WebpackBundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var port_env = require('./config/pro.env');  // 生产环境
 var dev_env = require('./config/dev.env');  // 测试环境
 const env = process.env.NODE_ENV;
@@ -33,7 +34,9 @@ module.exports = {
         // }
     },
     lintOnSave: false, // 取消 eslint 验证
-
+    // configureWebpack: {//借助webpack-bundle-analyzer帮助分析 查看文件使用情况
+    //     plugins: [new WebpackBundleAnalyzerPlugin()]
+    // },
     chainWebpack: config => {   //styl
         const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
         types.forEach(type => addStyleResource(config.module.rule('stylus').oneOf(type)))

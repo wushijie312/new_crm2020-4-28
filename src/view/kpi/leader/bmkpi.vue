@@ -4,8 +4,9 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850">
+      
       <div class="sale_head bg_cfff clearfix">
-        <h3 class="sale_head_a fl">2019-03-09</h3>
+        <h3 class="fl">2019-03-09</h3>
         <span class="fr rate_blue" @click.stop="PFBZ_SURE(true)">评分标准</span>
       </div>
       <div class="yj_cont">
@@ -191,24 +192,4 @@ export default {
 <style lang="stylus"  scoped>
 @import '../../../assets/css/kpi.styl';
 
-.sale_head {
-  line-height: 16px;
-  padding: 12px 15px;
-  border-bottom: 1px solid $colorf0f0f0;
-  position: relative;
-}
-
-.sale_head_a {
-  color: $color333;
-  font-size: 15px;
-}
-
-.rate_blue {
-  color: $color409eff;
-  cursor: pointer;
-}
-
-.bg_cfff {
-  background: $colorfff;
-}
 </style>

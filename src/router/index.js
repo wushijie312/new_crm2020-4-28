@@ -74,7 +74,7 @@ let router =new Router({
   routes: [
     {
       path: '/',
-      component: Editkpi,
+      component: xsuser,
       meta: {index: 1}
     },
     {

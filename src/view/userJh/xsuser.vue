@@ -20,39 +20,17 @@
         </div>
 
         <div v-show="salesoit==1">
-          <Gztips :gzlist.sync="gzlist" />
-
-          <div
-            id="sobox"
-            style="    color: #333;
-    width: 5rem;
-    font-size: 0.3rem;
-    display: flex;
-    padding: 0px 15px;
-    line-height:0.8rem;
-    margin-top: 8px;
-    background: rgb(255, 255, 255);
-    text-align: left;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;"
-            class="clearfix"
-          >
-            <div style="width:3rem;font-size:14px;font-weight:bold;">当前日期：</div>
+          <div class="date_a mart8">
             <el-date-picker
               v-model="value1"
               type="date"
-              placeholder="选择日期"
-              style="border:none;top:0.15rem;"
-              value-format="yyyy-MM-dd"
               :editable="false"
               :clearable="false"
-              class="el-icon-arrow-down1"
-            >
-              <template>
-                <i class="el-icon-arrow-down"></i>
-              </template>
-            </el-date-picker>
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期"
+            ></el-date-picker>
           </div>
+          <Gztips :gzlist.sync="gzlist" />
           <Gzdata :salerlist.sync="salerlist" :value1.sync="value1" />
 
           <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
@@ -443,6 +421,9 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.qu_bmmobile_b{
+  color:$color545454;
+}
 .tabs_lb {
   width: 37%;
 }
@@ -454,6 +435,7 @@ export default {
 /* 筛选 start */
 .qu_bmmobile_select {
   width: 130px;
+  right:-10px;
 }
 
 .qu_bupc {

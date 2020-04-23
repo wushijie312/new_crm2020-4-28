@@ -150,24 +150,4 @@ export default {
 <style lang="stylus"  scoped>
 @import '../../../assets/css/kpi.styl';
 
-.sale_head {
-  line-height: 16px;
-  padding: 12px 15px;
-  border-bottom: 1px solid $colorf0f0f0;
-  position: relative;
-}
-
-.sale_head_a {
-  color: $color333;
-  font-size: 15px;
-}
-
-.rate_blue {
-  color: $color409eff;
-  cursor: pointer;
-}
-
-.bg_cfff {
-  background: $colorfff;
-}
 </style>

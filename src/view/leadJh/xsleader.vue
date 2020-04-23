@@ -780,6 +780,9 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.qu_bmmobile_b{
+  color:$color545454;
+}
 .totalBearMoney_pc {
   display: none;
 }
@@ -815,6 +818,7 @@ export default {
 
 .qu_bmmobile_select {
   width: 130px;
+  right:-10px;
 }
 
 .qu_bupc {
@@ -990,7 +994,7 @@ export default {
 
 .menubox .menu_border {
   line-height: 42px;
-  font-size: 14px;
+  font-size: 15px;
   display: inline-block;
   color: #333;
   cursor: pointer;

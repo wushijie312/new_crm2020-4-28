@@ -57,15 +57,15 @@ export default {
 }
 
 .sale_head {
-  line-height: 16px;
-  padding: 10px 15px;
+  line-height: 22px;
+  padding: 9px 15px;
   border-bottom: 1px solid $colorf0f0f0;
   position: relative;
 }
 
 .sale_head_a {
   color: $color333;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .sale_a {
@@ -81,7 +81,7 @@ export default {
 .sale_a_one {
   width: 25%;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .sale_a_work {
@@ -94,7 +94,7 @@ export default {
   color: $color545454;
   font-size: 12px;
   line-height: 14px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .sale_a_number {

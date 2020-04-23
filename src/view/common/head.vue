@@ -52,7 +52,7 @@
           :default-active="$route.fullPath=='/'?'/xiaoshou1':$route.fullPath"
           class="el-menu-vertical-demo"
           text-color="#333"
-          active-text-color="#3face8"
+          active-text-color="#409eff"
           router
           @select="dialoghandleClose"
         >
@@ -82,7 +82,7 @@
       </div>
       <div 
       @click="gobackHome"
-        style="outline: none;background:#fff;text-decoration: none;borderTop:1px solid #eee;padding:15px 0; text-align:center;line-height:20px;fontSize:16px;color:#3face8;display: block;position: absolute;width: 100%;bottom: 0;"
+        style="outline: none;background:#fff;text-decoration: none;borderTop:1px solid #eee;padding:15px 0; text-align:center;line-height:20px;fontSize:16px;color:#409eff;display: block;position: absolute;width: 100%;bottom: 0;"
       >
         <img
           :src="back_home"

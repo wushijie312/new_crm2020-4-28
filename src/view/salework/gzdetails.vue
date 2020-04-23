@@ -3,249 +3,239 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;text-align:left;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <div class="wrap850 details_minheight">
-      <div style="background:#f2f2f5;">
-        <div
-          id="sobox"
-          style="    color: #333;
-    width: 5rem;
-    font-size: 0.3rem;
-    border-top:8px solid #f2f2f5;
-    border-bottom:8px solid #f2f2f5;
-    display: flex;
-    padding: 0px 15px;
-    line-height:0.8rem;
-    background: rgb(255, 255, 255);
-    text-align: left;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;"
-          class="clearfix"
-        >
-          <div style="width:3rem;font-size:14px;font-weight:bold;">当前日期：</div>
-          <el-date-picker
-            v-model="value1"
-            type="date"
-            placeholder="选择日期"
-            style="border:none;top:0.15rem;"
-            value-format="yyyy-MM-dd"
-            :editable="false"
-            :clearable="false"
-            class="el-icon-arrow-down1"
+    <div class="wrap850">
+      <div class="date_a">
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          :editable="false"
+          :clearable="false"
+          value-format="yyyy-MM-dd"
+          placeholder="选择日期"
+        ></el-date-picker>
+      </div>
+      <div class="details_minheight">
+        <div class="mart8 menubox" style="overflow:hidden;font-size:0.3rem;">
+          <div
+            class="left"
+            v-for="(item,index) in delists"
+            :key="index"
+            @click="dehandle(item)"
+            :class="item==deact?'act':''"
           >
-            <template>
-              <i class="el-icon-arrow-down"></i>
-            </template>
-          </el-date-picker>
-        </div>
-      </div>
-      <div class="mart8 menubox" style="overflow:hidden;font-size:0.3rem;">
-        <div
-          class="left"
-          v-for="(item,index) in delists"
-          :key="index"
-          @click="dehandle(item)"
-          :class="item==deact?'act':''"
-        >
-          <span class="menu_border">
-            {{item}}
-            <span class="menu_border_line"></span>
-          </span>
-        </div>
-      </div>
-      <div class="details_one padd_bt6">
-        <div class="detais_one_head" v-if="deact==delists[0]">
-          <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
+            <span class="menu_border">
+              {{item}}
+              <span class="menu_border_line"></span>
+            </span>
           </div>
-          <div  class="tabs_four">
-            <p class="tabs_four_a">
-              {{delists[0]}}：
-              <span class="color333">{{salerlist.standardFinishMoney}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="salerlist.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-salerlist.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-salerlist.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-              <div v-if="salerlist.saleNo>15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+        </div>
+        <div class="details_one padd_bt6">
+          <div class="detais_one_head" v-if="deact==delists[0]">
+            <div class="tabs_thr paddb3">
+              <h3>{{departmentName}}</h3>
+              <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
+            </div>
+            <div class="tabs_four mart8">
+              <p class="tabs_four_a">
+                {{delists[0]}}：
+                <span class="color333">{{salerlist.standardFinishMoney}}</span>
+              </p>
+              <div class="tabs_four_d">
+                <div v-if="salerlist.saleNo<=4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 4-salerlist.saleNo"
+                    :key="len2"
+                    :src="hua"
+                  />
+                  <img class="tabs_ld_img" :src="zan" />
+                </div>
+                <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 8-salerlist.saleNo"
+                    :key="len2"
+                    :src="xiao"
+                  />
+                </div>
+                <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
+                  <img class="tabs_ld_img" :src="ku" />
+                  <img
+                    v-if="salerlist.saleNo>9&&salerlist.saleNo<=11"
+                    class="tabs_ld_img"
+                    :src="ku"
+                  />
+                  <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
+                    <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+                  </span>
+                </div>
+                <div v-if="salerlist.saleNo>15">
+                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="detais_one_head" v-if="deact==delists[1]">
-          <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
-          </div>
-          <div  class="tabs_four">
-            <p class="tabs_four_a">
-              {{delists[1]}}：
-              <span class="color333">{{salerlist.finishMoney}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="salerlist.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-salerlist.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-salerlist.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-              <div v-if="salerlist.saleNo>15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+          <div class="detais_one_head" v-if="deact==delists[1]">
+            <div class="tabs_thr paddb3">
+              <h3>{{departmentName}}</h3>
+              <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
+            </div>
+            <div class="tabs_four mart8">
+              <p class="tabs_four_a">
+                {{delists[1]}}：
+                <span class="color333">{{salerlist.finishMoney}}</span>
+              </p>
+              <div class="tabs_four_d">
+                <div v-if="salerlist.saleNo<=4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 4-salerlist.saleNo"
+                    :key="len2"
+                    :src="hua"
+                  />
+                  <img class="tabs_ld_img" :src="zan" />
+                </div>
+                <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 8-salerlist.saleNo"
+                    :key="len2"
+                    :src="xiao"
+                  />
+                </div>
+                <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
+                  <img class="tabs_ld_img" :src="ku" />
+                  <img
+                    v-if="salerlist.saleNo>9&&salerlist.saleNo<=11"
+                    class="tabs_ld_img"
+                    :src="ku"
+                  />
+                  <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
+                    <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+                  </span>
+                </div>
+                <div v-if="salerlist.saleNo>15">
+                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="detais_one_head" v-if="deact==delists[2]">
-          <div class="tabs_thr paddb3">
-            <h3>{{departmentName}}</h3>
-            <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
-          </div>
-          <div  class="tabs_four">
-            <p class="tabs_four_a">
-              {{delists[2]}}：
-              <span class="color333">{{salerlist.finishRates}}</span>
-            </p>
-            <div class="tabs_four_d">
-              <div v-if="salerlist.saleNo<=4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 4-salerlist.saleNo"
-                  :key="len2"
-                  :src="hua"
-                />
-                <img class="tabs_ld_img" :src="zan" />
-              </div>
-              <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
-                <img
-                  class="tabs_ld_img"
-                  v-for="(itemNo,len2) in 8-salerlist.saleNo"
-                  :key="len2"
-                  :src="xiao"
-                />
-              </div>
-              <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
-                <img class="tabs_ld_img" :src="ku" />
-                <img v-if="salerlist.saleNo>9&&salerlist.saleNo<=11" class="tabs_ld_img" :src="ku" />
-                <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
-                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
-                </span>
-              </div>
-              <div v-if="salerlist.saleNo>15">
-                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+          <div class="detais_one_head" v-if="deact==delists[2]">
+            <div class="tabs_thr paddb3">
+              <h3>{{departmentName}}</h3>
+              <span class="tabs_four_c">NO.{{salerlist.saleNo}}</span>
+            </div>
+            <div class="tabs_four mart8">
+              <p class="tabs_four_a">
+                {{delists[2]}}：
+                <span class="color333">{{salerlist.finishRates}}</span>
+              </p>
+              <div class="tabs_four_d">
+                <div v-if="salerlist.saleNo<=4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 4-salerlist.saleNo"
+                    :key="len2"
+                    :src="hua"
+                  />
+                  <img class="tabs_ld_img" :src="zan" />
+                </div>
+                <div v-if="salerlist.saleNo<=7&&salerlist.saleNo>4">
+                  <img
+                    class="tabs_ld_img"
+                    v-for="(itemNo,len2) in 8-salerlist.saleNo"
+                    :key="len2"
+                    :src="xiao"
+                  />
+                </div>
+                <div v-if="salerlist.saleNo>7&&salerlist.saleNo<=15">
+                  <img class="tabs_ld_img" :src="ku" />
+                  <img
+                    v-if="salerlist.saleNo>9&&salerlist.saleNo<=11"
+                    class="tabs_ld_img"
+                    :src="ku"
+                  />
+                  <span v-if="salerlist.saleNo>11&&salerlist.saleNo<=15">
+                    <img class="tabs_ld_img" v-for="(itemNo,len2) in 2" :key="len2" :src="ku" />
+                  </span>
+                </div>
+                <div v-if="salerlist.saleNo>15">
+                  <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="tabs_four wztabs_pc_all">
-          <p class="tabs_four_a mart8">
-            本月任务：
-            <span class="color333">{{alldata.totalMthPlanMoney}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            今日完成：
-            <span class="color333">{{alldata.totalDayPlanMoney}}</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            截止今日应完成：
-            <span class="color333">{{alldata.totalMonthShouldMoney}}万</span>
-          </p>
+          <div class="tabs_four wztabs_pc_all">
+            <p class="tabs_four_a mart8">
+              本月任务：
+              <span class="color333">{{alldata.totalMthPlanMoney}}万</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              今日完成：
+              <span class="color333">{{alldata.totalDayPlanMoney}}</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              截止今日应完成：
+              <span class="color333">{{alldata.totalMonthShouldMoney}}万</span>
+            </p>
 
-          <p class="tabs_four_a mart8">
-            今日毛利率：
-            <span class="color333">{{alldata.dayTotalGrossProfit}}%</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            累计毛利率：
-            <span class="color333">{{alldata.totalMthGrossProfit}}</span>
-          </p>
-         
-          <p class="tabs_four_a mart8">
-            超额/差额：
-            <span
-              :class="alldata.moneyDifference>0?'rate_red':alldata.moneyDifference==0?'color333':'rate_green'"
-            >{{alldata.moneyDifference}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            净利：
-            <span class="color333">{{jingli}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            净净利：
-            <span class="color333">{{jingjingli}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            上月环比：
-            <span
-              :class="alldata.totalMonthCompare>0?'rate_red':alldata.totalMonthCompare==0?'color333':'rate_green'"
-            >{{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            去年同比：
-            <span
-              :class="alldata.totalYearCompare>0?'rate_red':alldata.totalYearCompare==0?'color333':'rate_green'"
-            >{{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            TB线索：
-            <span class="color333">{{alldata.totalTBClueMoney}}万</span>
-          </p>
-          <p class="tabs_four_a mart8">
-            本月开标：
-            <span class="color333">{{alldata.totalOpenTenderMoney}}万</span>
-          </p>
-          <p class="tabs_four_a wztabs_pcdifmoney mart8">
-            本月丢标：
-            <span class="color333">{{alldata.totalGetTenderMoney}}万</span>
-          </p>
+            <p class="tabs_four_a mart8">
+              今日毛利率：
+              <span class="color333">{{alldata.dayTotalGrossProfit}}%</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              累计毛利率：
+              <span class="color333">{{alldata.totalMthGrossProfit}}</span>
+            </p>
+
+            <p class="tabs_four_a mart8">
+              超额/差额：
+              <span
+                :class="alldata.moneyDifference>0?'rate_red':alldata.moneyDifference==0?'color333':'rate_green'"
+              >{{alldata.moneyDifference}}万</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              净利：
+              <span class="color333">{{jingli}}万</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              净净利：
+              <span class="color333">{{jingjingli}}万</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              上月环比：
+              <span
+                :class="alldata.totalMonthCompare>0?'rate_red':alldata.totalMonthCompare==0?'color333':'rate_green'"
+              >{{alldata.totalMonthCompare>0?alldata.totalMonthCompare:-alldata.totalMonthCompare}}%</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              去年同比：
+              <span
+                :class="alldata.totalYearCompare>0?'rate_red':alldata.totalYearCompare==0?'color333':'rate_green'"
+              >{{alldata.totalYearCompare>0?alldata.totalYearCompare:-alldata.totalYearCompare}}%</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              TB线索：
+              <span class="color333">{{alldata.totalTBClueMoney}}万</span>
+            </p>
+            <p class="tabs_four_a mart8">
+              本月开标：
+              <span class="color333">{{alldata.totalOpenTenderMoney}}万</span>
+            </p>
+            <p class="tabs_four_a wztabs_pcdifmoney mart8">
+              本月丢标：
+              <span class="color333">{{alldata.totalGetTenderMoney}}万</span>
+            </p>
+          </div>
         </div>
       </div>
-      <div class="details_back" @click="$router.go(-1)">返回</div>
+      <div class="all_go_back" @click="$router.go(-1)">返&nbsp;回</div>
     </div>
   </div>
 </template>
 <script>
-const Head = () => import("@/view/common/head");
+import Head from "@/view/common/head";
 import {
   adddata,
   chakehu,
@@ -270,16 +260,19 @@ export default {
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
       ku: require("@/assets/img/bangdan/ku.png"),
-      jingli:0,
-      jingjingli:0,
+      jingli: 0,
+      jingjingli: 0,
       alldata: [],
       salerlist: [],
-      departmentName:''
+      departmentName: ""
     };
   },
   created() {},
   mounted() {
-    this.departmentName=localStorage.getItem("departmentName")+'--'+localStorage.getItem("userName");
+    this.departmentName =
+      localStorage.getItem("departmentName") +
+      "--" +
+      localStorage.getItem("userName");
     this.getdata();
     this.getSalerIndex();
   },
@@ -299,7 +292,14 @@ export default {
       getSalerIndex({
         userId: localStorage.getItem("userid"),
         submitTime: this.value1,
-        sortname:this.deact=="标准销售额"?'standardFinishMoney':this.deact=="累计完成"?'finishMoney':this.deact=="实时完成率"?'finishRates':''
+        sortname:
+          this.deact == "标准销售额"
+            ? "standardFinishMoney"
+            : this.deact == "累计完成"
+            ? "finishMoney"
+            : this.deact == "实时完成率"
+            ? "finishRates"
+            : ""
       }).then(res => {
         if (res.code == 200) {
           this.salerlist = res;
@@ -331,7 +331,7 @@ export default {
       });
       this.jingli = this.jingli.toFixed(2);
       this.jingjingli = this.jingjingli.toFixed(2);
-    },
+    }
   }
 };
 </script>
@@ -339,7 +339,7 @@ export default {
 @import '../../assets/css/bangdan.styl';
 
 .details_minheight {
-  height: 'calc(100vh - %s)' % 85px;
+  height: 'calc(100vh - %s)' % 125px;
   background: $colorfff;
 }
 
@@ -349,19 +349,7 @@ export default {
   border-bottom: 1px solid $colorf0f0f0;
 }
 
-.details_back {
-  line-height: 44px;
-  border-top: 1px solid $colorf0f0f0;
-  text-align: center;
-  color: $color409eff;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 850px;
-  background: $colorfff;
-  margin: 0 auto;
-  cursor: pointer;
-}
+
 
 .details_one {
   background: $colorfff;

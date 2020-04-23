@@ -5,10 +5,9 @@
       <div class="sale_head clearfix">
         <h3 class="sale_head_a fl">
           销售数据
-          <span class="sale_head_money">(单位:万)</span>
+          <span class="sale_head_money">（单位：万）</span>
         </h3>
         <div class="fr sale_head_b">
-          <span class="rate_red mar_r5 rate_bold">NO.{{salerlist.saleNo}}</span>
           <div class="tabs_four_d">
             <div v-if="salerlist.saleNo<=4">
               <img
@@ -35,7 +34,7 @@
               </span>
             </div>
             <div v-if="salerlist.saleNo>15">
-              <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
+                <img class="tabs_ld_img" v-for="(itemNo,len2) in 3" :key="len2" :src="ku" />
             </div>
           </div>
         </div>
@@ -49,31 +48,65 @@
             @click="salehandle('tabact1',item)"
           >{{item}}</li>
         </ul>
-        <div class="saleb_one">
-          <div class="saleb_one_li">
-            <h3
-              class="saleb_one_money"
-            >{{tabact1==mylists[0]?salerlist.finishMoney:tabact1==mylists[1]?salerlist.finishQuarterMoney:tabact1==mylists[2]?salerlist.finishYearMoney:''}}</h3>
-            <p class="saleb_one_tit">累计完成</p>
+        <div v-if="tabact1==mylists[0]">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishMoney}}</h3>
+              <p class="saleb_one_tit">月累计</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.standardFinishMoney}}</h3>
+              <p class="saleb_one_tit">月标准</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishRates}}</h3>
+              <p class="saleb_one_tit">月完成率</p>
+            </div>
           </div>
-          <div class="saleb_one_li">
-            <h3
-              class="saleb_one_money"
-            >{{tabact1==mylists[0]?salerlist.standardFinishMoney:tabact1==mylists[1]?salerlist.standardQuarterFinishMoney:tabact1==mylists[2]?salerlist.standardYearFinishMoney:''}}</h3>
-            <p class="saleb_one_tit">标准销售额</p>
-          </div>
-          <div class="saleb_one_li">
-            <h3
-              class="saleb_one_money"
-            >{{tabact1==mylists[0]?salerlist.finishRates:tabact1==mylists[1]?salerlist.finishQuarterRates:tabact1==mylists[2]?salerlist.finishYearRates:''}}</h3>
-            <p class="saleb_one_tit">实时完成率</p>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">月任务：{{salerlist.monthmoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
           </div>
         </div>
-        <div class="saleb_two clearfix">
-          <span
-            class="saleb_two_renwu"
-          >{{tabact1==mylists[0]?'月任务：'+salerlist.monthmoney:tabact1==mylists[1]?'季任务：'+salerlist.quartermoney:tabact1==mylists[2]?'年任务：'+salerlist.yearmoney:''}}(万)</span>
-          <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
+        <div v-if="tabact1==mylists[1]">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishQuarterMoney}}</h3>
+              <p class="saleb_one_tit">季累计</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.standardQuarterFinishMoney}}</h3>
+              <p class="saleb_one_tit">季标准</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishQuarterRates}}</h3>
+              <p class="saleb_one_tit">季完成率</p>
+            </div>
+          </div>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">季任务：{{salerlist.quartermoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
+          </div>
+        </div>
+        <div v-if="tabact1==mylists[2]">
+          <div class="saleb_one">
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishYearMoney}}</h3>
+              <p class="saleb_one_tit">累计完成</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.standardYearFinishMoney}}</h3>
+              <p class="saleb_one_tit">标准销售额</p>
+            </div>
+            <div class="saleb_one_li">
+              <h3 class="saleb_one_money">{{salerlist.finishYearRates}}</h3>
+              <p class="saleb_one_tit">实时完成率</p>
+            </div>
+          </div>
+          <div class="saleb_two clearfix">
+            <span class="saleb_two_renwu">年任务：{{salerlist.yearmoney}}</span>
+            <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +147,7 @@ export default {
   components: {
     Head
   },
-  props: ["salerlist", "value1"],
+  props: ["salerlist",'value1'],
   data() {
     return {
       tabact1: "本月",
@@ -124,14 +157,15 @@ export default {
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
       ku: require("@/assets/img/bangdan/ku.png"),
-      empty: require("@/assets/img/salework/empty.png")
+      empty: require("@/assets/img/salework/empty.png"),
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+  },
   methods: {
     detailshandel() {
-      this.$router.push({ path: "/gzdetails", query: { value1: this.value1 } });
+      this.$router.push({ path: "/gzdetails" ,query:{value1:this.value1}});
     },
     salehandle(type, val) {
       if (type == "tabact1") {
@@ -144,35 +178,30 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
-.sale_head_b {
-  position: absolute;
-  display:flex; 
-  right: 15px;
-  top: 12px;
+.sale_head_b{
+  position :absolute;
+  right:15px;
+  top:10px;
 }
-
-.tabs_ld_img {
-  width: 15px;
-  vertical-align :text-bottom;
-  line-height: 15px;
+.tabs_ld_img{
+  width:15px;
+  line-height 15px;
 }
-
 .saleb_two {
-  line-height: 20px;
-    padding: 10px 15px;
-    font-size: 13px;
-    text-align: center;
-    position: relative;
-    border-top: 1px solid #f0f0f0;
-    margin-top: 18px;
+  line-height: 36px;
+  padding: 0 15px;
+  font-size: 13px;
+  text-align: center;
+  position: relative;
+  border-top: 1px solid $colorf0f0f0;
+  margin-top: 22px;
 }
 
 .saleb_two_details {
   color: $color409eff;
   position: absolute;
-  font-size:14px;
   right: 15px;
-  top: 11px;
+  top: 0;
   cursor: pointer;
 }
 
@@ -191,9 +220,9 @@ export default {
 }
 
 .saleb_one_money {
-  font-size: 16px;
+  font-size: 15px;
   color: $color333;
-  line-height: 16px;
+  line-height: 15px;
 }
 
 .saleb_one_tit {
@@ -208,23 +237,24 @@ export default {
 }
 
 .sale_mouthyear {
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 30px;
   color: $color909399;
   text-align: center;
   display: flex;
   width: 175px;
   margin: 0 auto;
   padding: 0px 5px;
-  border: 1px solid $colorf0f0f0;
+  border: 1px solid $colore5e5e5;
   border-radius: 18px;
-  box-shadow: 0 0 5px rgba(63, 158, 255,0.28);
+  box-shadow: 0 0 3px $colord8eafc;
 }
 
 .sale_mouthyear li {
   width: 33.333333%;
   border-right: 1px solid $colore5e5e5;
   box-sizing: border-box;
-  line-height: 16px;
+  line-height: 15px;
   margin: 9px 0;
   cursor: pointer;
 }
@@ -242,15 +272,15 @@ export default {
 }
 
 .sale_head {
-  line-height: 22px;
-  padding: 9px 15px;
+  line-height: 16px;
+  padding: 10px 15px;
   border-bottom: 1px solid $colorf0f0f0;
-  position: relative;
+  position :relative;
 }
 
 .sale_head_a {
   color: $color333;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .sale_head_money {
@@ -259,4 +289,5 @@ export default {
   font-size: 12px;
   font-weight: normal;
 }
+
 </style>

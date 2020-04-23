@@ -114,7 +114,7 @@
         </div>
         <div class="yj_tishi ">KPI确认单如有疑问可咨询HR，如无误请点击“确认无误”按钮进行确认</div>
         <div class="yj_sure_btn">
-          <el-button style="width:50%;" size="small" @click.stop="goback">返回</el-button>
+          <el-button style="width:50%;" size="small" @click.stop="$router.go(-1)">返回</el-button>
           <el-button style="width:50%;" size="small" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
         </div>
       </div>
@@ -178,9 +178,6 @@ export default {
         timer = null;
       }, 1000);
     },
-    goback() {
-      this.$router.go(-1);
-    },
     yjhandle() {
       this.$message.closeAll();
       this.is_yj = !this.is_yj;
@@ -198,29 +195,6 @@ export default {
   line-height: 24px;
   background: #f2f2f5;
   padding: 8px 15px 55px;
-}
-
-
-
-.sale_head {
-  line-height: 16px;
-  padding: 12px 15px;
-  border-bottom: 1px solid $colorf0f0f0;
-  position: relative;
-}
-
-.sale_head_a {
-  color: $color333;
-  font-size: 15px;
-}
-
-.rate_blue {
-  color: $color409eff;
-  cursor: pointer;
-}
-
-.bg_cfff {
-  background: $colorfff;
 }
 
 </style>

@@ -57,9 +57,9 @@ export default {
 .pf_a {
   padding: 7px 15px;
   font-size: 15px;
-  color: #333;
+  color: $color333;
   line-height: 24px;
-  border: 1px solid $colorf0f0f0;
+  border-bottom: 1px solid $colorf0f0f0;
 }
 
 .pf_a h3 {
@@ -68,7 +68,7 @@ export default {
 
 .pf_a_close {
   font-size: 24px;
-  color: #545454;
+  color: $color545454;
   cursor: pointer;
 }
 

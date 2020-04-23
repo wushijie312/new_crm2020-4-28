@@ -4,10 +4,20 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850">
-      <div class="sale_head bg_cfff clearfix">
-        <h3 class="sale_head_a fl">2019-03-09</h3>
-        <span class="fr rate_blue" @click.stop="PFBZ_SURE(true)">评分标准</span>
+      <div class="bg_cfff clearfix">
+        <div class="date_a fl">
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            :editable="false"
+            :clearable="false"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </div>
+        <span class="fr rate_blue xs_pfbz" @click.stop="PFBZ_SURE(true)">评分标准</span>
       </div>
+    
       <div class="yj_cont" style="padding-bottom:50px;">
         <div class="mart8" v-for="(item,index) in bmlist" :key="index">
           <div class="yj_head yj_head_cursor clearfix" @click.stop="bmhandle(item,index)">
@@ -109,12 +119,13 @@
       </div>
     </div>
     <Pfbz v-if="is_pfbz" :tiplist="tiplist" />
-    <div class="details_back" @click="$router.go(-1)">返&nbsp;回</div>
+    <div class="all_go_back" @click="$router.go(-1)">返&nbsp;回</div>
   </div>
 </template>
 <script>
 import { salechabumen } from "@/api/config";
 import { mapState, mapMutations } from "vuex";
+import { getNowDate } from "@/untils/common";
 const Head = () => import("@/view/common/head");
 const Pfbz = () => import("@/components/pfbz");
 
@@ -125,6 +136,7 @@ export default {
   },
   data() {
     return {
+      value1:getNowDate(),
       input:'删掉我',
       is_yj: false,
       act: 1,
@@ -173,7 +185,7 @@ export default {
       console.log(this.bmlist);
     },
     kpisurehandle() {
-      this.$router.push({ path: "/yjkpisure" });
+      this.$router.push({ path: "/editkpi" });
     },
     yjhandle() {
       this.$message.closeAll();
@@ -185,39 +197,7 @@ export default {
 <style lang="stylus"  scoped>
 @import '../../../assets/css/kpi.styl';
 
-.details_back {
-  line-height: 44px;
-  border-top: 1px solid $colorf0f0f0;
-  text-align: center;
-  color: $color409eff;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 2;
-  max-width: 850px;
-  background: $colorfff;
-  margin: 0 auto;
-  cursor: pointer;
-}
 
-.sale_head {
-  line-height: 16px;
-  padding: 12px 15px;
-  border-bottom: 1px solid $colorf0f0f0;
-  position: relative;
-}
 
-.sale_head_a {
-  color: $color333;
-  font-size: 15px;
-}
 
-.rate_blue {
-  color: $color409eff;
-  cursor: pointer;
-}
-
-.bg_cfff {
-  background: $colorfff;
-}
 </style>

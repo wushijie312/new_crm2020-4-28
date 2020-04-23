@@ -284,8 +284,11 @@ export default {
 };
 </script>
 <style scoped>
+.qu_bmmobile_b{
+  color:#545454;
+}
 .qu_bmmobile_select {
-  width: 130px;
+  width: 120px;
 }
 .qu_bupc {
   display: none;

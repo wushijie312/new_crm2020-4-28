@@ -5,7 +5,7 @@
       <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
         <div class="left" @click="saleindexhandle(1)" :class="soit===1?'act':''">
           <span class="menu_border">
-            待处理（{{gzlist.length}}）
+            待处理({{gzlist.length}})
             <span class="menu_border_line"></span>
           </span>
         </div>
