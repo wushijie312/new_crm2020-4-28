@@ -245,7 +245,7 @@
   </div>
 </template>
 <script>
-import Head from "@/view/common/head";
+const Head = () => import("@/view/common/head");
 import {
   adddata,
   chakehu,

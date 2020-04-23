@@ -52,13 +52,17 @@ const talentd = () => import('@/view/supply/talentd')
 
 
 // 问卷调查 start 
-
 const dcTabs = () => import('@/view/questionDc/dcTabs')
 const customers = () => import('@/view/questionDc/customers')
 const iframe = () => import('@/view/questionDc/iframe')
 
 // 销售工作台 start
 const Gzdetails = () => import('@/view/salework/gzdetails')
+const Yjkpi = () => import('@/view/kpi/user/yjkpi')
+const Yjkpisure = () => import('@/view/kpi/user/yjkpisure')
+const Bmkpi = () => import('@/view/kpi/leader/bmkpi')
+const Xskpi = () => import('@/view/kpi/leader/xskpi')
+const Editkpi = () => import('@/view/kpi/leader/editkpi')
 
 // xsuser
 // 问卷调查 end
@@ -70,7 +74,7 @@ let router =new Router({
   routes: [
     {
       path: '/',
-      component: xsuser,
+      component: Editkpi,
       meta: {index: 1}
     },
     {
@@ -82,6 +86,29 @@ let router =new Router({
       path: '/gzdetails',
       component: Gzdetails,
       meta: {index: 1,title:'销售详情'}
+    },
+    {
+      path: '/xskpi',
+      component: Xskpi,
+      meta: {index: 1,title:'销售KPI'}
+    },
+    {
+      path: '/editkpi',
+      component: Editkpi,
+      meta: {index: 1,title:'编辑KPI'}
+    },
+    {
+      path: '/bmkpi',
+      component: Bmkpi,
+      meta: {index: 1,title:'部门KPI'}
+    },{
+      path: '/yjkpi',
+      component: Yjkpi,
+      meta: {index: 1,title:'月度KPI'}
+    },{
+      path: '/yjkpisure',
+      component: Yjkpisure,
+      meta: {index: 1,title:'KPI'}
     },
     {
       path: '/iframe',
