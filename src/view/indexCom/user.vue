@@ -46,7 +46,7 @@
           <div class="padd_b10 border_bf0f0f0">
             <div class="tabs_thr paddb3">
               <h3>{{item.departmentName}}</h3>
-              <span class="usertabs_paidan" @click="gotoPaiDan(item.userId)">
+              <span class="usertabs_paidan " @click="gotoPaiDan(item.userId)">
                 <i class="el-icon-s-promotion" style="color:#409eff;"></i>派单
               </span>
             </div>

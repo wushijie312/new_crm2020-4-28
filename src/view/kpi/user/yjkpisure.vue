@@ -193,7 +193,7 @@ export default {
   font-size: 13px;
   color: $color909399;
   line-height: 24px;
-  background: #f2f2f5;
+  background: #f5f5f7;
   padding: 8px 15px 55px;
 }
 

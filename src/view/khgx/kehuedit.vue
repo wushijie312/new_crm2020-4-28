@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper cccgo" style="font-size:0.3rem;text-align:left;background:#f2f2f5;">
+  <div class="wrapper cccgo" style="font-size:0.3rem;text-align:left;background:#f5f5f7;">
     <el-form
       ref="ruleForm"
       
@@ -13,7 +13,7 @@
         class="text item"
         style="overflow:hidden;border-bottom:1px solid #EBEEF5;background:#fff;"
       >
-        <el-row style="background:#f2f2f5;line-height:0.6rem;padding-left:0.2rem;">联系人信息</el-row>
+        <el-row style="background:#f5f5f7;line-height:0.6rem;padding-left:0.2rem;">联系人信息</el-row>
         <el-row style="width:98%;">
           <el-col :span="24" >
             <el-form-item label="层级:">

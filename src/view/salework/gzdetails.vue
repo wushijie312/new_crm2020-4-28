@@ -4,7 +4,7 @@
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850">
-      <div class="date_a">
+      <div :class="is_date?'date_a act':'date_a'">
         <el-date-picker
           v-model="value1"
           type="date"
@@ -12,6 +12,8 @@
           :clearable="false"
           value-format="yyyy-MM-dd"
           placeholder="选择日期"
+          @focus="is_date=!is_date"
+              @blur="is_date=!is_date"
         ></el-date-picker>
       </div>
       <div class="details_minheight">
@@ -250,6 +252,8 @@ export default {
   },
   data() {
     return {
+      is_date:false,
+
       deact: "标准销售额",
       delists: ["标准销售额", "累计完成", "实时完成率"],
       value1: this.$route.query.value1,

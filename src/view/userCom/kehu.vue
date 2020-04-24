@@ -1,6 +1,6 @@
 <template>
   <div style="min-height:300px;">
-    <div style="background:#f2f2f5;">
+    <div style="background:#f5f5f7;">
       <div
         style="border-bottom:1px solid #ccc;padding-bottom:0.3rem;margin-bottom:0.2rem;font-size:0.3rem;"
         v-for="(item,index) in tabdata2"
@@ -223,7 +223,7 @@ export default {
 }
 body,
 html {
-  background: #f2f2f5;
+  background: #f5f5f7;
 }
 .flex_1 {
   flex-wrap: wrap;

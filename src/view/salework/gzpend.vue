@@ -80,7 +80,7 @@ export default {
 <style lang="stylus"  scoped>
 .empty {
   text-align: center;
-  padding-top: 50px;
+  padding-top: 80px;
 }
 
 .empty img {

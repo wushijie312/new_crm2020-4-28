@@ -311,7 +311,7 @@ export default {
   background-size: 100%;
 }
 .content {
-  background: #f2f2f5;
+  background: #f5f5f7;
 }
 .el-card__header {
   background: #21aefb;

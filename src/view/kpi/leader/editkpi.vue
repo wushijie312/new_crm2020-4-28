@@ -5,7 +5,7 @@
     <div class="menu-head-top50"></div>
     <div class="wrap850">
       <div class="bg_cfff clearfix">
-        <div class="date_a fl">
+        <div :class="is_date?'date_a act fl':'date_a fl'">
           <el-date-picker
             v-model="value1"
             type="date"
@@ -13,8 +13,11 @@
             :clearable="false"
             value-format="yyyy-MM-dd"
             placeholder="选择日期"
+            @focus="is_date=!is_date"
+            @blur="is_date=!is_date"
           ></el-date-picker>
         </div>
+
         <span class="fr rate_blue xs_pfbz" @click.stop="PFBZ_SURE(true)">评分标准</span>
       </div>
       <div class="yj_user mart8">
@@ -149,7 +152,8 @@ export default {
   },
   data() {
     return {
-      value1:getNowDate(),
+      is_date: false,
+      value1: getNowDate(),
       input: "删掉我",
       is_yj: false,
       act: 1,
@@ -208,6 +212,4 @@ export default {
 </script>
 <style lang="stylus"  scoped>
 @import '../../../assets/css/kpi.styl';
-
-
 </style>

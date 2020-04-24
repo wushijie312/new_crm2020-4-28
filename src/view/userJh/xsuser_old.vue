@@ -31,7 +31,7 @@
             <div
               v-show="indexnum==2"
               class="left flex_1"
-              style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f2f2f5;"
+              style="width:100%;font-size:0.3rem;display:flex;padding-top:0.2rem;border-top:1px solid #f5f5f7;"
             >
               <div>
                 <span class="blue">本月任务：</span>
@@ -760,7 +760,7 @@ export default {
 }
 
 body, html {
-  background: #f2f2f5;
+  background: #f5f5f7;
 }
 
 .flex_1 {

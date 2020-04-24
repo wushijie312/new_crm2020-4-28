@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" ref="wrapper">
+  <div class="wrapper padd_b30" ref="wrapper">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="content" ref="others">
       <div class="menu-head-top50"></div>
@@ -20,39 +20,18 @@
         </div>
 
         <div v-show="salesoit==1">
-          <SaleWorkIndex :alldata="alldata" :tabdata2="tabdata2" />
-
-          <div
-            id="sobox"
-            style="    color: #333;
-    width: 5rem;
-    font-size: 0.3rem;
-    display: flex;
-    padding: 0px 12px;
-    line-height:0.8rem;
-    margin-top: 8px;
-    background: rgb(255, 255, 255);
-    text-align: left;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;"
-            class="clearfix"
-          >
-            <div style="width:3rem;">当前日期：</div>
+          <div class="date_a mart8">
             <el-date-picker
               v-model="value1"
               type="date"
-              placeholder="选择日期"
-              style="border:none;top:0.15rem;"
-              value-format="yyyy-MM-dd"
               :editable="false"
               :clearable="false"
-              class="el-icon-arrow-down1"
-            >
-              <template>
-                <i class="el-icon-arrow-down"></i>
-              </template>
-            </el-date-picker>
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期"
+            ></el-date-picker>
           </div>
+          <Gzdata :salerlist.sync="salerlist" :gzlist.sync="gzlist" :value1.sync="value1" />
+
           <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
             <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
               <span class="menu_border">
@@ -90,8 +69,8 @@
                       <el-option
                         v-for="item in searchType"
                         :key="item.value"
-                        :label="item.label"
-                        :value="item.label"
+                        :label="item"
+                        :value="item"
                       ></el-option>
                     </el-select>
                   </div>
@@ -100,9 +79,9 @@
               <div class="search_px search_px_pc">
                 <p v-for="(itemSearch,len3) in searchType" :key="len3">
                   <span
-                    :class="searchValue1==itemSearch.label?'search_px_tit act':'search_px_tit'"
-                    @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
-                  >{{itemSearch.label}}</span>
+                    :class="searchValue1==itemSearch?'search_px_tit act':'search_px_tit'"
+                    @click="bumenbanghandle(itemSearch.value,itemSearch)"
+                  >{{itemSearch}}</span>
                 </p>
               </div>
               <Bumen :tabdata1.sync="tabdata1" :searchValue1="searchValue1" :value1.sync="value1" />
@@ -112,6 +91,7 @@
           <div v-show="indexnum==2">
             <div v-if="tabdata2&&tabdata2.length">
               <Kehu :pagenum="pagenum" :tabdata2="tabdata2" :value1="value1" />
+              <div :class="is_totheend?'to_the_end act':'to_the_end'">已经到底了</div>
             </div>
             <div v-else class="nothing">暂无数据</div>
           </div>
@@ -132,9 +112,9 @@
                 <div class="search_px">
                   <p v-for="(itemSearch,len3) in searchType3" :key="len3">
                     <span
-                      :class="searchValue3==itemSearch.label?'search_px_tit act':'search_px_tit'"
-                      @click="bumenbanghandle(itemSearch.value,itemSearch.label)"
-                    >{{itemSearch.label}}</span>
+                      :class="searchValue3==itemSearch?'search_px_tit act':'search_px_tit'"
+                      @click="bumenbanghandle(itemSearch.value,itemSearch)"
+                    >{{itemSearch}}</span>
                   </p>
                 </div>
                 <div class="search_px_btn" @click="XiaoSouListChange">{{showOrHide?'展开全部':'收起全部'}}</div>
@@ -151,7 +131,7 @@
           </div>
         </div>
         <div v-show="salesoit==2">
-          <SalePending />
+          <Gzpend :gzlist="gzlist" />
         </div>
       </div>
     </div>
@@ -160,8 +140,16 @@
 </template>
 
 <script>
-import CreateData from "@/view/userJh/xsuserdata/index";
-import Addcreate from "@/components/addcreate";
+const Head = () => import("@/view/common/head");
+const Kehu = () => import("@/view/userCom/kehu");
+const Bumen = () => import("@/view/userCom/bumen");
+const User = () => import("@/view/userCom/user");
+const CreateData = () => import("@/view/userJh/xsuserdata/index");
+const Addcreate = () => import("@/components/addcreate");
+// 销售工作台 start
+const Gzdata = () => import("@/view/salework/gzdata.vue");
+const Gzpend = () => import("@/view/salework/gzpend.vue");
+
 import { getNowDate } from "@/untils/common";
 // import BScroll from "better-scroll";
 import {
@@ -169,16 +157,12 @@ import {
   chakehu,
   saleneeddata,
   needdata,
+  getSalerIndex,
+  noticeshow,
   salechabumen
 } from "@/api/config";
 import { getisread } from "@/api/configWu";
-import Head from "@/view/common/head";
-import Kehu from "@/view/userCom/kehu";
-import Bumen from "@/view/userCom/bumen";
-import User from "@/view/userCom/user";
-// 销售工作台 start
-import SaleWorkIndex from "@/view/salework/sale.vue";
-import SalePending from "@/view/salework/pending.vue";
+
 export default {
   components: {
     Head,
@@ -186,46 +170,23 @@ export default {
     Kehu,
     Bumen,
     User,
-    SaleWorkIndex,
-    SalePending
+    Gzdata,
+    Gzpend
   },
   name: "index",
   data() {
     return {
+      is_totheend: false,
+      gzlist: [],
+      salerlist: [],
       salesoit: 1,
       xskword: "",
       showOrHide: true,
       pagenum: 1,
       searchValue1: "实际销售额",
       searchValue3: "累计完成",
-      searchType: [
-        {
-          label: "实际销售额"
-        },
-        {
-          label: "标准销售额"
-        },
-        {
-          label: "实时完成率"
-        },
-        {
-          label: "净利"
-        },
-        {
-          label: "净净利"
-        }
-      ],
-      searchType3: [
-        {
-          label: "累计完成"
-        },
-        {
-          label: "实时完成率"
-        },
-        {
-          label: "标准销售额"
-        }
-      ],
+      searchType: ["实际销售额", "标准销售额", "实时完成率", "净利", "净净利"],
+      searchType3: ["累计完成", "实时完成率", "标准销售额"],
       indexnum: 1,
       loading: true,
 
@@ -248,6 +209,15 @@ export default {
   },
   mounted() {
     this.chakehu();
+    // this.getnotices();
+    noticeshow({ userid: localStorage.getItem("userid") }).then(res => {
+      if (res.code == 200) {
+        this.gzlist = res.data;
+      } else {
+        this.$message.error(res.msg);
+      }
+    });
+    this.getSalerIndex();
     this.getallData();
     //
     window.addEventListener("scroll", this.scrollBottom, true);
@@ -260,9 +230,22 @@ export default {
   watch: {
     value1() {
       this.getallData();
+      this.getSalerIndex();
     }
   },
   methods: {
+    getSalerIndex() {
+      getSalerIndex({
+        userId: localStorage.getItem("userid"),
+        submitTime: this.value1
+      }).then(res => {
+        if (res.code == 200) {
+          this.salerlist = res;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
     saleindexhandle(len) {
       this.salesoit = len;
     },
@@ -275,26 +258,23 @@ export default {
         let scrollHeight = document.documentElement.scrollHeight;
         const toBottom = scrollHeight - scrollTop - clientHeight;
         if (
-          toBottom < 30 &&
+          toBottom < clientHeight / 2 &&
           this.loading &&
           this.tabdata2.length == this.pagenum * this.pageSize2
         ) {
           this.loading = false;
-          needdata({
-            submitTime: this.value1,
-            page: ++this.pagenum,
-            pageSize: this.pageSize2,
-            role: ""
-          }).then(res => {
-            if (res.code == 200) {
-              this.loading = true;
-              this.alldata = res;
-              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
-              this.getjingli(this.tabdata2);
-            } else {
-              this.$message.error({ message: `${res.message}` });
-            }
-          });
+          this.pagenum += 1;
+          this.getallData();
+        }
+        // 加载到所有数据底部提示
+        if (
+          toBottom <= 0 &&
+          this.loading &&
+          this.tabdata2.length < this.pagenum * this.pageSize2
+        ) {
+          this.is_totheend = true;
+        } else {
+          this.is_totheend = false;
         }
       }
     },
@@ -391,8 +371,14 @@ export default {
         }).then(res => {
           if (res.code == 200) {
             this.alldata = res;
-            this.tabdata2 = res.saleInfoList;
-            this.getjingli(this.tabdata2);
+            if (this.pagenum == 1) {
+              this.tabdata2 = res.saleInfoList;
+              this.getjingli(this.tabdata2);
+            } else if (this.pagenum > 1) {
+              this.loading = true;
+              this.tabdata2 = this.tabdata2.concat(res.saleInfoList);
+              this.getjingli(this.tabdata2);
+            }
           } else {
             this.$message.error({ message: `${res.message}` });
           }
@@ -432,6 +418,9 @@ export default {
 };
 </script>
 <style lang="stylus"  scoped>
+.qu_bmmobile_b{
+  color:$color545454;
+}
 .tabs_lb {
   width: 37%;
 }
@@ -443,6 +432,7 @@ export default {
 /* 筛选 start */
 .qu_bmmobile_select {
   width: 130px;
+  right:-10px;
 }
 
 .qu_bupc {
@@ -644,157 +634,6 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-}
-
-.el-input__inner {
-  border: none;
-}
-
-.bmqb {
-  font-size: 0.3rem;
-  color: black;
-}
-
-.bmbt {
-  font-size: 0.26rem;
-  color: #999;
-  margin-top: 0.15rem;
-}
-
-.bmcontent {
-  background: #fafafa;
-  padding: 10px;
-  font-size: 0.3rem;
-}
-
-.bmcontent > div {
-  width: 33%;
-  padding-bottom: 0.3rem;
-}
-
-body, html {
-  background: #f5f5f7;
-}
-
-.flex_1 {
-  flex-wrap: wrap;
-}
-
-.flex_1 > div {
-  width: 100%;
-  margin-bottom: 0.2rem;
-}
-
-.flex_1 > div > span {
-  /* display: block; */
-  /* width: 100%; */
-}
-
-.blue {
-  color: #999;
-  /* width: 30%; */
-  float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: left;
-  font-size: 0.3rem;
-}
-
-.black {
-  color: black;
-  /* width: 40%; */
-  float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.3rem;
-}
-
-.el-tabs--border-card > .el-tabs__content {
-  padding: 0;
-}
-
-.el-select-dropdown {
-  width: 98%;
-}
-
-.head {
-  height: 1rem;
-  font-size: 0.3rem;
-  line-height: 1rem;
-  background: #21aefb;
-  color: #fff;
-}
-
-.tap {
-  font-size: 0.3rem;
-  background: #21aefb;
-  height: 0.7rem;
-  line-height: 0.7rem;
-}
-
-.tap .act {
-  background: #fff;
-  color: #333;
-}
-
-.tap .act a {
-  color: #333;
-}
-
-.tap a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.nianBt {
-  line-height: 4.2rem;
-  width: 20%;
-  background: red;
-  color: #fff;
-}
-
-table, tbody, thead {
-  width: 100% !important;
-}
-
-.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
-  padding: 0;
-  text-align: center;
-}
-
-.red {
-  color: #f16c5d;
-}
-
-.cheng {
-  color: #fe8b16;
-}
-
-/* 刷新 */
-.green {
-  color: green;
-}
-
-.newxin {
-  width: 100%;
-  height: 50px;
-  text-align: center;
-  line-height: 50px;
-  background: none;
-  color: #ccc;
-  font-size: 0.24rem;
-}
-
-.bmcontent > div {
-  border-bottom: 1px solid #ccc;
-  padding-top: 0.2rem;
-  border-right: 1px solid #ccc;
-}
-
-.bmcontent > div:nth-child(3n + 0) {
-  border-right: none;
 }
 
 @media screen and (max-width: 640px) and (min-width: 375px) {

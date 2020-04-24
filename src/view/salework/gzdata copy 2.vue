@@ -1,26 +1,6 @@
 <!-- A.html -->
 <template>
   <div>
-    <div class="sale_cont_bg mart8" v-if="gzlist.length">
-      <div class="sale_head clearfix">
-        <h3 class="sale_head_a fl">工作提醒</h3>
-      </div>
-      <div class="sale_a">
-        <div class="sale_a_one" v-for="(item,index) in gz_list" :key="index">
-          <router-link :to="item.url">
-            <div class="sale_a_work">
-              <img
-                class="sale_a_icon"
-                :src="item.desc_info.indexOf('派单')>-1?pd:item.desc_info.indexOf('销售')>-1?rb:item.desc_info.indexOf('拜访')>-1?bf:item.desc_info.indexOf('KPI')>-1?kpi:item.desc_info.indexOf('问卷')>-1?wj:''"
-                alt
-              />
-              <p class="sale_a_tit">{{item.desc_info}}</p>
-              <span class="sale_a_number">{{item.result}}</span>
-            </div>
-          </router-link>
-        </div>
-      </div>
-    </div>
     <div class="sale_cont_bg mart8">
       <div class="sale_head clearfix">
         <h3 class="sale_head_a fl">
@@ -73,19 +53,19 @@
           <div class="saleb_one_li">
             <h3
               class="saleb_one_money"
-            >{{tabact1==mylists[0]?(salerlist.finishMoney||'-'):tabact1==mylists[1]?(salerlist.finishQuarterMoney||'-'):tabact1==mylists[2]?(salerlist.finishYearMoney||'-'):''}}</h3>
+            >{{tabact1==mylists[0]?salerlist.finishMoney:tabact1==mylists[1]?salerlist.finishQuarterMoney:tabact1==mylists[2]?salerlist.finishYearMoney:''}}</h3>
             <p class="saleb_one_tit">累计完成</p>
           </div>
           <div class="saleb_one_li">
             <h3
               class="saleb_one_money"
-            >{{tabact1==mylists[0]?(salerlist.standardFinishMoney||'-'):tabact1==mylists[1]?(salerlist.standardQuarterFinishMoney||'-'):tabact1==mylists[2]?(salerlist.standardYearFinishMoney||'-'):''}}</h3>
+            >{{tabact1==mylists[0]?salerlist.standardFinishMoney:tabact1==mylists[1]?salerlist.standardQuarterFinishMoney:tabact1==mylists[2]?salerlist.standardYearFinishMoney:''}}</h3>
             <p class="saleb_one_tit">标准销售额</p>
           </div>
           <div class="saleb_one_li">
             <h3
               class="saleb_one_money"
-            >{{tabact1==mylists[0]?(salerlist.finishRates||'-'):tabact1==mylists[1]?(salerlist.finishQuarterRates||'-'):tabact1==mylists[2]?(salerlist.finishYearRates||'-'):''}}%</h3>
+            >{{tabact1==mylists[0]?salerlist.finishRates:tabact1==mylists[1]?salerlist.finishQuarterRates:tabact1==mylists[2]?salerlist.finishYearRates:''}}</h3>
             <p class="saleb_one_tit">实时完成率</p>
           </div>
         </div>
@@ -134,7 +114,7 @@ export default {
   components: {
     Head
   },
-  props: ["salerlist", "gzlist", "value1"],
+  props: ["salerlist", "value1"],
   data() {
     return {
       tabact1: "本月",
@@ -144,22 +124,11 @@ export default {
       zan: require("@/assets/img/bangdan/zan.png"),
       xiao: require("@/assets/img/bangdan/xiao.png"),
       ku: require("@/assets/img/bangdan/ku.png"),
-      bf: require("@/assets/img/salework/bf.png"),
-      kpi: require("@/assets/img/salework/KPI.png"),
-      pd: require("@/assets/img/salework/pd.png"),
-      rb: require("@/assets/img/salework/rb.png"),
-      wj: require("@/assets/img/salework/wj.png")
+      empty: require("@/assets/img/salework/empty.png")
     };
   },
   created() {},
   mounted() {},
-  computed: {
-    gz_list: function() {
-      return this.gzlist.filter(item => {
-        return item.result;
-      });
-    }
-  },
   methods: {
     detailshandel() {
       this.$router.push({ path: "/gzdetails", query: { value1: this.value1 } });
@@ -177,31 +146,31 @@ export default {
 <style lang="stylus"  scoped>
 .sale_head_b {
   position: absolute;
-  display: flex;
+  display:flex; 
   right: 15px;
-  top: 10px;
+  top: 12px;
 }
 
 .tabs_ld_img {
   width: 15px;
-  vertical-align: text-top;
+  vertical-align :text-bottom;
   line-height: 15px;
 }
 
 .saleb_two {
   line-height: 20px;
-  padding: 10px 15px;
-  font-size: 13px;
-  text-align: center;
-  position: relative;
-  border-top: 1px solid #f0f0f0;
-  margin-top: 18px;
+    padding: 10px 15px;
+    font-size: 13px;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 18px;
 }
 
 .saleb_two_details {
   color: $color409eff;
   position: absolute;
-  font-size: 14px;
+  font-size:14px;
   right: 15px;
   top: 11px;
   cursor: pointer;
@@ -248,7 +217,7 @@ export default {
   padding: 0px 5px;
   border: 1px solid $colorf0f0f0;
   border-radius: 18px;
-  box-shadow: 0 0 5px rgba(63, 158, 255, 0.28);
+  box-shadow: 0 0 5px rgba(63, 158, 255,0.28);
 }
 
 .sale_mouthyear li {
@@ -289,50 +258,5 @@ export default {
   color: $color909399;
   font-size: 12px;
   font-weight: normal;
-}
-
-.sale_a {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 15px 15px 0;
-}
-
-.sale_a_icon {
-  width: 45px;
-}
-
-.sale_a_one {
-  width: 25%;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.sale_a_work {
-  position: relative;
-  display: inline-block;
-  width: 75px;
-}
-
-.sale_a_tit {
-  color: $color545454;
-  font-size: 12px;
-  line-height: 14px;
-  margin-top: 4px;
-}
-
-.sale_a_number {
-  position: absolute;
-  top: -5px;
-  right: 6px;
-  border: 1px solid $colorfff;
-  min-width: 10px;
-  border-radius: 18px;
-  line-height: 12px;
-  text-align: center;
-  background: $colorff5c61;
-  display: inline-block;
-  color: $colorfff;
-  font-size: 12px;
-  padding: 2px 3px;
 }
 </style>

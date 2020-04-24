@@ -289,6 +289,7 @@ export default {
 }
 .qu_bmmobile_select {
   width: 120px;
+  right:-10px;
 }
 .qu_bupc {
   display: none;

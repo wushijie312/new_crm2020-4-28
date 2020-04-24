@@ -3,18 +3,27 @@
     <div class="tabs_one">
       <div class="tabs_normal tabs_la">排名</div>
       <div class="tabs_normal tabs_lb">部门负责人</div>
-      <div class="tabs_normal tabs_lc">{{searchValue1}}{{searchValue1=='实时完成率'||searchValue1=='部门费用率'||searchValue1=='人力成本费用率'||searchValue1=='年销售完成率'?'':'(万)'}}</div>
+      <div
+        class="tabs_normal tabs_lc"
+      >{{searchValue1}}{{searchValue1=='实时完成率'||searchValue1=='部门费用率'||searchValue1=='人力成本费用率'||searchValue1=='年销售完成率'?'':'(万)'}}</div>
       <div class="tabs_normal tabs_ld">光荣榜</div>
     </div>
     <div class="tabs_two_box" v-for="(item,len1) in tabdata1" :key="len1">
       <div class="tabs_info">
         <div v-if="item.is_act" class="tabs_info_line"></div>
-        <div :class="item.is_act?'tabs_two act':'tabs_two'" @click="details_handle(item,len1)">
+        <div :class="item.is_act?'tabs_two act':'tabs_two'">
           <div class="tabs_normal_cont tabs_la">{{item.saleNo}}</div>
           <div class="tabs_normal_cont tabs_lb tabs_lname">{{item.departmentName}}</div>
+            <div
+              v-if="item.saleNo<=3 &&searchValue1!='实时完成率'"
+              class="tabs_normal_cont tabs_lc tabs_lmoney"
+            >{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
+            <div v-if="item.saleNo>3 &&searchValue1!='实时完成率' &&item.saleNo<=tabdata1.length-2" class="tabs_normal_cont tabs_lc tabs_lmoney">***</div>
+            <div v-if="item.saleNo>tabdata1.length-2 &&searchValue1!='实时完成率'" class="tabs_normal_cont tabs_lc tabs_lmoney">{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
           <div
+            v-if="searchValue1=='实时完成率'"
             class="tabs_normal_cont tabs_lc tabs_lmoney"
-          >{{searchValue1=="实际销售额"?item.finishMoney:searchValue1=="标准销售额"?item.standardFinishMoney:searchValue1=="实时完成率"?item.finishRate.split('/')[0]:searchValue1=="净利"?item.netProfit:searchValue1=="净净利"?item.netsProfit:searchValue1=="部门费用率"?item.netsProfit:searchValue1=="人力成本费用率"?item.netsProfit:searchValue1=="年销售完成率"?item.netsProfit:''}}</div>
+          >{{item.finishRate.split('/')[0]}}</div>
           <div class="tabs_normal_cont tabs_ld">
             <div v-if="item.saleNo<=4">
               <img
@@ -55,7 +64,7 @@
           <div class="padd_b12 border_bf0f0f0">
             <div class="tabs_thr paddb3">
               <h3>{{item.departmentName}}</h3>
-              <span class="tabs_wzbgchang" @click="boxOrtextChange">
+              <span @click="boxOrtextChange">
                 <i class="tabs_thr_img"></i> 表格版
               </span>
             </div>
@@ -223,7 +232,7 @@
         <div v-show="item.is_act && !zhuan" class="border_bf0f0f0 tabs_details">
           <div class="tabs_thr paddb3">
             <h3>{{item.departmentName}}</h3>
-            <span class="tabs_wzbgchang" @click="boxOrtextChange">
+            <span @click="boxOrtextChange">
               <i class="tabs_thr_img"></i> 文字版
             </span>
           </div>
@@ -313,13 +322,13 @@
                 <p>
                   环比：
                   <span
-                    :class="item.monthCompare>0?'rate_red rate_huanbi':item.monthCompare==0?'color333 rate_huanbi':'rate_green rate_huanbi'"
+                    :class="item.monthCompare>0?'rate_red ':item.monthCompare==0?'color333 ':'rate_green '"
                   >{{item.monthCompare}}%</span>
                 </p>
                 <p>
                   同比：
                   <span
-                    :class="item.yearCompare>0?'rate_red rate_huanbi':item.yearCompare==0?'color333 rate_huanbi':'rate_green rate_huanbi'"
+                    :class="item.yearCompare>0?'rate_red ':item.yearCompare==0?'color333 ':'rate_green '"
                   >{{item.yearCompare}}%</span>
                 </p>
               </div>
@@ -587,8 +596,6 @@
 
 <script>
 import Clipboard from "clipboard";
-import { getNowDate } from "@/untils/common";
-
 export default {
   data() {
     return {
@@ -605,24 +612,13 @@ export default {
       zhuan: false
     };
   },
-  props: ["tabdata1", "searchValue1", "value1", "jxq", "alertNr", "zhezhao"],
+  props: ["tabdata1", "searchValue1", "value1"],
 
   methods: {
     boxOrtextChange() {
       this.zhuan = !this.zhuan;
     },
-    details_handle(row, len) {
-      this.zhuan = false;
-      this.tabdata1.map((item, index) => {
-        if (len == index) {
-          row.is_act = !row.is_act;
-          this.$set(this.tabdata1, len, row);
-        } else {
-          item.is_act = false;
-        }
-      });
-    },
-   
+
     TBzhankai(a, b) {
       if (a == 1) {
         this.$router.push({ path: "/tanchujh/jrwc", query: { date: this.value1 } });
@@ -654,4 +650,8 @@ export default {
 </script>
 <style  lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/css/bangdan.styl';
+
+.tabs_two {
+  cursor: auto;
+}
 </style>

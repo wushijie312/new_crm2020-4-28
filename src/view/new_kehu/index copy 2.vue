@@ -346,7 +346,7 @@ export default {
   padding-right:20px;
 }
 .content {
-  /*background: #f2f2f5;*/
+  /*background: #f5f5f7;*/
 }
 .el-card__header {
   background: #21aefb;

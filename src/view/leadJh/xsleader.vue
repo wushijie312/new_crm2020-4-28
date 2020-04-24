@@ -1042,7 +1042,7 @@ export default {
 }
 
 body, html {
-  background: #f2f2f5;
+  background: #f5f5f7;
 }
 
 .flex_1 {

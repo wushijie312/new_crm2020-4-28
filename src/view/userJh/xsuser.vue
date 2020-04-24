@@ -6,13 +6,13 @@
       <div class="wrap850">
         <div class="menubox sale_tab_head" style="overflow:hidden;font-size:0.3rem;">
           <div class="left" @click="saleindexhandle(1)" :class="salesoit===1?'act':''">
-            <span class="menu_border">
+            <span class="menu_border" style="font-size:15px;">
               首页
               <span class="menu_border_line"></span>
             </span>
           </div>
           <div class="left" @click="saleindexhandle(2)" :class="salesoit===2?'act':''">
-            <span class="menu_border">
+            <span class="menu_border" style="font-size:15px;">
               待办事项
               <span class="menu_border_line"></span>
             </span>
@@ -20,7 +20,7 @@
         </div>
 
         <div v-show="salesoit==1">
-          <div class="date_a mart8">
+          <div :class="is_date?'date_a act mart8':'date_a mart8'">
             <el-date-picker
               v-model="value1"
               type="date"
@@ -28,10 +28,11 @@
               :clearable="false"
               value-format="yyyy-MM-dd"
               placeholder="选择日期"
+              @focus="is_date=!is_date"
+              @blur="is_date=!is_date"
             ></el-date-picker>
           </div>
-          <Gztips :gzlist.sync="gzlist" />
-          <Gzdata :salerlist.sync="salerlist" :value1.sync="value1" />
+          <Gzdata :salerlist.sync="salerlist" :gzlist.sync="gzlist" :value1.sync="value1" />
 
           <div class="menubox" style="overflow:hidden;font-size:0.3rem;">
             <div class="left" @click="zhongjiedata({index:1})" :class="indexnum===1?'act':''">
@@ -148,7 +149,6 @@ const User = () => import("@/view/userCom/user");
 const CreateData = () => import("@/view/userJh/xsuserdata/index");
 const Addcreate = () => import("@/components/addcreate");
 // 销售工作台 start
-const Gztips = () => import("@/view/salework/gztips.vue");
 const Gzdata = () => import("@/view/salework/gzdata.vue");
 const Gzpend = () => import("@/view/salework/gzpend.vue");
 
@@ -172,13 +172,13 @@ export default {
     Kehu,
     Bumen,
     User,
-    Gztips,
     Gzdata,
     Gzpend
   },
   name: "index",
   data() {
     return {
+      is_date:false,
       is_totheend: false,
       gzlist: [],
       salerlist: [],
