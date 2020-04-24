@@ -92,7 +92,7 @@
         <div class="saleb_two clearfix">
           <span
             class="saleb_two_renwu"
-          >{{tabact1==mylists[0]?'月任务：'+salerlist.monthmoney:tabact1==mylists[1]?'季任务：'+salerlist.quartermoney:tabact1==mylists[2]?'年任务：'+salerlist.yearmoney:''}}(万)</span>
+          >{{tabact1==mylists[0]?'月任务：'+(salerlist.monthmoney||'-'):tabact1==mylists[1]?'季任务：'+(salerlist.quartermoney||'-'):tabact1==mylists[2]?'年任务：'+(salerlist.yearmoney||'-'):''}}(万)</span>
           <span class="saleb_two_details fr" @click="detailshandel">查看详情</span>
         </div>
       </div>

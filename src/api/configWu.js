@@ -7,7 +7,14 @@ import request from '@/untils/request'
       // if(HOSTNAME=="10.0.0.56"){//本地
       // if(HOSTNAME=="192.168.0.9"){//本地192.168.20.100
         // if(HOSTNAME=="192.168.20.102"){//本地192.168.20.100
+
+
+
          var htp = 'http://101.200.137.247:9112/supplierRelation'
+        //  var htp = 'http://u.easypnp.com/supplierRelation'
+
+
+
       // var htp = 'http://101.200.137.247:9112/supplierRelation'
     	// var htp = 'http://172.16.0.189:9112/supplierRelation'	
 //    	var htp = 'http://172.16.0.176:9112/supplierRelation'
