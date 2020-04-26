@@ -30,12 +30,12 @@
             </p>
           </div>
           <div :class="!item.is_bm?'yj_bm':''">
-            <div class="yj_main">
-              <div class="yj_main_a clearfix">
+            <div class="yj_main" >
+              <div class="yj_main_a clearfix" >
                 <div class="fl yj_main_al">
                   销售额完成比例：
                   <span class="yj_main_a_bold">
-                    {{item.finance_real_sale&&item.sale_plan?(item.finance_real_sale*100/item.sale_plan).toFixed(2):0}}%
+                    {{item.finance_real_sale*100/item.sale_plan}}%
                     <span class="pos">
                       <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
                       <img
@@ -60,18 +60,18 @@
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   销售额占比：
-                  <span class="yj_main_a_bold">{{item.kpiItem[0].weight*100}}%</span>
+                  <span class="yj_main_a_bold">40%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red">{{item.kpiItem[0].score}}</span>
+                  <span class="rate_red">2.2</span>
                 </div>
               </div>
               <div class="yj_main_a yj_main_border clearfix">
                 <div class="fl yj_main_al">
                   净利完成比例：
                   <span class="yj_main_a_bold">
-                    {{item.finance_real_net&&item.target_net?(item.finance_real_net*100/item.target_net).toFixed(2):0}}%
+                    {{item.finance_real_net/item.target_net}}%
                     <span class="pos">
                       <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
                       <img
@@ -97,11 +97,11 @@
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   净利占比：
-                  <span class="yj_main_a_bold">{{item.kpiItem[1].weight*100}}%</span>
+                  <span class="yj_main_a_bold">{{item.finance_real_net*100/item.target_net}}%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red">{{item.kpiItem[1].score}}</span>
+                  <span class="rate_red">1.2</span>
                 </div>
               </div>
               <div class="yj_main_a yj_main_border clearfix">
@@ -113,25 +113,21 @@
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   现金流占比：
-                  <span class="yj_main_a_bold">{{item.kpiItem[2].weight*100}}%</span>
+                  <span class="yj_main_a_bold">532.22万</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red">{{item.kpiItem[2].score}}</span>
+                  <span class="rate_red">1.2</span>
                 </div>
               </div>
             </div>
             <div class="yj_btn_bg">
-              <div class="yj_btn_2" v-if="item.docsrc">
+              <div class="yj_btn">
                 <el-button
-                  style="width:50%;"
+                  style="width:100%;"
                   type="primary"
-                  @click.stop="xiazai(item.docsrc)"
-                >部门KPI下载</el-button>
-                <el-button style="width:50%;" type="primary" @click.stop="kpisurehandle">销售人员KPI详情</el-button>
-              </div>
-              <div class="yj_btn" v-else>
-                <el-button style="width:100%;" type="primary" @click.stop="kpisurehandle">销售人员KPI详情</el-button>
+                  @click.stop="kpisurehandle"
+                >部门销售人员KPI详情</el-button>
               </div>
             </div>
           </div>
@@ -185,9 +181,6 @@ export default {
   },
   methods: {
     ...mapMutations(["PFBZ_SURE"]),
-    xiazai(a) {
-      window.location.href = a;
-    },
     bmhandle(item, index) {
       this.bmlist.map((row, len) => {
         if (index == len) {
@@ -197,9 +190,10 @@ export default {
           row.is_bm = false;
         }
       });
+      console.log(this.bmlist);
     },
     kpisurehandle() {
-      this.$router.push({ path: "/xskpi" });
+      this.$router.push({ path: "/yjkpisure" });
     },
     yjhandle() {
       this.$message.closeAll();
@@ -209,8 +203,9 @@ export default {
       salkpi({
         role: localStorage.getItem("role"),
         submitTime: this.value1,
-        submitTimeType: "m"
+        submitTimeType:"m"
       }).then(res => {
+        console.log(res);
         if (res.code == 200) {
           this.bmlist = res.data;
         } else {

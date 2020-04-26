@@ -3,8 +3,8 @@ import request from '@/untils/request'
    	var HOSTNAME = window.location.hostname;
      var PATHNAME = window.location.pathname.indexOf("crm_page_test");
      
-     if(HOSTNAME=="localhost"){//本地
-      // if(HOSTNAME=="10.0.0.56"){//本地
+    //  if(HOSTNAME=="localhost"){//本地
+      if(HOSTNAME=="10.0.0.56"){//本地
       // if(HOSTNAME=="192.168.0.9"){//本地192.168.20.100
         // if(HOSTNAME=="192.168.20.102"){//本地192.168.20.100
 
@@ -48,6 +48,25 @@ export function alldepartmentSale(data) {
   return request({
     // url: htp + '/visit/data',
     url: htp + '/depSale/search/alldepartmentSale.do',
+    method: 'get',
+    params: {"param":JSON.stringify(data)}
+  })
+}
+
+
+
+export function editkpi(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url: htp + '/salkpi/editkpi.do',
+    method: 'get',
+    params: {"param":JSON.stringify(data)}
+  })
+}
+export function salesman(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url: htp + '/salkpi/countbydepartid.do',
     method: 'get',
     params: {"param":JSON.stringify(data)}
   })

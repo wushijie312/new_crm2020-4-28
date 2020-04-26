@@ -66,7 +66,7 @@
           </div>
           <div class="fr yj_main_ar">
             单项得分：
-            <span class="rate_red yj_fen_width">2.2</span>
+            <span class="rate_red">2.2</span>
           </div>
         </div>
         <div class="yj_main_a yj_main_border clearfix">
@@ -93,52 +93,52 @@
           <div class="fl yj_main_al">
             <p>
               <span class="rate_red">*</span>月实际回款金额：
-              <el-input size="mini" style="width:160px;" v-model="input" placeholder="请填写金额"></el-input>
+              <el-input size="small" style="width:160px;" v-model="input" placeholder="请填写金额"></el-input>&nbsp;万
             </p>
-            <p class="mart8">
+            <p class="mart10">
               <span class="rate_red">*</span>月到期应收：
-              <el-input size="mini" style="width:160px;" v-model="input" placeholder="请填写金额"></el-input>
+              <el-input size="small" style="width:160px;" v-model="input" placeholder="请填写金额"></el-input>&nbsp;万
             </p>
           </div>
         </div>
         <div class="yj_main_a clearfix">
           <div class="fl yj_main_al">
-            净利占比：
+            到期回款率占比：
             <span class="yj_main_a_bold">30%</span>
           </div>
           <div class="fr yj_main_ar">
             单项得分：
-            <span class="rate_red yj_fen_width">1.2</span>
+            <span class="rate_red">1.2</span>
           </div>
         </div>
         <div class="yj_main_a yj_main_border clearfix">
-          <div class="fl yj_main_al">
-            客户交付与满意度占比：
-            <span class="yj_main_a_bold">20%</span>
-          </div>
           <div class="fl yj_main_ar">
-            <p class="mart8">
+            <p class="">
               <span class="rate_red">*</span>得分：
               <el-input
-                size="mini"
+                size="small"
                 style="width:160px;"
                 v-model="input"
                 placeholder="请填写得分、5分以内，仅数字"
               ></el-input>
             </p>
           </div>
+          <div class="fl yj_main_al mart10">
+            客户交付与满意度占比：
+            <span class="yj_main_a_bold">20%</span>
+          </div>
         </div>
       </div>
     </div>
     <Pfbz v-if="is_pfbz" :tiplist="tiplist" />
     <div class="yj_sure_btn">
-      <el-button style="width:50%;" size="small" @click.stop="$router.go(-1)">返回</el-button>
-      <el-button style="width:50%;" size="small" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
+      <el-button style="width:50%;" @click.stop="$router.go(-1)">返回</el-button>
+      <el-button style="width:50%;" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
     </div>
   </div>
 </template>
 <script>
-import { salechabumen } from "@/api/config";
+import { editkpi } from "@/api/config";
 import { mapState, mapMutations } from "vuex";
 import { getNowDate } from "@/untils/common";
 
@@ -188,6 +188,11 @@ export default {
   computed: {
     ...mapState({ is_pfbz: state => state.param.is_pfbz })
   },
+
+  mounted() {
+    console.log(JSON.parse(this.$route.query.item));
+    // this.getdata();
+  },
   methods: {
     ...mapMutations(["PFBZ_SURE"]),
     bmhandle(item, index) {
@@ -206,6 +211,30 @@ export default {
     yjhandle() {
       this.$message.closeAll();
       this.is_yj = !this.is_yj;
+    },
+    getdata() {
+      editkpi({
+        user_id: "",
+        user_name: "",
+        department_id: "",
+        department_name: "",
+        receipt: "",
+        should_receipt: "",
+        satisfactory: "",
+        total_sorce: "",
+        submit_time: "",
+        status: ""
+      }).then(res => {
+        console.log(res);
+        if (res.code == 200) {
+          this.$message.success("提交成功");
+        } else {
+          this.$message.error(res.msg);
+        }
+
+        //     this.listdata = res.bigCustomerList;
+        //     this.wxdlist = res.allCustomerList;
+      });
     }
   }
 };

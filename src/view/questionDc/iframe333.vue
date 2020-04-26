@@ -3,7 +3,7 @@
   <div class="wrapper" id="customlist" ref="customlist" style="font-size:14px;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
-    <iframe id="bdIframe" :src="'http://bi.yangguangqicai.com/view.do?boardId='+boardId+'&token='+token"  scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
+    <iframe id="bdIframe"   scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
   </div>
 </template>
 <script>
@@ -20,7 +20,6 @@ export default {
       act: 2,
       act1: true,
       boardId:this.$route.query.boardId,
-      token:localStorage.getItem("Taccess_token"),
     };
   },
   created() {
@@ -47,13 +46,13 @@ export default {
 
 
     let oHtml=oIframe.contentWindow.document.documentElement;
-    // iframeKB({boardId:this.boardId}).then((res)=>{
-    //   oHtml.innerHTML=res
-    //   // console.log(res);
-    //   // this.url='';
-    // }).catch((e) => {
-    //   console.log('222',e);
-    // });;
+    iframeKB({boardId:this.boardId}).then((res)=>{
+      oHtml.innerHTML=res
+      // console.log(res);
+      // this.url='';
+    }).catch((e) => {
+      console.log('222',e);
+    });;
     
     // console.log(oHtml);
   }

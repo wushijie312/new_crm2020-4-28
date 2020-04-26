@@ -16,7 +16,7 @@ let VUE_APP_BASE_API = ''
 const service = axios.create({
   baseURL: VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  headers: {'Content-Type': 'application/json','X-Gravitee-Api-Key':'a3479367-b560-432c-b106-7dcf38dd69a0'},
+  headers: {'Content-Type': 'html','Authorization':'bearer '+localStorage.getItem('Taccess_token')},
   timeout: 20000 // request timeout
 })
 

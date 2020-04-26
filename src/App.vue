@@ -18,25 +18,25 @@ export default {
   },
   created() {
     // 获取大客户看板token
-    // gettoken().then((res)=>{
-    //   if(res.access_token){
-    //     localStorage.setItem('Taccess_token',res.access_token);
-    //     localStorage.setItem('Ttoken_type',res.token_type);
-    //     localStorage.setItem('Texpires_in',res.expires_in);
-    //     localStorage.setItem('Tscopes',res.scopes);
-    //   }
-    // });
+    gettoken().then((res)=>{
+      if(res.access_token){
+        localStorage.setItem('Taccess_token',res.access_token);
+        localStorage.setItem('Ttoken_type',res.token_type);
+        localStorage.setItem('Texpires_in',res.expires_in);
+        localStorage.setItem('Tscopes',res.scopes);
+      }
+    });
 
     // // 模拟存储用户信息
-    // localStorage.setItem("userid", "30843");
-    // localStorage.setItem("userName", "吴世界");
-    // localStorage.setItem("level", 0);
-    // localStorage.setItem("departmentId", 1018);
-    // localStorage.setItem("departmentName", "北京事业一部");
-    // localStorage.setItem(
-    //   "role",
-    //   "1018"
-    // );
+    localStorage.setItem("userid", "30843");
+    localStorage.setItem("userName", "吴世界");
+    localStorage.setItem("level", 0);
+    localStorage.setItem("departmentId", 1018);
+    localStorage.setItem("departmentName", "北京事业一部");
+    localStorage.setItem(
+      "role",
+      "1018"
+    );
 
     // localStorage.setItem("userid", "30843");
     // localStorage.setItem("userName", "吴世界");

@@ -45,7 +45,7 @@ export default {
 }
 
 .pf_b {
-  padding: 10px 15px 15px;
+  padding: 6px 15px 15px;
 }
 
 .pf_b h3, .pf_b p {
@@ -53,23 +53,31 @@ export default {
   font-size: 14px;
   color: $color333;
 }
+.pf_b h3{
+  margin-top:4px;
+  }
 
 .pf_a {
-  padding: 7px 15px;
-  font-size: 15px;
+  padding: 10px 15px;
+  line-height: normal;
+  position: relative;
   color: $color333;
-  line-height: 24px;
   border-bottom: 1px solid $colorf0f0f0;
 }
 
 .pf_a h3 {
+  line-height: normal;
+  font-size: 15px;
   font-weight: normal;
 }
 
 .pf_a_close {
   font-size: 24px;
-  color: $color545454;
+  position: absolute;
+  color: $color999;
   cursor: pointer;
+  right: 12px;
+  top: 8px;
 }
 
 .pf_open {

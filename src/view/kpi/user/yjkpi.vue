@@ -10,10 +10,10 @@
       </div>
       <div class="yj_cont mart8">
         <div class="yj_head clearfix">
-          <h3 class="fl">2020.04</h3>
+          <h3 class="fl padd_t3" >2020.04</h3>
           <p class="fr">
             <span style="color:#545454;">总计得分：</span>
-            <span class="rate_red rate_bold fontsize_16 yj_fen_width">2</span>
+            <span class="rate_red rate_bold fontsize_16 ">2</span>
           </p>
         </div>
         <div class="yj_main">
@@ -36,7 +36,7 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">2.2</span>
+              <span class="rate_red ">2.2</span>
             </div>
           </div>
           <div class="yj_main_a yj_main_border clearfix">
@@ -72,7 +72,7 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">1.2</span>
+              <span class="rate_red ">1.2</span>
             </div>
           </div>
           <div class="yj_main_a yj_main_border clearfix">
@@ -82,7 +82,7 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">1</span>
+              <span class="rate_red ">1</span>
             </div>
           </div>
         </div>
@@ -90,7 +90,6 @@
           <div class="yj_btn">
             <el-button
               style="width:100%;"
-              size="small"
               type="primary"
               @click.stop="kpisurehandle"
             >KPI确认单</el-button>

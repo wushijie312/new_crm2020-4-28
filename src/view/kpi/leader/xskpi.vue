@@ -21,17 +21,17 @@
       </div>
 
       <div class="yj_cont" style="padding-bottom:50px;">
-        <div class="mart8" v-for="(item,index) in bmlist" :key="index">
+        <div class="mart8" v-for="(item,index) in saleslist" :key="index">
           <div class="yj_head yj_head_cursor clearfix" @click.stop="bmhandle(item,index)">
             <h3 class="fl">
-              {{item.name}}
+              {{item.deptname1}}
               <span
-                :class="index==0?'yj_sp yj_yellow':index==1?'yj_sp yj_green':'yj_sp yj_hui'"
-              >待审批</span>
+                :class="item.satisfactory?'yj_sp yj_green':item.status==0?'yj_sp yj_yellow':item.status==2?'yj_sp yj_hui':''"
+              >{{item.satisfactory?'可编辑':item.status==0?'待审批':item.status==2?'已审批':''}}</span>
             </h3>
             <p class="fr">
               <span style="color:#545454;">总计得分：</span>
-              <span class="rate_red rate_bold fontsize_16 yj_fen_width">2.2</span>
+              <span class="rate_red rate_bold fontsize_16">{{item.total}}</span>
             </p>
           </div>
           <div :class="!item.is_bm?'yj_bm':''">
@@ -39,30 +39,30 @@
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   标准销售收入目标：
-                  <span class="yj_main_a_bold">800万</span>
+                  <span class="yj_main_a_bold">{{item.standardMoneymb}}万</span>
                 </div>
               </div>
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   实际完成标准销售额：
-                  <span class="yj_main_a_bold">800万</span>
+                  <span class="yj_main_a_bold">{{item.standardMoney}}万</span>
                 </div>
               </div>
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   标准销售额占比：
-                  <span class="yj_main_a_bold">50%</span>
+                  <span class="yj_main_a_bold">{{item.standardMoneymb&&item.standardMoney?(item.standardMoney*100/item.standardMoneymb).toFixed(2):0}}%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red yj_fen_width">2.2</span>
+                  <span class="rate_red">{{item.kpiItem[0].score}}</span>
                 </div>
               </div>
               <div class="yj_main_a yj_main_border clearfix">
                 <div class="fl yj_main_al">
                   到期回款率：
                   <span class="yj_main_a_bold">
-                    20.00%
+                    {{item.receipt&&item.should_receipt?(item.receipt*100/item.should_receipt).toFixed(2):0}}%
                     <span class="pos">
                       <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
                       <img
@@ -81,39 +81,34 @@
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   月实际回款金额：
-                  <span class="yj_main_a_bold">20万</span>，月到期应收：
-                  <span class="yj_main_a_bold">100万</span>
+                  <span class="yj_main_a_bold">{{item.receipt}}万</span>，月到期应收：
+                  <span class="yj_main_a_bold">{{item.should_receipt}}万</span>
                 </div>
               </div>
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   净利占比：
-                  <span class="yj_main_a_bold">30%</span>
+                  <span class="yj_main_a_bold">{{item.kpiItem[0].weight*100}}%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red yj_fen_width">1.2</span>
+                  <span class="rate_red">{{item.kpiItem[0].score}}</span>
                 </div>
               </div>
               <div class="yj_main_a yj_main_border clearfix">
                 <div class="fl yj_main_al">
                   客户交付与满意度占比：
-                  <span class="yj_main_a_bold">20%</span>
+                  <span class="yj_main_a_bold">{{item.satisfactory*100}}%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red yj_fen_width">1.2</span>
+                  <span class="rate_red">1.2</span>
                 </div>
               </div>
             </div>
             <div class="yj_btn_bg">
               <div class="yj_btn">
-                <el-button
-                  style="width:100%;"
-                  size="small"
-                  type="primary"
-                  @click.stop="kpisurehandle"
-                >KPI审批</el-button>
+                <el-button style="width:100%;" type="primary" @click.stop="kpisurehandle(item)">KPI审批</el-button>
               </div>
             </div>
           </div>
@@ -125,7 +120,7 @@
   </div>
 </template>
 <script>
-import { salechabumen } from "@/api/config";
+import { salesman } from "@/api/configWu";
 import { mapState, mapMutations } from "vuex";
 import { getNowDate } from "@/untils/common";
 const Head = () => import("@/view/common/head");
@@ -144,6 +139,7 @@ export default {
       is_yj: false,
       act: 1,
       act1: false,
+      saleslist:[],
       bmlist: [
         { name: "北京事业一部-潘博" },
         { name: "北京事业一部-洪亮" },
@@ -174,25 +170,46 @@ export default {
   computed: {
     ...mapState({ is_pfbz: state => state.param.is_pfbz })
   },
+
+  mounted() {
+    this.getdata();
+  },
   methods: {
     ...mapMutations(["PFBZ_SURE"]),
     bmhandle(item, index) {
-      this.bmlist.map((row, len) => {
+      this.saleslist.map((row, len) => {
         if (index == len) {
           row.is_bm = !row.is_bm;
-          this.$set(this.bmlist, index, row);
+          this.$set(this.saleslist, index, row);
         } else {
           row.is_bm = false;
         }
       });
-      console.log(this.bmlist);
     },
-    kpisurehandle() {
-      this.$router.push({ path: "/editkpi" });
+    kpisurehandle(item) {
+      this.$router.push({ path: "/editkpi",query:{item:JSON.stringify(item)} });
     },
     yjhandle() {
       this.$message.closeAll();
       this.is_yj = !this.is_yj;
+    },
+
+    getdata() {
+      salesman({
+        role: localStorage.getItem("role"),
+        submitTime: this.value1,
+        submitTimeType: "m"
+      }).then(res => {
+        if (res.code == 200) {
+          this.saleslist = res.data;
+          console.log(this.saleslist);
+        } else {
+          this.$message.error(res.msg);
+        }
+
+        //     this.listdata = res.bigCustomerList;
+        //     this.wxdlist = res.allCustomerList;
+      });
     }
   }
 };

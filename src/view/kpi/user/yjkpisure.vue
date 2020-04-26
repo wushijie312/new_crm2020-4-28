@@ -39,7 +39,7 @@
           <h3 class="fl">KPI</h3>
           <p class="fr">
             <span style="color:#545454;">总计得分：</span>
-            <span class="rate_red rate_bold fontsize_16 yj_fen_width">2</span>
+            <span class="rate_red rate_bold fontsize_16 ">2</span>
           </p>
         </div>
         <div class="yj_main ">
@@ -62,7 +62,7 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">2.2</span>
+              <span class="rate_red ">2.2</span>
             </div>
           </div>
           <div class="yj_main_a yj_main_border clearfix">
@@ -98,7 +98,7 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">1.2</span>
+              <span class="rate_red ">1.2</span>
             </div>
           </div>
           <div class="yj_main_a yj_main_border clearfix">
@@ -108,14 +108,14 @@
             </div>
             <div class="fr yj_main_ar">
               单项得分：
-              <span class="rate_red yj_fen_width">1</span>
+              <span class="rate_red ">1</span>
             </div>
           </div>
         </div>
         <div class="yj_tishi ">KPI确认单如有疑问可咨询HR，如无误请点击“确认无误”按钮进行确认</div>
         <div class="yj_sure_btn">
-          <el-button style="width:50%;" size="small" @click.stop="$router.go(-1)">返回</el-button>
-          <el-button style="width:50%;" size="small" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
+          <el-button style="width:50%;" @click.stop="$router.go(-1)">返回</el-button>
+          <el-button style="width:50%;" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
         </div>
       </div>
     </div>
