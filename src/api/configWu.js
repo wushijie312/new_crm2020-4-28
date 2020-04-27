@@ -59,14 +59,22 @@ export function editkpi(data) {
   return request({
     // url: htp + '/visit/data',
     url: htp + '/salkpi/editkpi.do',
-    method: 'get',
-    params: {"param":JSON.stringify(data)}
+    method: 'post',
+    data
   })
 }
 export function salesman(data) {
   return request({
     // url: htp + '/visit/data',
     url: htp + '/salkpi/countbydepartid.do',
+    method: 'get',
+    params: {"param":JSON.stringify(data)}
+  })
+}
+export function salekpisure(data) {
+  return request({
+    // url: htp + '/visit/data',
+    url: htp + '/salkpi/countbyuserid.do',
     method: 'get',
     params: {"param":JSON.stringify(data)}
   })

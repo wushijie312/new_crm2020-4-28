@@ -183,15 +183,13 @@ export default {
             saledata.xskpi_score +
             saledata.hklkpi_score +
             saledata.satisfactory,
-          subtime: this.$route.query.value1,
-          status: 2
+          subtime: this.value1,
+          status: saledata.status
         }
       ]).then(res => {
         if (res.code == 200) {
-          var timer = setTimeout(() => {
-            this.TIP_SURE(false);
-            this.$router.go(-1);
-          }, 1000);
+          this.TIP_SURE(false);
+          this.$router.go(-1);
         } else {
           this.$message.error(res.msg);
         }

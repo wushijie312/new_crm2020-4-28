@@ -1,6 +1,6 @@
 <!-- A.html -->
 <template>
-  <div class="wrapper" @click="is_yj=false" style="font-size:14px;text-align:left;">
+  <div class="wrapper" @click="is_yj_a=false;is_yj_b=false" style="font-size:14px;text-align:left;">
     <Head :act.sync="act" :ty.sync="act1"></Head>
     <div class="menu-head-top50"></div>
     <div class="wrap850">
@@ -22,7 +22,7 @@
       </div>
       <div class="yj_cont">
         <div class="mart8" v-for="(item,index) in bmlist" :key="index">
-          <div class="yj_head yj_head_cursor clearfix" @click.stop="bmhandle(item,index)">
+          <div class="yj_head yj_head_cursor clearfix" @click="bmhandle(item,index)">
             <h3 class="fl">{{item.deptname1}}</h3>
             <p class="fr">
               <span style="color:#545454;">总计得分：</span>
@@ -36,16 +36,18 @@
                   销售额完成比例：
                   <span class="yj_main_a_bold">
                     {{item.finance_real_sale&&item.sale_plan?(item.finance_real_sale*100/item.sale_plan).toFixed(2):0}}%
-                    <span class="pos">
-                      <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
+                    <span
+                      class="pos"
+                    >
+                      <img :src="zs" @click.stop="yjhandle('a')" class="zs_tips yj_mobile" alt />
                       <img
                         :src="zs"
-                        @mouseover.stop="is_yj = true"
-                        @mouseout.stop="is_yj = false"
+                        @mouseover.stop="is_yj_a = true"
+                        @mouseout.stop="is_yj_a = false"
                         class="zs_tips yj_pc"
                         alt
                       />
-                      <span class="yj_open_tips" v-if="is_yj">月实际回款总金额/月到期应收</span>
+                      <span class="yj_open_tips" v-if="is_yj_a">累计月销售额/预算月销售额</span>
                     </span>
                   </span>
                 </div>
@@ -72,16 +74,18 @@
                   净利完成比例：
                   <span class="yj_main_a_bold">
                     {{item.finance_real_net&&item.target_net?(item.finance_real_net*100/item.target_net).toFixed(2):0}}%
-                    <span class="pos">
-                      <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
+                    <span
+                      class="pos"
+                    >
+                      <img :src="zs" @click.stop="yjhandle('b')" class="zs_tips yj_mobile" alt />
                       <img
                         :src="zs"
-                        @mouseover.stop="is_yj = true"
-                        @mouseout.stop="is_yj = false"
+                        @mouseover.stop="is_yj_b = true"
+                        @mouseout.stop="is_yj_b = false"
                         class="zs_tips yj_pc"
                         alt
                       />
-                      <span class="yj_open_tips" v-if="is_yj">月实际回款总金额/月到期应收</span>
+                      <span class="yj_open_tips" v-if="is_yj_b">实际月净利/预算月净利</span>
                     </span>
                   </span>
                 </div>
@@ -138,7 +142,7 @@
         </div>
       </div>
     </div>
-    <Pfbz v-if="is_pfbz" :tiplist="tiplist" />
+    <Pfbz v-if="is_pfbz" />
   </div>
 </template>
 <script>
@@ -158,22 +162,11 @@ export default {
     return {
       is_date: false,
       value1: getNowDate(),
-      is_yj: false,
+      is_yj_a: false,
+      is_yj_b: false,
       act: 1,
       act1: false,
       bmlist: [],
-      tiplist: [
-        {
-          tit: "标准销售额评分标准：",
-          dec:
-            "49%<=2.5分；50%-55%=3分；56%-60%=3.5分；61%<-65%=4分；66%<-70%<=4.5分；70%及以上<=5分。（标准销售额=实际完成标准销售额/收入目标）"
-        },
-        {
-          tit: "回款评分标准：",
-          dec:
-            " 89%<=2.5分；90%-99%<=3分；100%-120%<=3.5分；121%<-130%<=4分；131%<-140%<=4.5分；141%-150%<=5分。"
-        }
-      ],
       zs: require("@/assets/img/bangdan/zs.png")
     };
   },
@@ -199,11 +192,17 @@ export default {
       });
     },
     kpisurehandle() {
-      this.$router.push({ path: "/xskpi" });
+      this.$router.push({ path: "/xskpi", query: { value1: this.value1 } });
     },
-    yjhandle() {
+    yjhandle(val) {
       this.$message.closeAll();
-      this.is_yj = !this.is_yj;
+      if (val == "a") {
+        this.is_yj_a = !this.is_yj_a;
+        this.is_yj_b = false;
+      } else {
+        this.is_yj_b = !this.is_yj_b;
+        this.is_yj_a = false;
+      }
     },
     getdata() {
       salkpi({

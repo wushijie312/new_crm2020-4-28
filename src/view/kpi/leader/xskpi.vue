@@ -22,12 +22,12 @@
 
       <div class="yj_cont" style="padding-bottom:50px;">
         <div class="mart8" v-for="(item,index) in saleslist" :key="index">
-          <div class="yj_head yj_head_cursor clearfix" @click.stop="bmhandle(item,index)">
+          <div class="yj_head yj_head_cursor clearfix" @click="bmhandle(item,index)">
             <h3 class="fl">
               {{item.deptname1}}
               <span
-                :class="item.satisfactory?'yj_sp yj_green':item.status==0?'yj_sp yj_yellow':item.status==2?'yj_sp yj_hui':''"
-              >{{item.satisfactory?'可编辑':item.status==0?'待审批':item.status==2?'已审批':''}}</span>
+                :class="item.status==2?'yj_sp yj_hui':item.status==1?'yj_sp yj_green':item.status==0?'yj_sp yj_yellow':''"
+              >{{item.status==2?'已审批':item.status==1?'可编辑':item.status==0?'待审批':''}}</span>
             </h3>
             <p class="fr">
               <span style="color:#545454;">总计得分：</span>
@@ -50,20 +50,31 @@
               </div>
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
+                  标准销售额完成占比：
+                  <span
+                    class="yj_main_a_bold"
+                  >{{item.standardMoneymb&&item.standardMoney?(item.standardMoney*100/item.standardMoneymb).toFixed(2):0}}%</span>
+                </div>
+              </div>
+              <div class="yj_main_a clearfix">
+                <div class="fl yj_main_al">
                   标准销售额占比：
-                  <span class="yj_main_a_bold">{{item.standardMoneymb&&item.standardMoney?(item.standardMoney*100/item.standardMoneymb).toFixed(2):0}}%</span>
+                  <span class="yj_main_a_bold">50%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
                   <span class="rate_red">{{item.kpiItem[0].score}}</span>
                 </div>
               </div>
+
               <div class="yj_main_a yj_main_border clearfix">
                 <div class="fl yj_main_al">
                   到期回款率：
                   <span class="yj_main_a_bold">
                     {{item.receipt&&item.should_receipt?(item.receipt*100/item.should_receipt).toFixed(2):0}}%
-                    <span class="pos">
+                    <span
+                      class="pos"
+                    >
                       <img :src="zs" @click.stop="yjhandle" class="zs_tips yj_mobile" alt />
                       <img
                         :src="zs"
@@ -77,7 +88,6 @@
                   </span>
                 </div>
               </div>
-
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
                   月实际回款金额：
@@ -87,42 +97,45 @@
               </div>
               <div class="yj_main_a clearfix">
                 <div class="fl yj_main_al">
-                  净利占比：
-                  <span class="yj_main_a_bold">{{item.kpiItem[0].weight*100}}%</span>
+                  到期回款率占比：
+                  <span class="yj_main_a_bold">30%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red">{{item.kpiItem[0].score}}</span>
+                  <span class="rate_red">{{item.kpiItem[1].score}}</span>
                 </div>
               </div>
               <div class="yj_main_a yj_main_border clearfix">
                 <div class="fl yj_main_al">
                   客户交付与满意度占比：
-                  <span class="yj_main_a_bold">{{item.satisfactory*100}}%</span>
+                  <span class="yj_main_a_bold">20%</span>
                 </div>
                 <div class="fr yj_main_ar">
                   单项得分：
-                  <span class="rate_red">1.2</span>
+                  <span class="rate_red" v-if="item.status!=0">{{item.satisfactory}}</span>
                 </div>
               </div>
             </div>
-            <div class="yj_btn_bg">
+            <div class="yj_btn_bg" v-if="item.status!=2">
               <div class="yj_btn">
-                <el-button style="width:100%;" type="primary" @click.stop="kpisurehandle(item)">KPI审批</el-button>
+                <el-button
+                  style="width:100%;"
+                  type="primary"
+                  @click.stop="kpisurehandle(item)"
+                >KPI审批</el-button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <Pfbz v-if="is_pfbz" :tiplist="tiplist" />
+    <Pfbz v-if="is_pfbz" />
     <div class="all_go_back" @click="$router.go(-1)">返&nbsp;回</div>
   </div>
 </template>
 <script>
 import { salesman } from "@/api/configWu";
 import { mapState, mapMutations } from "vuex";
-import { getNowDate } from "@/untils/common";
 const Head = () => import("@/view/common/head");
 const Pfbz = () => import("@/components/pfbz");
 
@@ -134,36 +147,11 @@ export default {
   data() {
     return {
       is_date: false,
-      value1: getNowDate(),
-      input: "删掉我",
+      value1: this.$route.query.value1,
       is_yj: false,
       act: 1,
       act1: false,
-      saleslist:[],
-      bmlist: [
-        { name: "北京事业一部-潘博" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-洪亮" },
-        { name: "北京事业一部-屈文博" }
-      ],
-      tiplist: [
-        {
-          tit: "标准销售额评分标准：",
-          dec:
-            "49%<=2.5分；50%-55%=3分；56%-60%=3.5分；61%<-65%=4分；66%<-70%<=4.5分；70%及以上<=5分。（标准销售额=实际完成标准销售额/收入目标）"
-        },
-        {
-          tit: "回款评分标准：",
-          dec:
-            " 89%<=2.5分；90%-99%<=3分；100%-120%<=3.5分；121%<-130%<=4分；131%<-140%<=4.5分；141%-150%<=5分。"
-        }
-      ],
+      saleslist: [],
       zs: require("@/assets/img/bangdan/zs.png")
     };
   },
@@ -187,7 +175,31 @@ export default {
       });
     },
     kpisurehandle(item) {
-      this.$router.push({ path: "/editkpi",query:{item:JSON.stringify(item)} });
+      let info = {
+        leader: item.leader,
+        leader_id:item.leader_id,
+        subtime: item.subtime,
+        department_id: item.department_id,
+        position: item.position,
+        deptname2: item.deptname2,
+        standardMoneymb: item.standardMoneymb,
+        standardMoney: item.standardMoney,
+        standardMoney: item.standardMoney,
+        standardMoneymb: item.standardMoneymb,
+        xskpi_score: item.kpiItem[0].score,
+        hklkpi_score: item.kpiItem[1].score,
+        // mydkpi_score: item.kpiItem[2].score,
+        receipt: item.receipt,
+        should_receipt: item.should_receipt,
+        satisfactory: item.satisfactory,
+        job_number: item.job_number,
+        total: item.total,
+        status: item.status
+      };
+      this.$router.push({
+        path: "/editkpi",
+        query: {value1:this.value1, item: JSON.stringify(info) }
+      });
     },
     yjhandle() {
       this.$message.closeAll();

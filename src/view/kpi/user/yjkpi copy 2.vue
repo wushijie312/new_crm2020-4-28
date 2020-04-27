@@ -11,25 +11,14 @@
 
       <div class="yj_cont" style="padding-bottom:50px;">
         <div class="mart8" v-for="(item,index) in saleslist" :key="index">
-          <div class="yj_head_cursor clearfix">
-            <div :class="is_date?'date_a act':'date_a '">
-              <el-date-picker
-                v-model="value1"
-                type="date"
-                :editable="false"
-                :clearable="false"
-                value-format="yyyy-MM-dd"
-                placeholder="选择日期"
-                @focus="is_date=!is_date"
-                @blur="is_date=!is_date"
-              ></el-date-picker>
-              <p class="fr xs_pfbz" >
-                <span style="color:#545454;">总计得分：</span>
-                <span class="rate_red rate_bold fontsize_16">{{item.total}}</span>
-              </p>
-            </div>
+          <div class="yj_head yj_head_cursor clearfix">
+            <h3 class="fl padd_t3">{{item.subtime.slice(0,7)}}</h3>
+            <p class="fr">
+              <span style="color:#545454;">总计得分：</span>
+              <span class="rate_red rate_bold fontsize_16">{{item.total}}</span>
+            </p>
           </div>
-          <div class="yj_main border_tf0f0f0" >
+          <div class="yj_main">
             <div class="yj_main_a clearfix">
               <div class="fl yj_main_al">
                 标准销售收入目标：
@@ -106,11 +95,11 @@
               </div>
               <div class="fr yj_main_ar">
                 单项得分：
-                <span class="rate_red">{{item.satisfactory}}</span>
+                <span class="rate_red" v-if="item.status!=0">{{item.satisfactory}}</span>
               </div>
             </div>
           </div>
-          <div class="yj_btn_bg" v-if="value1.slice(0,7)>=nowdate.slice(0,7) && item.status!=2">
+          <div class="yj_btn_bg" v-if="item.status!=2">
             <div class="yj_btn">
               <el-button style="width:100%;" type="primary" @click.stop="kpisurehandle(item)">KPI审批</el-button>
             </div>
@@ -122,7 +111,7 @@
   </div>
 </template>
 <script>
-import { salekpisure } from "@/api/configWu";
+import { salesman } from "@/api/configWu";
 import { mapState, mapMutations } from "vuex";
 import { getNowDate } from "@/untils/common";
 
@@ -137,8 +126,7 @@ export default {
   data() {
     return {
       is_date: false,
-      value1: getNowDate(),
-      nowdate:getNowDate(),
+      value1: this.$route.query.value1,
       is_yj: false,
       act: 1,
       act1: false,
@@ -152,12 +140,6 @@ export default {
 
   mounted() {
     this.getdata();
-    console.log('sd');
-  },
-  watch:{
-    value1(){
-      this.getdata();
-    }
   },
   methods: {
     ...mapMutations(["PFBZ_SURE"]),
@@ -194,10 +176,10 @@ export default {
     },
 
     getdata() {
-      salekpisure({
-        userid:localStorage.getItem('userid'),
-        submitTime: this.value1,
-        submitTimeType:'m'
+      salesman({
+        role: localStorage.getItem("role"),
+        submitTime: getNowDate(),
+        submitTimeType: "m"
       }).then(res => {
         if (res.code == 200) {
           this.saleslist = res.data;

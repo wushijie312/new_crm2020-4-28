@@ -134,7 +134,7 @@
         </div>
       </div>
     </div>
-    <Pfbz v-if="is_pfbz" :tiplist="tiplist" />
+    <Pfbz v-if="is_pfbz" />
   </div>
 </template>
 <script>
@@ -158,18 +158,6 @@ export default {
       act: 1,
       act1: false,
       bmlist: [],
-      tiplist: [
-        {
-          tit: "标准销售额评分标准：",
-          dec:
-            "49%<=2.5分；50%-55%=3分；56%-60%=3.5分；61%<-65%=4分；66%<-70%<=4.5分；70%及以上<=5分。（标准销售额=实际完成标准销售额/收入目标）"
-        },
-        {
-          tit: "回款评分标准：",
-          dec:
-            " 89%<=2.5分；90%-99%<=3分；100%-120%<=3.5分；121%<-130%<=4分；131%<-140%<=4.5分；141%-150%<=5分。"
-        }
-      ],
       zs: require("@/assets/img/bangdan/zs.png")
     };
   },

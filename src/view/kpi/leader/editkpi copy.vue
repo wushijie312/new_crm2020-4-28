@@ -9,7 +9,6 @@
           <el-date-picker
             v-model="value1"
             type="date"
-            disabled
             :editable="false"
             :clearable="false"
             value-format="yyyy-MM-dd"
@@ -33,7 +32,7 @@
         </p>
         <p>
           工号：
-          <span>{{saledata.job_number}}</span>
+          <span>{{saledata.department_id}}</span>
         </p>
         <p>
           职位：
@@ -83,8 +82,7 @@
               <el-input
                 size="small"
                 style="width:140px;"
-                v-model.number='saledata.receipt'
-                type='number'
+                v-model="saledata.receipt"
                 placeholder="请填写金额"
               ></el-input>&nbsp;万
             </p>
@@ -93,8 +91,7 @@
               <el-input
                 size="small"
                 style="width:140px;"
-                v-model.number='saledata.should_receipt'
-                type='number'
+                v-model="saledata.should_receipt"
                 placeholder="请填写金额"
               ></el-input>&nbsp;万
             </p>
@@ -138,9 +135,7 @@
               <el-input
                 size="small"
                 style="width:140px;"
-                v-model.number='saledata.satisfactory'
-                type='number'
-
+                v-model="saledata.satisfactory"
                 placeholder="请填写得分、5分以内，仅数字"
               ></el-input>
             </p>
@@ -153,7 +148,6 @@
       </div>
     </div>
     <Pfbz v-if="is_pfbz" />
-    <Ok v-if="is_ok" tit="提交成功" />
     <div class="yj_sure_btn">
       <el-button style="width:50%;" @click.stop="$router.go(-1)">返回</el-button>
       <el-button style="width:50%;" type="primary" @click.stop="kpibtnsure">确认无误</el-button>
@@ -163,7 +157,6 @@
 <script>
 import { editkpi } from "@/api/configWu";
 import { mapState, mapMutations } from "vuex";
-const Ok = () => import("@/components/ok");
 
 const Head = () => import("@/view/common/head");
 const Pfbz = () => import("@/components/pfbz");
@@ -171,8 +164,7 @@ const Pfbz = () => import("@/components/pfbz");
 export default {
   components: {
     Head,
-    Pfbz,
-    Ok
+    Pfbz
   },
   data() {
     return {
@@ -187,17 +179,16 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      is_ok: state => state.param.is_ok,
-      is_pfbz: state => state.param.is_pfbz
-    })
+    ...mapState({ is_pfbz: state => state.param.is_pfbz })
   },
 
   mounted() {
     this.saledata = JSON.parse(this.$route.query.item);
+    console.log(this.saledata);
+    // this.getdata();
   },
   methods: {
-    ...mapMutations(["PFBZ_SURE","TIP_SURE"]),
+    ...mapMutations(["PFBZ_SURE"]),
     kpisurehandle() {
       this.$router.push({ path: "/yjkpisure" });
     },
@@ -206,28 +197,27 @@ export default {
       this.is_yj = !this.is_yj;
     },
     kpibtnsure() {
-      this.TIP_SURE(true);
-      let saledata=this.saledata;
-      editkpi([{
-        user_id:saledata.leader_id,
-        user_name: saledata.leader,
-        department_id: saledata.department_id,
-        department_name: saledata.deptname2,
-        receipt: saledata.receipt,
-        should_receipt: saledata.should_receipt,
-        satisfactory: saledata.satisfactory,
-        total_sorce: saledata.xskpi_score+saledata.hklkpi_score+saledata.satisfactory,
-        subtime: this.value1,
-        status: 1
-      }]).then(res => {
+      editkpi({
+        user_id:item.user_id,
+        user_name: item.leader,
+        department_id: item.department_id,
+        department_name: item.deptname2,
+        receipt: item.receipt,
+        should_receipt: item.should_receipt,
+        satisfactory: item.satisfactory,
+        total_sorce: item.total,
+        submit_time: this.value1,
+        status: item.status
+      }).then(res => {
+        console.log(res);
         if (res.code == 200) {
-         var timer = setTimeout(() => {
-            this.TIP_SURE(false);
-            this.$router.go(-1);
-          }, 1000);
+          this.$message.success("提交成功");
         } else {
           this.$message.error(res.msg);
         }
+
+        //     this.listdata = res.bigCustomerList;
+        //     this.wxdlist = res.allCustomerList;
       });
     }
   }
