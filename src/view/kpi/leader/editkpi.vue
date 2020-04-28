@@ -163,7 +163,6 @@
 <script>
 import { editkpi } from "@/api/configWu";
 import { mapState, mapMutations } from "vuex";
-const Ok = () => import("@/components/ok");
 
 const Head = () => import("@/view/common/head");
 const Pfbz = () => import("@/components/pfbz");
@@ -171,16 +170,15 @@ const Pfbz = () => import("@/components/pfbz");
 export default {
   components: {
     Head,
-    Pfbz,
-    Ok
+    Pfbz
   },
   data() {
     return {
       is_date: false,
       value1: this.$route.query.value1,
       is_yj: false,
-      act: 1,
-      act1: false,
+      act: 2,
+      act1: true,
       saledata: [],
 
       zs: require("@/assets/img/bangdan/zs.png")
@@ -206,7 +204,7 @@ export default {
       this.is_yj = !this.is_yj;
     },
     kpibtnsure() {
-      this.TIP_SURE(true);
+      
       let saledata=this.saledata;
       editkpi([{
         user_id:saledata.leader_id,
@@ -221,13 +219,13 @@ export default {
         status: 1
       }]).then(res => {
         if (res.code == 200) {
+          this.TIP_SURE(true);
          var timer = setTimeout(() => {
             this.TIP_SURE(false);
             this.$router.go(-1);
           }, 1000);
         } else {
           this.$message.error(res.msg);
-          this.TIP_SURE(false);
         }
       });
     }

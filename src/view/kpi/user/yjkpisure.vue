@@ -132,12 +132,10 @@
 import { mapState, mapMutations } from "vuex";
 import { editkpi } from "@/api/configWu";
 const Head = () => import("@/view/common/head");
-const Ok = () => import("@/components/ok");
 const Pfbz = () => import("@/components/pfbz");
 export default {
   components: {
     Head,
-    Ok,
     Pfbz
   },
   data() {
@@ -167,8 +165,6 @@ export default {
   methods: {
     ...mapMutations(["TIP_SURE", "PFBZ_SURE"]),
     kpibtnsure() {
-      this.TIP_SURE(true);
-
       let saledata = this.saledata;
       editkpi([
         {
@@ -188,13 +184,14 @@ export default {
         }
       ]).then(res => {
         if (res.code == 200) {
+          this.TIP_SURE(true);
+
           var timer = setTimeout(() => {
             this.TIP_SURE(false);
             this.$router.go(-1);
           }, 1000);
         } else {
           this.$message.error(res.msg);
-          this.TIP_SURE(false);
         }
       });
     },

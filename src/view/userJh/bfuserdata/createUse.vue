@@ -180,7 +180,6 @@ import {
   getSheng,
   getgxtp
 } from "@/api/configWu";
-const Ok = () => import("@/components/ok");
 
 export default {
   name: "createUser",
@@ -216,9 +215,6 @@ export default {
   mounted() {
     this.chakehu();
     this.getSheng();
-  },
-  components: {
-    Ok
   },
   computed: {
     ...mapState({
@@ -300,17 +296,17 @@ export default {
       this.choose = obj;
     },
     adddata() {
-      this.TIP_SURE(true);
       adddata(this.sendData)
         .then(res => {
           if (res.code == 200) {
+            this.TIP_SURE(true);
+
             var timer = setTimeout(() => {
               this.TIP_SURE(false);
               this.$router.go(-1);
             }, 1000);
           } else {
             this.$message.error(res.msg);
-            this.TIP_SURE(false);
           }
         })
         .catch(error => {

@@ -149,8 +149,8 @@ export default {
       is_date: false,
       value1: this.$route.query.value1,
       is_yj: false,
-      act: 1,
-      act1: false,
+      act: 2,
+      act1: true,
       saleslist: [],
       zs: require("@/assets/img/bangdan/zs.png")
     };

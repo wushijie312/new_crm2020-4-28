@@ -164,8 +164,8 @@ export default {
       value1: getNowDate(),
       is_yj_a: false,
       is_yj_b: false,
-      act: 1,
-      act1: false,
+      act: 2,
+      act1: true,
       bmlist: [],
       zs: require("@/assets/img/bangdan/zs.png")
     };

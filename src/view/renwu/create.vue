@@ -131,10 +131,8 @@
 import { mapState, mapMutations } from "vuex";
 
 import { createRw, chakehu, getPersonInfo } from "@/api/configWu";
-const Ok = () => import("@/components/ok");
 const contact = () => import("@/components/choose");
 export default {
-  
   data() {
     return {
       socode: "",
@@ -211,8 +209,7 @@ export default {
     this.chakehu();
   },
   components: {
-    contact,
-    Ok
+    contact
   },
   computed: {
     ...mapState({
@@ -288,16 +285,16 @@ export default {
         senddata.end_time &&
         senddata.msginfo
       ) {
-        this.TIP_SURE(true);
         createRw(senddata).then(res => {
           if (res.code == 200) {
+            this.TIP_SURE(true);
+
             var timer = setTimeout(() => {
               this.TIP_SURE(false);
               this.$router.go(-1);
             }, 1000);
           } else {
             this.$message.error(res.msg);
-            this.TIP_SURE(false);
           }
         });
       }

@@ -10,7 +10,8 @@ import rem from '@/assets/rem'
 import echarts from 'echarts'
 import Calendar from 'vue2-datepick'
 import tools from '@/view/new_kehu/tool.js'
-
+import Ok from '@/components/ok'
+Vue.component('Ok', Ok)
 Vue.use(tools);
 Vue.use(Calendar);
 

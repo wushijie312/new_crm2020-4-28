@@ -91,7 +91,6 @@ import { mapState, mapMutations } from "vuex";
 
 import { createRw, chakehu, getPersonInfo } from "@/api/configWu";
 import { templateshow, upload, dailycreate } from "@/api/config";
-const Ok = () => import("@/components/ok");
 const contact = () => import("@/components/choose");
 export default {
   data() {
@@ -183,8 +182,7 @@ export default {
     this.chakehu();
   },
   components: {
-    contact,
-    Ok
+    contact
   },
   computed: {
     ...mapState({
@@ -240,16 +238,16 @@ export default {
         })
       };
       if (this.list.length > 1) {
-        this.TIP_SURE(true);
         dailycreate(senddata).then(res => {
           if (res.code == 200) {
+            this.TIP_SURE(true);
+
             var timer = setTimeout(() => {
               this.TIP_SURE(false);
               this.$router.go(-1);
             }, 1000);
           } else {
             this.$message.error(res.msg);
-            this.TIP_SURE(false);
           }
         });
       } else {

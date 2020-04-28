@@ -105,8 +105,6 @@ import { mapState, mapMutations } from "vuex";
 
 import { addCustomer, chakehu, customerTag, salers } from "@/api/configWu";
 import { adddata, updata, needdata, chabumen, chakh } from "@/api/config";
-const Ok = () => import("@/components/ok");
-
 export default {
   name: "createUser",
   data() {
@@ -137,9 +135,6 @@ export default {
     //  this.chakehu();
     this.getType();
     this.getSalers();
-  },
-  components: {
-    Ok
   },
   computed: {
     ...mapState({
@@ -187,10 +182,11 @@ export default {
       ) {
         var _router = this.$router;
         this.disabled = true;
-        this.TIP_SURE(true);
         addCustomer(this.addData)
           .then(res => {
             if (res && res.code == 200) {
+              this.TIP_SURE(true);
+
               var timer = setTimeout(() => {
                 this.TIP_SURE(false);
                 this.$router.go(-1);
@@ -198,11 +194,9 @@ export default {
             } else if (res && res.code != 200) {
               this.$message.error(res.msg);
               this.disabled = false;
-              this.TIP_SURE(false);
             } else {
               this.$message.error("添加失败");
               this.disabled = false;
-              this.TIP_SURE(false);
             }
           })
           .catch(error => {

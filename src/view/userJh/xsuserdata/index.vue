@@ -114,8 +114,6 @@ import { mapState, mapMutations } from "vuex";
 
 import { chakehu } from "@/api/configWu";
 import { adddata, updata, needdata, chabumen, chakh } from "@/api/config";
-const Ok = () => import("@/components/ok");
-
 export default {
   name: "createUser",
   data() {
@@ -148,9 +146,6 @@ export default {
       shis: [],
       gxtprys: []
     };
-  },
-  components: {
-    Ok
   },
   computed: {
     ...mapState({
@@ -200,7 +195,6 @@ export default {
     },
     adddata() {
       if (this.input10 && this.input11 && this.choose.id) {
-        this.TIP_SURE(true);
         adddata({
           dayMoney: this.input10,
           grossProfit: this.input11,
@@ -214,17 +208,13 @@ export default {
           getTenderNotMoney: this.returnZero(this.input106)
         }).then(res => {
           if (res.code == 200) {
-            // this.$message.success("添加成功");
-            // setTimeout(() => {
-            //   this.$router.go(-1);
-            // }, 2000);
+            this.TIP_SURE(true);
             var timer = setTimeout(() => {
               this.TIP_SURE(false);
               this.$router.go(-1);
             }, 1000);
           } else {
             this.$message.error(res.message);
-            this.TIP_SURE(false);
           }
         });
       } else {
@@ -234,7 +224,6 @@ export default {
     chakehu() {
       chakehu({ role: "" })
         .then(res => {
-          console.log(res);
           this.restaurants = res.data;
         })
         .catch(error => {});
