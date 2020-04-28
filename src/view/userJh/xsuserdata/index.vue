@@ -1,114 +1,121 @@
 <template>
-  <transition name="el-zoom-in-center">
-    <el-form ref="form" label-width="100px" style="padding:0.3rem;">
-      <el-form-item label="客户名称" required>
-        <el-autocomplete
-          class="inline-input"
-          v-model="value"
-          :fetch-suggestions="querySearch"
-          placeholder="请客户名称"
-          @select="handleSelect"
-          value-key="companyName"
-          style="width:100%;"
-        ></el-autocomplete>
-      </el-form-item>
-      <el-form-item label="今日完成" required>
-        <el-input
-          placeholder="请输入今日完成"
-          v-model="input10"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-          type="number"
-          :max="1000"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="预估毛利率" required>
-        <el-input
-          placeholder="请输入预估毛利率"
-          v-model="input11"
-          clearable
-          style="width:98%;margin:0.05rem auto;"
-          type="number"
-        >
-          <template slot="append">%</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="TB线索">
-        <el-input
-          placeholder="请输入TB线索"
-          v-model="input101"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-          type="number"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="本月开标">
-        <el-input
-          placeholder="请输入本月开标"
-          v-model="input102"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-          type="number"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="本月中标">
-        <el-input
-          placeholder="请输入本月中标"
-          v-model="input103"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-          type="number"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="中标未下单金额">
-        <el-input
-          placeholder="请输入中标未下单金额"
-          v-model="input106"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-          type="number"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="丢标金额">
-        <el-input
-          placeholder="请输入本月丢标金额"
-          v-model="input104"
-          clearable
-          style="width:98%;margin:0 auto;position:relative;"
-          type="number"
-        >
-          <template slot="append">万元</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="丢标原因">
-        <el-input
-          placeholder="请输入丢标原因"
-          v-model="input105"
-          clearable
-          style="width:98%;margin:0.05rem auto;position:relative;"
-        ></el-input>
-      </el-form-item>
-      <div>
-        <el-button type="primary" @click="adddata">添加</el-button>
-        <el-button type="info" @click="$router.go(-1)">返回</el-button>
-      </div>
-    </el-form>
-  </transition>
+  <div>
+    <transition name="el-zoom-in-center">
+      <el-form ref="form" label-width="100px" style="padding:0.3rem;">
+        <el-form-item label="客户名称" required>
+          <el-autocomplete
+            class="inline-input"
+            v-model="value"
+            :fetch-suggestions="querySearch"
+            placeholder="请客户名称"
+            @select="handleSelect"
+            value-key="companyName"
+            style="width:100%;"
+          ></el-autocomplete>
+        </el-form-item>
+        <el-form-item label="今日完成" required>
+          <el-input
+            placeholder="请输入今日完成"
+            v-model="input10"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+            type="number"
+            :max="1000"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="预估毛利率" required>
+          <el-input
+            placeholder="请输入预估毛利率"
+            v-model="input11"
+            clearable
+            style="width:98%;margin:0.05rem auto;"
+            type="number"
+          >
+            <template slot="append">%</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="TB线索">
+          <el-input
+            placeholder="请输入TB线索"
+            v-model="input101"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+            type="number"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="本月开标">
+          <el-input
+            placeholder="请输入本月开标"
+            v-model="input102"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+            type="number"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="本月中标">
+          <el-input
+            placeholder="请输入本月中标"
+            v-model="input103"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+            type="number"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="中标未下单金额">
+          <el-input
+            placeholder="请输入中标未下单金额"
+            v-model="input106"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+            type="number"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="丢标金额">
+          <el-input
+            placeholder="请输入本月丢标金额"
+            v-model="input104"
+            clearable
+            style="width:98%;margin:0 auto;position:relative;"
+            type="number"
+          >
+            <template slot="append">万元</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="丢标原因">
+          <el-input
+            placeholder="请输入丢标原因"
+            v-model="input105"
+            clearable
+            style="width:98%;margin:0.05rem auto;position:relative;"
+          ></el-input>
+        </el-form-item>
+        <div>
+          <el-button type="primary" @click="adddata">添加</el-button>
+          <el-button type="info" @click="$router.go(-1)">返回</el-button>
+        </div>
+      </el-form>
+    </transition>
+    <Ok v-if="is_ok" style="font-size:14px;" tit="添加成功" />
+  </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 import { chakehu } from "@/api/configWu";
 import { adddata, updata, needdata, chabumen, chakh } from "@/api/config";
+const Ok = () => import("@/components/ok");
+
 export default {
   name: "createUser",
   data() {
@@ -142,10 +149,20 @@ export default {
       gxtprys: []
     };
   },
+  components: {
+    Ok
+  },
+  computed: {
+    ...mapState({
+      is_ok: state => state.param.is_ok
+    })
+  },
   mounted() {
     this.chakehu();
   },
   methods: {
+    ...mapMutations(["TIP_SURE"]),
+
     handleSelect(item) {
       // console.log(this.ruleForm.options)
       console.log(item);
@@ -183,6 +200,7 @@ export default {
     },
     adddata() {
       if (this.input10 && this.input11 && this.choose.id) {
+        this.TIP_SURE(true);
         adddata({
           dayMoney: this.input10,
           grossProfit: this.input11,
@@ -196,12 +214,17 @@ export default {
           getTenderNotMoney: this.returnZero(this.input106)
         }).then(res => {
           if (res.code == 200) {
-            this.$message.success("添加成功");
-            setTimeout(() => {
+            // this.$message.success("添加成功");
+            // setTimeout(() => {
+            //   this.$router.go(-1);
+            // }, 2000);
+            var timer = setTimeout(() => {
+              this.TIP_SURE(false);
               this.$router.go(-1);
-            }, 2000);
+            }, 1000);
           } else {
             this.$message.error(res.message);
+            this.TIP_SURE(false);
           }
         });
       } else {

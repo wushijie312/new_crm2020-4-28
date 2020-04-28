@@ -227,6 +227,7 @@ export default {
           }, 1000);
         } else {
           this.$message.error(res.msg);
+          this.TIP_SURE(false);
         }
       });
     }

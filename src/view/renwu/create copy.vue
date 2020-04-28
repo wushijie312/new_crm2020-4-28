@@ -123,18 +123,17 @@
 
     <contact :show.sync="dialogClient" @confirm="clientConfirm" />
     <contact :show.sync="dialogClient1" @confirm="clientConfirm1" />
-    <Ok v-if="is_ok" style="font-size:14px;" tit="创建成功" />
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import contact from "@/components/choose";
 
 import { createRw, chakehu, getPersonInfo } from "@/api/configWu";
-const Ok = () => import("@/components/ok");
-const contact = () => import("@/components/choose");
 export default {
-  
+  components: {
+    contact
+  },
   data() {
     return {
       socode: "",
@@ -210,18 +209,7 @@ export default {
   mounted() {
     this.chakehu();
   },
-  components: {
-    contact,
-    Ok
-  },
-  computed: {
-    ...mapState({
-      is_ok: state => state.param.is_ok
-    })
-  },
   methods: {
-    ...mapMutations(["TIP_SURE"]),
-
     handleSelect(item) {
       this.ruleForm.options = item.companyName;
       this.ruleForm.optionsId = item.id;
@@ -237,6 +225,7 @@ export default {
     },
     createFilter(queryString) {
       return restaurant => {
+        // console.log(restaurant)
         return (
           restaurant.companyName
             .toLowerCase()
@@ -288,16 +277,12 @@ export default {
         senddata.end_time &&
         senddata.msginfo
       ) {
-        this.TIP_SURE(true);
         createRw(senddata).then(res => {
           if (res.code == 200) {
-            var timer = setTimeout(() => {
-              this.TIP_SURE(false);
+            this.$message.success("创建成功");
+            setTimeout(() => {
               this.$router.go(-1);
-            }, 1000);
-          } else {
-            this.$message.error(res.msg);
-            this.TIP_SURE(false);
+            }, 2000);
           }
         });
       }

@@ -1,10 +1,7 @@
 <template>
   <div style="font-size:0.3rem;">
-    <!-- <h3 v-show="status" style="line-height:1rem;">转发任务</h3>
-    <h3 v-show="!status" style="line-height:1rem;">新建任务</h3>-->
     <el-radio-group v-model="isCollapse" style="margin: 20px auto;">
       <el-radio-button v-for="(item,index) in formdata" :key="index" :label="index">{{item.name}}</el-radio-button>
-      <!-- <el-radio-button :label="true">收起</el-radio-button> -->
     </el-radio-group>
     <el-form
       :model="ruleForm"
@@ -62,7 +59,6 @@
                 :src="item.url"
                 alt
               />
-              <!-- <i style="width:1rem;height:1rem;display:block;" v-show="item.name=='点击添加'" :class="item.url"></i> -->
               <p>{{item.name}}</p>
             </div>
             <div v-if="item.name!='点击添加'">
@@ -72,7 +68,6 @@
                 :src="item.url"
                 alt
               />
-              <!-- <i style="width:1rem;height:1rem;display:block;" v-show="item.name=='点击添加'" :class="item.url"></i> -->
               <p>{{item.name}}</p>
             </div>
           </div>
@@ -87,18 +82,18 @@
 
     <contact :show.sync="dialogClient" @confirm="clientConfirm" />
     <contact :show.sync="dialogClient1" @confirm="clientConfirm1" />
+    <Ok v-if="is_ok" style="font-size:14px;" tit="创建成功" />
   </div>
 </template>
 
 <script>
-import contact from "@/components/choose";
+import { mapState, mapMutations } from "vuex";
 
 import { createRw, chakehu, getPersonInfo } from "@/api/configWu";
 import { templateshow, upload, dailycreate } from "@/api/config";
+const Ok = () => import("@/components/ok");
+const contact = () => import("@/components/choose");
 export default {
-  components: {
-    contact
-  },
   data() {
     return {
       sclist: [],
@@ -115,8 +110,12 @@ export default {
       ],
       restaurants: [],
       status: false,
-      list: [{ url: require("../../assets/img/normal/add.png"), name: "点击添加" }],
-      list1: [{ url: require("../../assets/img/normal/add2.png"), name: "点击添加" }],
+      list: [
+        { url: require("../../assets/img/normal/add.png"), name: "点击添加" }
+      ],
+      list1: [
+        { url: require("../../assets/img/normal/add2.png"), name: "点击添加" }
+      ],
       dialogClient: false,
       dialogClient1: false,
       options: [],
@@ -177,45 +176,44 @@ export default {
   },
   watch: {
     isCollapse(a) {
-      console.log(a);
-
       this.zhandata = this.formdata[a];
-      console.log(this.zhandata);
     }
   },
   mounted() {
     this.chakehu();
-    // this.restaurants = this.loadAll()
+  },
+  components: {
+    contact,
+    Ok
+  },
+  computed: {
+    ...mapState({
+      is_ok: state => state.param.is_ok
+    })
   },
   methods: {
+    ...mapMutations(["TIP_SURE"]),
+
     succFunc(file, fileList, c) {
-      console.log(c);
       this.sclist = c;
-      // console.log()
     },
     handleChange(file, fileList) {
       this.fileList = fileList.slice(-3);
     },
     handleSelect(item) {
-      console.log(this.ruleForm.options);
-      console.log(item.id);
       this.ruleForm.options = item.companyName;
       this.ruleForm.optionsId = item.id;
     },
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
-      // console.log(this.restaurants)
-      // console.log(this.createFilter(queryString))
       var results =
         queryString.length > 0
           ? restaurants.filter(this.createFilter(queryString))
           : restaurants;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
       return restaurant => {
-        // console.log(restaurant)
         return (
           restaurant.companyName
             .toLowerCase()
@@ -232,16 +230,6 @@ export default {
           toUser += e.id + ",";
         }
       });
-
-      // console.log(this.zhandata)
-      // console.log(this.sclist)
-      // console.log(toUser)
-      // this.zhandata.create_id = localStorage.getItem('userid')
-      // this.zhandata.mainjson = {}
-      // this.zhandata.to_user_id = toUser
-      // this.zhandata.msginfo = this.zhandata.name
-      // this.zhandata.sclist = this.sclist
-      // console.log(this.zhandata)
       var senddata = {
         create_id: localStorage.getItem("userid"),
         to_user_id: toUser,
@@ -252,14 +240,16 @@ export default {
         })
       };
       if (this.list.length > 1) {
+        this.TIP_SURE(true);
         dailycreate(senddata).then(res => {
-          console.log(res);
           if (res.code == 200) {
-            this.$message.success("创建成功");
-            setTimeout(() => {
+            var timer = setTimeout(() => {
+              this.TIP_SURE(false);
               this.$router.go(-1);
-            }, 2000);
-            //
+            }, 1000);
+          } else {
+            this.$message.error(res.msg);
+            this.TIP_SURE(false);
           }
         });
       } else {
@@ -268,14 +258,11 @@ export default {
     },
     addpeo() {
       this.dialogClient = true;
-      console.log(this.dialogClient);
     },
     removePeo(e) {
-      console.log(e);
       this.list.splice(e, 1);
     },
     clientConfirm(node) {
-      console.log(node);
       var box = true;
       this.list.forEach(e => {
         if (e.id == node.id) {
@@ -285,14 +272,8 @@ export default {
       if (node.id != "" && box) {
         this.list.unshift(node);
       }
-
-      //   this.ruleForm.projectId = node.key;
-      //   this.ruleForm.clientName = node.title + "-" + node.contacts.title;
-      //   this.ruleForm.clientId = node.contacts.key;
-      //   this.pjId = node.key;
     },
     clientConfirm1(node) {
-      console.log(node);
       var box1 = true;
       this.list1.forEach(e => {
         if (e.id == node.id) {
@@ -302,10 +283,6 @@ export default {
       if (node.id != "" && box1) {
         this.list1.unshift(node);
       }
-      //   this.ruleForm.projectId = node.key;
-      //   this.ruleForm.clientName = node.title + "-" + node.contacts.title;
-      //   this.ruleForm.clientId = node.contacts.key;
-      //   this.pjId = node.key;
     },
     chushi() {
       if (this.$route.query.line_code) {
@@ -315,7 +292,6 @@ export default {
         this.ruleForm.date1 = this.$route.query.end_time;
         this.ruleForm.tagcode = this.$route.query.tagname;
       } else if (true) {
-        //   alert(userid)
         if (this.$route.query.userid) {
           getPersonInfo({ dingdingId: this.$route.query.userid }).then(res => {
             this.list.unshift({
@@ -338,7 +314,6 @@ export default {
         } else if (this.$route.query.customerId) {
           getPersonInfo({ customerId: this.$route.query.customerId }).then(
             res => {
-              console.log(res);
               this.list.unshift({
                 url: res.data[0].avatar,
                 name: res.data[0].name,
@@ -357,30 +332,19 @@ export default {
       }
     },
     gettypezhi(a) {
-      // console.log(a)
       this.optionsCs.forEach(e => {
         if (e.label == a) {
-          console.log(e.value);
           this.socode = e.value;
-          // return e.value
         }
       });
     },
     chakehu() {
-      // alert(1111)
-      console.log(templateshow);
       templateshow({})
         .then(res => {
-          console.log(res);
-          // this.restaurants = res.data
           this.formdata = res.data;
           this.isCollapse = 0;
-          //  alert(1111)
-          // this.chushi();
         })
-        .catch(error => {
-          //  alert(1111)
-        });
+        .catch(error => {});
     }
   }
 };
